@@ -1,0 +1,12 @@
+spring:
+    application:
+        name: toastit
+
+    profiles:
+      active: local
+
+    jpa:
+      show-sql: true
+      database: mysql
+      hibernate:
+        ddl-auto: create

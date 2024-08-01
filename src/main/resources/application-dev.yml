@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    url: ${DEV_MYSQL_URL}
+    username: ${DEV_MYSQL_USERNAME}
+    password: ${DEV_MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data:
+    redis:
+      host: ${DEV_REDIS_HOST}
+      port: ${DEV_REDIS_PORT}
+      password: ${DEV_REDIS_PASSWORD}
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${DEV_GAMIL_USERNAME}
+    password: ${DEV_GAMIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+
+cloud:
+  aws:
+    credentials:
+      instance-profile: false
+      accessKey: ${DEV_AWS_ACCESS_KEY}
+      secretKey: ${DEV_AWS_SECRET_KEY}
+
+    s3:
+      bucket: ${DEV_AWS_BUCKET_NAME}
+
+    region:
+      static: ap-northeast-2
+      auto: false
+
+file:
+  cloudfront-path: ${DEV_FILE_PATH}
+
+jwt:
+  accessSecret: ${DEV_JWT_ACCESS_SECRET}
+  refreshSecret: ${DEV_JWT_REFRESH_SECRET}
+  accessTokenExpire: ${DEV_JWT_ACCESS_EXPIRE}
+  refreshTokenExpire: ${DEV_JWT_REFRESH_EXPIRE}
