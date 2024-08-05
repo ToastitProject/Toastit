@@ -1,14 +1,10 @@
 spring:
   datasource:
-    url: ${DEV_MYSQL_URL}
-    username: ${DEV_MYSQL_USERNAME}
-    password: ${DEV_MYSQL_PASSWORD}
+    url: ${jdbc:mysql://15.164.25.150:3306/toastitdb}
+    username: ${root}
+    password: ${root@20240801}
     driver-class-name: com.mysql.cj.jdbc.Driver
-#  datasource:
-#    url: jdbc:mysql://15.164.25.150:3306/toastitdb
-#    username: root
-#    password: root@20240801
-#    driver-class-name: com.mysql.cj.jdbc.Driver
+
   data:
     redis:
       host: ${DEV_REDIS_HOST}
@@ -32,15 +28,17 @@ cloud:
   aws:
     credentials:
       instance-profile: false
-      accessKey: ${DEV_AWS_ACCESS_KEY}
-      secretKey: ${DEV_AWS_SECRET_KEY}
+      accessKey: ${AWS_IAM_ACCESS_KEY}
+      secretKey: ${AWS_IAM_SECRET_KEY}
 
     s3:
-      bucket: ${DEV_AWS_BUCKET_NAME}
+      bucket: ${toastitbucket}
 
     region:
       static: ap-northeast-2
       auto: false
+
+
 
 file:
   cloudfront-path: ${DEV_FILE_PATH}
