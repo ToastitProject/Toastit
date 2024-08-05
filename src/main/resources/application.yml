@@ -10,3 +10,6 @@ spring:
       database: mysql
       hibernate:
         ddl-auto: create
+    web:
+      resources:
+        add-mappings: false
