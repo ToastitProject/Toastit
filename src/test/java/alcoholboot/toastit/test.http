@@ -1,0 +1,20 @@
+###success1
+GET http://localhost:8080/test/success1
+
+###success2
+GET http://localhost:8080/test/success2
+
+###success3
+GET http://localhost:8080/test/success3
+
+###exception1
+GET http://localhost:8080/test/exception1
+
+###exception2
+GET http://localhost:8080/test/exception2
+
+
+
+
+
+
