@@ -1,6 +1,6 @@
-package alcoholboot.toastit.global.domain;
+package domain;
 
-import alcoholboot.toastit.global.Entity.AuditingFields;
+import Entity.AuditingFields;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "user")
 public class User extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

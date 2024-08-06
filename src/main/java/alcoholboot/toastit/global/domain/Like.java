@@ -1,6 +1,6 @@
-package alcoholboot.toastit.global.domain;
+package domain;
 
-import alcoholboot.toastit.global.Entity.AuditingFields;
+import Entity.AuditingFields;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "like")
 public class Like extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,6 @@
-package alcoholboot.toastit.global.domain;
+package domain;
 
-import alcoholboot.toastit.global.Entity.AuditingFields;
+import Entity.AuditingFields;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,16 +12,19 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "follow")
 public class Follow extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "follower")
-    private String follower;
+    @ManyToOne
+    @JoinColumn(name = "follower_id")
+    private User follower;
 
-    @Column(name = "followee")
-    private String followee;
+    @ManyToOne
+    @JoinColumn(name = "followee_id")
+    private User followee;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

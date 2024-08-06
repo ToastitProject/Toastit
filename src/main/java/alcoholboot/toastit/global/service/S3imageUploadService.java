@@ -1,4 +1,4 @@
-package alcoholboot.toastit.global.service;
+package service;
 
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
