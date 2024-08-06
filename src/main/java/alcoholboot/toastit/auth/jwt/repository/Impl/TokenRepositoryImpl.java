@@ -16,7 +16,7 @@ public class TokenRepositoryImpl implements TokenRepository {
 
     @Override
     public void save(Token token) {
-        tokenCrudRepository.save(token.convertToEntity());
+        tokenCrudRepository.save(token.covertToEntity());
     }
 
     @Override

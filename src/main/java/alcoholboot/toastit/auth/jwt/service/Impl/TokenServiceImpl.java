@@ -17,7 +17,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public void saveOrUpdate(Token token) {
         Token oldToken = tokenRepository.findByUserId(token.getUser().getId())
-                .map(TokenEntity::convertToDomain)
+                .map(TokenEntity::covertToDomain)
                 .orElse(null);
 
         if(oldToken == null) {

@@ -31,7 +31,7 @@ public class Token {
                 .build();
     }
 
-    public TokenEntity coverToEntity() {
+    public TokenEntity covertToEntity() {
         return TokenEntity.builder()
                 .id(this.id)
                 .userEntity(this.user.covertToEntity())
