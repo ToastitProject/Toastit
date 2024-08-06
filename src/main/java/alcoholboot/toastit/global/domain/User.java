@@ -1,6 +1,6 @@
-package domain;
+package alcoholboot.toastit.global.domain;
 
-import Entity.AuditingFields;
+import alcoholboot.toastit.global.Entity.AuditingFields;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
