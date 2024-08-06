@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Page Not Found</title>
+    <link rel="stylesheet" href="/css/error.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .error-code {
+            font-size: 10rem;
+            color: #d1d5db;
+        }
+
+        .message {
+            font-size: 2rem;
+            margin-top: -50px;
+            font-weight: bold;
+        }
+
+        .sub-message {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #6b7280;
+        }
+
+        .home-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="error-code" id="error-code">Error</div>
+    <div class="message" id="message">An error occurred</div>
+    <div class="sub-message" id="sub-message">Please try again later.</div>
+    <a href="/" class="home-button">메인 페이지로 이동</a>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch("/error")
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("error-code").textContent = data.error.code || "Error";
+                document.getElementById("message").textContent = data.error.message || "An error occurred";
+            })
+            .catch(error => {
+                console.error("Error fetching error details:", error);
+            });
+    });
+</script>
+</body>
+</html>

@@ -31,6 +31,7 @@ dependencies {
     // Spring Boot Starter WEB
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -81,6 +82,10 @@ dependencies {
     // Image Size
     implementation 'com.github.downgoon:marvin:1.5.5'
     implementation 'com.github.downgoon:MarvinPlugins:1.5.5'
+
+    // Selenium
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.0.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.0.0'
 }
 
 tasks.named('test') {
