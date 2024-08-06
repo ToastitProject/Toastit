@@ -11,6 +11,15 @@ spring:
       port: ${LOC_REDIS_PORT}
       password: ${LOC_REDIS_PASSWORD}
 
+    mongodb:
+      host: ${LOC_MONGO_HOST}
+      port: ${LOC_MONGO_PORT}
+      username: ${LOC_MONGO_USERNAME}
+      password: ${LOC_MONGO_PASSWORD}
+      database: ${LOC_MONGO_DATABASE}
+      authentication-database: ${LOC_MONGO_AUTH}
+      uri: ${LOC_MONGO_URI}
+
 #  mail:
 #    host: smtp.gmail.com
 #    port: 587
