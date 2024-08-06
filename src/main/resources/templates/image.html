@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>File Upload</title>
+</head>
+<body>
+<h1>Upload a file</h1>
+<form method="post" enctype="multipart/form-data" action="/image">
+    <input type="file" name="filePath" />
+    <button type="submit">Upload</button>
+</form>
+<p th:text="${message}"></p>
+<h2>Uploaded Images:</h2>
+<div>
+    <ul>
+        <li th:each="image : ${images}">
+            <img th:src="'https://toastitbucket.s3.ap-northeast-2.amazonaws.com/' + ${#strings.replace(image.imagePath, 'https://s3.amazonaws.com', '')}" alt="Uploaded Image" style="max-width: 200px; max-height: 200px;" />
+        </li>
+    </ul>
+</div>
+</body>
+</html>
