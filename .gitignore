@@ -38,4 +38,3 @@ out/
 
 ### env ###
 /src/main/resources/properties/env.properties
-/src/main/java/alcoholboot/toastit/global/config/properties/PropertyConfig.java
