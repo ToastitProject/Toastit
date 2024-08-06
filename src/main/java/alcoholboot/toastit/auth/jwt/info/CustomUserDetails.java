@@ -1,4 +1,4 @@
-package alcoholboot.toastit.jwt.infra;
+package alcoholboot.toastit.auth.jwt.infra;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

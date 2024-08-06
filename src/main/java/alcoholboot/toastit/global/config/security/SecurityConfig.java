@@ -1,5 +1,7 @@
 package alcoholboot.toastit.global.config.security;
 
+import alcoholboot.toastit.auth.jwt.filter.TokenAuthenticationFilter;
+import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,14 +21,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     // JWT util
-//    private final JwtTokenizer jwtTokenizer;
+    private final JwtTokenizer jwtTokenizer;
 
     // 모든 유저 허용 페이지
     String[] allAllowPage = new String[]{
             "/", // 메인페이지
             "/error", // 에러페이지
             "/test/**", // 테스트 페이지
-            "/user/refreshToken", // 토큰 재발급 페이지
             "/user/authEmail", // 인증 메일 페이지
             "/resources/image/**", // 이미지 리소스
             "/image/**", // 이미지 url 임시 허용
@@ -67,7 +68,7 @@ public class SecurityConfig {
         http.httpBasic(auth -> auth.disable());
 
         // JWT 필터 사용
-//        http.addFilterBefore(new TokenAuthenticationFilter(jwtTokenizer), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new TokenAuthenticationFilter(jwtTokenizer), UsernamePasswordAuthenticationFilter.class);
 
         // SecurityFilterChain을 빌드 후 반환
         return http.build();
