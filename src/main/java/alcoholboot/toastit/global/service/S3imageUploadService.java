@@ -1,4 +1,4 @@
-package service;
+package alcoholboot.toastit.global.service;
 
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
@@ -26,7 +26,6 @@ public class S3imageUploadService {
         try{
             s3Client.putObject(bucketName,fileName,file.getInputStream(),getObjectMetadata(file));
             return deFaultUrl+fileName;
-
         }catch(SdkClientException e){
             throw new IOException(e);
         }

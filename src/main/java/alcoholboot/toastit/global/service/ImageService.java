@@ -1,2 +1,22 @@
-package alcoholboot.toastit.global.service;public class ImageService {
+package alcoholboot.toastit.global.service;
+
+import alcoholboot.toastit.global.domain.Image;
+import alcoholboot.toastit.global.repository.ImageRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ImageService {
+    private final ImageRepository imageRepository;
+
+    public Image save(Image image) {
+        return imageRepository.save(image);
+    }
+
+    public List<Image> findAll() {
+        return (List<Image>) imageRepository.findAll();
+    }
 }
