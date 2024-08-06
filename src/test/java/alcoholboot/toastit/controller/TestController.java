@@ -1,8 +1,8 @@
-package alcoholboot.toastit.global.controller;
+package alcoholboot.toastit.controller;
 
-import alcoholboot.toastit.global.exception.ApiResponse;
-import alcoholboot.toastit.global.exception.CustomException;
-import alcoholboot.toastit.global.exception.ErrorCode;
+import alcoholboot.toastit.global.response.dto.ApiResponse;
+import alcoholboot.toastit.global.response.exception.CustomException;
+import alcoholboot.toastit.global.response.dto.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

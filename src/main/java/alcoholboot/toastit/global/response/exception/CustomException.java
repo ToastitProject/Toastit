@@ -1,5 +1,6 @@
-package alcoholboot.toastit.global.exception;
+package alcoholboot.toastit.global.response.exception;
 
+import alcoholboot.toastit.global.response.dto.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

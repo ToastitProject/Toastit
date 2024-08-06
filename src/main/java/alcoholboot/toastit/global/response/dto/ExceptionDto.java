@@ -1,4 +1,4 @@
-package alcoholboot.toastit.global.exception;
+package alcoholboot.toastit.global.response.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

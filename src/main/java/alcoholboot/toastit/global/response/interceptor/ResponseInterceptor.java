@@ -1,5 +1,6 @@
-package alcoholboot.toastit.global.exception;
+package alcoholboot.toastit.global.response.interceptor;
 
+import alcoholboot.toastit.global.response.dto.ApiResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

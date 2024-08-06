@@ -1,15 +1,22 @@
 spring:
-    application:
-        name: toastit
+  application:
+    name: toastit
 
-    profiles:
-      active: local
+  profiles:
+    active: local
 
-    jpa:
-      show-sql: true
-      database: mysql
-      hibernate:
-        ddl-auto: create
-    web:
-      resources:
-        add-mappings: false
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+
+  web:
+    resources:
+      add-mappings: false  # 정적 리소스 매핑을 비활성화하는 설정
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false  # 개발 중 캐시 비활성화

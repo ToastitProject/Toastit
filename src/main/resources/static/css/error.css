@@ -1,0 +1,41 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f3f4f6;
+}
+
+.container {
+    text-align: center;
+}
+
+.error-code {
+    font-size: 10rem;
+    color: #d1d5db;
+}
+
+.message {
+    font-size: 2rem;
+    margin-top: -50px;
+    font-weight: bold;
+}
+
+.sub-message {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #6b7280;
+}
+
+.home-button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #3b82f6;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
