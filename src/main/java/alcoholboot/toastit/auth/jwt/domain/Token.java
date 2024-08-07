@@ -1,9 +1,8 @@
 package alcoholboot.toastit.auth.jwt.domain;
 
 import alcoholboot.toastit.auth.jwt.entity.TokenEntity;
-import alcoholboot.toastit.feature.user.domain.User;
-import lombok.*;
 
+import lombok.*;
 @Getter
 @Builder
 @AllArgsConstructor

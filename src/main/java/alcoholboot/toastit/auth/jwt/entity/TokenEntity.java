@@ -2,7 +2,7 @@ package alcoholboot.toastit.auth.jwt.entity;
 
 import alcoholboot.toastit.auth.jwt.domain.Token;
 import alcoholboot.toastit.global.Entity.AuditingFields;
-import alcoholboot.toastit.feature.user.entity.UserEntity;
+
 import jakarta.persistence.*;
 import lombok.*;
 
