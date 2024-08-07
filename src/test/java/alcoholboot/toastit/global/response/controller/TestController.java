@@ -1,4 +1,4 @@
-package alcoholboot.toastit.controller;
+package alcoholboot.toastit.global.response.controller;
 
 import alcoholboot.toastit.global.response.dto.ApiResponse;
 import alcoholboot.toastit.global.response.exception.CustomException;

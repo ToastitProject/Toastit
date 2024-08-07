@@ -1,4 +1,4 @@
-package alcoholboot.toastit.exception;
+package alcoholboot.toastit.global.response.exception;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

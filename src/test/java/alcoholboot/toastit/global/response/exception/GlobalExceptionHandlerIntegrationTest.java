@@ -1,4 +1,4 @@
-package alcoholboot.toastit.exception;
+package alcoholboot.toastit.global.response.exception;
 
 import alcoholboot.toastit.global.response.dto.ApiResponse;
 import alcoholboot.toastit.global.response.dto.ErrorCode;
