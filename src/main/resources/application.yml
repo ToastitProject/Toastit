@@ -10,9 +10,13 @@ spring:
     hibernate:
       ddl-auto: create
 
-  web:
-    resources:
-      add-mappings: false  # 정적 리소스 매핑을 비활성화하는 설정
+#  web:
+#    resources:
+#      add-mappings: false  # 정적 리소스 매핑을 비활성화하는 설정
+
+  mongodb:
+    embedded:
+      version: 4.0.21
 
   thymeleaf:
     prefix: classpath:/templates/
