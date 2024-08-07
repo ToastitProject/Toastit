@@ -30,10 +30,10 @@ public class Token {
                 .build();
     }
 
-    public TokenEntity convertToEntity() {
+    public TokenEntity covertToEntity() {
         return TokenEntity.builder()
                 .id(this.id)
-                .userEntity(this.user.coverToEntity())
+                .userEntity(this.user.covertToEntity())
                 .accessToken(this.accessToken)
                 .refreshToken(this.refreshToken)
                 .grantType(this.grantType)
