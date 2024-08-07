@@ -16,7 +16,7 @@ public class S3imageUploadService {
 
     private final AmazonS3 s3Client;
 
-    @Value("${cloud.aws.s3.bucket}")
+    @Value("")
     private String bucketName;
 
     private String deFaultUrl = "https://s3.amazonaws.com";
