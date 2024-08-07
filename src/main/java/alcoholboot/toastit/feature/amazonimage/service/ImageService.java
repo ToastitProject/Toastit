@@ -1,10 +1,8 @@
 package alcoholboot.toastit.feature.amazonimage.service;
-
-import alcoholboot.toastit.global.domain.Image;
-import alcoholboot.toastit.global.repository.ImageRepository;
+import alcoholboot.toastit.feature.amazonimage.domain.Image;
+import alcoholboot.toastit.feature.amazonimage.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

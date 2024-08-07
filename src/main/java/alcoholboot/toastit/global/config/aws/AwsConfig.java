@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.amazonimage.aws;
+package alcoholboot.toastit.global.config.aws;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

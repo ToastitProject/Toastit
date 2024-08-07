@@ -1,13 +1,13 @@
 package alcoholboot.toastit.feature.amazonimage.controller;
 
-import alcoholboot.toastit.global.domain.Image;
-import alcoholboot.toastit.global.service.ImageService;
-import alcoholboot.toastit.global.service.S3imageUploadService;
+import alcoholboot.toastit.feature.amazonimage.service.ImageService;
+import alcoholboot.toastit.feature.amazonimage.service.S3imageUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import alcoholboot.toastit.feature.amazonimage.domain.Image;
 
 import java.util.List;
 
