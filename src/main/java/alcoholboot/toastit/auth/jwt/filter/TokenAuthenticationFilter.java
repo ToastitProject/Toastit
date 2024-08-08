@@ -1,9 +1,11 @@
 package alcoholboot.toastit.auth.jwt.filter;
 
 import alcoholboot.toastit.auth.jwt.info.CustomUserDetails;
+import alcoholboot.toastit.auth.jwt.service.TokenRenewalService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
 import alcoholboot.toastit.auth.jwt.token.JwtAuthenticationToken;
 import alcoholboot.toastit.feature.user.type.Authority;
+import com.amazonaws.services.kms.model.NotFoundException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -33,6 +35,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenizer jwtTokenizer;
+    private final TokenRenewalService tokenRenewalService;
 
     /**
      * 필터 메서드
@@ -51,12 +54,23 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(accessToken)) {
             try {
                 getAuthentication(accessToken); // 토큰을 사용하여 인증 요청
-            } catch (ExpiredJwtException e) {
-                log.info("Token expired: {}", e.getMessage());
+            } catch (ExpiredJwtException ea) {
+                log.info("액세스 토큰이 만료되었습니다. 토큰 재발행을 실행합니다");
+
                 String refreshToken = getToken(request, "refreshToken"); // 요청에서 리프레쉬 토큰 추출
-//                if (refreshToken == null) {
-//
-//                }
+
+                if (refreshToken == null) {
+                    log.info("요청에서 리프레쉬 토큰을 찾을 수 없습니다. 다시 로그인 해주세요.");
+                } else {
+                    try {
+                        tokenRenewalService.refreshAccessToken(response, refreshToken);
+                        getAuthentication(accessToken);
+                    } catch (ExpiredJwtException er) {
+                        log.info("요청에서 리프레쉬 토큰을 찾을 수 없습니다. 다시 로그인 해주세요.");
+                    } catch (NotFoundException en) {
+                        log.info("해당 ID에 해당하는 회원 정보를 찾을 수 없습니다.");
+                    }
+                }
             } catch (UnsupportedJwtException e) {
                 log.info("Unsupported token: {}", e.getMessage());
             } catch (MalformedJwtException e) {
@@ -107,7 +121,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     /**
      * 요청에서 토큰을 추출
      *
-     * @param request 요청 객체
+     * @param request   요청 객체
      * @param tokenName 토큰 이름
      * @return JWT 토큰
      */

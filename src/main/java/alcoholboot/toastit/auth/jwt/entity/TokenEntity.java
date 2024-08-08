@@ -1,8 +1,9 @@
 package alcoholboot.toastit.auth.jwt.entity;
 
 import alcoholboot.toastit.auth.jwt.domain.Token;
-import alcoholboot.toastit.global.Entity.AuditingFields;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
+import alcoholboot.toastit.global.Entity.AuditingFields;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,10 +32,10 @@ public class TokenEntity extends AuditingFields {
     @Column(nullable = false)
     private String grantType;
 
-    public Token covertToDomain() {
+    public Token convertToDomain() {
         return Token.builder()
                 .id(this.id)
-                .user(this.userEntity.covertToDomain())
+                .user(this.userEntity.convertToDomain())
                 .accessToken(this.accessToken)
                 .refreshToken(this.refreshToken)
                 .grantType(this.grantType)

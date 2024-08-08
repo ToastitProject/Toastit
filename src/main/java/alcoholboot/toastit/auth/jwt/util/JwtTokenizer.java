@@ -2,7 +2,6 @@ package alcoholboot.toastit.auth.jwt.util;
 
 import alcoholboot.toastit.feature.user.type.Authority;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;

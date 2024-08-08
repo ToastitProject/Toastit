@@ -38,3 +38,5 @@ out/
 
 ### env ###
 /src/main/resources/properties/env.properties
+
+.DS_Store

@@ -3,7 +3,6 @@ package alcoholboot.toastit.auth.jwt.domain;
 import alcoholboot.toastit.auth.jwt.entity.TokenEntity;
 import alcoholboot.toastit.feature.user.domain.User;
 import lombok.*;
-
 @Getter
 @Builder
 @AllArgsConstructor
@@ -31,10 +30,10 @@ public class Token {
                 .build();
     }
 
-    public TokenEntity covertToEntity() {
+    public TokenEntity convertToEntity() {
         return TokenEntity.builder()
                 .id(this.id)
-                .userEntity(this.user.covertToEntity())
+                .userEntity(this.user.convertToEntity())
                 .accessToken(this.accessToken)
                 .refreshToken(this.refreshToken)
                 .grantType(this.grantType)
