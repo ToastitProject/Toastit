@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* 배경색 */
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid #FFA832;
+        }
+        .logo {
+            margin-right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .menu {
+            flex-grow: 1;
+            display: flex;
+            gap: 20px;
+        }
+        .menu a {
+            text-decoration: none;
+            color: #FFA832;
+            font-weight: bold;
+        }
+        .login {
+            margin-left: auto;
+            font-weight: bold;
+            color: #FFA832;
+        }
+        .card {
+            background-color: #FFA832; /* 카드 색상 */
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            width: 800px; /* 카드 너비 2배 */
+            height: 400px; /* 카드 높이 2배 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin: 150px auto; /* 카드 가운데 정렬 및 상단 간격 조정 */
+        }
+        .profile-pic {
+            margin-right: 20px;
+            border-radius: 50%;
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+        }
+        .info {
+            flex-grow: 1;
+            color: white;
+        }
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .button {
+            background-color: white;
+            color: #FFA832;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <div class="logo">로고</div>
+    <div class="menu">
+        <a href="#">카테고리</a>
+        <a href="#">커스텀</a>
+        <a href="#">추천</a>
+    </div>
+    <div class="login">로그인</div>
+</div>
+<div class="card">
+    <img src="프로필_사진_URL" alt="프로필 사진" class="profile-pic">
+    <div class="info">
+        <p>아이디: user123</p>
+        <p>닉네임: 사용자</p>
+        <p>이메일: user@example.com</p>
+        <p>가입일: 2022-01-01</p>
+        <p>방문횟수: 10회</p>
+        <div class="buttons">
+            <button class="button">Edit</button>
+            <button class="button">Resign</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
