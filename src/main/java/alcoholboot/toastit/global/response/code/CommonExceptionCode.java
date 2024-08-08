@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
-public enum ErrorCode implements ResponseCode {
+public enum CommonExceptionCode implements ResponseCode {
     TEST_ERROR(100, HttpStatus.BAD_REQUEST, "테스트 에러입니다."),
 
     TOKEN_EXPIRED(401, HttpStatus.UNAUTHORIZED, "Token has expired"),

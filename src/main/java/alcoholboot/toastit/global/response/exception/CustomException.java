@@ -1,17 +1,17 @@
 package alcoholboot.toastit.global.response.exception;
 
-import alcoholboot.toastit.global.response.code.ErrorCode;
+import alcoholboot.toastit.global.response.code.CommonExceptionCode;
 
 public class CustomException extends RuntimeException {
-    private final ErrorCode errorCode;
+    private final CommonExceptionCode commonExceptionCode;
 
-    public CustomException(ErrorCode errorCode) {
-        super(errorCode.getData());
-        this.errorCode = errorCode;
+    public CustomException(CommonExceptionCode commonExceptionCode) {
+        super(commonExceptionCode.getData());
+        this.commonExceptionCode = commonExceptionCode;
     }
 
-    public ErrorCode getErrorCode() {
-        return errorCode;
+    public CommonExceptionCode getErrorCode() {
+        return commonExceptionCode;
     }
 }
 
