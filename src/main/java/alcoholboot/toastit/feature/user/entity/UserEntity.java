@@ -32,7 +32,7 @@ public class UserEntity extends AuditingFields {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    public User covertToDomain(){
+    public User convertToDomain(){
         return User.builder()
                 .id(this.id)
                 .email(this.email)
