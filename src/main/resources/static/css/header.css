@@ -1,0 +1,70 @@
+body {
+    font-family: 'Gmarket Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between; /* 항목 간의 공간을 균등하게 배분 */
+    align-items: center; /* 수직 중앙 정렬 */
+    padding: 20px;
+    background-color: white;
+}
+
+.logo {
+    width: 50px;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 10%; /* 추가: 모서리 둥글게 */
+}
+
+nav {
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    flex-grow: 1; /* 남은 공간을 차지하도록 설정 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding-left: 30px; /* 추가: 항목을 오른쪽으로 이동 */
+}
+
+nav ul li {
+    margin: 0 10px; /* li 항목 간의 공백 추가 */
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #2C3E50;
+    font-weight: 500; /* 더 얇은 폰트 */
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #FFA832; /* hover 색상 */
+}
+
+.login {
+    background-color: #FFA832;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: auto; /* 오른쪽으로 정렬 */
+    margin-right: 40px;
+}
+
+.login:hover {
+    background-color: #FFA832; /* hover 색상 */
+}
+
+.divider {
+    width: 100%;
+    border: 1px solid #D3D3D3; /* 회색 선 */
+    margin: 5px 0; /* 상하 여백 */
+}

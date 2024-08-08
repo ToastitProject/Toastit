@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
+    <link href="/static/css/header.css" rel="stylesheet">
+    <title>술프링부트</title>
+</head>
+<body>
+<header th:fragment="header">
+    <img src="/static/image/logo2.png" alt="로고" class="logo">
+    <nav>
+        <ul>
+            <li><a href="/recommend">추천칵테일</a></li>
+            <li><a href="/custom">커스텀칵테일</a></li>
+            <li><a href="/weather">날씨추천칵테일</a></li>
+        </ul>
+        <div class="profile">
+            <div sec:authorize="isAnonymous()">
+                <button class="login" th:onclick="|location.href='@{/login}'|">로그인</button>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <button class="profile" th:onclick="|location.href='@{/profile}'|">프로필</button>
+                <button class="logout" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
+            </div>
+        </div>
+    </nav>
+</header>
+<hr class="divider">
+</body>
+</html>
