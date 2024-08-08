@@ -32,10 +32,10 @@ public class TokenEntity extends AuditingFields {
     @Column(nullable = false)
     private String grantType;
 
-    public Token covertToDomain() {
+    public Token convertToDomain() {
         return Token.builder()
                 .id(this.id)
-                .user(this.userEntity.covertToDomain())
+                .user(this.userEntity.convertToDomain())
                 .accessToken(this.accessToken)
                 .refreshToken(this.refreshToken)
                 .grantType(this.grantType)
