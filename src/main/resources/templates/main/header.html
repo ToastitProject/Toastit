@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
+    <title>술프링부트</title>
+    <style>
+        body {
+            font-family: 'Gmarket Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between; /* 항목 간의 공간을 균등하게 배분 */
+            align-items: center; /* 수직 중앙 정렬 */
+            padding: 20px;
+            background-color: white;
+        }
+
+        .logo {
+            width: 50px; /* 로고 이미지 너비 조정 */
+            height: auto; /* 비율 유지 */
+            margin-right: 20px; /* 로고와 항목 간의 공백 */
+        }
+
+        nav {
+            display: flex;
+            align-items: center; /* 수직 중앙 정렬 */
+            flex-grow: 1; /* 남은 공간을 차지하도록 설정 */
+            justify-content: flex-start; /* 왼쪽 정렬 */
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px; /* 항목 간의 기본 간격 */
+            margin: 0; /* 기본 여백 제거 */
+            padding: 0; /* 기본 패딩 제거 */
+        }
+
+        nav ul li {
+            margin: 0 10px; /* li 항목 간의 공백 추가 */
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #2C3E50;
+            font-weight: 500; /* 더 얇은 폰트 */
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #FFA832; /* hover 색상 */
+        }
+
+        .login {
+            background-color: #FFA832;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-left: auto; /* 오른쪽으로 정렬 */
+        }
+
+        .login:hover {
+            background-color: #FFA832; /* hover 색상 */
+        }
+
+        .divider {
+            width: 100%;
+            border: 1px solid #D3D3D3; /* 회색 선 */
+            margin: 5px 0; /* 상하 여백 */
+        }
+    </style>
+</head>
+<body>
+<header>
+    <img src="/static/image/logo1.png" alt="로고" class="logo">
+    <nav>
+        <ul>
+            <li><a href="/recommend">추천칵테일</a></li>
+            <li><a href="/custom">커스텀칵테일</a></li>
+            <li><a href="/weather">날씨추천칵테일</a></li>
+        </ul>
+        <a class="login" href="/login">로그인</a>
+    </nav>
+</header>
+<hr class="divider">
+</body>
+</html>

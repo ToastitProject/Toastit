@@ -1,0 +1,55 @@
+body {
+    font-family: 'Gmarket Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2C3E50;
+    margin-bottom: 10px; /* 로고와 nav 간격 */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #2C3E50;
+    font-weight: 300; /* 더 얇은 폰트 */
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #FFA832; /* hover 색상 */
+}
+
+.create-site {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.create-site:hover {
+    background-color: #0056b3; /* hover 색상 */
+}
+
+.divider {
+    width: 100%;
+    border: 1px solid #D3D3D3; /* 회색 선 */
+    margin: 20px 0; /* 상하 여백 */
+}
