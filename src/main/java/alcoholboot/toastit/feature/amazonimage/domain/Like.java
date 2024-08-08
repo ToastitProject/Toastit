@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "like")
+@Table(name = "likes")
 public class Like extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

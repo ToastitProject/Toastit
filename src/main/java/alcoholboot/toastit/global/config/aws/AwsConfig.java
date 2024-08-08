@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AwsConfig {
-    @Value("")
+    @Value("${cloud.aws.credentials.accessKey}")
     private String iamAccessKey;
 
-    @Value("")
+    @Value("${cloud.aws.credentials.secretKey}")
     private String iamSecretKey;
 
     private String region = "ap-northeast-2";
