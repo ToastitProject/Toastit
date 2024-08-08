@@ -1,15 +1,18 @@
 package alcoholboot.toastit.global.response.exception;
 
-import alcoholboot.toastit.global.response.dto.ErrorCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import alcoholboot.toastit.global.response.code.ErrorCode;
 
-@Getter
-@RequiredArgsConstructor
-public class CustomException extends RuntimeException{
+public class CustomException extends RuntimeException {
     private final ErrorCode errorCode;
 
-    public String getMessage() {
-        return errorCode.getMessage();
+    public CustomException(ErrorCode errorCode) {
+        super(errorCode.getData());
+        this.errorCode = errorCode;
+    }
+
+    public ErrorCode getErrorCode() {
+        return errorCode;
     }
 }
+
+

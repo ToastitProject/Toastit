@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/test")
 public class TestController {
 
+    @GetMapping("/error-test")
+    public void testError() {
+        throw new CustomException(ErrorCode.TEST_ERROR);
+    }
+
     @GetMapping("/expired-token")
     public void expiredToken() {
         throw new CustomException(ErrorCode.TOKEN_EXPIRED);
@@ -35,4 +40,3 @@ public class TestController {
         throw new CustomException(ErrorCode.INTERNAL_ERROR);
     }
 }
-
