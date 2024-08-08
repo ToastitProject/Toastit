@@ -1,107 +1,151 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
+    <link href="/static/css/header.css" rel="stylesheet">
     <style>
         body {
+            font-family: 'Gmarket Sans', sans-serif;
+            color: #FFA832;
+            background-color: #f4f4f4;
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4; /* 배경색 */
         }
-        .navbar {
-            display: flex;
-            align-items: center;
-            background-color: white;
-            padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-bottom: 2px solid #FFA832;
-        }
+
         .logo {
-            margin-right: 20px;
+            margin-right: 30px;
             font-size: 24px;
             font-weight: bold;
         }
         .menu {
             flex-grow: 1;
             display: flex;
-            gap: 20px;
+            gap: 30px;
         }
         .menu a {
             text-decoration: none;
-            color: #FFA832;
+            color: black;
             font-weight: bold;
+            transition: color 0.3s;
         }
-        .login {
+        .menu a:hover {
+            color: #FFA832;
+        }
+        .profile {
             margin-left: auto;
+            display: flex;
+            gap: 20px;
+        }
+        .profile a {
+            text-decoration: none;
+            color: black;
             font-weight: bold;
+            transition: color 0.3s;
+        }
+        .profile a:hover {
             color: #FFA832;
         }
+        .divider {
+            border: none;
+            height: 2px;
+            background-color: #FFA832;
+            margin-top: -18px;
+        }
+
         .card {
-            background-color: #FFA832; /* 카드 색상 */
+            background-color: #FFA832;
             border-radius: 10px;
             padding: 20px;
             display: flex;
             align-items: center;
-            width: 800px; /* 카드 너비 2배 */
-            height: 400px; /* 카드 높이 2배 */
+            justify-content: center;
+            width: 800px;
+            height: 400px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            margin: 150px auto; /* 카드 가운데 정렬 및 상단 간격 조정 */
+            margin: 150px auto;
         }
         .profile-pic {
-            margin-right: 20px;
-            border-radius: 50%;
-            width: 300px;
-            height: 300px;
+            padding-left: 0px;
+            margin-right: 100px;
+            border-radius: 10px;
+            width: 200px;
+            height: 200px;
             object-fit: cover;
         }
+
         .info {
-            flex-grow: 1;
             color: white;
-        }
-        .buttons {
-            margin-top: 20px;
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-left: 20px;
+            padding-right: 20px;
         }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
         .button {
             background-color: white;
             color: #FFA832;
             border: none;
-            padding: 10px 15px;
             border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px;
             cursor: pointer;
             font-weight: bold;
+            transition: background-color 0.3s;
+            width: 100px
         }
+
         .button:hover {
-            opacity: 0.8;
+            background-color: #dfbc8e;
+            color: white;
         }
+
     </style>
+    <title>술프링부트 - 마이페이지</title>
 </head>
 <body>
-<div class="navbar">
-    <div class="logo">로고</div>
-    <div class="menu">
-        <a href="#">카테고리</a>
-        <a href="#">커스텀</a>
-        <a href="#">추천</a>
-    </div>
-    <div class="login">로그인</div>
-</div>
+<header th:fragment="header">
+    <img src="/static/image/logo2.png" alt="로고" class="logo">
+    <nav>
+        <div class="menu">
+            <a href="/recommend">추천칵테일</a>
+            <a href="/custom">커스텀칵테일</a>
+            <a href="/weather">날씨추천칵테일</a>
+        </div>
+        <div class="profile">
+            <div sec:authorize="isAnonymous()">
+                <a href="#">로그인</a>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <a href="#">마이페이지</a>
+                <a href="#">로그아웃</a>
+            </div>
+        </div>
+    </nav>
+</header>
+<hr class="divider">
+
 <div class="card">
-    <img src="프로필_사진_URL" alt="프로필 사진" class="profile-pic">
+    <img src="https://pbs.twimg.com/media/ETYbYV9U0AEi_rl.jpg" alt="프로필 사진" class="profile-pic">
     <div class="info">
-        <p>아이디: user123</p>
-        <p>닉네임: 사용자</p>
-        <p>이메일: user@example.com</p>
-        <p>가입일: 2022-01-01</p>
-        <p>방문횟수: 10회</p>
-        <div class="buttons">
-            <button class="button">Edit</button>
-            <button class="button">Resign</button>
+        <p>아이디: suzy0812</p>
+        <p>닉네임: 칵테일수지</p>
+        <p>이메일: suzy0812@gmail.com</p>
+        <p>가입일: 2024-08-08</p>
+        <p>방문횟수: 38회</p>
+        <div class="button-container">
+            <button class="button">EDIT</button>
+            <button class="button">RESIGN</button>
         </div>
     </div>
+
 </div>
 </body>
 </html>
