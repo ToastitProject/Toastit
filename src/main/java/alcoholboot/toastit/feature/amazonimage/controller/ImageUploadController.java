@@ -29,7 +29,7 @@ public class ImageUploadController {
     public String uploadImage(@RequestParam MultipartFile filePath) {
         System.out.println("PostMapping 요청 처리:::::::::::::::::::::::::");
         try{
-            String imageUrl = s3imageUploadService.uploadImage(filePath);
+            String imageUrl = s3imageUploadService.uploadStaticImage(filePath);
             System.out.println("AWS 파일 업로드 성공");
 
             Image image = new Image();
@@ -37,6 +37,7 @@ public class ImageUploadController {
             image.setImagePath(imageUrl);
             image.setImageType(filePath.getContentType());
             image.setImageSize(String.valueOf(filePath.getSize()));
+            image.setImageUse("static");
             imageService.save(image);
             System.out.println("MySQL 파일 저장 성공");
 

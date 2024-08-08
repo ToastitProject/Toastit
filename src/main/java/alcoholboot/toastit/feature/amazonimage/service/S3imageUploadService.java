@@ -19,20 +19,48 @@ public class S3imageUploadService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-    private String deFaultUrl = "https://s3.amazonaws.com";
+    private String deFaultUrl = "https://s3.amazonaws.com/";
 
     public String uploadImage(MultipartFile file) throws IOException {
         String fileName = generateFileName(file);
-        try{
-            s3Client.putObject(bucketName,fileName,file.getInputStream(),getObjectMetadata(file));
-            return deFaultUrl+fileName;
-        }catch(SdkClientException e){
+        return uploadToS3(file, fileName);
+    }
+    //홈페이지에 필요한 기본 사진들을 업로드 하는 메서드
+    public String uploadStaticImage(MultipartFile file) throws IOException {
+        String fileName = "static/" + generateFileName(file);
+        return uploadToS3(file, fileName);
+    }
+    //기본 칵테일 사진 업로드 하는 메서드
+    public String uploadCocktailImage(MultipartFile file) throws IOException {
+        String fileName = "cocktail/" + generateFileName(file);
+        return uploadToS3(file, fileName);
+    }
+    //프로필 사진을 업로드 하는 메서드
+    public String uploadProfileImage(MultipartFile file) throws IOException {
+        String fileName = "profile/" + generateFileName(file);
+        return uploadToS3(file, fileName);
+    }
+    //커스텀 레시피 칵테일 사진을 업로드 하는 메서드
+    public String uploadCustomImage(MultipartFile file) throws IOException {
+        String fileName = "custom/" + generateFileName(file);
+        return uploadToS3(file, fileName);
+    }
+
+    private String uploadToS3(MultipartFile file, String fileName) throws IOException {
+        try {
+            s3Client.putObject(bucketName, fileName, file.getInputStream(), getObjectMetadata(file));
+            return deFaultUrl + bucketName + "/" + fileName; // URL 형식 수정
+        } catch (SdkClientException e) {
             throw new IOException(e);
         }
     }
 
     private String generateFileName(MultipartFile file) {
-        return UUID.randomUUID().toString() + "." + file.getOriginalFilename();
+        return UUID.randomUUID().toString() + "." + getFileExtension(file.getOriginalFilename());
+    }
+
+    private String getFileExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf('.') + 1);
     }
 
     private ObjectMetadata getObjectMetadata(MultipartFile file) {
