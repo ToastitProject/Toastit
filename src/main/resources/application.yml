@@ -28,7 +28,7 @@ spring:
   datasource:
     url: jdbc:mysql://15.164.25.150:3306/toastitdb
     username: root
-    password:
+    password: root@20240801
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   servlet:
@@ -47,4 +47,4 @@ cloud:
     region:
       static: ap-northeast-2
     s3:
-      bucket:
+      bucket: toastitbucket
