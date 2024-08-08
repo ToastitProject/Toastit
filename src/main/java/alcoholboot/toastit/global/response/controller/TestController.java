@@ -39,4 +39,9 @@ public class TestController {
     public void internalError() {
         throw new CustomException(ErrorCode.INTERNAL_ERROR);
     }
+
+    @GetMapping("main")
+    public String testMain() {
+        return "main";
+    }
 }
