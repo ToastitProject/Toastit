@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public abstract class AuditingFields {
+public abstract class JpaAuditingFields {
 
     /**
      * create_date 엔티티 생성 시 자동 생성, 수정 불가

@@ -17,7 +17,8 @@ public class AwsConfig {
     @Value("${cloud.aws.credentials.secretKey}")
     private String iamSecretKey;
 
-    private String region = "ap-northeast-2";
+    @Value("${cloud.aws.credentials.static}")
+    private String region;
 
     @Bean
     public AmazonS3Client amazonS3Client() {
