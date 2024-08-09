@@ -3,7 +3,7 @@ package alcoholboot.toastit.feature.user.entity;
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.type.Authority;
-import alcoholboot.toastit.global.Entity.AuditingFields;
+import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity extends AuditingFields {
+public class UserEntity extends JpaAuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
