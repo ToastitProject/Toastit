@@ -1,5 +1,6 @@
 package alcoholboot.toastit.feature.amazonimage.domain;
 
+import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,5 +34,9 @@ public class Image extends JpaAuditingFields {
 
     @Column(name = "image_use")
     private String imageUse;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
 }
