@@ -1,7 +1,7 @@
 package alcoholboot.toastit.feature.user.entity;
 
 import alcoholboot.toastit.feature.user.domain.Like;
-import alcoholboot.toastit.global.Entity.AuditingFields;
+import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "likes")
-public class LikeEntity extends AuditingFields{
+public class LikeEntity extends JpaAuditingFields{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

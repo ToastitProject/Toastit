@@ -1,7 +1,7 @@
 package alcoholboot.toastit.feature.user.entity;
 
 import alcoholboot.toastit.feature.user.domain.Follow;
-import alcoholboot.toastit.global.Entity.AuditingFields;
+import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "follow")
-public class FollowEntity extends AuditingFields {
+public class FollowEntity extends JpaAuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

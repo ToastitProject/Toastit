@@ -1,7 +1,7 @@
 package alcoholboot.toastit.feature.user.domain;
 
 import alcoholboot.toastit.feature.user.entity.FollowEntity;
-import alcoholboot.toastit.global.Entity.AuditingFields;
+import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 import lombok.*;
 
 @Getter
@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Follow extends AuditingFields {
+public class Follow extends JpaAuditingFields {
 
     private Long id;
     private User follower;
