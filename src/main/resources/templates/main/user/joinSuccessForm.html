@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
+    <link href="/static/css/header.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Gmarket Sans', sans-serif;
+            color: #FFA832;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .logo {
+            margin-right: 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .menu {
+            flex-grow: 1;
+            display: flex;
+            gap: 30px;
+        }
+        .menu a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .menu a:hover {
+            color: #FFA832;
+        }
+        .profile {
+            margin-left: auto;
+            display: flex;
+            gap: 20px;
+        }
+        .profile a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .profile a:hover {
+            color: #FFA832;
+        }
+        .divider {
+            border: none;
+            height: 2px;
+            background-color: #FFA832;
+            margin-top: -18px;
+        }
+
+        .card {
+            background-color: #FFA832;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 800px;
+            height: 400px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin: 150px auto;
+            flex-direction: column;
+        }
+
+        .info {
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: right;
+            align-items: center;
+            text-align: right;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .input-container {
+            text-align: center;
+            margin: 20px;
+            margin-left : -20px;
+            margin-right : 60px;
+            width : 200px
+        }
+
+        .input {
+            padding-right: 10px;
+            margin-right: -90px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 200px;
+            height: 30px;
+        }
+
+        .button-container {
+            margin-top: 15px;
+        }
+
+        .button {
+            background-color: white;
+            color: #FFA832;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            width: 300px;
+        }
+
+        .button:hover {
+            background-color: #dfbc8e;
+            color: white;
+        }
+
+        .under-text {
+            color: white;
+            text-decoration: none;
+            padding-top: 5px;
+            margin-top: -5px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+    <title>술프링부트 - 회원가입 성공</title>
+</head>
+<body>
+<header th:fragment="header">
+    <img src="https://toastitbucket.s3.ap-northeast-2.amazonaws.com/static/5d7e0e23-c3d6-4137-ab5e-42f5d236e672.png" alt="로고" class="logo">
+    <nav>
+        <div class="menu">
+            <a href="/recommend">추천칵테일</a>
+            <a href="/custom">커스텀칵테일</a>
+            <a href="/weather">날씨추천칵테일</a>
+        </div>
+        <div class="profile">
+            <div sec:authorize="isAnonymous()">
+                <a href="#">로그인</a>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <a href="#">마이페이지</a>
+                <a href="#">로그아웃</a>
+            </div>
+        </div>
+    </nav>
+</header>
+<hr class="divider">
+
+<div class="card">
+    <h2 style="color: white; margin-bottom: 40px;">회원가입이 완료되었습니다.</h2>
+    <div class="info">
+
+        <a class="under-text">로그인 하시면 다양한 서비스를 제공 받으실 수 있습니다.</a>
+        <div class="button-container">
+            <button class="button">로그인</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
