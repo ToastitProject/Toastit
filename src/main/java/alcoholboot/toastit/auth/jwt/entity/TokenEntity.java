@@ -2,7 +2,8 @@ package alcoholboot.toastit.auth.jwt.entity;
 
 import alcoholboot.toastit.auth.jwt.domain.Token;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
-import alcoholboot.toastit.global.Entity.JpaAuditingFields;
+import alcoholboot.toastit.global.Entity.*;
+>>>>>>> 78af284 (✨ Docs : 객체 서비스 생성)
 
 import jakarta.persistence.*;
 import lombok.*;
