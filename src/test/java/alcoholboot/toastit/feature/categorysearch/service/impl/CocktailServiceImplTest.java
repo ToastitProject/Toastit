@@ -1,6 +1,7 @@
 package alcoholboot.toastit.feature.categorysearch.service.impl;
 
 import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
+import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
 import alcoholboot.toastit.feature.categorysearch.repository.CocktailRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,25 +35,25 @@ class CocktailServiceImplTest {
 
     @Test
     void testGetAllCocktails() {
-        List<Cocktail> cocktails = Arrays.asList(
-                new Cocktail(), new Cocktail()
+        List<CocktailEntity> cocktails = Arrays.asList(
+                new CocktailEntity(), new CocktailEntity()
         );
-        Page<Cocktail> cocktailPage = new PageImpl<>(cocktails);
+        Page<CocktailEntity> cocktailPage = new PageImpl<>(cocktails);
         PageRequest pageRequest = PageRequest.of(0, 10);
 
         when(cocktailRepository.findAll(pageRequest)).thenReturn(cocktailPage);
 
-        Page<Cocktail> result = cocktailService.getAllCocktails(pageRequest);
+        Page<CocktailEntity> result = cocktailService.getAllCocktails(pageRequest);
 
         assertEquals(cocktailPage, result);
     }
 
     @Test
     void testGetCocktailById() {
-        Cocktail cocktail = new Cocktail();
+        CocktailEntity cocktail = new CocktailEntity();
         when(cocktailRepository.findById("1")).thenReturn(Optional.of(cocktail));
 
-        Cocktail result = cocktailService.getCocktailById("1");
+        CocktailEntity result = cocktailService.getCocktailById("1");
 
         assertEquals(cocktail, result);
     }

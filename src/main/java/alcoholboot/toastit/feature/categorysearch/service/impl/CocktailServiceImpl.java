@@ -1,6 +1,7 @@
 package alcoholboot.toastit.feature.categorysearch.service.impl;
 
 import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
+import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
 import alcoholboot.toastit.feature.categorysearch.repository.CocktailRepository;
 import alcoholboot.toastit.feature.categorysearch.service.CocktailService;
 import lombok.AllArgsConstructor;
@@ -16,31 +17,31 @@ public class CocktailServiceImpl implements CocktailService {
 
     // 모든 레시피 보기
     @Override
-    public Page<Cocktail> getAllCocktails(Pageable pageable) {
+    public Page<CocktailEntity> getAllCocktails(Pageable pageable) {
         return cocktailRepository.findAll(pageable);
     }
 
     // 카테고리 적용 - 재료
     @Override
-    public Page<Cocktail> getCocktailsByIngredient(String ingredient, Pageable pageable) {
+    public Page<CocktailEntity> getCocktailsByIngredient(String ingredient, Pageable pageable) {
         return cocktailRepository.findByStrIngredientsContaining(ingredient, pageable);
     }
 
     // 카테고리 적용 - 용기
     @Override
-    public Page<Cocktail> getCocktailsByGlass(String glass, Pageable pageable) {
+    public Page<CocktailEntity> getCocktailsByGlass(String glass, Pageable pageable) {
         return cocktailRepository.findByStrGlass(glass, pageable);
     }
 
     // 카테고리 적용 - 카테고리(strCategory)
     @Override
-    public Page<Cocktail> getCocktailsByCategory(String category, Pageable pageable) {
+    public Page<CocktailEntity> getCocktailsByCategory(String category, Pageable pageable) {
         return cocktailRepository.findByStrCategory(category, pageable);
     }
 
     // 카테고리 적용 - 복합
     @Override
-    public Page<Cocktail> getCocktailsByMultipleFilters(String ingredient, String glass, String category, Pageable pageable) {
+    public Page<CocktailEntity> getCocktailsByMultipleFilters(String ingredient, String glass, String category, Pageable pageable) {
         return cocktailRepository.findByStrIngredientsContainingAndStrGlassAndStrCategory(ingredient, glass, category, pageable);
     }
 
@@ -49,7 +50,7 @@ public class CocktailServiceImpl implements CocktailService {
     // 효승님이 만들어주신 예외로 처리하도록 변경 필요
     // 수정 예정
     @Override
-    public Cocktail getCocktailById(String id) {
+    public CocktailEntity getCocktailById(String id) {
         return cocktailRepository.findById(id).orElseThrow(() -> new RuntimeException("Cocktail not found"));
     }
 }

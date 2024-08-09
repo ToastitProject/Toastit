@@ -24,6 +24,5 @@ class CocktailRepositoryTest {
         assertEquals(1, result.getTotalElements());
         assertEquals("Test Cocktail", result.getContent().get(0).getStrDrink());
     }
-
     // Add more tests for other repository methods
 }

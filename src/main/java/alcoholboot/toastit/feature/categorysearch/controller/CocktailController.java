@@ -1,6 +1,7 @@
 package alcoholboot.toastit.feature.categorysearch.controller;
 
 import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
+import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
 import alcoholboot.toastit.feature.categorysearch.service.CocktailService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,7 @@ public class CocktailController {
             @RequestParam(defaultValue = "10") int size,
             Model model) {
 
-        Page<Cocktail> cocktailPage;
+        Page<CocktailEntity> cocktailPage;
         if (ingredient != null || glass != null || category != null) {
             cocktailPage = cocktailService.getCocktailsByMultipleFilters(ingredient, glass, category, PageRequest.of(page, size));
         } else {
@@ -44,7 +45,7 @@ public class CocktailController {
     // 레시피 상세 페이지
     @GetMapping("/{id}")
     public String getCocktailDetails(@PathVariable String id, Model model) {
-        Cocktail cocktail = cocktailService.getCocktailById(id);
+        CocktailEntity cocktail = cocktailService.getCocktailById(id);
         model.addAttribute("cocktail", cocktail);
         return "cocktailDetails";
     }

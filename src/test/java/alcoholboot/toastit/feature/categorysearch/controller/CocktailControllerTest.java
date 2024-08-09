@@ -1,6 +1,7 @@
 package alcoholboot.toastit.feature.categorysearch.controller;
 
 import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
+import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
 import alcoholboot.toastit.feature.categorysearch.service.CocktailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,10 +37,10 @@ class CocktailControllerTest {
 
     @Test
     void testGetAllCocktails() {
-        List<Cocktail> cocktails = Arrays.asList(
-                new Cocktail(), new Cocktail()
+        List<CocktailEntity> cocktails = Arrays.asList(
+                new CocktailEntity(), new CocktailEntity()
         );
-        Page<Cocktail> cocktailPage = new PageImpl<>(cocktails);
+        Page<CocktailEntity> cocktailPage = new PageImpl<>(cocktails);
 
         when(cocktailService.getAllCocktails(any(PageRequest.class))).thenReturn(cocktailPage);
 
@@ -53,7 +54,7 @@ class CocktailControllerTest {
 
     @Test
     void testGetCocktailDetails() {
-        Cocktail cocktail = new Cocktail();
+        CocktailEntity cocktail = new CocktailEntity();
         when(cocktailService.getCocktailById("1")).thenReturn(cocktail);
 
         String viewName = cocktailController.getCocktailDetails("1", model);
