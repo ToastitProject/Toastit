@@ -8,11 +8,13 @@ import alcoholboot.toastit.feature.user.controller.request.EmailSendRequest;
 import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
 import alcoholboot.toastit.feature.user.controller.request.UserLoginRequest;
 import alcoholboot.toastit.feature.user.domain.User;
+import alcoholboot.toastit.feature.user.exception.EmailVerificationException;
 import alcoholboot.toastit.feature.user.service.EmailService;
 import alcoholboot.toastit.feature.user.service.UserService;
 import alcoholboot.toastit.feature.user.service.VerificationService;
 import alcoholboot.toastit.feature.user.util.RandomAuthCode;
-import com.amazonaws.services.kms.model.NotFoundException;
+import alcoholboot.toastit.global.response.code.CommonExceptionCode;
+import alcoholboot.toastit.global.response.exception.CustomException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -41,27 +43,32 @@ public class UserController {
     @GetMapping("/login")
     public String showLoginPage(Model model) {
         model.addAttribute("userLoginRequest", new UserLoginRequest());
-        return "login";
+        return "/user/loginForm";
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute @Valid UserLoginRequest userLoginRequest, BindingResult bindingResult, HttpServletResponse httpServletResponse, Model model) {
+    public String login(@ModelAttribute @Valid UserLoginRequest userLoginDto,
+                        BindingResult bindingResult,
+                        HttpServletResponse response,
+                        Model model) {
+
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
-            model.addAttribute("error", "");
-            return "login";
+            return "/user/loginForm";
         }
 
-        User user = userService.findByEmail(userLoginRequest.getEmail()).orElseThrow(() -> new NotFoundException(""));
+        User user = userService.findByEmail(userLoginDto.getEmail())
+                .orElseThrow(() -> new CustomException(CommonExceptionCode.NOT_MATCH_EMAILL_OR_PASSWORD));
 
         // 비밀번호 일치여부 체크
-        if (!passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
-            model.addAttribute("error", "");
-            return "login";
+        if (!passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
+            throw new CustomException(CommonExceptionCode.NOT_MATCH_EMAILL_OR_PASSWORD);
         }
 
-        // 토큰 발급
+        // 액세스 토큰 발급
         String accessToken = jwtTokenizer.createAccessToken(user.getId(), user.getEmail(), user.getNickname(), user.getAuthority());
+
+        // 리프레쉬 토큰 발급
         String refreshToken = jwtTokenizer.createRefreshToken(user.getId(), user.getEmail(), user.getNickname(), user.getAuthority());
 
         // 리프레시 토큰 디비 저장
@@ -74,28 +81,30 @@ public class UserController {
 
         tokenService.saveOrUpdate(token);
 
-        // 토큰 쿠키 저장
+        // 액세스 토큰 쿠키 생성 및 저장
         Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setPath("/");
         accessTokenCookie.setMaxAge(Math.toIntExact(JwtTokenizer.accessTokenExpire / 1000));
-        httpServletResponse.addCookie(accessTokenCookie);
+        response.addCookie(accessTokenCookie);
 
+        // 리프레쉬 토큰 쿠키 생성 및 저장
         Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setPath("/");
         refreshTokenCookie.setMaxAge(Math.toIntExact(JwtTokenizer.refreshTokenExpire / 1000));
-        httpServletResponse.addCookie(refreshTokenCookie);
+        response.addCookie(refreshTokenCookie);
 
         model.addAttribute("user", user);
-        return "redirect:/user/home";
+
+        return "redirect:/";
     }
 
     @DeleteMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         String accessToken = null;
 
-        // access / refresh token cookie 삭제
+        // access 및 refresh token cookie 삭제
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -114,24 +123,29 @@ public class UserController {
 
         // tokens 데이터 삭제
         tokenService.deleteByAccessToken(accessToken);
-        return "redirect:/user/login";
+        return "redirect:/";
     }
 
     @GetMapping("/join")
     public String showJoinPage(Model model) {
         model.addAttribute("userJoinRequest", new UserJoinRequest());
-        return "join";
+        return "/user/joinForm";
     }
 
     @PostMapping("/join")
     public String join(@ModelAttribute @Valid UserJoinRequest userJoinDto, BindingResult bindingResult, Model model) {
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
-            model.addAttribute("error", "");
-            return "join";
+            return "/user/joinForm";
         }
 
-        userService.save(userJoinDto);
+        try {
+            userService.save(userJoinDto);
+        } catch (EmailVerificationException e) {
+            model.addAttribute("error", e.getMessage());
+            return "/user/joinForm";
+        }
+
         return "redirect:/user/login";
     }
 
@@ -142,18 +156,20 @@ public class UserController {
     public String sendAuthEmail(@ModelAttribute @Valid EmailSendRequest emailSendDto, BindingResult bindingResult, Model model) {
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
-            model.addAttribute("error", "");
-            return "authEmail";
+            return "/user/joinForm";
         }
 
         // 랜덤 인증 코드 생성
         String authCode = RandomAuthCode.generate();
+
         // redis에 인증 코드 저장
         verificationService.saveCode(emailSendDto.getEmail(), authCode);
+
         // 메일 발송
-        emailService.sendSimpleMessage(emailSendDto.getEmail(), "test", authCode);
-        model.addAttribute("message", "인증 메일이 발송되었습니다.");
-        return "authEmail";
+        emailService.sendSimpleMessage(emailSendDto.getEmail(), "[술프링부트] 이메일 인증번호 발송드립니다.", authCode);
+        model.addAttribute("sendEmail Message", "인증 메일이 발송되었습니다.");
+
+        return "/user/joinForm";
     }
 
     /**
@@ -163,17 +179,16 @@ public class UserController {
     public String checkAuthEmail(@ModelAttribute @Valid EmailCheckRequest emailCheckDto, BindingResult bindingResult, Model model) {
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
-            model.addAttribute("error", "");
-            return "checkAuthEmail";
+            return "/user/joinForm";
         }
 
         // redis에 저장된 인증번호와 비교하여 확인
         if (!verificationService.verifyCode(emailCheckDto.getEmail(), emailCheckDto.getAuthCode())) {
-            model.addAttribute("error", "");
-            return "checkAuthEmail";
+            model.addAttribute("authCodeMismatchMessage", CommonExceptionCode.NOT_MATCH_AUTH_CODE.getData());
+            return "/user/joinForm";
         }
 
-        model.addAttribute("message", "인증이 완료되었습니다.");
-        return "checkAuthEmail";
+        model.addAttribute("verifiedEmailMessage", "인증이 완료되었습니다.");
+        return "/user/joinForm";
     }
 }
