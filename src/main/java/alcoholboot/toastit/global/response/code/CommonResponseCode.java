@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+
+/**
+ * @deprecated SSR 기반의 Controller 프로젝트이기에 해당 응답 코드는 아직 사용 미정입니다 :)
+ */
 @Getter
 @AllArgsConstructor
 public enum CommonResponseCode implements ResponseCode {
