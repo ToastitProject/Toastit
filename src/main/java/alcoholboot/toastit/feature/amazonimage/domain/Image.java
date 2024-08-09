@@ -34,8 +34,4 @@ public class Image extends JpaAuditingFields {
     @Column(name = "image_use")
     private String imageUse;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
 }

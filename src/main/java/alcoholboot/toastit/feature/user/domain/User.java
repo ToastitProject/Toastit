@@ -1,9 +1,12 @@
 package alcoholboot.toastit.feature.user.domain;
 
 
+import alcoholboot.toastit.feature.user.entity.FollowEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.type.Authority;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -21,6 +24,10 @@ public class User {
     private String password;
 
     private Authority authority;
+
+    private List<Like> likes;
+
+    private List<Follow> follows;
 
     public UserEntity convertToEntity(){
         return UserEntity.builder()
