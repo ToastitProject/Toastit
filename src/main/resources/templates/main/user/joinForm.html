@@ -13,44 +13,57 @@
             margin: 0;
         }
 
-        .logo {
-            margin-right: 30px;
-            font-size: 24px;
-            font-weight: bold;
+        header {
+            display: flex;
+            align-items: center;
+            padding: 10px 30px;
         }
+
+        .logo {
+            margin-right: 20px;
+            width: 40px;
+            height: 40px;
+        }
+
         .menu {
-            flex-grow: 1;
             display: flex;
             gap: 30px;
+            flex-grow: 0;
         }
+
         .menu a {
             text-decoration: none;
             color: black;
             font-weight: bold;
             transition: color 0.3s;
         }
+
         .menu a:hover {
             color: #FFA832;
         }
+
         .profile {
             margin-left: auto;
             display: flex;
             gap: 20px;
         }
+
         .profile a {
             text-decoration: none;
             color: black;
             font-weight: bold;
             transition: color 0.3s;
         }
+
         .profile a:hover {
             color: #FFA832;
         }
+
         .divider {
             border: none;
             height: 2px;
             background-color: #FFA832;
-            margin-top: -18px;
+            margin-top: -10px;
         }
 
         .card {
@@ -99,7 +112,8 @@
         .button-container {
             margin-top: 15px;
         }
-        .button-code{
+
+        .button-code {
             margin-top: -10px;
             margin-bottom: 10px;
         }
@@ -116,6 +130,7 @@
             transition: background-color 0.3s;
             width: 300px;
         }
+
         .code-button {
             background-color: white;
             color: #FFA832;
@@ -133,6 +148,7 @@
             background-color: #dfbc8e;
             color: white;
         }
+
         .code-button:hover {
             background-color: #dfbc8e;
             color: white;
@@ -163,22 +179,20 @@
 <body>
 <header th:fragment="header">
     <img src="https://toastitbucket.s3.ap-northeast-2.amazonaws.com/static/5d7e0e23-c3d6-4137-ab5e-42f5d236e672.png" alt="로고" class="logo">
-    <nav>
-        <div class="menu">
-            <a href="/recommend">추천칵테일</a>
-            <a href="/custom">커스텀칵테일</a>
-            <a href="/weather">날씨추천칵테일</a>
-        </div>
-        <div class="profile">
-            <div sec:authorize="isAnonymous()">
-                <a href="#">로그인</a>
-            </div>
-            <div sec:authorize="isAuthenticated()">
-                <a href="#">마이페이지</a>
-                <a href="#">로그아웃</a>
-            </div>
-        </div>
+    <nav class="menu">
+        <a href="/recommend">추천칵테일</a>
+        <a href="/custom">커스텀칵테일</a>
+        <a href="/weather">날씨추천칵테일</a>
     </nav>
+    <div class="profile">
+        <div sec:authorize="isAnonymous()">
+            <a href="#">로그인</a>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <a href="#">마이페이지</a>
+            <a href="#">로그아웃</a>
+        </div>
+    </div>
 </header>
 <hr class="divider">
 

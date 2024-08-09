@@ -43,7 +43,7 @@ public class UserController {
     @GetMapping("/login")
     public String showLoginPage(Model model) {
         model.addAttribute("userLoginRequest", new UserLoginRequest());
-        return "/user/loginForm";
+        return "/main/user/loginForm";
     }
 
     @PostMapping("/login")
@@ -54,7 +54,7 @@ public class UserController {
 
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
-            return "/user/loginForm";
+            return "/main/user/loginForm";
         }
 
         User user = userService.findByEmail(userLoginDto.getEmail())
@@ -97,7 +97,7 @@ public class UserController {
 
         model.addAttribute("user", user);
 
-        return "redirect:/";
+        return "redirect:/mainForm";
     }
 
     @DeleteMapping("/logout")
@@ -129,24 +129,24 @@ public class UserController {
     @GetMapping("/join")
     public String showJoinPage(Model model) {
         model.addAttribute("userJoinRequest", new UserJoinRequest());
-        return "/user/joinForm";
+        return "/main/user/joinForm";
     }
 
     @PostMapping("/join")
     public String join(@ModelAttribute @Valid UserJoinRequest userJoinDto, BindingResult bindingResult, Model model) {
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
-            return "/user/joinForm";
+            return "/main/user/joinForm";
         }
 
         try {
             userService.save(userJoinDto);
         } catch (EmailVerificationException e) {
             model.addAttribute("error", e.getMessage());
-            return "/user/joinForm";
+            return "/main/user/joinForm";
         }
 
-        return "redirect:/user/login";
+        return "redirect:/main/user/loginForm";
     }
 
     /**
@@ -156,7 +156,7 @@ public class UserController {
     public String sendAuthEmail(@ModelAttribute @Valid EmailSendRequest emailSendDto, BindingResult bindingResult, Model model) {
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
-            return "/user/joinForm";
+            return "/main/user/joinForm";
         }
 
         // 랜덤 인증 코드 생성
@@ -169,7 +169,7 @@ public class UserController {
         emailService.sendSimpleMessage(emailSendDto.getEmail(), "[술프링부트] 이메일 인증번호 발송드립니다.", authCode);
         model.addAttribute("sendEmail Message", "인증 메일이 발송되었습니다.");
 
-        return "/user/joinForm";
+        return "/main/user/joinForm";
     }
 
     /**
@@ -185,10 +185,10 @@ public class UserController {
         // redis에 저장된 인증번호와 비교하여 확인
         if (!verificationService.verifyCode(emailCheckDto.getEmail(), emailCheckDto.getAuthCode())) {
             model.addAttribute("authCodeMismatchMessage", CommonExceptionCode.NOT_MATCH_AUTH_CODE.getData());
-            return "/user/joinForm";
+            return "/main/user/joinForm";
         }
 
         model.addAttribute("verifiedEmailMessage", "인증이 완료되었습니다.");
-        return "/user/joinForm";
+        return "/main/user/joinForm";
     }
 }

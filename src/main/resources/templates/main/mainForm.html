@@ -11,44 +11,57 @@
             color: #FFA832;
         }
 
-        .logo {
-            margin-right: 30px;
-            font-size: 24px;
-            font-weight: bold;
+        header {
+            display: flex;
+            align-items: center;
+            padding: 10px 30px;
         }
+
+        .logo {
+            margin-right: 20px;
+            width: 40px;
+            height: 40px;
+        }
+
         .menu {
-            flex-grow: 1;
             display: flex;
             gap: 30px;
+            flex-grow: 0;
         }
+
         .menu a {
             text-decoration: none;
-            color: black; /* 기본 글자 색상: 검은색 */
+            color: black;
             font-weight: bold;
-            transition: color 0.3s; /* 색상 변화에 애니메이션 추가 */
+            transition: color 0.3s;
         }
+
         .menu a:hover {
-            color: #FFA832; /* 호버 시 색상 변화 */
+            color: #FFA832;
         }
+
         .profile {
             margin-left: auto;
             display: flex;
             gap: 20px;
         }
+
         .profile a {
             text-decoration: none;
-            color: black; /* 기본 글자 색상: 검은색 */
+            color: black;
             font-weight: bold;
-            transition: color 0.3s; /* 색상 변화에 애니메이션 추가 */
+            transition: color 0.3s;
         }
+
         .profile a:hover {
-            color: #FFA832; /* 호버 시 색상 변화 */
+            color: #FFA832;
         }
+
         .divider {
             border: none;
             height: 2px;
             background-color: #FFA832;
-            margin-top: -18px;
+            margin-top: -10px;
         }
     </style>
     <title>술프링부트</title>
