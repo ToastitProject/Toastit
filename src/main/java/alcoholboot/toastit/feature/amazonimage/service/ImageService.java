@@ -17,4 +17,6 @@ public class ImageService {
     public List<Image> findAll() {
         return (List<Image>) imageRepository.findAll();
     }
+
+    public Image findByUserId(Long id) {return imageRepository.findByUserId(id);};
 }

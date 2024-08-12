@@ -36,13 +36,15 @@ public class SecurityConfig {
             "/test/**", // 테스트 API
             "/image/**", // 이미지 리소스 및 API
             "/js/**", // JS 리소스
-            "/css/**" // CSS 리소스
+            "/css/**", // CSS 리소스
+            "/user/mypage"
+
     };
 
     // 비로그인 유저 허용 페이지
     String[] notLoggedAllowPage = new String[]{
             "/user/login", // 로그인 API
-            "/user/join" // 회원가입 API
+            "/user/join", // 회원가입 API
     };
 
     /**

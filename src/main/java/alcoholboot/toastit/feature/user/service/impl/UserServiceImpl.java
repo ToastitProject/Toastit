@@ -78,6 +78,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByNickname(nickname).map(UserEntity::convertToDomain);
     }
 
+    @Transactional
+    public void save(UserEntity user) {
+        userRepository.save(user);
+    }
+
+
     /**
      * 비밀번호 암호화
      *
@@ -88,4 +94,5 @@ public class UserServiceImpl implements UserService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(password);
     }
+
 }
