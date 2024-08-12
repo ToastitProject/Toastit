@@ -2,16 +2,14 @@ package alcoholboot.toastit.feature.categorysearch.domain;
 
 import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,16 +1,20 @@
 package alcoholboot.toastit.feature.categorysearch.service;
 
-import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
 import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+import java.util.Optional;
+
+
 public interface CocktailService {
     // 카테고리 검색
-    Page<CocktailEntity> getAllCocktails(Pageable pageable);
-    Page<CocktailEntity> getCocktailsByIngredient(String ingredient, Pageable pageable);
-    Page<CocktailEntity> getCocktailsByGlass(String glass, Pageable pageable);
-    Page<CocktailEntity> getCocktailsByCategory(String category, Pageable pageable);
-    Page<CocktailEntity> getCocktailsByMultipleFilters(String ingredient, String glass, String category, Pageable pageable);
-    CocktailEntity getCocktailById(String id);
+    List<CocktailEntity> getAllCocktails();
+    Page<CocktailEntity> getAllCocktailsPaged(Pageable pageable);
+    List<CocktailEntity> getCocktailsByIngredient(String ingredient);
+    List<CocktailEntity> getCocktailsByGlass(String glass);
+    List<CocktailEntity> getCocktailsByType(String type);
+    List<CocktailEntity> getCocktailsByFilter(String ingredient, String glass, String type);
+    Optional<CocktailEntity> getCocktailById(String id);
 }
