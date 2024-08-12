@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
+    <link href="/css/fragment/navbar-fragment.css" rel="stylesheet">
+    <style>
+        /* header css */
+        body {
+            font-family: 'Gmarket Sans', sans-serif;
+            color: #FFA832;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            padding: 10px 30px;
+        }
+
+        .logo {
+            margin-right: 20px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .menu {
+            display: flex;
+            gap: 30px;
+            flex-grow: 0;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .menu a:hover {
+            color: #FFA832;
+        }
+
+        .profile {
+            margin-left: auto;
+            display: flex;
+            gap: 20px;
+        }
+
+        .profile a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .profile a:hover {
+            color: #FFA832;
+        }
+
+        .divider {
+            border: none;
+            height: 2px;
+            background-color: #FFA832;
+            margin-top: -10px;
+        }
+
+        .button {
+            background-color: white;
+            color: #FFA832;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            width: 100px
+        }
+
+
+        .button button {
+            background-color: white; /* 버튼 배경 색상 */
+            color: #FFA832; /* 글자 색상 */
+            border: 2px solid #FFA832; /* 테두리 색상 */
+            border-radius: 15px; /* 둥근 각 */
+            padding: 10px 20px; /* 버튼 안쪽 여백 */
+            cursor: pointer; /* 마우스 커서 포인터로 변경 */
+            font-size: 16px; /* 글자 크기 */
+            transition: background-color 0.3s, color 0.3s; /* 호버 효과를 위한 트랜지션 */
+        }
+
+
+        /* Form Styles */
+        .add-btn, .remove-btn {
+            color: #FFA832; /* 글자 색상 */
+            border: 2px solid #FFA832; /* 테두리 색상 */
+            border-radius: 10px; /* 둥근 각 */
+            padding: 5px 10px; /* 버튼 안쪽 여백 */
+            cursor: pointer; /* 마우스 커서 포인터로 변경 */
+            font-size: 14px; /* 글자 크기 */
+            transition: background-color 0.3s, color 0.3s; /* 호버 효과를 위한 트랜지션 */
+            background-color: transparent; /* 기본 배경색 */
+        }
+
+        .add-btn:hover, .remove-btn:hover {
+            background-color: #FFA832; /* 호버 시 배경색 */
+            color: white; /* 호버 시 글자색 */
+        }
+
+        .remove-btn {
+            margin-left: 10px; /* x 버튼과 재료 입력 필드 간의 간격 */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-bottom: 30px; /* 요소 간 간격을 위해 추가된 margin */
+        }
+
+        .section label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .section input, .section textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .section input[type="file"] {
+            padding: 3px;
+        }
+
+        .section .thumbnail {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .section .thumbnail div {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 0 5px;
+            background-color: #f1f1f1;
+            color: #666;
+            position: relative;
+        }
+
+        .section .thumbnail img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .section .thumbnail .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+
+        /* Textarea expanded */
+        textarea {
+            height: 200px; /* 크기를 2배로 키움 */
+        }
+    </style>
+    <title>술프링부트</title>
+</head>
+<body>
+<header th:fragment="header">
+    <img src="https://toastitbucket.s3.ap-northeast-2.amazonaws.com/static/5d7e0e23-c3d6-4137-ab5e-42f5d236e672.png" alt="로고" class="logo">
+    <nav>
+        <div class="menu">
+            <a href="/recommend">추천칵테일</a>
+            <a href="/custom">커스텀칵테일</a>
+            <a href="/weather">날씨추천칵테일</a>
+        </div>
+    </nav>
+    <div class="profile">
+        <div sec:authorize="isAnonymous()">
+            <a href="#">로그인</a>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <a href="#">마이페이지</a>
+            <a href="#">로그아웃</a>
+        </div>
+    </div>
+
+</header>
+<hr class="divider">
+<div class="container">
+    <form id="cocktailForm" method="post" enctype="multipart/form-data">
+
+        <!-- Cocktail Image Section -->
+        <div class="section">
+            <label for="image">칵테일 사진</label>
+            <div class="thumbnail" id="thumbnail">
+                <div>
+                    <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                    사진 업로드
+                </div>
+                <div id="preview-container">
+                    <div>추천사진 1<br>깔끔하게 흰 배경에 찍어보세요!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cocktail Name Section -->
+        <div class="section">
+            <label for="name">칵테일 이름</label>
+            <input type="text" id="name" name="name" placeholder="이름을 지어주세요." maxlength="50">
+        </div>
+
+        <!-- Cocktail Description Section -->
+        <div class="section">
+            <label for="description">칵테일 설명</label>
+            <textarea id="description" name="description" placeholder="칵테일 소개를 적어주세요." maxlength="200"></textarea>
+        </div>
+
+        <!-- Ingredient Section -->
+        <div class="section" id="ingredient-section">
+            <label>재료 정보</label>
+            <div id="ingredients">
+                <div class="ingredient">
+                    <label>재료 1</label>
+                    <input type="text" name="name" placeholder="재료 이름을 입력해주세요">
+                    <input type="text" name="amount" placeholder="용량">
+                    <input type="text" name="unit" placeholder="단위를 선택해주세요">
+                    <button type="button" class="remove-btn" onclick="removeIngredient(this)">x</button>
+                </div>
+            </div>
+            <button type="button" class="add-btn" onclick="addIngredient()">재료 추가</button>
+        </div>
+
+        <!-- Cocktail Recipe Section -->
+        <div class="section">
+            <label for="description">칵테일 레시피</label>
+            <textarea id="recipe" name="recipe" placeholder="레시피를 적어주세요." maxlength="200"></textarea>
+        </div>
+
+        <!-- Submit Button Section -->
+        <div class="button">
+            <button type="button" onclick="saveForm()">저장</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function previewImage(event) {
+        var previewContainer = document.getElementById('preview-container');
+        previewContainer.innerHTML = ''; // 기존 내용을 지웁니다.
+
+        var imgElement = document.createElement('img');
+        imgElement.src = URL.createObjectURL(event.target.files[0]);
+
+        var closeButton = document.createElement('button');
+        closeButton.textContent = 'X';
+        closeButton.className = 'close-btn';
+        closeButton.onclick = function() {
+            previewContainer.innerHTML = '<div>추천사진 1<br>깔끔하게 흰 배경에 찍어보세요!</div>';
+        };
+
+        previewContainer.appendChild(imgElement);
+        previewContainer.appendChild(closeButton);
+    }
+
+    let ingredientCount = 1; // 현재 재료 개수
+
+    function addIngredient() {
+        const ingredientsDiv = document.getElementById('ingredients');
+
+        // 새로운 재료 섹션 생성
+        const newIngredientDiv = document.createElement('div');
+        newIngredientDiv.classList.add('ingredient');
+
+        newIngredientDiv.innerHTML = `
+            <label>재료 ${ingredientCount + 1}</label>
+            <input type="text" name="ingredients[${ingredientCount}].name" placeholder="재료 이름을 입력해주세요">
+            <input type="text" name="ingredients[${ingredientCount}].amount" placeholder="용량">
+            <input type="text" name="ingredients[${ingredientCount}].unit" placeholder="단위를 선택해주세요">
+            <button type="button" onclick="removeIngredient(this)">x</button>
+        `;
+
+        ingredientsDiv.appendChild(newIngredientDiv);
+        ingredientCount++;
+    }
+
+    function removeIngredient(button) {
+        const ingredientDiv = button.parentElement;
+        ingredientDiv.remove();
+    }
+
+    function saveForm() {
+        const form = document.getElementById('cocktailForm');
+        // 폼의 기본 제출 동작을 막고 새로운 URL로 이동
+        window.location.href = '/test/custom/';
+    }
+</script>
+
+</body>
+</html>

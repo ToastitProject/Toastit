@@ -1,0 +1,92 @@
+
+/* Form Styles */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section {
+    margin-bottom: 30px; /* 요소 간 간격을 위해 추가된 margin */
+}
+
+.section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.section input, .section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.section input[type="file"] {
+    padding: 3px;
+}
+
+.section .thumbnail {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.section .thumbnail div {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 5px;
+    background-color: #f1f1f1;
+    color: #666;
+    position: relative;
+}
+
+.section .thumbnail img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.section .thumbnail .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.button {
+    text-align: right;
+}
+
+.button button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button button:hover {
+    background-color: #0056b3;
+}
+
+/* Textarea expanded */
+textarea {
+    height: 200px; /* 크기를 2배로 키움 */
+}
