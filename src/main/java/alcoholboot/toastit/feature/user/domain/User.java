@@ -1,11 +1,13 @@
 package alcoholboot.toastit.feature.user.domain;
 
-
-//import alcoholboot.toastit.feature.user.entity.FollowEntity;
+import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.type.Authority;
+import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -25,9 +27,10 @@ public class User {
 
     private Authority authority;
 
-//    private List<Like> likes;
-//
-//    private List<Follow> follows;
+    @Setter
+    private String profileImageUrl;
+
+    private LocalDateTime createDate;
 
     public UserEntity convertToEntity(){
         return UserEntity.builder()
@@ -36,6 +39,10 @@ public class User {
                 .nickname(this.nickname)
                 .password(this.password)
                 .authority(this.authority)
+                .profileImageUrl(this.profileImageUrl)
                 .build();
+    }
+    public LocalDate getCreateDate() {
+        return this.createDate != null ? this.createDate.toLocalDate() : null;
     }
 }

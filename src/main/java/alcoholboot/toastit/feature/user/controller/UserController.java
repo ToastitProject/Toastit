@@ -1,11 +1,15 @@
 package alcoholboot.toastit.feature.user.controller;
 
+
 import alcoholboot.toastit.auth.jwt.domain.Token;
 import alcoholboot.toastit.auth.jwt.service.TokenService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
+import alcoholboot.toastit.feature.amazonimage.domain.Image;
+import alcoholboot.toastit.feature.amazonimage.service.ImageService;
 import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
 import alcoholboot.toastit.feature.user.controller.request.UserLoginRequest;
 import alcoholboot.toastit.feature.user.domain.User;
+import alcoholboot.toastit.feature.amazonimage.service.S3imageUploadService;
 import alcoholboot.toastit.feature.user.exception.EmailVerificationException;
 import alcoholboot.toastit.feature.user.service.UserService;
 import alcoholboot.toastit.global.response.code.CommonExceptionCode;
@@ -16,11 +20,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -29,6 +39,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
     private final TokenService tokenService;
+    private final S3imageUploadService s3imageUploadService;
+    private final ImageService imageService;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
@@ -120,7 +132,7 @@ public class UserController {
         // tokens 데이터 삭제
         tokenService.deleteByAccessToken(accessToken);
 
-        return "redirect:/feature/mainForm";
+        return "redirect:/feature/loginForm";
     }
 
     @GetMapping("/join")
@@ -155,4 +167,127 @@ public class UserController {
 
         return "redirect:/user/login";
     }
+
+    @GetMapping("/mypage")
+    public String showMyPage(Model model) {
+        log.info("myPage 로 GetMapping 들어옴!");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            String email = authentication.getName();
+
+            Optional<User> userOptional = userService.findByEmail(email);
+            if (userOptional.isPresent()) {
+                model.addAttribute("user", userOptional.get());
+                log.info("찾은 user email 을 모델에 담은 값 : " + userOptional.get().getEmail());
+                log.info("찾은 user Nickname 을 모델에 담은 값 : " + userOptional.get().getNickname());
+                log.info("찾은 user create_date 를 모델에 담은 값 : " + userOptional.get().getCreateDate());
+                log.info("이미지 url : " +userOptional.get().getProfileImageUrl());
+            } else {
+                model.addAttribute("error", "사용자를 찾을 수 없습니다.");
+            }
+        } else {
+            model.addAttribute("error", "사용자가 인증되지 않았습니다.");
+        }
+
+        return "/feature/user/mypageForm";
+    }
+
+    @GetMapping("/edit")
+    public String showEditPage(Model model) {
+        log.info("edit 로 GetMapping 들어옴!");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            String email = authentication.getName();
+            Optional<User> user = userService.findByEmail(email);
+            log.info(email + "로 user 를 찾는다.");
+            if (user.isPresent()) {
+                model.addAttribute("user", user.get());
+                log.info(email+"로 찾은 user 의 정보를 화면에 보여준다");
+                log.info(user.get().getEmail());
+                log.info(user.get().getNickname());
+                log.info(user.get().getProfileImageUrl());
+            }
+        }
+        return "/feature/user/editForm";
+    }
+
+    @PostMapping("/edit")
+    public String editNickname(@RequestParam String nickname) {
+        log.info("닉네임 수정 요청이 들어옴");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            String email = authentication.getName();
+            Optional<User> userOptional = userService.findByEmail(email);
+
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                log.info("기존 닉네임: " + user.getNickname());
+                log.info("새로운 닉네임: " + nickname);
+
+                // 닉네임 변경
+                user.setNickname(nickname);
+                userService.save(user.convertToEntity()); // 변경된 사용자 정보 저장
+                log.info("닉네임이 변경됨: " + user.getNickname());
+            } else {
+                log.warn("사용자를 찾을 수 없습니다: " + email);
+                return "redirect:/error"; // 사용자 없음 처리
+            }
+        }
+
+        return "redirect:/user/mypage"; // 변경 후 마이 페이지로 리다이렉트
+    }
+
+    @PostMapping("/imageChange")
+    public String imageChange(@RequestParam("filePath") MultipartFile filePath) {
+        log.info("이미지 변경 PostMapping 이 들어옴");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            String email = authentication.getName();
+            Optional<User> userOptional = userService.findByEmail(email);
+            User user = userOptional.get();
+            log.info("접속한 user 의 DB 에 저장된 프로필사진 경로"+user.getProfileImageUrl());
+
+            try{
+                log.info("upload try start!!!");
+                String imageUrl = s3imageUploadService.uploadProfileImage(filePath);
+                log.info("AWS bucket /profile 에 이미지 업로드 성공");
+
+                if(imageService.findByUserId(user.getId()) != null) { //DB에 user ID 가 존재하는 경우 새로 생성하지 않는다.
+                    log.info("DB에 이미지 테이블을 가지고 있는 User 가 접근");
+                    Image image = imageService.findByUserId(user.getId());
+                    image.setImageName(filePath.getOriginalFilename());
+                    image.setImagePath(imageUrl);
+                    image.setImageType(filePath.getContentType());
+                    image.setImageSize(String.valueOf(filePath.getSize()));
+                    image.setImageUse("profile");
+                    imageService.save(image);
+                } else {
+                    log.info("DB에 이미지 테이블을 가지고 있지 않은 user 가 접근");
+                    Image image = new Image(); //DB에 User Id가 존재하지 않는 경우 새로운 테이블을 만들어서 저장한다
+                    image.setId(user.getId());
+                    image.setImageName(filePath.getOriginalFilename());
+                    image.setImagePath(imageUrl);
+                    image.setImageType(filePath.getContentType());
+                    image.setImageSize(String.valueOf(filePath.getSize()));
+                    image.setImageUse("profile");
+                    imageService.save(image);
+                }
+
+                String newUrl = imageUrl.replace("https://s3.amazonaws.com/toastitbucket",
+                        "https://toastitbucket.s3.ap-northeast-2.amazonaws.com");
+
+                userOptional.get().setProfileImageUrl(newUrl);
+                userService.save(user.convertToEntity());
+                log.info("MySQL image 에 저장성공");
+
+                return "redirect:/user/edit" ;
+            }catch(Exception e){
+                System.out.println("파일 업로드 실패"+e.getMessage());
+                return "redirect:/user/edit" ;
+            }
+        }
+        return "redirect:/user/eidt";
+    }
+
 }

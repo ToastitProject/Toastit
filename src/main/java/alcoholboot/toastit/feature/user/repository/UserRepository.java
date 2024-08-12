@@ -1,5 +1,6 @@
 package alcoholboot.toastit.feature.user.repository;
 
+import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
