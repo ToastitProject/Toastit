@@ -20,11 +20,13 @@ public class RandomAuthCode {
      */
     public static String generate() {
         StringBuilder code = new StringBuilder(CODE_LENGTH);
+
         // 지정된 길이만큼 랜덤 문자를 선택하여 인증 코드 생성
         for (int i = 0; i < CODE_LENGTH; i++) {
             // CHARACTERS에서 랜덤하게 문자를 선택하여 코드에 추가
             code.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
         }
+
         return code.toString(); // 생성된 인증 코드를 문자열로 반환
     }
 }
