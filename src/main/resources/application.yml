@@ -25,12 +25,6 @@ spring:
     encoding: UTF-8
     cache: false  # 개발 중 캐시 비활성화
 
-  datasource:
-    url: jdbc:mysql://15.164.25.150:3306/toastitdb
-    username: root
-    password: root@20240801
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
   servlet:
     multipart:
       enabled: true
@@ -38,13 +32,5 @@ spring:
       max-request-size: 10MB
       file-size-threshold: 10MB
 
-cloud:
-  aws:
-    credentials:
-      instance-profile: false
-      accessKey:
-      secretKey:
-    region:
-      static: ap-northeast-2
-    s3:
-      bucket: toastitbucket
+server:
+  port: 80

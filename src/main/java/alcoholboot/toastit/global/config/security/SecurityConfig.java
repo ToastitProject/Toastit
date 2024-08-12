@@ -30,17 +30,19 @@ public class SecurityConfig {
     // 모든 유저 허용 페이지
     String[] allAllowPage = new String[]{
             "/", // 메인페이지
-            "/error", // 에러페이지
-            "/test/**", // 테스트 페이지
-            "/user/authEmail", // 인증 메일 페이지
-            "/resources/image/**", // 이미지 리소스
-            "/image/**", // 이미지 url 임시 허용
+            "/email/**", // 이메일 API
+            "/user/logout", // 로그아웃 API
+            "/error", // 예외 처리 API
+            "/test/**", // 테스트 API
+            "/image/**", // 이미지 리소스 및 API
+            "/js/**", // JS 리소스
+            "/css/**" // CSS 리소스
     };
 
     // 비로그인 유저 허용 페이지
     String[] notLoggedAllowPage = new String[]{
-            "/user/login", // 로그인 페이지
-            "/user/join" // 회원가입 페이지
+            "/user/login", // 로그인 API
+            "/user/join" // 회원가입 API
     };
 
     /**
