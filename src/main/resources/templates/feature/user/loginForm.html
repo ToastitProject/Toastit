@@ -1,19 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html><!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>술프링부트 - 로그인</title>
     <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
-    <link href="/static/css/header.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Gmarket Sans', sans-serif;
@@ -21,6 +13,7 @@
             background-color: #f4f4f4;
             margin: 0;
         }
+
         header {
             display: flex;
             align-items: center;
@@ -73,6 +66,8 @@
             background-color: #FFA832;
             margin-top: -10px;
         }
+
+
         .card {
             background-color: #FFA832;
             border-radius: 10px;
@@ -84,29 +79,40 @@
             height: 400px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             margin: 150px auto;
-        }
-        .profile-pic {
-            padding-left: 0px;
-            margin-right: 100px;
-            border-radius: 10px;
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
+            flex-direction: column;
         }
 
         .info {
             color: white;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: right;
             align-items: center;
-            text-align: center;
+            text-align: right;
             padding-left: 20px;
             padding-right: 20px;
         }
 
+        .input-container {
+            text-align: center;
+            margin: 20px;
+            margin-left: -20px;
+            margin-right: 60px;
+            width: 200px
+        }
+
+        .input {
+            padding-right: 10px;
+            margin-right: -90px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 200px;
+            height: 30px;
+        }
+
         .button-container {
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .button {
@@ -119,7 +125,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: background-color 0.3s;
-            width: 100px
+            width: 300px;
         }
 
         .button:hover {
@@ -127,46 +133,44 @@
             color: white;
         }
 
+        .password-reset {
+            color: white;
+            text-decoration: none;
+            padding-top: 5px;
+            margin-top: -5px;
+            margin-right: -210px;
+            text-align: right;
+        }
     </style>
-    <title>술프링부트 - 마이페이지</title>
+    <title>술프링부트 - 로그인</title>
 </head>
 <body>
-<header th:fragment="header">
-    <img src="https://toastitbucket.s3.ap-northeast-2.amazonaws.com/static/5d7e0e23-c3d6-4137-ab5e-42f5d236e672.png" alt="로고" class="logo">
-    <nav>
-        <div class="menu">
-            <a href="/recommend">추천칵테일</a>
-            <a href="/custom">커스텀칵테일</a>
-            <a href="/weather">날씨추천칵테일</a>
-        </div>
-    </nav>
-        <div class="profile">
-            <div sec:authorize="isAnonymous()">
-                <a href="#">로그인</a>
-            </div>
-            <div sec:authorize="isAuthenticated()">
-                <a href="#">마이페이지</a>
-                <a href="#">로그아웃</a>
-            </div>
-        </div>
 
-</header>
+<div th:replace="fragment/navbar-fragment :: navbarFragment"></div>
+
 <hr class="divider">
 
 <div class="card">
-    <img src="" alt="프로필 사진" class="profile-pic">
-    <div class="info">
-        <p>아이디: suzy0812</p>
-        <p>닉네임: 칵테일수지</p>
-        <p>이메일: suzy0812@gmail.com</p>
-        <p>가입일: 2024-08-08</p>
-        <p>방문횟수: 38회</p>
-        <div class="button-container">
-            <button class="button">EDIT</button>
-            <button class="button">RESIGN</button>
-        </div>
-    </div>
+    <h2 style="color: white; margin-bottom: 40px;">이메일 로그인</h2>
+    <form id="loginForm" th:action="@{/user/login}" th:object="${userLoginRequest}" method="post" class="info">
+        <div class="info">
+            <div class="input-container" style="display: flex; align-items: center; margin-bottom: 10px;">
+                <label for="email" style="color: white; margin-right: 10px; width: 70px;">이메일</label>
+                <input type="email" class="input" th:field="*{email}" id="email" required>
+            </div>
 
+            <div class="input-container" style="display: flex; align-items: center; margin-bottom: 10px;">
+                <label for="password" style="color: white; margin-right: 10px; width: 70px;">비밀번호</label>
+                <input type="password" class="input" th:field="*{password}" id="password" required>
+            </div>
+
+            <a href="#" class="password-reset">비밀번호 찾기</a>
+
+            <div class="button-container">
+                <button id="submitButton" class="button" type="submit">로그인</button>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

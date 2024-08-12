@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
-    <link href="/static/css/header.css" rel="stylesheet">
+    <link href="/css/fragment/navbar-fragment.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Gmarket Sans', sans-serif;
@@ -12,6 +12,7 @@
             background-color: #f4f4f4;
             margin: 0;
         }
+
         header {
             display: flex;
             align-items: center;
@@ -64,6 +65,7 @@
             background-color: #FFA832;
             margin-top: -10px;
         }
+
         .card {
             background-color: #FFA832;
             border-radius: 10px;
@@ -89,24 +91,6 @@
             padding-right: 20px;
         }
 
-        .input-container {
-            text-align: center;
-            margin: 20px;
-            margin-left : -20px;
-            margin-right : 60px;
-            width : 200px
-        }
-
-        .input {
-            padding-right: 10px;
-            margin-right: -90px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 5px;
-            width: 200px;
-            height: 30px;
-        }
-
         .button-container {
             margin-top: 15px;
         }
@@ -129,8 +113,17 @@
             color: white;
         }
 
+        .under-text {
+            color: white;
+            text-decoration: none;
+            padding-top: 5px;
+            margin-top: -5px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
     </style>
-    <title>술프링부트 - 비밀번호 찾기</title>
+    <title>술프링부트 - 회원가입 성공</title>
 </head>
 <body>
 <header th:fragment="header">
@@ -156,21 +149,12 @@
 <hr class="divider">
 
 <div class="card">
-    <h2 style="color: white; margin-bottom: 40px;">이메일로 비밀번호 찾기</h2>
+    <h2 style="color: white; margin-bottom: 40px;">회원가입이 완료되었습니다.</h2>
     <div class="info">
-        <div class="input-container" style="display: flex; align-items: center; margin-bottom: 10px;">
-            <label style="color: white; margin-right: 10px; width: 70px;">이메일</label>
-            <input type="email" class="input" required>
-        </div>
+
+        <a class="under-text">로그인 하시면 다양한 서비스를 제공 받으실 수 있습니다.</a>
         <div class="button-container">
-            <button class="button">인증번호 발송</button>
-        </div>
-        <div class="input-container" style="display: flex; align-items: center; margin-bottom: 10px;">
-            <label style="color: white; margin-right: 10px; width: 70px;">인증번호</label>
-            <input type="code" class="input" required>
-        </div>
-        <div class="button-container">
-            <button class="button">비밀번호 찾기</button>
+            <button class="button">로그인</button>
         </div>
     </div>
 </div>

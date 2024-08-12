@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap}" rel="stylesheet">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <title>술프링부트</title>
+</head>
+<body>
+
+<header th:fragment="navbarFragment">
+    <img src="/image/logo-version-2.png" alt="로고" class="logo">
+    <nav>
+        <div class="menu">
+            <a href="/recommend">추천칵테일</a>
+            <a href="/custom">커스텀칵테일</a>
+            <a href="/weather">날씨추천칵테일</a>
+        </div>
+    </nav>
+        <div class="profile">
+            <div sec:authorize="isAnonymous()">
+                <a href="#">로그인</a>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <a href="#">마이페이지</a>
+                <a href="#">로그아웃</a>
+            </div>
+        </div>
+
+</header>
+
+<hr class="divider">
+
+</body>
+</html>
