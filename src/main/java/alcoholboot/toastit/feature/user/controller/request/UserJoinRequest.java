@@ -7,13 +7,11 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,11 +27,9 @@ public class UserJoinRequest {
             message = "영어, 숫자, 특수문자를 포함한 8~16자 비밀번호를 입력해주세요.")
     private String password;
 
-    @JsonProperty("password_check")
     @NotEmpty(message = "비밀번호 확인을 입력해주세요.")
     private String passwordCheck;
 
-    @JsonProperty("auth_code")
     @NotEmpty(message = "이메일을 인증해주세요.")
     private String authCode;
 

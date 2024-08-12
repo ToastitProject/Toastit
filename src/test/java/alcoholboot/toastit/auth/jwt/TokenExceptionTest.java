@@ -12,27 +12,27 @@ public class TokenExceptionTest {
 
     @GetMapping("/expired-token")
     public void expiredToken() {
-        throw new CustomException(CommonExceptionCode.TOKEN_EXPIRED);
+        throw new CustomException(CommonExceptionCode.JWT_EXPIRED_ERROR);
     }
 
     @GetMapping("/unsupported-token")
     public void unsupportedToken() {
-        throw new CustomException(CommonExceptionCode.UNSUPPORTED_TOKEN);
+        throw new CustomException(CommonExceptionCode.JWT_UNSUPPORTED_ERROR);
     }
 
     @GetMapping("/invalid-token")
     public void invalidToken() {
-        throw new CustomException(CommonExceptionCode.INVALID_TOKEN);
+        throw new CustomException(CommonExceptionCode.JWT_INVALID_ERROR);
     }
 
     @GetMapping("/illegal-argument")
     public void illegalArgument() {
-        throw new CustomException(CommonExceptionCode.ILLEGAL_ARGUMENT);
+        throw new CustomException(CommonExceptionCode.BAD_REQUEST);
     }
 
     @GetMapping("/internal-error")
     public void internalError() {
-        throw new CustomException(CommonExceptionCode.INTERNAL_ERROR);
+        throw new CustomException(CommonExceptionCode.JWT_INTERNAL_ERROR);
     }
 }
 

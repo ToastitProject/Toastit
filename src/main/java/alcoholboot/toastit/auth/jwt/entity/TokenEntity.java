@@ -2,7 +2,7 @@ package alcoholboot.toastit.auth.jwt.entity;
 
 import alcoholboot.toastit.auth.jwt.domain.Token;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
-import alcoholboot.toastit.global.Entity.AuditingFields;
+import alcoholboot.toastit.global.Entity.*;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,12 +13,12 @@ import lombok.*;
 @Table(name = "tokens")
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenEntity extends AuditingFields {
+public class TokenEntity extends JpaAuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 

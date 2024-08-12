@@ -19,15 +19,11 @@ public class Token {
 
     private String grantType;
 
-    // 업데이트 빌더
-    public Token update(String accessToken, String refreshToken, String grantType) {
-        return Token.builder()
-                .id(this.id)
-                .user(this.user)
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .grantType(grantType)
-                .build();
+    // 업데이트
+    public void update(String accessToken, String refreshToken, String grantType) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.grantType = grantType;
     }
 
     public TokenEntity convertToEntity() {

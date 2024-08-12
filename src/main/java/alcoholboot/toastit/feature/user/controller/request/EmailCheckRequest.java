@@ -17,7 +17,6 @@ public class EmailCheckRequest {
             message = "올바르지 않은 이메일 형식입니다.")
     private String email;
 
-    @JsonProperty("auth_code")
     @NotEmpty(message = "인증번호를 입력해주세요.")
     @Pattern(regexp = "^[a-zA-Z0-9]{6}$", message = "6자리의 인증번호를 입력해주세요.")
     private String authCode;

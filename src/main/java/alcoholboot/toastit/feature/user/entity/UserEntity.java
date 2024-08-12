@@ -1,10 +1,13 @@
 package alcoholboot.toastit.feature.user.entity;
 
+import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.type.Authority;
-import alcoholboot.toastit.global.Entity.AuditingFields;
+import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -12,9 +15,9 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity extends AuditingFields {
+public class UserEntity extends JpaAuditingFields {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -31,6 +34,15 @@ public class UserEntity extends AuditingFields {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Authority authority;
+
+//    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL,orphanRemoval = true)
+//    private List<Image> images;
+
+//    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<LikeEntity> likes;
+//
+//    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<FollowEntity> follows;
 
     public User convertToDomain(){
         return User.builder()

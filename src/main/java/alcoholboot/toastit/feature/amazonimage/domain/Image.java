@@ -1,6 +1,6 @@
 package alcoholboot.toastit.feature.amazonimage.domain;
 
-import alcoholboot.toastit.global.Entity.AuditingFields;
+import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "image")
-public class Image extends AuditingFields {
+public class Image extends JpaAuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,9 +33,5 @@ public class Image extends AuditingFields {
 
     @Column(name = "image_use")
     private String imageUse;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
 
 }

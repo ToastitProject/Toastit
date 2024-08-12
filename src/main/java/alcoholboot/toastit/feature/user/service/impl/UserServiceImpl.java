@@ -3,10 +3,13 @@ package alcoholboot.toastit.feature.user.service.impl;
 import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
+import alcoholboot.toastit.feature.user.exception.EmailVerificationException;
 import alcoholboot.toastit.feature.user.repository.UserRepository;
 import alcoholboot.toastit.feature.user.service.UserService;
 import alcoholboot.toastit.feature.user.service.VerificationService;
 import alcoholboot.toastit.feature.user.util.RandomNickname;
+import alcoholboot.toastit.global.response.code.CommonExceptionCode;
+import alcoholboot.toastit.global.response.exception.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,12 +30,12 @@ public class UserServiceImpl implements UserService {
     public void save(UserJoinRequest userJoinDto) {
         // 이메일 중복 체크
         if (findByEmail(userJoinDto.getEmail()).isPresent()) {
-            log.info("");
+            throw new CustomException(CommonExceptionCode.EXIST_EMAIL_ERROR);
         }
 
         // 이메일 인증번호 체크
         if (!verificationService.verifyCode(userJoinDto.getEmail(), userJoinDto.getAuthCode())) {
-            log.info("");
+            throw new EmailVerificationException(CommonExceptionCode.NOT_MATCH_AUTH_CODE);
         }
 
         User user = userJoinDto.toDomain();
