@@ -3,16 +3,11 @@ package alcoholboot.toastit.feature.user.controller;
 import alcoholboot.toastit.auth.jwt.domain.Token;
 import alcoholboot.toastit.auth.jwt.service.TokenService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
-import alcoholboot.toastit.feature.user.controller.request.EmailCheckRequest;
-import alcoholboot.toastit.feature.user.controller.request.EmailSendRequest;
 import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
 import alcoholboot.toastit.feature.user.controller.request.UserLoginRequest;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.exception.EmailVerificationException;
-import alcoholboot.toastit.feature.user.service.EmailService;
 import alcoholboot.toastit.feature.user.service.UserService;
-import alcoholboot.toastit.feature.user.service.VerificationService;
-import alcoholboot.toastit.feature.user.util.RandomAuthCode;
 import alcoholboot.toastit.global.response.code.CommonExceptionCode;
 import alcoholboot.toastit.global.response.exception.CustomException;
 import jakarta.servlet.http.Cookie;
@@ -34,8 +29,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
     private final TokenService tokenService;
-    private final EmailService emailService;
-    private final VerificationService verificationService;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
@@ -43,7 +36,7 @@ public class UserController {
     @GetMapping("/login")
     public String showLoginPage(Model model) {
         model.addAttribute("userLoginRequest", new UserLoginRequest());
-        return "/main/user/loginForm";
+        return "/feature/user/loginForm";
     }
 
     @PostMapping("/login")
@@ -54,7 +47,8 @@ public class UserController {
 
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
-            return "/main/user/loginForm";
+            bindingResult.getAllErrors().forEach(error -> log.error("Validation error: {}", error.getDefaultMessage()));
+            return "/feature/user/loginForm";
         }
 
         User user = userService.findByEmail(userLoginDto.getEmail())
@@ -97,7 +91,9 @@ public class UserController {
 
         model.addAttribute("user", user);
 
-        return "redirect:/mainForm";
+        log.info("홈페이지로 이동!");
+
+        return "redirect:/";
     }
 
     @DeleteMapping("/logout")
@@ -123,72 +119,40 @@ public class UserController {
 
         // tokens 데이터 삭제
         tokenService.deleteByAccessToken(accessToken);
-        return "redirect:/";
+
+        return "redirect:/feature/mainForm";
     }
 
     @GetMapping("/join")
     public String showJoinPage(Model model) {
         model.addAttribute("userJoinRequest", new UserJoinRequest());
-        return "/main/user/joinForm";
+
+        log.info("회원가입 폼 반환");
+
+        return "/feature/user/joinForm";
     }
 
     @PostMapping("/join")
     public String join(@ModelAttribute @Valid UserJoinRequest userJoinDto, BindingResult bindingResult, Model model) {
-        // 필드 에러 확인
+        // Model에 있는 모든 값 출력
+//        log.info("Model Attributes:");
+//        for (Map.Entry<String, Object> entry : model.asMap().entrySet()) {
+//            log.info("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+//        }
+
         if (bindingResult.hasErrors()) {
-            return "/main/user/joinForm";
+            bindingResult.getAllErrors().forEach(error -> log.error("Validation error: {}", error.getDefaultMessage()));
+            return "/feature/user/joinForm";
         }
 
         try {
+            log.info("유저 저장 시작! 이메일: {}, 인증코드: {}", userJoinDto.getEmail(), userJoinDto.getAuthCode());
             userService.save(userJoinDto);
         } catch (EmailVerificationException e) {
             model.addAttribute("error", e.getMessage());
-            return "/main/user/joinForm";
+            return "/feature/user/joinForm";
         }
 
-        return "redirect:/main/user/loginForm";
-    }
-
-    /**
-     * 인증번호 발송 메소드
-     */
-    @PostMapping("/authEmail")
-    public String sendAuthEmail(@ModelAttribute @Valid EmailSendRequest emailSendDto, BindingResult bindingResult, Model model) {
-        // 필드 에러 확인
-        if (bindingResult.hasErrors()) {
-            return "/main/user/joinForm";
-        }
-
-        // 랜덤 인증 코드 생성
-        String authCode = RandomAuthCode.generate();
-
-        // redis에 인증 코드 저장
-        verificationService.saveCode(emailSendDto.getEmail(), authCode);
-
-        // 메일 발송
-        emailService.sendSimpleMessage(emailSendDto.getEmail(), "[술프링부트] 이메일 인증번호 발송드립니다.", authCode);
-        model.addAttribute("sendEmail Message", "인증 메일이 발송되었습니다.");
-
-        return "/main/user/joinForm";
-    }
-
-    /**
-     * 인증번호 검증 메소드
-     */
-    @GetMapping("/authEmail")
-    public String checkAuthEmail(@ModelAttribute @Valid EmailCheckRequest emailCheckDto, BindingResult bindingResult, Model model) {
-        // 필드 에러 확인
-        if (bindingResult.hasErrors()) {
-            return "/user/joinForm";
-        }
-
-        // redis에 저장된 인증번호와 비교하여 확인
-        if (!verificationService.verifyCode(emailCheckDto.getEmail(), emailCheckDto.getAuthCode())) {
-            model.addAttribute("authCodeMismatchMessage", CommonExceptionCode.NOT_MATCH_AUTH_CODE.getData());
-            return "/main/user/joinForm";
-        }
-
-        model.addAttribute("verifiedEmailMessage", "인증이 완료되었습니다.");
-        return "/main/user/joinForm";
+        return "redirect:/user/login";
     }
 }

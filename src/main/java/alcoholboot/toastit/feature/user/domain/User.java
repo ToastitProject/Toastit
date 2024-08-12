@@ -1,7 +1,7 @@
 package alcoholboot.toastit.feature.user.domain;
 
 
-import alcoholboot.toastit.feature.user.entity.FollowEntity;
+//import alcoholboot.toastit.feature.user.entity.FollowEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.type.Authority;
 import lombok.*;
@@ -25,9 +25,9 @@ public class User {
 
     private Authority authority;
 
-    private List<Like> likes;
-
-    private List<Follow> follows;
+//    private List<Like> likes;
+//
+//    private List<Follow> follows;
 
     public UserEntity convertToEntity(){
         return UserEntity.builder()

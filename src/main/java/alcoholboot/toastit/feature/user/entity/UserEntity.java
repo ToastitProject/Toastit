@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserEntity extends JpaAuditingFields {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -35,14 +35,14 @@ public class UserEntity extends JpaAuditingFields {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Image> images;
+//    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL,orphanRemoval = true)
+//    private List<Image> images;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeEntity> likes;
-
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FollowEntity> follows;
+//    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<LikeEntity> likes;
+//
+//    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<FollowEntity> follows;
 
     public User convertToDomain(){
         return User.builder()
