@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.categorysearch.entity;
+package alcoholboot.toastit.feature.categorysearch.repository.entity;
 
 import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
 import jakarta.persistence.Column;
