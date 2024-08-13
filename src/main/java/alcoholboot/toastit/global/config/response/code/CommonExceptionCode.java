@@ -33,16 +33,18 @@ public enum CommonExceptionCode implements ResponseCode {
     /**
      * Token Error
      */
-    // TOKEN 만료
+    // 토큰 만료
     JWT_EXPIRED_ERROR(401, HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
-    // Token 오류
+    // 잘못된 형식
     JWT_INVALID_ERROR(401, HttpStatus.UNAUTHORIZED, "토큰이 유효하지 않습니다."),
-    // 토큰 오류
+    // 토큰 미존재
     JWT_UNKNOWN_ERROR(401, HttpStatus.UNAUTHORIZED, "토큰이 존재하지 않습니다."),
     // 변조된 토큰
     JWT_UNSUPPORTED_ERROR(401, HttpStatus.UNAUTHORIZED, "변조된 토큰입니다."),
     // 알 수 없는 오류
     JWT_INTERNAL_ERROR(401, HttpStatus.UNAUTHORIZED, "알 수 없는 오류가 발생했습니다."),
+    // JWT 해독 오류 (토큰의 내용이 손상되었거나 읽을 수 없음)
+    JWT_DECRYPTION_ERROR(401, HttpStatus.UNAUTHORIZED, "토큰을 해독할 수 없습니다."),
 
     /**
      * User Error
@@ -73,6 +75,10 @@ public enum CommonExceptionCode implements ResponseCode {
     REQUEST_TIMEOUT(408, HttpStatus.REQUEST_TIMEOUT, "요청 시간이 초과되었습니다"),
     // 415
     UNSUPPORTED_MEDIA_TYPE(415, HttpStatus.UNSUPPORTED_MEDIA_TYPE, "지원되지 않는 미디어 타입입니다"),
+    // 401
+    TIMEOUT_LOGOUT(401, HttpStatus.UNAUTHORIZED, "일정 시간 동안 활동이 없어 로그아웃되었습니다. 계속하려면 다시 로그인해주세요."),
+    // 403
+    MEMBER_SIGNUP_REQUIRED(403, HttpStatus.FORBIDDEN, "아직 회원이 아니신가요? 회원가입 후 이용해주세요."),
 
     /**
      * 5** Server Error

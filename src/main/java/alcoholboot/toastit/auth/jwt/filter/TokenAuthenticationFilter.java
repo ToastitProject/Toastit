@@ -5,6 +5,8 @@ import alcoholboot.toastit.auth.jwt.service.TokenRenewalService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
 import alcoholboot.toastit.auth.jwt.token.JwtAuthenticationToken;
 import alcoholboot.toastit.feature.user.type.Authority;
+import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
+import alcoholboot.toastit.global.config.response.exception.CustomException;
 import com.amazonaws.services.kms.model.NotFoundException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -49,36 +51,49 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = getToken(request, "accessToken"); // 요청에서 액세스 토큰 추출
+        // 요청에서 액세스 토큰 추출
+        String accessToken = getToken(request, "accessToken");
 
         if (StringUtils.hasText(accessToken)) {
             try {
+                log.info("[AUTH START] : " + accessToken);
                 getAuthentication(accessToken); // 토큰을 사용하여 인증 요청
             } catch (ExpiredJwtException ea) {
-                log.info("액세스 토큰이 만료되었습니다. 토큰 재발행을 실행합니다");
+                log.warn("[TOKEN EXPIRED] - 액세스 토큰이 만료되었습니다.");
 
-                String refreshToken = getToken(request, "refreshToken"); // 요청에서 리프레쉬 토큰 추출
+                // 요청에서 리프레쉬 토큰 추출
+                String refreshToken = getToken(request, "refreshToken");
+
+                log.info("토큰 재발행을 시도합니다." + refreshToken);
 
                 if (refreshToken == null) {
-                    log.info("요청에서 리프레쉬 토큰을 찾을 수 없습니다. 다시 로그인 해주세요.");
+                    log.error("[TOKEN MISSING] - " + CommonExceptionCode.JWT_UNKNOWN_ERROR.getData());
+                    throw new CustomException(CommonExceptionCode.TIMEOUT_LOGOUT);
                 } else {
                     try {
-                        tokenRenewalService.refreshAccessToken(response, refreshToken);
+                        String newAccessToken = tokenRenewalService.refreshAccessToken(response, refreshToken);
+
+                        log.info("[AUTH START] : " + newAccessToken);
                         getAuthentication(accessToken);
                     } catch (ExpiredJwtException er) {
-                        log.info("요청에서 리프레쉬 토큰을 찾을 수 없습니다. 다시 로그인 해주세요.");
+                        log.error("[TOKEN EXPIRED] - " + CommonExceptionCode.JWT_EXPIRED_ERROR.getData());
+                        throw new CustomException(CommonExceptionCode.TIMEOUT_LOGOUT);
                     } catch (NotFoundException en) {
-                        log.info("해당 ID에 해당하는 회원 정보를 찾을 수 없습니다.");
+                        log.error("[NOT_FOUND] - " + CommonExceptionCode.NOT_FOUND.getData());
+                        throw new CustomException(CommonExceptionCode.TIMEOUT_LOGOUT);
                     }
                 }
             } catch (UnsupportedJwtException e) {
-                log.info("Unsupported token: {}", e.getMessage());
+                log.error("[UNSUPPORTED TOKEN] - " + CommonExceptionCode.JWT_UNSUPPORTED_ERROR.getData());
+                throw new CustomException(CommonExceptionCode.TIMEOUT_LOGOUT);
             } catch (MalformedJwtException e) {
-                log.info("Invalid token: {}", e.getMessage());
+                log.error("[INVALID TOKEN] - " + CommonExceptionCode.JWT_INVALID_ERROR.getData());
+                throw new CustomException(CommonExceptionCode.TIMEOUT_LOGOUT);
             } catch (IllegalArgumentException e) {
-                log.info("Illegal argument: {}", e.getMessage());
+                log.error("[TOKEN DECRYPTION ERROR] - " + CommonExceptionCode.JWT_DECRYPTION_ERROR.getData());
             } catch (Exception e) {
-                log.info("Internal error: {}", e.getMessage());
+                log.error("[INTERNAL ERROR] - " + CommonExceptionCode.JWT_INTERNAL_ERROR.getData());
+                throw new CustomException(CommonExceptionCode.TIMEOUT_LOGOUT);
             }
         }
 
@@ -126,14 +141,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
      * @return JWT 토큰
      */
     private String getToken(HttpServletRequest request, String tokenName) {
-        Cookie[] cookies = request.getCookies(); // 요청에서 쿠키 추출
+        // 요청에서 쿠키 추출
+        Cookie[] cookies = request.getCookies();
 
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (tokenName.equals(cookie.getName())) {
-                    return cookie.getValue(); // accessToken 쿠키에서 토큰 반환
-                } else if (tokenName.equals(cookie.getName())) {
-                    return cookie.getValue(); // refreshToken 쿠키에서 토큰 반환
+                    return cookie.getValue(); // 쿠키에서 토큰 반환
                 }
             }
         }
