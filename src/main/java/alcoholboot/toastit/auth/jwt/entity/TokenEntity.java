@@ -35,16 +35,16 @@ public class TokenEntity extends JpaAuditingFields {
     private UserEntity userEntity;
 
     /**
-     * 사용자의 액세스 토큰이며, 값은 필수이고, 최대 길이는 300자이다.
+     * 사용자의 액세스 토큰이며, 값은 필수이고, 최대 길이는 500자이다.
      */
     @Setter
-    @Column(nullable = false, length = 300)
+    @Column(nullable = false, length = 500)
     private String accessToken;
 
     /**
-     * 사용자의 리프레시 토큰이며, 이 필드는 필수이고, 최대 길이는 300자이다.
+     * 사용자의 리프레시 토큰이며, 이 필드는 필수이고, 최대 길이는 500자이다.
      */
-    @Column(nullable = false, length = 300)
+    @Column(nullable = false, length = 500)
     private String refreshToken;
 
     /**
