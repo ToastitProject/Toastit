@@ -7,7 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 사용자 인증 및 권한 관리를 위한 사용자 세부 정보 클래스
+ * {@link UserDetails} 인터페이스를 구현한 클래스
+ * 사용자 인증 및 권한 관리를 위한 사용자 세부 정보를 제공한다.
  */
 public class CustomUserDetails implements UserDetails {
     private final String email;  // 사용자 이름

@@ -29,7 +29,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     /**
      * 인증되지 않은 토큰을 생성하는 생성자
-     *
+     * @deprecated 사용 미계획 생성자
      * @param token JWT 토큰
      */
     public JwtAuthenticationToken(String token) {

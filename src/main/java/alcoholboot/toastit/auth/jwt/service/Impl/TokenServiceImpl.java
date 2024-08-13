@@ -4,14 +4,18 @@ import alcoholboot.toastit.auth.jwt.domain.Token;
 import alcoholboot.toastit.auth.jwt.entity.TokenEntity;
 import alcoholboot.toastit.auth.jwt.repository.TokenRepository;
 import alcoholboot.toastit.auth.jwt.service.TokenService;
+import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import com.amazonaws.services.kms.model.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.OptionalInt;
 
+/**
+ * {@link TokenService} 인터페이스 구현 클래스
+ * JWT 토큰을 관리하는 다양한 메서드를 제공
+ */
 @Service
 @RequiredArgsConstructor
 public class TokenServiceImpl implements TokenService {
@@ -54,7 +58,7 @@ public class TokenServiceImpl implements TokenService {
     @Transactional
     public void updateByRefreshToken(String refreshToken, String accessToken) {
         Token token = tokenRepository.findByRefreshToken(refreshToken)
-                .orElseThrow(() -> new NotFoundException("")).convertToDomain();
+                .orElseThrow(() -> new NotFoundException(CommonExceptionCode.JWT_UNKNOWN_ERROR.getData())).convertToDomain();
 
         token.setAccessToken(accessToken);
         tokenRepository.save(token.convertToEntity());
