@@ -24,6 +24,7 @@ public class Cocktail {
     private List<String> strIngredients;
     private List<String> strMeasures;
     private String strInstructions;
+    private Integer likeCount; // 좋아요 갯수를 저장하는 필드 추가
 
     // 아직 엔티티와 도메인의 변환을 사용하지 않음. 사용법 고안해야 함
     public CocktailEntity convertToEntity() {
@@ -36,6 +37,7 @@ public class Cocktail {
                 .strIngredients(this.strIngredients)
                 .strMeasures(this.strMeasures)
                 .strInstructions(this.strInstructions)
+                .likeCount(this.likeCount)
                 .build();
 
     }
