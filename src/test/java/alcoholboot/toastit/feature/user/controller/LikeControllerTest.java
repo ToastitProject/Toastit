@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -57,14 +56,13 @@ public class LikeControllerTest {
 
     @Test
     void testLike_AddLike() {
-        // Mocking security context and authentication
+
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
 
         String userEmail = "testuser@example.com";
         when(authentication.getName()).thenReturn(userEmail);
 
-        // Setting up mock user, cocktail and like objects
         UserEntity mockUserEntity = new UserEntity();
         mockUserEntity.setId(1L); // Long 타입으로 설정
         User mockUser = mockUserEntity.convertToDomain(); // UserEntity를 User 도메인 객체로 변환
@@ -77,30 +75,29 @@ public class LikeControllerTest {
         mockLikeEntity.setUser(mockUserEntity);
         mockLikeEntity.setCocktail(mockCocktailEntity);
 
-        Like mockLike = mockLikeEntity.convertToDomain(); // LikeEntity를 Like 도메인 객체로 변환
 
         when(userService.findByEmail(userEmail)).thenReturn(Optional.of(mockUser));
         when(cocktailService.getCocktailById(cocktailId.toHexString())).thenReturn(Optional.of(mockCocktailEntity));
         when(likeService.findByUserIdAndCocktailId(mockUser.getId(), cocktailId)).thenReturn(Optional.empty());
 
-        // Perform the test
+
         String result = likeController.like(cocktailId.toHexString());
 
-        // Verify the behaviors
+
         verify(likeService, times(1)).save(any(Like.class));
         assertEquals("redirect:/feature/user/mypage", result);
     }
 
     @Test
     void testLike_RemoveLike() {
-        // Mocking security context and authentication
+
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
 
         String userEmail = "testuser@example.com";
         when(authentication.getName()).thenReturn(userEmail);
 
-        // Setting up mock user, cocktail and like objects
+
         UserEntity mockUserEntity = new UserEntity();
         mockUserEntity.setId(1L); // Long 타입으로 설정
         User mockUser = mockUserEntity.convertToDomain(); // UserEntity를 User 도메인 객체로 변환
