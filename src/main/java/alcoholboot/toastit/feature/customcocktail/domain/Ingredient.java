@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.custom.domain;
+package alcoholboot.toastit.feature.customcocktail.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

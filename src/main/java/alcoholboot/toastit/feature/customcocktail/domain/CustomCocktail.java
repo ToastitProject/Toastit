@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.custom.domain;
+package alcoholboot.toastit.feature.customcocktail.domain;
 
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.global.Entity.JpaAuditingFields;

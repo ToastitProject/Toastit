@@ -1,19 +1,17 @@
-package alcoholboot.toastit.feature.custom.controller;
+package alcoholboot.toastit.feature.customcocktail.controller;
 
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.feature.amazonimage.service.S3imageUploadService;
-import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
-import alcoholboot.toastit.feature.custom.domain.CustomCocktail;
-import alcoholboot.toastit.feature.custom.domain.Ingredient;
-import alcoholboot.toastit.feature.custom.dto.CocktailDTO;
-import alcoholboot.toastit.feature.custom.service.CustomCocktailService;
+import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
+import alcoholboot.toastit.feature.customcocktail.domain.Ingredient;
+import alcoholboot.toastit.feature.customcocktail.dto.CocktailDTO;
+import alcoholboot.toastit.feature.customcocktail.service.CustomCocktailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.io.IOException;
@@ -91,6 +89,7 @@ public class CustomCocktailController {
         return "redirect:/test/custom";
     }
 
+    //게시물 세부 페이지
     @GetMapping("/custom/{id}")
     public String showCustomDetail(@PathVariable("id") Long id, Model model) {
         CustomCocktail cocktail = customCocktailService.getCocktailById(id);
