@@ -16,6 +16,7 @@ import alcoholboot.toastit.global.config.response.exception.CustomException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -309,4 +310,29 @@ public class UserController {
         return "redirect:/user/eidt";
     }
 
+    @GetMapping("/resign")
+    public String resign(Model model) {
+        log.info("회원 탈퇴 폼 접속");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Optional<User> userOptional = userService.findByEmail(email);
+        log.info("접속한 사용자의 이메일 : "+userOptional.get().getEmail());
+        model.addAttribute("user", userOptional.get().convertToEntity());
+        log.info("Model에 담긴 값 : "+ userOptional.get().convertToEntity().getNickname());
+        log.info("Model에 담긴 값 : "+ userOptional.get().convertToEntity().getCreateDate());
+        return "/feature/user/resignForm";
+    }
+
+    //회원 탈퇴 구현 진행 중
+//    @PostMapping("/resign")
+//    public String resign(HttpSession session) {
+//        log.info("회원탈퇴 postMapping 요청이 옴");
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String email = authentication.getName();
+//        String accessToken = session.getAttribute("accessToken").toString();
+//        log.info("접속한 사용자의 이메일 : "+email);
+//        tokenService.deleteByAccessToken(accessToken);
+//        userService.deleteByEmail(email);
+//        return "redirect:/";
+//    }
 }

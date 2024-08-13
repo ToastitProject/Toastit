@@ -13,4 +13,5 @@ public interface UserService {
     Optional<User> findById(Long id);
     Optional<User> findByNickname(String nickname);
     void save(UserEntity user);
+    void deleteByEmail(String email);
 }
