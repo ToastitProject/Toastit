@@ -1,6 +1,6 @@
-package alcoholboot.toastit.global.response.handler;
+package alcoholboot.toastit.global.config.response.handler;
 
-import alcoholboot.toastit.global.response.exception.CustomException;
+import alcoholboot.toastit.global.config.response.exception.CustomException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,4 +1,4 @@
-package alcoholboot.toastit.global.response.code;
+package alcoholboot.toastit.global.config.response.code;
 
 import org.springframework.http.HttpStatus;
 

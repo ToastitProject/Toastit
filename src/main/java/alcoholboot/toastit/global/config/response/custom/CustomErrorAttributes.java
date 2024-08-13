@@ -1,4 +1,4 @@
-package alcoholboot.toastit.global.response.custom;
+package alcoholboot.toastit.global.config.response.custom;
 
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;

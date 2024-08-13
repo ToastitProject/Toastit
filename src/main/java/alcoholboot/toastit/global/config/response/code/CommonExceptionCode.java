@@ -1,4 +1,4 @@
-package alcoholboot.toastit.global.response.code;
+package alcoholboot.toastit.global.config.response.code;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
