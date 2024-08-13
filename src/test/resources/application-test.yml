@@ -1,0 +1,73 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+    #  web:
+    #    resources:
+    #      add-mappings: false  # 정적 리소스 매핑을 비활성화하는 설정
+
+  mongodb:
+    embedded:
+      version: 4.0.21
+
+  datasource:
+    url: ${TEST_MYSQL_URL}
+    username: ${TEST_MYSQL_USERNAME}
+    password: ${TEST_MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data:
+    redis:
+      host: ${TEST_REDIS_HOST}
+      port: ${TEST_REDIS_PORT}
+      password: ${TEST_REDIS_PASSWORD}
+
+    mongodb:
+      host: ${TEST_MONGO_HOST}
+      port: ${TEST_MONGO_PORT}
+      username: ${TEST_MONGO_USERNAME}
+      password: ${TEST_MONGO_PASSWORD}
+      database: ${TEST_MONGO_DATABASE}
+      authentication-database: ${TEST_MONGO_AUTH}
+      uri: ${TEST_MONGO_URI}
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${TEST_GMAIL_USERNAME}
+    password: ${TEST_GMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+
+cloud:
+  aws:
+    credentials:
+      instance-profile: false
+      accessKey: ${TEST_AWS_ACCESS_KEY}
+      secretKey: ${TEST_AWS_SECRET_KEY}
+
+    s3:
+      bucket: ${TEST_AWS_BUCKET_NAME}
+
+    region:
+      static: ${TEST_AWS_STATIC_NAME}
+      auto: false
+
+file:
+# cloudfront-path: ${TEST_FILE_PATH}
+
+image:
+  default-profile-path: ${TEST_USER_PROFILE_PATH}
+
+jwt:
+  accessSecret: ${TEST_JWT_ACCESS_SECRET}
+  refreshSecret: ${TEST_JWT_REFRESH_SECRET}
+  accessTokenExpire: ${TEST_JWT_ACCESS_EXPIRE}
+  refreshTokenExpire: ${TEST_JWT_REFRESH_EXPIRE}

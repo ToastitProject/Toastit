@@ -38,10 +38,4 @@ out/
 
 ### env ###
 /src/main/resources/properties/env.properties
-
-
-.DS_Store
-
-/src/main/resources/application.yml
-/src/main/resources/application-dev.yml
-/src/main/resources/application-local.yml
+/src/test/resources/properties/test-env.properties

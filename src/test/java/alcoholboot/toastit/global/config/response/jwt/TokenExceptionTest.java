@@ -1,4 +1,4 @@
-package alcoholboot.toastit.global.response.custom;
+package alcoholboot.toastit.auth.jwt;
 
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import alcoholboot.toastit.global.config.response.exception.CustomException;
@@ -8,12 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/test")
-public class CustomExceptionTest {
-
-    @GetMapping("/error-test")
-    public void testError() {
-        throw new CustomException(CommonExceptionCode.NOT_FOUND);
-    }
+public class TokenExceptionTest {
 
     @GetMapping("/expired-token")
     public void expiredToken() {

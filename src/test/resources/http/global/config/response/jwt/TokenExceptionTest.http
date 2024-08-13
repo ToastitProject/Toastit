@@ -12,9 +12,3 @@ GET http://localhost:8080/test/exception1
 
 ###exception2
 GET http://localhost:8080/test/exception2
-
-
-
-
-
-
