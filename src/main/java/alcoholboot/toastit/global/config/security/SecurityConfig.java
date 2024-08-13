@@ -37,7 +37,9 @@ public class SecurityConfig {
             "/image/**", // 이미지 리소스 및 API
             "/js/**", // JS 리소스
             "/css/**", // CSS 리소스
-            "/user/mypage" // 회원 정보 API
+            "/user/mypage", // 회원 정보 API
+            "/user/eidt", // 회원 정보 수정 API
+            "/user/resign", //회원 탈퇴 API
 
     };
 
