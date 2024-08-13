@@ -169,3 +169,12 @@ header {
 .hidden {
     display: none;
 }
+
+.input-password {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 600px;
+    margin-right: 10px;
+}

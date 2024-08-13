@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     @GetMapping
     public String showHomePage() {
-        log.info("리다이렉션 성공!!!");
+        log.info("술프링 부트에 오신걸 환영합니다.");
         return "index";
     }
 }

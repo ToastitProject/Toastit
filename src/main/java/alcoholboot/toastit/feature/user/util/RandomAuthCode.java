@@ -7,7 +7,7 @@ import java.security.SecureRandom;
  */
 public class RandomAuthCode {
     // 인증 코드에 사용될 문자들
-    private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyz0123456789";
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     // 인증 코드의 길이 (6자리)
     private static final int CODE_LENGTH = 6;
     // 보안 강화를 위한 SecureRandom 사용

@@ -29,11 +29,11 @@ public class EmailController {
     @PostMapping("/send")
     public ResponseEntity<String> sendAuthEmail(@RequestBody @Valid EmailSendRequest emailSendDto, BindingResult bindingResult) {
 
-        log.info("이메일 전달 받음");
+        log.info(emailSendDto.getEmail() + " 해당 이메일이 요청되었습니다.");
 
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
-            log.info("이메일 에러 발생");
+            log.error("잘못된 이메일 형식이 전달되었습니다.");
             return ResponseEntity.badRequest().body("이메일 형식이 잘못되었습니다.");
         }
 
@@ -43,12 +43,12 @@ public class EmailController {
         // redis에 인증 코드 저장
         verificationService.saveCode(emailSendDto.getEmail(), authCode);
 
-        log.info(authCode);
+        log.info("발급된 인증번호는 " + authCode + "입니다.");
 
         // 메일 발송
-        emailService.sendSimpleMessage(emailSendDto.getEmail(), "[술프링부트] 이메일 인증번호 발송드립니다.", authCode);
+        emailService.sendSimpleMessage(emailSendDto.getEmail(), "[술프링 부트] 회원가입 이메일 인증번호 발송드립니다.", "인증번호는 " + authCode + "입니다.");
 
-        log.info("이메일 발송");
+        log.info(emailSendDto.getEmail() + " 해당 이메일로 인증코드가 발송되었습니다.");
         return ResponseEntity.ok("인증 메일이 발송되었습니다.");
     }
 

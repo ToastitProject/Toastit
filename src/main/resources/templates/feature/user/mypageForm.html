@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
-    <link href="/css/fragment/navbar-fragment.css" rel="stylesheet">
+    <link th:href="@{/css/user/joinForm.css}" rel="stylesheet">
+    <title>술프링부트 - 내 정보</title>
     <style>
         body {
             font-family: 'Gmarket Sans', sans-serif;
@@ -119,29 +119,11 @@
         }
 
     </style>
-    <title>술프링부트 - 마이페이지</title>
 </head>
 <body>
-<header th:fragment="header">
-    <img src="https://toastitbucket.s3.ap-northeast-2.amazonaws.com/static/5d7e0e23-c3d6-4137-ab5e-42f5d236e672.png" alt="로고" class="logo">
-    <nav>
-        <div class="menu">
-            <a href="/recommend">추천칵테일</a>
-            <a href="/custom">커스텀칵테일</a>
-            <a href="/weather">날씨추천칵테일</a>
-        </div>
-    </nav>
-        <div class="profile">
-            <div sec:authorize="isAnonymous()">
-                <a href="#">로그인</a>
-            </div>
-            <div sec:authorize="isAuthenticated()">
-                <a href="/mypage">마이페이지</a>
-                <a href="/logout">로그아웃</a>
-            </div>
-        </div>
 
-</header>
+<div th:replace="~{/fragment/navbar-fragment :: navbarFragment}"></div>
+
 <hr class="divider">
 
 <div class="card">
@@ -152,8 +134,8 @@
         <p>닉네임: <span th:text="${user.nickname}"></span></p>
         <p>가입일: <span th:text="${user.getCreateDate()}"></span></p>
         <div class="button-container">
-            <button class="button" onclick="location.href='/user/edit'">EDIT</button>
-            <button class="button" onclick="location.href='/user/resign'">RESIGN</button>
+            <button class="button" th:onclick="|location.href='@{/user/edit}'|">EDIT</button>
+            <button class="button" th:onclick="|location.href='@{/user/resign}'|">RESIGN</button>
         </div>
     </div>
 

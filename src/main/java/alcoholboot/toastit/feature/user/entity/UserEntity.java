@@ -37,7 +37,7 @@ public class UserEntity extends JpaAuditingFields {
     private Authority authority;
 
     @Column(nullable = false)
-    private String profileImageUrl = "https://toastitbucket.s3.ap-northeast-2.amazonaws.com/static/default.png";
+    private String profileImageUrl;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
@@ -60,5 +60,4 @@ public class UserEntity extends JpaAuditingFields {
                 .createDate(this.createDate)
                 .build();
     }
-
 }

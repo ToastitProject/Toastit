@@ -32,6 +32,12 @@ public class User {
 
     private LocalDateTime createDate;
 
+    public void update(String nickname, String password, String profileImageUrl) {
+        this.nickname = nickname;
+        this.password = password;
+        this.profileImageUrl = profileImageUrl;
+    }
+
     public UserEntity convertToEntity(){
         return UserEntity.builder()
                 .id(this.id)
