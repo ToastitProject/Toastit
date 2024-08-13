@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
-      lang="ko">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,23 +15,37 @@
         }
         .container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center; /* 중앙 정렬 */
+            flex-direction: column; /* 세로 방향으로 버튼 배치 */
             padding: 0 20px; /* 양쪽 공백 추가 */
-            position: relative; /* 버튼을 올바르게 위치시키기 위한 설정 */
+        }
+        .write-button {
+            background-color: white;
+            border: 2px solid #FFA832; /* 테두리 색상 */
+            border-radius: 25px; /* 둥근 모서리 */
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #FFA832;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 20px; /* 버튼과 게시물 사이의 간격 */
+            max-width: 200px; /* 최대 너비 설정 */
+        }
+        .posts {
+            display: flex;
+            flex-wrap: wrap; /* 여러 줄로 배치 */
+            justify-content: flex-start; /* 왼쪽 정렬 */
         }
         .post {
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin: 30px; /* 게시물 사이 공백 최소화 */
+            margin: 15px; /* 게시물 사이 공백 최소화 */
             padding: 15px;
-            width: calc(33.333% - 10px); /* 3개 가로 배치 */
+            width: calc(33.333% - 30px); /* 3개 가로 배치 - 마진 고려 */
             box-sizing: border-box;
             max-width: 300px; /* 최대 너비 설정 */
             text-decoration: none; /* 링크의 기본 텍스트 꾸미기 제거 */
             color: inherit; /* 텍스트 색상 상속 */
-            position: relative; /* 버튼을 올바르게 위치시키기 위한 설정 */
         }
         .post img {
             width: 100%;
@@ -51,23 +63,9 @@
             font-weight: bold;
             margin: 10px 0;
         }
-        .write-button {
-            position: absolute; /* 부모 요소 내에서 위치를 절대적으로 설정 */
-            top: 20px; /* 부모 요소의 상단에서 20px 떨어진 위치 */
-            left: 20px; /* 부모 요소의 왼쪽에서 20px 떨어진 위치 */
-            background-color: white;
-            border: 2px solid #FFA832; /* 테두리 색상 */
-            border-radius: 25px; /* 둥근 모서리 */
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #FFA832;
-            text-align: center;
-            text-decoration: none;
-            z-index: 1000; /* 다른 요소들 위에 위치 */
-        }
         @media (max-width: 768px) {
             .post {
-                width: calc(50% - 10px); /* 2개 가로 배치 */
+                width: calc(50% - 30px); /* 2개 가로 배치 */
             }
         }
         @media (max-width: 480px) {
@@ -83,15 +81,19 @@
 <hr class="divider">
 
 <div class="container">
-    <!-- 글쓰기 버튼을 칵테일 목록의 왼쪽 위에 배치 -->
     <a href="/test/custom/write" class="write-button">글쓰기</a>
-
-    <!-- 칵테일 목록 -->
-    <div th:each="cocktail : ${cocktails}" class="post" th:href="@{/detail/{id}(id=${cocktail.id})}">
-        <img th:src="@{${cocktail.image.path}}" alt="칵테일 이미지">
-        <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
-        <div class="nickname">작성자 정보</div>
+    <div class="posts">
+        <a th:each="cocktail : ${cocktails}" th:href="@{/test/custom/{id}(id=${cocktail.id})}" class="post" style="text-decoration: none; color: inherit;">
+            <!-- 이미지가 있을 경우 첫 번째 이미지를 표시 -->
+            <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
+            <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
+            <div class="nickname">
+                작성자 정보 - <span th:text="${cocktail.createDate}">작성일자</span>
+            </div>
+        </a>
     </div>
 </div>
+
+
 </body>
 </html>

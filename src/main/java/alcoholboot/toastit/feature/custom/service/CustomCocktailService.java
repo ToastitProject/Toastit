@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import java.util.Optional;
+
 @Service
 public class CustomCocktailService {
 
@@ -27,4 +29,10 @@ public class CustomCocktailService {
     public void saveCocktail(CustomCocktail customCocktail) {
         customCocktailRepository.save(customCocktail);
     }
+
+    public CustomCocktail getCocktailById(Long id) {
+        Optional<CustomCocktail> cocktail = customCocktailRepository.findById(id);
+        return cocktail.orElseThrow(() -> new RuntimeException("Cocktail not found"));
+    }
 }
+

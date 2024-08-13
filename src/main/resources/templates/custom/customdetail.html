@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
+  <link href="/css/fragment/navbar-fragment.css" rel="stylesheet">
+  <title>Custom Detail</title>
+  <style>
+    body {
+      font-family: 'Gmarket Sans', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container, .container1, .container2 {
+      display: flex;
+      max-width: 800px;
+      margin: 50px auto 0;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: relative; /* For positioning the title absolutely */
+    }
+
+    .container1, .container2 {
+      display: block;
+    }
+
+    .drink-image {
+      width: 50%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 20px;
+    }
+    .drink-info {
+      width: 50%;
+    }
+    .drink-name {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .drink-description {
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 20px;
+      background-color: #f0f0f0;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .ingredient-list {
+      margin-bottom: 20px;
+    }
+    .ingredient-list li {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #FFA832;
+      background-color: white; /* To make sure title is readable */
+      padding: 10px;
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: calc(100% - 40px);
+      text-align: center;
+    }
+
+    .container1, .container2 {
+      padding-top: 40px; /* Add space at the top for the title */
+    }
+  </style>
+</head>
+<body>
+<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
+
+<div class="container">
+  <img th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지" class="drink-image">
+  <div class="drink-info">
+    <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
+    <div class="drink-description" th:text="${cocktail.description}">칵테일 설명</div>
+  </div>
+</div>
+
+<div class="container1">
+  <div class="section-title">재료</div>
+  <ul class="ingredient-list">
+    <li th:each="ingredient : ${cocktail.ingredients}">
+      <span th:text="${ingredient.name}">재료명</span> -
+      <span th:text="${ingredient.amount}">양</span>
+      <span th:text="${ingredient.unit}">단위</span>
+    </li>
+  </ul>
+</div>
+
+<div class="container2">
+  <div class="section-title">레시피</div>
+  <div class="instructions" th:text="${cocktail.recipe}">조리 방법</div>
+</div>
+
+</body>
+</html>
