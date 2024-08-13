@@ -37,6 +37,4 @@ public class LikeEntity extends JpaAuditingFields {
                 .build();
 
     }
-
-
 }
