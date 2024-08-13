@@ -1,6 +1,6 @@
-package alcoholboot.toastit.global.response.exception;
+package alcoholboot.toastit.global.config.response.exception;
 
-import alcoholboot.toastit.global.response.code.CommonExceptionCode;
+import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 
 public class CustomException extends RuntimeException {
     private final CommonExceptionCode commonExceptionCode;
