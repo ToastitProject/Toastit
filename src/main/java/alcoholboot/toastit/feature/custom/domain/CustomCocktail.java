@@ -32,22 +32,12 @@ public class CustomCocktail extends JpaAuditingFields {
     @Column(name = "recipe", nullable = false)
     private String recipe;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_id")
-    private Image image;
+    @OneToMany(mappedBy = "cocktail",cascade = CascadeType.ALL)
+    private List<Image> images = new ArrayList<>();
 
-    @Column(name = "image_url") // 이미지 URL 필드 추가
-    private String imageUrl;
-
-    @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients = new ArrayList<>();
 
-    public void setImage(Image image, String imageUse) {
-        this.image = image;
-        if (image != null) {
-            image.setImageUse(imageUse);
-        }
-    }
 
     public void addIngredient(Ingredient ingredient) {
         ingredients.add(ingredient);
