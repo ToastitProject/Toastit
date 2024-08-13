@@ -1,7 +1,6 @@
-package alcoholboot.toastit.global.config.response.custom;
+package alcoholboot.toastit.global.config.response.exception;
 
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
-import alcoholboot.toastit.global.config.response.exception.CustomException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,14 +1,14 @@
-###success1
-GET http://localhost:8080/test/success1
+### expiredToken
+GET http://localhost:8080/test/expired-token
 
-###success2
-GET http://localhost:8080/test/success2
+### unsupportedToken
+GET http://localhost:8080/test/unsupported-token
 
-###success3
-GET http://localhost:8080/test/success3
+### invalidToken
+GET http://localhost:8080/test/invalid-token
 
-###exception1
-GET http://localhost:8080/test/exception1
+### illegal-argument
+GET http://localhost:8080/test/illegal-argument
 
-###exception2
-GET http://localhost:8080/test/exception2
+### internalError
+GET http://localhost:8080/test/internal-error

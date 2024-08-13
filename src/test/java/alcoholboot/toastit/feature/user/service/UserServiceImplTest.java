@@ -4,14 +4,17 @@ import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.repository.UserRepository;
 import alcoholboot.toastit.feature.user.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
+@ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
 
     @Mock
@@ -20,9 +23,12 @@ public class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    public UserServiceImplTest() {
-        MockitoAnnotations.openMocks(this);
-    }
+    /**
+     * @ExtendWith(MockitoExtension.class) 로 해결
+     */
+//    public UserServiceImplTest() {
+//        MockitoAnnotations.openMocks(this);
+//    }
 
     @Test
     public void testSave() {
@@ -39,6 +45,5 @@ public class UserServiceImplTest {
         verify(userRepository).save(userEntityCaptor.capture());
         UserEntity savedUserEntity = userEntityCaptor.getValue();
         assertEquals("testuser", savedUserEntity.getNickname());
-
     }
 }

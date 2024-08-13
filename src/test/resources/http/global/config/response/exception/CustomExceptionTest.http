@@ -1,0 +1,5 @@
+### timeoutLogout
+GET http://localhost:8080/test/TIMEOUT_LOGOUT
+
+### memberSignupRequired
+GET http://localhost:8080/test/MEMBER_SIGNUP_REQUIRED

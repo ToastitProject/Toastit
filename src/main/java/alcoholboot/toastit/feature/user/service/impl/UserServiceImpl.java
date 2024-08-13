@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private final RandomNickname randomNickname;
     private final VerificationService verificationService;
 
-    @Value("${image.defaultProfile-path}")
+    @Value("${image.default-profile-path}")
     private String defaultProfileImg;
 
     @Transactional
@@ -49,8 +49,7 @@ public class UserServiceImpl implements UserService {
         // 비밀번호 암호화
         String encryptedPassword = encryptPassword(userJoinDto.getPassword());
 
-        user.setPassword(encryptedPassword);
-        user.setNickname(getUniqueNickname());
+        user.update(getUniqueNickname(), encryptedPassword, defaultProfileImg);
 
         userRepository.save(user.convertToEntity());
     }

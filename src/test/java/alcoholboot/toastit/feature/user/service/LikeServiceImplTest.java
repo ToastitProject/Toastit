@@ -33,7 +33,6 @@ public class LikeServiceImplTest {
 
     @BeforeEach
     void setUp() {
-
         like = mock(Like.class);
         likeEntity = new LikeEntity();
         likeEntity.setUser(new User().convertToEntity()); // User 객체 설정
@@ -82,5 +81,5 @@ public class LikeServiceImplTest {
         //user id 와 cocktail id 가 존재하지 않으면 LikeEntity 를 반환하지 않음 확인.
 
     }
-  
+
 }

@@ -1,4 +1,4 @@
-package alcoholboot.toastit.auth.jwt;
+package alcoholboot.toastit.global.config.response.jwt;
 
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import alcoholboot.toastit.global.config.response.exception.CustomException;
