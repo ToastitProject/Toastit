@@ -19,10 +19,10 @@ public enum CommonExceptionCode implements ResponseCode {
     IMAGE_ERROR(400, HttpStatus.BAD_REQUEST, "이미지 업로드 에러"),
 
     // 파일 못찾는 경우 ex) null
-    IMAGE_NOT_FOUND(400, HttpStatus.BAD_REQUEST, "이미지를 찾을 수 없습니다"),
+    IMAGE_NOT_FOUND(400, HttpStatus.BAD_REQUEST, "이미지를 찾을 수 없습니다."),
 
     // 파일 형식을 지키지 않은 경우
-    IMAGE_FORMAT_ERROR(400, HttpStatus.BAD_REQUEST, "이미지 형식이 올바르지 않습니다"),
+    IMAGE_FORMAT_ERROR(400, HttpStatus.BAD_REQUEST, "이미지 형식이 올바르지 않습니다."),
 
     // 이미지 리사이즈 실패
     IMAGE_RESIZE_ERROR(400, HttpStatus.BAD_REQUEST, "이미지 업로드 에러"),
@@ -64,17 +64,17 @@ public enum CommonExceptionCode implements ResponseCode {
      * 4** client
      */
     // 400
-    BAD_REQUEST(400, HttpStatus.BAD_REQUEST, "잘못된 매개 변수가 포함됨"),
+    BAD_REQUEST(400, HttpStatus.BAD_REQUEST, "잘못된 매개 변수가 포함됐습니다."),
     // 401
-    UNAUTHORIZED(401, HttpStatus.UNAUTHORIZED, "인증이 필요합니다"),
+    UNAUTHORIZED(401, HttpStatus.UNAUTHORIZED, "인증이 필요합니다."),
     // 403
-    FORBIDDEN(403, HttpStatus.FORBIDDEN, "접근 권한이 없습니다"),
+    FORBIDDEN(403, HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
     // 404
     NOT_FOUND(404, HttpStatus.NOT_FOUND, "리소스를 찾을 수 없습니다"),
     // 408
-    REQUEST_TIMEOUT(408, HttpStatus.REQUEST_TIMEOUT, "요청 시간이 초과되었습니다"),
+    REQUEST_TIMEOUT(408, HttpStatus.REQUEST_TIMEOUT, "요청 시간이 초과되었습니다."),
     // 415
-    UNSUPPORTED_MEDIA_TYPE(415, HttpStatus.UNSUPPORTED_MEDIA_TYPE, "지원되지 않는 미디어 타입입니다"),
+    UNSUPPORTED_MEDIA_TYPE(415, HttpStatus.UNSUPPORTED_MEDIA_TYPE, "지원되지 않는 미디어 타입입니다."),
     // 401
     TIMEOUT_LOGOUT(401, HttpStatus.UNAUTHORIZED, "일정 시간 동안 활동이 없어 로그아웃되었습니다. 계속하려면 다시 로그인해주세요."),
     // 403
@@ -84,19 +84,19 @@ public enum CommonExceptionCode implements ResponseCode {
      * 5** Server Error
      */
     // 500
-    INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류입니다"),
+    INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류입니다."),
     // 502
-    BAD_GATEWAY(502, HttpStatus.BAD_GATEWAY, "잘못된 게이트웨이입니다"),
+    BAD_GATEWAY(502, HttpStatus.BAD_GATEWAY, "잘못된 게이트웨이입니다."),
     // 503
-    SERVICE_UNAVAILABLE(503, HttpStatus.SERVICE_UNAVAILABLE, "서비스를 사용할 수 없습니다"),
+    SERVICE_UNAVAILABLE(503, HttpStatus.SERVICE_UNAVAILABLE, "서비스를 사용할 수 없습니다."),
     // 504
-    GATEWAY_TIMEOUT(504, HttpStatus.GATEWAY_TIMEOUT, "게이트웨이 시간 초과입니다"),
+    GATEWAY_TIMEOUT(504, HttpStatus.GATEWAY_TIMEOUT, "게이트웨이 시간 초과입니다."),
     // 505
-    HTTP_VERSION_NOT_SUPPORTED(505, HttpStatus.HTTP_VERSION_NOT_SUPPORTED, "HTTP 버전을 지원하지 않습니다"),
+    HTTP_VERSION_NOT_SUPPORTED(505, HttpStatus.HTTP_VERSION_NOT_SUPPORTED, "HTTP 버전을 지원하지 않습니다."),
     // 507
-    INSUFFICIENT_STORAGE(507, HttpStatus.INSUFFICIENT_STORAGE, "저장 공간이 부족합니다"),
+    INSUFFICIENT_STORAGE(507, HttpStatus.INSUFFICIENT_STORAGE, "저장 공간이 부족합니다."),
     // 511
-    NETWORK_AUTHENTICATION_REQUIRED(511, HttpStatus.NETWORK_AUTHENTICATION_REQUIRED, "네트워크 인증이 필요합니다");
+    NETWORK_AUTHENTICATION_REQUIRED(511, HttpStatus.NETWORK_AUTHENTICATION_REQUIRED, "네트워크 인증이 필요합니다.");
 
     private final Integer code;
     private final HttpStatus httpStatus;

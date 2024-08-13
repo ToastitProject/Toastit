@@ -10,7 +10,6 @@ import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
 import alcoholboot.toastit.feature.user.controller.request.UserLoginRequest;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.amazonimage.service.S3imageUploadService;
-import alcoholboot.toastit.feature.user.exception.EmailVerificationException;
 import alcoholboot.toastit.feature.user.service.UserService;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import alcoholboot.toastit.global.config.response.exception.CustomException;
@@ -48,6 +47,9 @@ public class UserController {
     @GetMapping("/login")
     public String showLoginPage(Model model) {
         model.addAttribute("userLoginRequest", new UserLoginRequest());
+
+        log.info("로그인 템플릿 반환");
+
         return "/feature/user/loginForm";
     }
 
@@ -56,6 +58,7 @@ public class UserController {
                         BindingResult bindingResult,
                         HttpServletResponse response,
                         Model model) {
+        log.info(userLoginDto.getEmail() + " 해당 이메일이 로그인 요청을 하였습니다.");
 
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
@@ -66,6 +69,8 @@ public class UserController {
         User user = userService.findByEmail(userLoginDto.getEmail())
                 .orElseThrow(() -> new CustomException(CommonExceptionCode.NOT_MATCH_EMAILL_OR_PASSWORD));
 
+        log.info(user.getNickname() + "님이 로그인 하였습니다.");
+
         // 비밀번호 일치여부 체크
         if (!passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
             throw new CustomException(CommonExceptionCode.NOT_MATCH_EMAILL_OR_PASSWORD);
@@ -74,8 +79,12 @@ public class UserController {
         // 액세스 토큰 발급
         String accessToken = jwtTokenizer.createAccessToken(user.getId(), user.getEmail(), user.getNickname(), user.getAuthority());
 
+        log.info("액세스 토큰 발급 완료 -> " + accessToken);
+
         // 리프레쉬 토큰 발급
         String refreshToken = jwtTokenizer.createRefreshToken(user.getId(), user.getEmail(), user.getNickname(), user.getAuthority());
+
+        log.info("리프레쉬 토큰 발급 완료 -> " + refreshToken);
 
         // 리프레시 토큰 디비 저장
         Token token = Token.builder()
@@ -103,13 +112,15 @@ public class UserController {
 
         model.addAttribute("user", user);
 
-        log.info("홈페이지로 이동!");
+        log.info("메인 홈페이지 PRG 실행");
 
         return "redirect:/";
     }
 
-    @DeleteMapping("/logout")
+    @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
+        log.info("로그아웃 실행");
+
         String accessToken = null;
 
         // access 및 refresh token cookie 삭제
@@ -132,38 +143,46 @@ public class UserController {
         // tokens 데이터 삭제
         tokenService.deleteByAccessToken(accessToken);
 
-        return "redirect:/feature/loginForm";
+        log.info("로그아웃 실행 후 메인 페이지로 RG 실행");
+
+        return "redirect:/";
     }
 
     @GetMapping("/join")
     public String showJoinPage(Model model) {
         model.addAttribute("userJoinRequest", new UserJoinRequest());
 
-        log.info("회원가입 폼 반환");
+        log.info("회원가입 템플릿 반환");
 
         return "/feature/user/joinForm";
     }
 
     @PostMapping("/join")
     public String join(@ModelAttribute @Valid UserJoinRequest userJoinDto, BindingResult bindingResult, Model model) {
-        // Model에 있는 모든 값 출력
-//        log.info("Model Attributes:");
-//        for (Map.Entry<String, Object> entry : model.asMap().entrySet()) {
-//            log.info("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-//        }
+        log.info("회원가입 요청");
 
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> log.error("Validation error: {}", error.getDefaultMessage()));
+            // 글로벌 오류 출력
+            bindingResult.getGlobalErrors().forEach(error -> log.error("GLOBAL ERROR : {}", error.getDefaultMessage()));
+
+            // 필드 오류 출력 및 passwordMatching 필드 오류가 있는지 확인
+            bindingResult.getFieldErrors().forEach(error -> {
+                log.error("{} : {}", error.getField(), error.getDefaultMessage());
+
+                // passwordMatching 필드가 존재할 경우, 모델에 추가
+                if ("passwordMatching".equals(error.getField())) {
+                    model.addAttribute("passwordMatchingError", error.getDefaultMessage());
+                }
+            });
+
             return "/feature/user/joinForm";
         }
 
-        try {
-            log.info("유저 저장 시작! 이메일: {}, 인증코드: {}", userJoinDto.getEmail(), userJoinDto.getAuthCode());
-            userService.save(userJoinDto);
-        } catch (EmailVerificationException e) {
-            model.addAttribute("error", e.getMessage());
-            return "/feature/user/joinForm";
-        }
+        log.info("유저 저장 시작! 이메일: {}, 인증코드: {}", userJoinDto.getEmail(), userJoinDto.getAuthCode());
+
+        userService.save(userJoinDto);
+
+        log.info("유저 저장 성공! 로그인 페이지로 PRG 실행");
 
         return "redirect:/user/login";
     }

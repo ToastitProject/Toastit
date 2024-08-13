@@ -18,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserEntity extends JpaAuditingFields {
     @Id
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -37,10 +38,13 @@ public class UserEntity extends JpaAuditingFields {
     private Authority authority;
 
     @Column(nullable = false)
-    private String profileImageUrl = "https://toastitbucket.s3.ap-northeast-2.amazonaws.com/static/default.png";
+    private String profileImageUrl;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<LikeEntity> likes = new ArrayList<>();
 
     public UserEntity(String email, String nickname, String password, Authority authority) {
         this.email = email;
@@ -60,5 +64,4 @@ public class UserEntity extends JpaAuditingFields {
                 .createDate(this.createDate)
                 .build();
     }
-
 }

@@ -15,8 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+    @Setter
     private Long id;
-
+    @Setter
     private String email;
 
     @Setter
@@ -31,6 +32,12 @@ public class User {
     private String profileImageUrl;
 
     private LocalDateTime createDate;
+
+    public void update(String nickname, String password, String profileImageUrl) {
+        this.nickname = nickname;
+        this.password = password;
+        this.profileImageUrl = profileImageUrl;
+    }
 
     public UserEntity convertToEntity(){
         return UserEntity.builder()
