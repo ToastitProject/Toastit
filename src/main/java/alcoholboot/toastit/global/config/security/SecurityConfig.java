@@ -37,7 +37,8 @@ public class SecurityConfig {
             "/image/**", // 이미지 리소스 및 API
             "/js/**", // JS 리소스
             "/css/**", // CSS 리소스
-            "/user/mypage" // 회원 정보 API
+            "/user/mypage", // 회원 정보 API
+            "/cocktails/**" // 기본 칵테일 레시피 API
 
     };
 
@@ -45,6 +46,7 @@ public class SecurityConfig {
     String[] notLoggedAllowPage = new String[]{
             "/user/login", // 로그인 API
             "/user/join", // 회원가입 API
+            "/cocktails/**" // 기본 칵테일 레시피 API
     };
 
     /**
