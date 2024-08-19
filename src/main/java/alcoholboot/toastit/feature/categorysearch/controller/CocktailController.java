@@ -36,7 +36,7 @@ public class CocktailController {
 
         Page<Cocktail> cocktails = cocktailService.getAllCocktailsPaged(PageRequest.of(page, 20)); // 20개씩 페이징
         model.addAttribute("cocktails", cocktails);
-        model.addAttribute("page", page);
+        model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", cocktails.getTotalPages());
         return "/feature/categorysearch/cocktailList";
     }
@@ -60,18 +60,44 @@ public class CocktailController {
         return "feature/categorysearch/cocktailIngredient";
     }
 
+
+    //    @GetMapping("/all/glass")
+//    public ResponseEntity<List<Cocktail>> getCocktailsByGlass(
+//            @RequestParam String glass) {
+//        List<Cocktail> cocktails = cocktailService.getCocktailsByGlass(glass);
+//        return ResponseEntity.ok(cocktails);
+//    }
     @GetMapping("/all/glass")
-    public ResponseEntity<List<Cocktail>> getCocktailsByGlass(
-            @RequestParam String glass) {
+    public String getCocktailsByGlass(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam String glass,
+            Model model) {
         List<Cocktail> cocktails = cocktailService.getCocktailsByGlass(glass);
-        return ResponseEntity.ok(cocktails);
+
+        model.addAttribute("cocktails", cocktails);
+        model.addAttribute("page", page);
+        model.addAttribute("glass", glass);
+        return "feature/categorysearch/cocktailGlass";
     }
 
+
+    //    @GetMapping("/all/type")
+//    public ResponseEntity<List<Cocktail>> getCocktailsByType(
+//            @RequestParam String type) {
+//        List<Cocktail> cocktails = cocktailService.getCocktailsByType(type);
+//        return ResponseEntity.ok(cocktails);
+//    }
     @GetMapping("/all/type")
-    public ResponseEntity<List<Cocktail>> getCocktailsByType(
-            @RequestParam String type) {
+    public String getCocktailsByType(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam String type,
+            Model model) {
         List<Cocktail> cocktails = cocktailService.getCocktailsByType(type);
-        return ResponseEntity.ok(cocktails);
+
+        model.addAttribute("cocktails", cocktails);
+        model.addAttribute("page", page);
+        model.addAttribute("type", type);
+        return "feature/categorysearch/cocktailType";
     }
 
     /*@GetMapping("/all/mult")
@@ -86,11 +112,13 @@ public class CocktailController {
     }*/
     @GetMapping("/all/mult")
     public String getCocktailsByMult(
+            @RequestParam(defaultValue = "0") int page,
             @RequestParam(required = false) String ingredient,
             @RequestParam(required = false) String glass,
             @RequestParam(required = false) String type,
-            Model model){
+            Model model) {
         List<Cocktail> cocktails = cocktailService.getCocktailsByFilter(ingredient, glass, type);
+        model.addAttribute("page", page);
         model.addAttribute("cocktails", cocktails);
         model.addAttribute("ingredient", ingredient);
         model.addAttribute("glass", glass);
@@ -99,11 +127,20 @@ public class CocktailController {
         return "feature/categorysearch/cocktailComplex";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Cocktail>> getCocktailById(
-            @PathVariable String id){
+    //    @GetMapping("/{id}")
+//    public ResponseEntity<Optional<Cocktail>> getCocktailById(
+//            @PathVariable String id) {
+//
+//        Optional<Cocktail> cocktails = cocktailService.getCocktailById(new ObjectId(id));
+//        return ResponseEntity.ok(cocktails);
+//    }
+    @GetMapping("/id")
+    public String getCocktailById(
+            @RequestParam("id") String id,
+            Model model) {
+        Optional<Cocktail> cocktail = cocktailService.getCocktailById(new ObjectId(id));
+        model.addAttribute("cocktail", cocktail);
 
-        Optional<Cocktail> cocktails = cocktailService.getCocktailById(new ObjectId(id));
-        return ResponseEntity.ok(cocktails);
+        return "feature/categorysearch/cocktailDetails";
     }
 }

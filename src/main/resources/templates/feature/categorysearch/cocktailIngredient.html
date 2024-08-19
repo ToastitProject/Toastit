@@ -85,7 +85,8 @@
     <h1>재료로 칵테일 검색</h1>
 
     <div class="search-form">
-        <form th:action="@{/cocktails/byIngredient}" method="get">
+        <form th:action="@{/cocktails/all/ingredient}" method="get">
+            <input type="hidden" name="page" value="0">
             <input type="text" name="ingredient" th:value="${ingredient}" placeholder="재료 입력 (예: 보드카, 럼)">
             <button type="submit">검색</button>
         </form>
@@ -95,16 +96,16 @@
         <h2>검색된 재료: <span th:text="${ingredient}"></span></h2>
     </div>
 
-    <div th:if="${cocktails != null and cocktails.empty}" class="error-message">
+    <div th:if="${cocktails != null and cocktails.isEmpty()}" class="error-message">
         검색 결과가 없습니다. 다른 재료를 입력해보세요.
     </div>
 
-    <div th:if="${cocktails != null and !cocktails.empty}" class="cocktail-grid">
+    <div th:if="${cocktails != null and !cocktails.isEmpty()}" class="cocktail-grid">
         <div th:each="cocktail : ${cocktails}" class="cocktail-item">
             <h3 th:text="${cocktail.strDrink}"></h3>
             <p><strong>종류:</strong> <span th:text="${cocktail.strAlcoholic}"></span></p>
             <p><strong>카테고리:</strong> <span th:text="${cocktail.strCategory}"></span></p>
-            <p><strong>글라스:</strong> <span th:text="${cocktail.strGlass}"></span></p>
+            <p><strong>잔 종류:</strong> <span th:text="${cocktail.strGlass}"></span></p>
             <h4>재료:</h4>
             <ul>
                 <li th:if="${cocktail.strIngredient1}" th:text="${cocktail.strIngredient1 + (cocktail.strMeasure1 != null ? ' - ' + cocktail.strMeasure1 : '')}"></li>
@@ -118,7 +119,7 @@
         </div>
     </div>
 
-    <div th:if="${cocktails != null and !cocktails.empty}" class="pagination">
+    <div th:if="${cocktails != null and !cocktails.isEmpty()}" class="pagination">
         <a th:if="${currentPage != null and currentPage > 0}"
            th:href="@{/cocktails/byIngredient(ingredient=${ingredient}, page=${currentPage - 1})}">이전</a>
         <span th:text="${currentPage != null ? currentPage + 1 : ''}"></span>

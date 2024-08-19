@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>칵테일 복합 검색</title>
+    <title>술잔으로 칵테일 검색</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,14 +25,12 @@
         }
         .search-form {
             margin-bottom: 20px;
-            display: grid;
-            gap: 10px;
         }
-        .search-form input[type="text"], .search-form select {
+        .search-form input[type="text"] {
             padding: 10px;
+            width: 300px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            width: 100%;
         }
         .search-form button {
             padding: 10px 20px;
@@ -84,34 +82,29 @@
 </head>
 <body>
 <div class="container">
-    <h1>칵테일 복합 검색</h1>
+    <h1>술 잔으로 칵테일 검색</h1>
 
     <div class="search-form">
-        <form th:action="@{/cocktails/all/mult}" method="get">
-            <input type="text" name="ingredient" th:value="${ingredient}" placeholder="재료 (예: 보드카, 럼)">
-            <input type="text" name="glass" th:value="${glass}" placeholder="글라스 타입 (예: 칵테일 잔)">
-            <input type="text" name="category" th:value="${category}" placeholder="카테고리 (예: 칵테일, 일반 음료)">
+        <form th:action="@{/cocktails/all/glass}" method="get">
+            <input type="text" name="glass" th:value="${glass}" placeholder="잔 종류 입력 (예: 하이볼 잔, 칵테일 잔)">
             <button type="submit">검색</button>
         </form>
     </div>
 
-    <div th:if="${ingredient != null or glass != null or category != null}" class="search-result">
-        <h2>검색 조건:</h2>
-        <p th:if="${ingredient}">재료: <span th:text="${ingredient}"></span></p>
-        <p th:if="${glass}">잔 종류: <span th:text="${glass}"></span></p>
-        <p th:if="${category}">카테고리: <span th:text="${category}"></span></p>
+    <div th:if="${glass}" class="search-result">
+        <h2>검색된 재료: <span th:text="${glass}"></span></h2>
     </div>
 
     <div th:if="${cocktails != null and cocktails.isEmpty()}" class="error-message">
-        검색 결과가 없습니다. 다른 조건으로 검색해보세요.
+        검색 결과가 없습니다. 다른 재료를 입력해보세요.
     </div>
 
     <div th:if="${cocktails != null and !cocktails.isEmpty()}" class="cocktail-grid">
         <div th:each="cocktail : ${cocktails}" class="cocktail-item">
             <h3 th:text="${cocktail.strDrink}"></h3>
+            <p><strong>종류:</strong> <span th:text="${cocktail.strAlcoholic}"></span></p>
             <p><strong>카테고리:</strong> <span th:text="${cocktail.strCategory}"></span></p>
             <p><strong>잔 종류:</strong> <span th:text="${cocktail.strGlass}"></span></p>
-            <p><strong>알코올 유무:</strong> <span th:text="${cocktail.strAlcoholic}"></span></p>
             <h4>재료:</h4>
             <ul>
                 <li th:if="${cocktail.strIngredient1}" th:text="${cocktail.strIngredient1 + (cocktail.strMeasure1 != null ? ' - ' + cocktail.strMeasure1 : '')}"></li>
@@ -127,11 +120,11 @@
 
     <div th:if="${cocktails != null and !cocktails.isEmpty()}" class="pagination">
         <a th:if="${currentPage != null and currentPage > 0}"
-           th:href="@{/cocktails/complex(ingredient=${ingredient}, glass=${glass}, category=${category}, page=${currentPage - 1})}">이전</a>
+           th:href="@{/cocktails/byIngredient(ingredient=${ingredient}, page=${currentPage - 1})}">이전</a>
         <span th:text="${currentPage != null ? currentPage + 1 : ''}"></span>
         <span th:if="${totalPages != null}" th:text="' / ' + ${totalPages}"></span>
         <a th:if="${currentPage != null and totalPages != null and currentPage < totalPages - 1}"
-           th:href="@{/cocktails/complex(ingredient=${ingredient}, glass=${glass}, category=${category}, page=${currentPage + 1})}">다음</a>
+           th:href="@{/cocktails/byIngredient(ingredient=${ingredient}, page=${currentPage + 1})}">다음</a>
     </div>
 </div>
 </body>
