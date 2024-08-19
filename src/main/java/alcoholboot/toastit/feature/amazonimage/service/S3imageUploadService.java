@@ -4,10 +4,15 @@ import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 
 @Service
@@ -48,7 +53,11 @@ public class S3imageUploadService {
 
     private String uploadToS3(MultipartFile file, String fileName) throws IOException {
         try {
-            s3Client.putObject(bucketName, fileName, file.getInputStream(), getObjectMetadata(file));
+            InputStream resizedImageStream = resizeImage(file.getInputStream(), 300, 300); //300 * 300 으로 일괄 저장
+
+            ObjectMetadata metadata = getObjectMetadata(file);
+            metadata.setContentLength(resizedImageStream.available());
+            s3Client.putObject(bucketName, fileName, resizedImageStream, metadata);
             return deFaultUrl + bucketName + "/" + fileName; // URL 형식 수정
         } catch (SdkClientException e) {
             throw new IOException(e);
@@ -68,5 +77,13 @@ public class S3imageUploadService {
         objectMetadata.setContentType(file.getContentType());
         objectMetadata.setContentLength(file.getSize());
         return objectMetadata;
+    }
+    private InputStream resizeImage(InputStream inputStream, int width, int height) throws IOException {
+        // 이미지 리사이징
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Thumbnails.of(inputStream)
+                .size(width, height)
+                .toOutputStream(outputStream);
+        return new ByteArrayInputStream(outputStream.toByteArray());
     }
 }
