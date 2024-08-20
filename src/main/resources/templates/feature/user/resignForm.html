@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/user/joinForm.css}" rel="stylesheet">
+    <title>술프링부트 - 내 정보</title>
+    <style>
+        body {
+            font-family: 'Gmarket Sans', sans-serif;
+            color: #FFA832;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            padding: 10px 30px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .menu a:hover {
+            color: #FFA832;
+        }
+
+        .profile a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .profile a:hover {
+            color: #FFA832;
+        }
+
+        .divider {
+            border: none;
+            height: 2px;
+            background-color: #FFA832;
+            margin-top: -10px;
+        }
+        .card {
+            background-color: #FFA832;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 800px;
+            height: 400px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin: 150px auto;
+        }
+        .profile-pic {
+            padding-left: 0px;
+            margin-right: 100px;
+            border-radius: 10px;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .info {
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: white;
+            color: #FFA832;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            width: 100px
+        }
+
+        .button:hover {
+            background-color: #dfbc8e;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+<div th:replace="~{/fragment/navbar-fragment :: navbarFragment}"></div>
+
+<hr class="divider">
+
+<div class="card">
+    <img th:src="${user.profileImageUrl}"
+         alt="프로필 사진" class="profile-pic">
+    <div class="info">
+        <p></p>
+        <p>칵테일은 1도 모르는  <span th:text="${user.nickname}"></span> 회원 님 !</p>
+        <p>정말로 탈퇴를 진행 하시겠어요??</p>
+        <div class="button-container">
+            <button class="button" onclick="submitResign()">RESIGN</button>
+            <button class="button" th:onclick="|location.href='@{/user/mypage}'|">CANCLE</button>
+        </div>
+
+    </div>
+
+</div>
+</body>
+
+<script>
+    function submitResign() {
+        fetch('/user/resign', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({}) // 요청 본문에 필요한 데이터가 있으면 여기에 추가
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text(); // 응답이 성공적이면 텍스트를 반환
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                console.log(data);
+                location.href = '/some/other/page'; // 필요 시 리다이렉트
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+</script>
+
+
+</html>

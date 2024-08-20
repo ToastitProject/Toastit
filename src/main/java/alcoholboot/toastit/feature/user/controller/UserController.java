@@ -2,6 +2,8 @@ package alcoholboot.toastit.feature.user.controller;
 
 
 import alcoholboot.toastit.auth.jwt.domain.Token;
+import alcoholboot.toastit.auth.jwt.entity.TokenEntity;
+import alcoholboot.toastit.auth.jwt.repository.TokenRepository;
 import alcoholboot.toastit.auth.jwt.service.TokenService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
@@ -16,6 +18,7 @@ import alcoholboot.toastit.global.config.response.exception.CustomException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +46,7 @@ public class UserController {
 
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
+    private final TokenRepository tokenRepository;
 
     @GetMapping("/login")
     public String showLoginPage(Model model) {
@@ -231,7 +235,7 @@ public class UserController {
     }
 
     @PostMapping("/edit")
-    public String editNickname(@RequestParam String nickname) {
+    public String editNickname(@RequestParam("nickname") String nickname) {
         log.info("닉네임 수정 요청이 들어옴");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -307,6 +311,52 @@ public class UserController {
             }
         }
         return "redirect:/user/eidt";
+    }
+
+    @GetMapping("/resign")
+    public String resign(Model model) {
+        log.info("회원 탈퇴 폼 접속");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Optional<User> userOptional = userService.findByEmail(email);
+        log.info("접속한 사용자의 이메일 : "+userOptional.get().getEmail());
+        model.addAttribute("user", userOptional.get().convertToEntity());
+        log.info("Model에 담긴 닉네임 값 : "+ userOptional.get().convertToEntity().getNickname());
+        return "/feature/user/resignForm";
+    }
+
+    @PostMapping("/resign")
+    public String resign(HttpServletRequest request, HttpServletResponse response) {
+        log.info("회원탈퇴 postMapping 요청이 옴");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        log.info("접속한 사용자의 이메일 : " + email);
+        Optional<User> userOptional = userService.findByEmail(email);
+        String accessToken = tokenRepository.findByUserEntityId(userOptional.get().getId())
+                .map(TokenEntity::getAccessToken)
+                .orElse(null);
+        log.info("찾은 Access Token ID: " + accessToken);
+
+        // 쿠키 제거
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("accessToken".equals(cookie.getName()) || "refreshToken".equals(cookie.getName())) {
+                    cookie.setValue("");
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
+        }
+
+        if (accessToken != null) {
+            tokenService.deleteByAccessToken(accessToken);
+        }
+
+        userService.deleteByEmail(email);
+        log.info("회원 탈퇴 완료");
+        return "redirect:/";
     }
 
 }
