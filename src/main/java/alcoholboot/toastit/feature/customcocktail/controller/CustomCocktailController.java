@@ -44,7 +44,7 @@ public class CustomCocktailController {
     public String customPage(Model model) {
         List<CustomCocktail> cocktails = customCocktailService.getAllCocktails();
         model.addAttribute("cocktails", cocktails);
-        return "/custom/custommain";
+        return "/customcocktail/custommain";
     }
 
     @GetMapping("/custom/write")
@@ -54,7 +54,7 @@ public class CustomCocktailController {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다");
             return "redirect:/login";
         }
-        return "/custom/write";
+        return "/customcocktail/write";
     }
 
     @PostMapping("/custom")
@@ -113,10 +113,10 @@ public class CustomCocktailController {
         } catch (Exception e) {
             log.error("칵테일 저장 실패: ", e);
             redirectAttributes.addFlashAttribute("message", "칵테일 저장 중 오류가 발생했습니다.");
-            return "redirect:/custom/write";
+            return "redirect:/customcocktail/write";
         }
 
-        return "redirect:/custom";
+        return "redirect:/customcocktail";
     }
 
 
@@ -127,6 +127,6 @@ public class CustomCocktailController {
         CustomCocktail cocktail = customCocktailService.getCocktailById(id);
         System.out.println(cocktail);
         model.addAttribute("cocktail", cocktail);
-        return "/custom/customdetail";
+        return "/customcocktail/customdetail";
     }
 }
