@@ -38,37 +38,30 @@ public class CocktailServiceImpl implements CocktailService {
 
     // 카테고리 적용 - 재료
     @Override
-    public List<Cocktail> getCocktailsByIngredient(String ingredient) {
-        return cocktailRepository.findCocktailsByIngredient(ingredient)
-                .stream()
-                .map(CocktailDocument::convertToDomain)
-                .collect(Collectors.toList());
+    public Page<Cocktail> getCocktailsByIngredientPaged(String ingredient, Pageable pageable) {
+        return cocktailRepository.findCocktailsByIngredientPage(ingredient, pageable)
+                .map(CocktailDocument::convertToDomain);
     }
 
     // 카테고리 적용 - 용기
     @Override
-    public List<Cocktail> getCocktailsByGlass(String glass) {
-        return cocktailRepository.findByStrGlass(glass)
-                .stream()
-                .map(CocktailDocument::convertToDomain)
-                .collect(Collectors.toList());
+    public Page<Cocktail> getCocktailsByGlassPaged(String glass, Pageable pageable) {
+        return cocktailRepository.findByStrGlass(glass, pageable)
+                .map(CocktailDocument::convertToDomain);
     }
 
     // 카테고리 적용 - 타입
     @Override
-    public List<Cocktail> getCocktailsByType(String type) {
-        return cocktailRepository.findByStrCategory(type).stream()
-                .map(CocktailDocument::convertToDomain)
-                .collect(Collectors.toList());
+    public Page<Cocktail> getCocktailsByTypePaged(String type, Pageable pageable) {
+        return cocktailRepository.findByStrCategory(type, pageable)
+                .map(CocktailDocument::convertToDomain);
     }
 
     // 카테고리 적용 - 복합
     @Override
-    public List<Cocktail> getCocktailsByFilter(String ingredient, String glass, String type) {
-        return cocktailRepository.findByIngredientAndGlassAndCategory(ingredient, glass, type)
-                .stream()
-                .map(CocktailDocument::convertToDomain)
-                .collect(Collectors.toList());
+    public Page<Cocktail> getCocktailsByFilterPaged(String ingredient, String glass, String type, Pageable pageable) {
+        return cocktailRepository.findByIngredientAndGlassAndCategoryPage(ingredient, glass, type, pageable)
+                .map(CocktailDocument::convertToDomain);
     }
 
     // id를 통해 얻어옴. 예외 발생할 수 있음

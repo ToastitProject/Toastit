@@ -1,0 +1,59 @@
+.cocktail-grid {
+    display: grid;
+    color: black;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+.cocktail-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
+}
+.cocktail-item:hover {
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.cocktail-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    margin: 0 5px;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.cocktail-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.cocktail-button {
+    padding: 10px 15px;
+    background-color: #FFA832;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cocktail-button:hover {
+    background-color: #FF8C00;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}

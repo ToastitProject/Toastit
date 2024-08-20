@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -23,7 +22,6 @@ public class CocktailController {
     public String getAllCocktails(
             @RequestParam(defaultValue = "0") int page,
             Model model) {
-
         Page<Cocktail> cocktails = cocktailService.getAllCocktailsPaged(PageRequest.of(page, 20)); // 20개씩 페이징
         model.addAttribute("cocktails", cocktails);
         model.addAttribute("currentPage", page);
@@ -36,11 +34,17 @@ public class CocktailController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam String ingredient,
             Model model) {
-        List<Cocktail> cocktails = cocktailService.getCocktailsByIngredient(ingredient);
 
-        model.addAttribute("cocktails", cocktails);
-        model.addAttribute("page", page);
+        Page<Cocktail> cocktailPage = cocktailService.getCocktailsByIngredientPaged(ingredient, PageRequest.of(page, 20));
+
+        model.addAttribute("cocktails", cocktailPage.getContent());
+
+        model.addAttribute("currentPage", page);
+
+        model.addAttribute("totalPages", cocktailPage.getTotalPages());
+
         model.addAttribute("ingredient", ingredient);
+
         return "feature/defaultcocktail/cocktailIngredient";
     }
 
@@ -49,8 +53,7 @@ public class CocktailController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam String glass,
             Model model) {
-        List<Cocktail> cocktails = cocktailService.getCocktailsByGlass(glass);
-
+        Page<Cocktail> cocktails = cocktailService.getCocktailsByGlassPaged(glass, PageRequest.of(page, 20));
         model.addAttribute("cocktails", cocktails);
         model.addAttribute("page", page);
         model.addAttribute("glass", glass);
@@ -62,8 +65,7 @@ public class CocktailController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam String type,
             Model model) {
-        List<Cocktail> cocktails = cocktailService.getCocktailsByType(type);
-
+        Page<Cocktail> cocktails = cocktailService.getCocktailsByTypePaged(type, PageRequest.of(page, 20));
         model.addAttribute("cocktails", cocktails);
         model.addAttribute("page", page);
         model.addAttribute("type", type);
@@ -77,7 +79,7 @@ public class CocktailController {
             @RequestParam(required = false) String glass,
             @RequestParam(required = false) String type,
             Model model) {
-        List<Cocktail> cocktails = cocktailService.getCocktailsByFilter(ingredient, glass, type);
+        Page<Cocktail> cocktails = cocktailService.getCocktailsByFilterPaged(ingredient, glass, type, PageRequest.of(page, 20));
         model.addAttribute("page", page);
         model.addAttribute("cocktails", cocktails);
         model.addAttribute("ingredient", ingredient);

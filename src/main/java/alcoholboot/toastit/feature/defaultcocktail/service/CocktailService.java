@@ -12,9 +12,9 @@ public interface CocktailService {
     // 카테고리 검색
     List<Cocktail> getAllCocktails();
     Page<Cocktail> getAllCocktailsPaged(Pageable pageable);
-    List<Cocktail> getCocktailsByIngredient(String ingredient);
-    List<Cocktail> getCocktailsByGlass(String glass);
-    List<Cocktail> getCocktailsByType(String type);
-    List<Cocktail> getCocktailsByFilter(String ingredient, String glass, String type);
+    Page<Cocktail> getCocktailsByIngredientPaged(String ingredient, Pageable pageable);
+    Page<Cocktail> getCocktailsByGlassPaged(String glass, Pageable pageable);
+    Page<Cocktail> getCocktailsByTypePaged(String type, Pageable pageable);
+    Page<Cocktail> getCocktailsByFilterPaged(String ingredient, String glass, String type, Pageable pageable);
     Optional<Cocktail> getCocktailById(ObjectId id);
 }
