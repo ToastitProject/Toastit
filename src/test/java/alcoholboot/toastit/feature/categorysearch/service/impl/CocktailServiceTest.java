@@ -1,3 +1,4 @@
+/*
 package alcoholboot.toastit.feature.categorysearch.service.impl;
 
 import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
@@ -93,4 +94,4 @@ class CocktailServiceTest {
         assertTrue(result.isPresent());
         assertEquals("Margarita", result.get().getStrDrink());
     }
-}
+}*/

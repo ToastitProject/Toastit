@@ -1,16 +1,16 @@
 package alcoholboot.toastit.feature.categorysearch.repository;
 
-
 import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
+import alcoholboot.toastit.feature.categorysearch.entity.CocktailDocument;
+import alcoholboot.toastit.feature.categorysearch.repository.custom.CustomCocktailRepository;
+import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public interface CocktailRepository extends MongoRepository<Cocktail, String> {
-    List<Cocktail> findByStrCategory(String category);
-    List<Cocktail> findByStrIngredientsContaining(String ingredient);
-    List<Cocktail> findByStrGlass(String glass);
-    List<Cocktail> findByStrIngredientsContainingAndStrGlassAndStrCategory(String ingredient, String glass, String category);
+public interface CocktailRepository extends MongoRepository<CocktailDocument, ObjectId>, CustomCocktailRepository {
+    List<CocktailDocument> findByStrGlass(String glass);
+    List<CocktailDocument> findByStrCategory(String category);
 }

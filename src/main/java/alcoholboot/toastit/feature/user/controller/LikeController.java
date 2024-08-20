@@ -1,3 +1,4 @@
+/*
 package alcoholboot.toastit.feature.user.controller;
 
 import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
@@ -31,7 +32,7 @@ public class LikeController {
         Optional<User> loginUser = userService.findByEmail(loginUserEmail); //로그인 한 user 를 토큰에 저장된 이메일로 찾아서 생성하기
 
         Optional<CocktailEntity> likeCocktail = cocktailService.getCocktailById(cocktailId); // 좋아요 할 칵테일의 아이디 가져오기
-        CocktailEntity cocktail = likeCocktail.get().convertToDomain().convertToEntity() ; // 좋아요 할 칵테일을 엔티티로 변환
+//        CocktailEntity cocktail = likeCocktail.get().convertToDomain().convertToEntity() ; // 좋아요 할 칵테일을 엔티티로 변환
 
         log.info("현재 로그인 한 user email : " + loginUserEmail);
         log.info("좋아요 할 칵테일 레시피의 ID :" +likeCocktail.get().getId());
@@ -56,3 +57,4 @@ public class LikeController {
     }
 
 }
+*/
