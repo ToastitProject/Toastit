@@ -1,7 +1,7 @@
-package alcoholboot.toastit.feature.categorysearch.repository.custom.Impl;
+package alcoholboot.toastit.feature.defaultcocktail.repository.custom.Impl;
 
-import alcoholboot.toastit.feature.categorysearch.entity.CocktailDocument;
-import alcoholboot.toastit.feature.categorysearch.repository.custom.CustomCocktailRepository;
+import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailDocument;
+import alcoholboot.toastit.feature.defaultcocktail.repository.custom.CustomCocktailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

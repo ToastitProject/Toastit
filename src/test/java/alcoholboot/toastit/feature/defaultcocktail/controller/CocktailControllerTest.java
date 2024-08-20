@@ -1,8 +1,8 @@
-//package alcoholboot.toastit.feature.categorysearch.controller;
+//package alcoholboot.toastit.feature.defaultcocktail.controller;
 //
-//import alcoholboot.toastit.feature.categorysearch.entity.CocktailDocument;
-//import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
-//import alcoholboot.toastit.feature.categorysearch.service.CocktailService;
+//import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailDocument;
+//import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailEntity;
+//import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.mockito.InjectMocks;

@@ -1,6 +1,6 @@
-package alcoholboot.toastit.feature.categorysearch.repository.custom;
+package alcoholboot.toastit.feature.defaultcocktail.repository.custom;
 
-import alcoholboot.toastit.feature.categorysearch.entity.CocktailDocument;
+import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailDocument;
 
 import java.util.List;
 

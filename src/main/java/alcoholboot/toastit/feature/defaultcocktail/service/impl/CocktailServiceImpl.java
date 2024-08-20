@@ -1,9 +1,9 @@
-package alcoholboot.toastit.feature.categorysearch.service.impl;
+package alcoholboot.toastit.feature.defaultcocktail.service.impl;
 
-import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
-import alcoholboot.toastit.feature.categorysearch.entity.CocktailDocument;
-import alcoholboot.toastit.feature.categorysearch.repository.CocktailRepository;
-import alcoholboot.toastit.feature.categorysearch.service.CocktailService;
+import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
+import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailDocument;
+import alcoholboot.toastit.feature.defaultcocktail.repository.CocktailRepository;
+import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;

@@ -1,6 +1,6 @@
 package alcoholboot.toastit.feature.user.entity;
 
-//import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
+//import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailEntity;
 //import alcoholboot.toastit.feature.user.domain.Like;
 //import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 //import jakarta.persistence.*;
