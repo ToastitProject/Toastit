@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${cocktail.isPresent() ? cocktail.get().strDrink : '칵테일 상세 정보'}">칵테일 상세 정보</title>
+    <style>
+        body {
+            font-family: 'Gmarket Sans', sans-serif;
+            /*color: #FFA832;*/
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            padding: 10px 30px;
+        }
+
+        .logo {
+            margin-right: 20px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .menu {
+            display: flex;
+            gap: 30px;
+            flex-grow: 0;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .menu a:hover {
+            color: #FFA832;
+        }
+
+        .profile {
+            margin-left: auto;
+            display: flex;
+            gap: 20px;
+        }
+
+        .profile a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .profile a:hover {
+            color: #FFA832;
+        }
+
+        .divider {
+            border: none;
+            height: 2px;
+            background-color: #FFA832;
+            margin-top: -10px;
+        }
+        h1 {
+            /*color: #FFA832;*/
+        }
+        .cocktail-details {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .ingredient-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .ingredient-list li {
+            margin-bottom: 5px;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #FFA832;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #FF8C00;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{/fragment/navbar-fragment :: navbarFragment}"></div>
+
+<hr class="divider">
+
+<div th:if="${cocktail.isPresent()}" class="cocktail-details">
+    <h1 th:text="${cocktail.get().strDrink}">칵테일 이름</h1>
+    <p><strong>종류:</strong> <span th:text="${cocktail.get().strAlcoholic}"></span></p>
+    <p><strong>카테고리:</strong> <span th:text="${cocktail.get().strCategory}"></span></p>
+    <p><strong>잔 종류:</strong> <span th:text="${cocktail.get().strGlass}"></span></p>
+
+    <h2>재료:</h2>
+    <ul class="ingredient-list">
+        <li th:if="${cocktail.get().strIngredient1}" th:text="${cocktail.get().strIngredient1 + ' - ' + cocktail.get().strMeasure1}"></li>
+        <li th:if="${cocktail.get().strIngredient2}" th:text="${cocktail.get().strIngredient2 + ' - ' + cocktail.get().strMeasure2}"></li>
+        <li th:if="${cocktail.get().strIngredient3}" th:text="${cocktail.get().strIngredient3 + ' - ' + cocktail.get().strMeasure3}"></li>
+        <li th:if="${cocktail.get().strIngredient4}" th:text="${cocktail.get().strIngredient4 + ' - ' + cocktail.get().strMeasure4}"></li>
+        <li th:if="${cocktail.get().strIngredient5}" th:text="${cocktail.get().strIngredient5 + ' - ' + cocktail.get().strMeasure5}"></li>
+        <li th:if="${cocktail.get().strIngredient6}" th:text="${cocktail.get().strIngredient6 + ' - ' + cocktail.get().strMeasure6}"></li>
+    </ul>
+
+    <h2>제조 방법:</h2>
+    <p th:text="${cocktail.get().strInstructions}"></p>
+
+    <p><strong>좋아요 수:</strong> <span th:text="${cocktail.get().likeCount}"></span></p>
+</div>
+
+<div th:unless="${cocktail.isPresent()}">
+    <p>죄송합니다. 요청하신 칵테일을 찾을 수 없습니다.</p>
+</div>
+
+<a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
+</body>
+</html>

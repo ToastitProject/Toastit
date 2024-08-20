@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <link th:href="@{/css/categorysearch/categorysearch.css}" rel="stylesheet">
+    <title>칵테일 목록</title>
+</head>
+<body>
+<div th:replace="~{/fragment/navbar-fragment :: navbarFragment}"></div>
+
+<hr class="divider">
+
+<h1>칵테일 목록</h1>
+
+<div class="cocktail-buttons">
+    <a href="/cocktails/all/ingredient?ingredient=진" class="cocktail-button">재료 검색</a>
+    <a href="/cocktails/all/glass?glass=칵테일+잔" class="cocktail-button">술 잔 검색</a>
+    <a href="/cocktails/all/type?type=칵테일" class="cocktail-button">타입 검색</a>
+    <a href="/cocktails/all/mult?ingredient=진&glass=칵테일+잔&type=칵테일" class="cocktail-button">복합 검색</a>
+</div>
+
+<div class="cocktail-grid">
+    <div th:each="cocktail : ${cocktails}" class="cocktail-item">
+        <a th:href="@{/cocktails/id(id=${cocktail.id})}" class="cocktail-link">
+            <h2 th:text="${cocktail.strDrink}"></h2>
+            <p>종류: <span th:text="${cocktail.strAlcoholic}"></span></p>
+            <p>카테고리: <span th:text="${cocktail.strCategory}"></span></p>
+            <p>잔 종류: <span th:text="${cocktail.strGlass}"></span></p>
+            <h3>재료:</h3>
+            <ul>
+                <li th:if="${cocktail.strIngredient1}" th:text="${cocktail.strIngredient1 + ' - ' + cocktail.strMeasure1}"></li>
+                <li th:if="${cocktail.strIngredient2}" th:text="${cocktail.strIngredient2 + ' - ' + cocktail.strMeasure2}"></li>
+                <li th:if="${cocktail.strIngredient3}" th:text="${cocktail.strIngredient3 + ' - ' + cocktail.strMeasure3}"></li>
+                <li th:if="${cocktail.strIngredient4}" th:text="${cocktail.strIngredient4 + ' - ' + cocktail.strMeasure4}"></li>
+                <li th:if="${cocktail.strIngredient5}" th:text="${cocktail.strIngredient5 + ' - ' + cocktail.strMeasure5}"></li>
+                <li th:if="${cocktail.strIngredient6}" th:text="${cocktail.strIngredient6 + ' - ' + cocktail.strMeasure6}"></li>
+            </ul>
+            <p>제조 방법: <span th:text="${cocktail.strInstructions}"></span></p>
+            <p>좋아요 수: <span th:text="${cocktail.likeCount}"></span></p>
+        </a>
+    </div>
+</div>
+
+<div class="pagination">
+    <a th:if="${currentPage > 0}" th:href="@{/cocktails/all(page=${currentPage - 1})}">이전</a>
+    <span th:text="${currentPage != null ? currentPage + 1 : 1}"></span> / <span th:text="${totalPages}"></span>
+    <a th:if="${currentPage < totalPages - 1}" th:href="@{/cocktails/all(page=${currentPage + 1})}">다음</a>
+</div>
+
+</body>
+</html>

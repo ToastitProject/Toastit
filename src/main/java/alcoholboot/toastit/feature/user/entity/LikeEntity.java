@@ -1,6 +1,6 @@
 package alcoholboot.toastit.feature.user.entity;
 
-import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
+import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
 import alcoholboot.toastit.feature.user.domain.Like;
 import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 import jakarta.persistence.*;
@@ -18,22 +18,22 @@ public class LikeEntity extends JpaAuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    private Long cocktailId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "custom_cocktail_id", nullable = false)
+    private CustomCocktail customCocktail;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
-
-    @ManyToOne
-    @JoinColumn(name = "cocktail_id", nullable = false)
-    private CocktailEntity cocktail;
-
-    private Long customCocktailId; //구현 예정
 
     public Like convertToDomain() {
         return Like.builder()
                 .id(this.id)
-                .userId(this.user.getId())
-                .cocktailId(this.cocktail.getId().toHexString())
-                .customCocktailId(this.customCocktailId)
+                .cocktailId(cocktailId)
+                .customCocktail(this.customCocktail)
+                .userEntity(this.user)
                 .build();
 
     }

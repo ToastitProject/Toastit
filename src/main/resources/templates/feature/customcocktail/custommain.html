@@ -81,14 +81,14 @@
 <hr class="divider">
 
 <div class="container">
-    <a href="/test/custom/write" class="write-button">글쓰기</a>
+    <a href="/custom/write" class="write-button">글쓰기</a>
     <div class="posts">
-        <a th:each="cocktail : ${cocktails}" th:href="@{/test/custom/{id}(id=${cocktail.id})}" class="post" style="text-decoration: none; color: inherit;">
+        <a th:each="cocktail : ${cocktails}" th:href="@{/custom/{id}(id=${cocktail.id})}" class="post" style="text-decoration: none; color: inherit;">
             <!-- 이미지가 있을 경우 첫 번째 이미지를 표시 -->
             <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
             <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
             <div class="nickname">
-                작성자 정보 - <span th:text="${cocktail.createDate}">작성일자</span>
+                작성자: <span th:text="${cocktail.user.nickname}">닉네임</span> - <span th:text="${cocktail.createDate}">작성일자</span>
             </div>
         </a>
     </div>

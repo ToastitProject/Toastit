@@ -2,6 +2,7 @@ package alcoholboot.toastit.feature.customcocktail.service;
 
 import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
 import alcoholboot.toastit.feature.customcocktail.repository.CustomCocktailRepository;
+import alcoholboot.toastit.feature.user.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,14 @@ public class CustomCocktailService {
     public CustomCocktail getCocktailById(Long id) {
         Optional<CustomCocktail> cocktail = customCocktailRepository.findById(id);
         return cocktail.orElseThrow(() -> new RuntimeException("Cocktail not found"));
+    }
+
+    public Optional<UserEntity> findUserByName(String username) {
+        return customCocktailRepository.findUserByName(username);
+    }
+
+    public CustomCocktail findIdByName(String cocktailName) {
+        return customCocktailRepository.findIdByName(cocktailName);
     }
 }
 
