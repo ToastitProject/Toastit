@@ -47,8 +47,17 @@ public class UserEntity extends JpaAuditingFields {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-//    private List<LikeEntity> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<LikeEntity> likes = new ArrayList<>();
+
+    @Setter
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+    private List<FollowEntity> following = new ArrayList<>();
+
+    @Setter
+    @OneToMany(mappedBy = "followee", cascade = CascadeType.ALL)
+    private List<FollowEntity> followers = new ArrayList<>();
+
 
     public UserEntity(String email, String nickname, String password, Authority authority) {
         this.email = email;

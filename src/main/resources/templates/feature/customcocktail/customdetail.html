@@ -74,6 +74,17 @@
       text-align: center;
     }
 
+    .like-button {
+      background-color: #FFA832;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px; /* Add some space above the button */
+    }
+
     .container1, .container2 {
       padding-top: 40px; /* Add space at the top for the title */
     }
@@ -83,28 +94,91 @@
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 
 <div class="container">
-  <img th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지" class="drink-image">
-  <div class="drink-info">
-    <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
-    <div class="drink-description" th:text="${cocktail.description}">칵테일 설명</div>
-  </div>
+    <img th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지" class="drink-image">
+    <div class="drink-info">
+        <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
+        <div class="drink-description" th:text="${cocktail.description}">칵테일 설명</div>
+        <div class="drink-like-count" th:text="${cocktail.getLikes().size()}">♡</div>
+        <button class="like-button" id="likeButton" onclick="likeCocktail()">좋아요</button>
+    </div>
 </div>
 
 <div class="container1">
-  <div class="section-title">재료</div>
-  <ul class="ingredient-list">
-    <li th:each="ingredient : ${cocktail.ingredients}">
-      <span th:text="${ingredient.name}">재료명</span> -
-      <span th:text="${ingredient.amount}">양</span>
-      <span th:text="${ingredient.unit}">단위</span>
-    </li>
-  </ul>
+    <div class="section-title">재료</div>
+    <ul class="ingredient-list">
+        <li th:each="ingredient : ${cocktail.ingredients}">
+            <span th:text="${ingredient.name}">재료명</span> -
+            <span th:text="${ingredient.amount}">양</span>
+            <span th:text="${ingredient.unit}">단위</span>
+        </li>
+    </ul>
 </div>
 
 <div class="container2">
-  <div class="section-title">레시피</div>
-  <div class="instructions" th:text="${cocktail.recipe}">조리 방법</div>
+    <div class="section-title">레시피</div>
+    <div class="instructions" th:text="${cocktail.recipe}">조리 방법</div>
 </div>
 
+<script>
+    const cocktailName = document.querySelector('.drink-name').innerText; // 칵테일 이름 가져오기
+    const likeButton = document.getElementById('likeButton'); // 버튼 요소 가져오기
+
+    // 페이지 로드 시 좋아요 상태 확인
+    window.onload = function() {
+        const likedCocktails = JSON.parse(localStorage.getItem('likedCocktails')) || [];
+        if (likedCocktails.includes(cocktailName)) {
+            likeButton.innerText = '좋아요 취소'; // 초기 버튼 텍스트 변경
+            isLiked = true; // 좋아요 상태 업데이트
+        }
+    };
+
+    let isLiked = false; // 좋아요 상태 관리 변수
+
+    function likeCocktail() {
+        fetch('/like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "drink-name": cocktailName }) // 칵테일 이름을 JSON 형태로 전송
+        })
+            .then(response => {
+                if (response.ok) {
+                    const likedCocktails = JSON.parse(localStorage.getItem('likedCocktails')) || [];
+
+                    if (!isLiked) {
+                        isLiked = true; // 좋아요 상태 업데이트
+                        likeButton.innerText = '좋아요 취소'; // 버튼 텍스트 변경
+                        likedCocktails.push(cocktailName); // 좋아요 목록에 추가
+                        alert('좋아요가 등록되었습니다!');
+                    } else {
+                        isLiked = false; // 좋아요 상태 업데이트
+                        likeButton.innerText = '좋아요'; // 버튼 텍스트 원래대로 변경
+                        const index = likedCocktails.indexOf(cocktailName);
+                        if (index > -1) {
+                            likedCocktails.splice(index, 1); // 좋아요 목록에서 제거
+                        }
+                        alert('좋아요가 취소되었습니다!');
+                    }
+
+                    // 로컬 스토리지에 좋아요 상태 저장
+                    localStorage.setItem('likedCocktails', JSON.stringify(likedCocktails));
+
+                    // 페이지 새로 고침
+                    setTimeout(() => {
+                        location.reload(); // 페이지를 새로 고침하여 최신 좋아요 갯수 표시
+                    }, 500); // 0.1초 후에 새로 고침
+                } else {
+                    alert('좋아요 처리 중 오류가 발생했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('에러가 발생했습니다.');
+            });
+    }
+</script>
+
 </body>
+
 </html>
