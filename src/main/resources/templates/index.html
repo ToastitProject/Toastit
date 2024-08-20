@@ -3,76 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <title>술프링부트 - 메인 페이지</title>
-<!--    <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">-->
-    <style>
-        body {
-            font-family: 'Gmarket Sans', sans-serif;
-            color: #FFA832;
-        }
-
-        header {
-            display: flex;
-            align-items: center;
-            padding: 10px 30px;
-        }
-
-        .logo {
-            margin-right: 20px;
-            width: 40px;
-            height: 40px;
-        }
-
-        .menu {
-            display: flex;
-            gap: 30px;
-            flex-grow: 0;
-        }
-
-        .menu a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .menu a:hover {
-            color: #FFA832;
-        }
-
-        .profile {
-            margin-left: auto;
-            display: flex;
-            gap: 20px;
-        }
-
-        .profile a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .profile a:hover {
-            color: #FFA832;
-        }
-
-        .divider {
-            border: none;
-            height: 2px;
-            background-color: #FFA832;
-            margin-top: -10px;
-        }
-    </style>
-    <title>술프링 부트</title>
 </head>
 <body>
 
-<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
+<header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
 
 <hr class="divider">
 
-<h2>메인페이지</h2>
+<h2> 메인페이지 </h2>
 
 </body>
 </html>

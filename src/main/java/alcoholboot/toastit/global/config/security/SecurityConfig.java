@@ -38,9 +38,9 @@ public class SecurityConfig {
             "/js/**", // JS 리소스
             "/css/**", // CSS 리소스
             "/user/mypage", // 회원 정보 API
-            "/cocktails/**" // 기본 칵테일 레시피 API
+            "/cocktails/**", // 기본 칵테일 레시피 API
             "/user/eidt", // 회원 정보 수정 API
-            "/user/resign", //회원 탈퇴 API
+            "/user/resign" //회원 탈퇴 API
     };
 
     // 비로그인 유저 허용 페이지

@@ -3,116 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <link th:href="@{/css/categorysearch/categorysearch.css}" rel="stylesheet">
     <title>칵테일 목록</title>
-    <style>
-        body {
-            font-family: 'Gmarket Sans', sans-serif;
-            color: #FFA832;
-        }
-
-        header {
-            display: flex;
-            align-items: center;
-            padding: 10px 30px;
-        }
-
-        .logo {
-            margin-right: 20px;
-            width: 40px;
-            height: 40px;
-        }
-
-        .menu {
-            display: flex;
-            gap: 30px;
-            flex-grow: 0;
-        }
-
-        .menu a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .menu a:hover {
-            color: #FFA832;
-        }
-
-        .profile {
-            margin-left: auto;
-            display: flex;
-            gap: 20px;
-        }
-
-        .profile a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .profile a:hover {
-            color: #FFA832;
-        }
-
-        .divider {
-            border: none;
-            height: 2px;
-            background-color: #FFA832;
-            margin-top: -10px;
-        }
-
-        .cocktail-grid {
-            display: grid;
-            color: black;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .cocktail-item {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-            transition: box-shadow 0.3s ease;
-        }
-        .cocktail-item:hover {
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .cocktail-link {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .pagination {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .pagination a {
-            margin: 0 5px;
-        }
-
-        .cocktail-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .cocktail-button {
-            padding: 10px 15px;
-            background-color: #FFA832;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .cocktail-button:hover {
-            background-color: #FF8C00;
-        }
-    </style>
 </head>
 <body>
 <div th:replace="~{/fragment/navbar-fragment :: navbarFragment}"></div>
@@ -155,5 +48,6 @@
     <span th:text="${currentPage != null ? currentPage + 1 : 1}"></span> / <span th:text="${totalPages}"></span>
     <a th:if="${currentPage < totalPages - 1}" th:href="@{/cocktails/all(page=${currentPage + 1})}">다음</a>
 </div>
+
 </body>
 </html>
