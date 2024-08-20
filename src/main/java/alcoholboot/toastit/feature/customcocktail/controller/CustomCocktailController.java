@@ -44,7 +44,8 @@ public class CustomCocktailController {
     public String customPage(Model model) {
         List<CustomCocktail> cocktails = customCocktailService.getAllCocktails();
         model.addAttribute("cocktails", cocktails);
-        return "/customcocktail/custommain";
+        log.info("haha");
+        return "/feature/customcocktail/custommain";
     }
 
     @GetMapping("/custom/write")
@@ -54,7 +55,7 @@ public class CustomCocktailController {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다");
             return "redirect:/login";
         }
-        return "/customcocktail/write";
+        return "/feature/customcocktail/write";
     }
 
     @PostMapping("/custom")
@@ -127,6 +128,6 @@ public class CustomCocktailController {
         CustomCocktail cocktail = customCocktailService.getCocktailById(id);
         System.out.println(cocktail);
         model.addAttribute("cocktail", cocktail);
-        return "/customcocktail/customdetail";
+        return "/feature/customcocktail/customdetail";
     }
 }
