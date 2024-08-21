@@ -121,6 +121,7 @@ public class CustomCocktailController {
     public String editCocktailForm(@PathVariable("id") Long id, Model model) {
         CustomCocktail cocktail = customCocktailService.getCocktailById(id);
         model.addAttribute("cocktail", cocktail);
+        model.addAttribute("image", cocktail.getImages());
         model.addAttribute("ingredients", cocktail.getIngredients()); // Add ingredients to the model
         return "/feature/customcocktail/edit";
     }
@@ -130,46 +131,37 @@ public class CustomCocktailController {
         try {
             CustomCocktail existingCocktail = customCocktailService.getCocktailById(id);
 
-            // Update cocktail details
+            // 칵테일 정보 업데이트
             existingCocktail.setName(cocktailDTO.getName());
             existingCocktail.setDescription(cocktailDTO.getDescription());
             existingCocktail.setRecipe(cocktailDTO.getRecipe());
 
-            // Clear existing ingredients and add updated ones
-            existingCocktail.getIngredients().clear();
-            for (CocktailDTO.IngredientDTO ingredientDTO : cocktailDTO.getIngredients()) {
-                Ingredient ingredient = new Ingredient();
-                ingredient.setName(ingredientDTO.getName());
-                ingredient.setAmount(ingredientDTO.getAmount());
-                ingredient.setUnit(ingredientDTO.getUnit());
-                existingCocktail.addIngredient(ingredient);
-            }
-
-            // Handle image update
+            // 이미지 업데이트 제어
             if (cocktailDTO.getImage() != null && !cocktailDTO.getImage().isEmpty()) {
-                // Handle image update, ensuring no duplicates
                 String imagePath = s3imageUploadService.uploadCustomImage(cocktailDTO.getImage());
                 String newUrl = imagePath.replace("https://s3.amazonaws.com/toastitbucket",
                         "https://toastitbucket.s3.ap-northeast-2.amazonaws.com");
 
-                Image newImage = new Image();
-                newImage.setImageName(cocktailDTO.getImage().getOriginalFilename());
-                newImage.setImagePath(newUrl);
-                newImage.setCocktail(existingCocktail);
+                Image existingImage = existingCocktail.getImages().stream()
+                        .filter(img -> img.getImageName().equals(cocktailDTO.getImage().getOriginalFilename()))
+                        .findFirst()
+                        .orElse(null);
 
-                // Check if image already exists in the cocktail
-                boolean isDuplicate = existingCocktail.getImages().stream()
-                        .anyMatch(img -> img.getImageName().equals(newImage.getImageName()) && img.getImagePath().equals(newImage.getImagePath()));
-
-                if (!isDuplicate) {
-                    // Optionally clear old images if you want to only keep the latest one
-                    existingCocktail.getImages().clear();
-                    existingCocktail.getImages().add(newImage);
+                if (existingImage != null) {
+                    // 기존 이미지 업데이트
+                    existingImage.setImagePath(newUrl);
                 } else {
-                    log.info("이미지가 중복되어 업데이트하지 않았습니다: {}", newImage.getImageName());
+                    // 새로운 이미지 추가
+                    Image newImage = new Image();
+                    newImage.setImageName(cocktailDTO.getImage().getOriginalFilename());
+                    newImage.setImagePath(newUrl);
+                    newImage.setCocktail(existingCocktail);
+
+                    existingCocktail.getImages().add(newImage);
                 }
             }
 
+            // 칵테일 저장
             customCocktailService.saveCocktail(existingCocktail);
             redirectAttributes.addFlashAttribute("message", "칵테일이 성공적으로 수정되었습니다.");
             return "redirect:/custom/" + id;
@@ -182,11 +174,15 @@ public class CustomCocktailController {
 
 
 
+
+
+
     @PostMapping("/custom/delete/{id}")
     public String deleteCocktail(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
             customCocktailService.deleteCocktail(id);
             redirectAttributes.addFlashAttribute("message", "칵테일이 성공적으로 삭제되었습니다.");
+            System.out.println("칵테일 삭제");
             return "redirect:/custom";
         } catch (Exception e) {
             log.error("칵테일 삭제 실패: ", e);
