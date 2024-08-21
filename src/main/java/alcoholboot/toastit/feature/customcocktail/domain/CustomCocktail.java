@@ -1,6 +1,7 @@
 package alcoholboot.toastit.feature.customcocktail.domain;
 
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
+import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 import jakarta.persistence.*;
@@ -42,6 +43,10 @@ public class CustomCocktail extends JpaAuditingFields {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
+
+    @OneToMany(mappedBy = "customCocktail", cascade = CascadeType.ALL)
+    private List<LikeEntity> likes = new ArrayList<>();
+
 
     public static CustomCocktail createCocktail(UserEntity user, String name, String description, String recipe) {
         CustomCocktail cocktail = new CustomCocktail();

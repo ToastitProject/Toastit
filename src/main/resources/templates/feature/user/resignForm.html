@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/user/joinForm.css}" rel="stylesheet">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <title>술프링부트 - 내 정보</title>
     <style>
         body {
@@ -51,20 +52,25 @@
             border-radius: 10px;
             padding: 20px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 800px;
-            height: 400px;
+            width: 600px;
+            height: 500px;
+            text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             margin: 150px auto;
         }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .profile-pic {
-            padding-left: 0px;
-            margin-right: 100px;
-            border-radius: 10px;
-            width: 200px;
-            height: 200px;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
             object-fit: cover;
+            margin-bottom: 20px;
         }
 
         .info {
@@ -74,8 +80,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding-left: 20px;
-            padding-right: 20px;
+            margin-left: 20px;
         }
 
         .button-container {
@@ -109,11 +114,13 @@
 <hr class="divider">
 
 <div class="card">
-    <img th:src="${user.profileImageUrl}"
-         alt="프로필 사진" class="profile-pic">
+    <div class="profile-container">
+        <img th:src="${user.profileImageUrl}"
+             alt="프로필 사진" class="profile-pic">
+    </div>
     <div class="info">
         <p></p>
-        <p>칵테일은 1도 모르는  <span th:text="${user.nickname}"></span> 회원 님 !</p>
+        <p>칵테일은 1 도 모르는  <span th:text="${user.nickname}"></span> 회원 님 !</p>
         <p>정말로 탈퇴를 진행 하시겠어요??</p>
         <div class="button-container">
             <button class="button" onclick="submitResign()">RESIGN</button>
@@ -142,7 +149,7 @@
             })
             .then(data => {
                 console.log(data);
-                location.href = '/some/other/page'; // 필요 시 리다이렉트
+                location.href = '/';
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);

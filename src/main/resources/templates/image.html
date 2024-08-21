@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>File Upload</title>
+    <link rel="stylesheet" href="/dist/output.css">
 </head>
 <body>
 <h1>Upload a static image file</h1>
@@ -17,6 +18,7 @@
             <img th:src="'https://toastitbucket.s3.ap-northeast-2.amazonaws.com/static' + ${#strings.replace(image.imagePath, 'https://s3.amazonaws.com/toastitbucket/static', '')}" alt="Uploaded Image" style="max-width: 200px; max-height: 200px;" />
         </li>
     </ul>
+    <div class="container"></div>
 </div>
 </body>
 </html>
