@@ -1,6 +1,8 @@
 
 package alcoholboot.toastit.feature.user.controller;
 
+import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
+import alcoholboot.toastit.feature.categorysearch.service.CocktailService;
 import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
 import alcoholboot.toastit.feature.customcocktail.service.CustomCocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
@@ -10,11 +12,14 @@ import alcoholboot.toastit.feature.user.service.LikeService;
 import alcoholboot.toastit.feature.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 import java.util.Optional;
@@ -26,6 +31,7 @@ public class LikeController {
     private final UserService userService;
     private final LikeService likeService;
     private final CustomCocktailService customCocktailService;
+    private final CocktailService cocktailService;
 
     @PostMapping("/like")
     public String likeCocktail(@RequestBody Map<String, String> requestBody) {
@@ -58,6 +64,49 @@ public class LikeController {
         }
         return "redirect:/user/mypage";
     }
+
+    @PostMapping("/defaultLike")
+    public String likeDefaultCocktail(@RequestBody Map<String, String> requestBody) {
+        log.info("Default cocktail 좋아요 postMapping 전송됨");
+
+        // 로그인 한 user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loginUserEmail = authentication.getName();
+        Optional<User> loginUser = userService.findByEmail(loginUserEmail);
+
+        // 좋아요 할 칵테일
+        String defaultCocktailIdstr = requestBody.get("default-cocktail-number");
+        log.info("좋아요 할 기본 칵테일 ID : "+defaultCocktailIdstr);
+        ObjectId defaultCocktailId = new ObjectId(defaultCocktailIdstr);
+
+
+        Optional<Cocktail> cocktail = cocktailService.getCocktailById(defaultCocktailId);
+
+        log.info("로그인 한 User 닉네임 : " + loginUser.get().getNickname());
+        log.info("좋아요 할 Default cocktail ID : " + cocktail.get().getId());
+
+        // 이미 좋아요가 있는지 확인하는 객체 생성
+        LikeEntity existingLike = likeService.findByUserIdAndDefaultCocktailsId(loginUser.get().getId(),defaultCocktailId);
+
+        if (existingLike != null) {
+            // 기존 좋아요가 존재하면 삭제
+            log.info("Default cocktail 에 좋아요가 확인 됨");
+            cocktail.get().setLikeCount(cocktail.get().getLikeCount() - 1);
+            likeService.deleteLike(existingLike);
+            log.info("기존 좋아요가 취소되었습니다. cocktail id: " + cocktail.get().getId());
+        } else {
+            log.info("기존에 존재하는 좋아요 없음이 확인 됨");
+            LikeEntity like = new LikeEntity();
+            like.setUser(loginUser.get().convertToEntity());
+            like.setDefaultCocktailsId(defaultCocktailId);
+            likeService.saveLike(like);
+            log.info("좋아요가 추가되었습니다. cocktail id: " + cocktail.get().getId());
+            log.info("like 객체에 저장된 login user id : " + like.getUser().getId());
+        }
+
+        return "redirect:/cocktails/all";
+    }
+
 }
 
 
