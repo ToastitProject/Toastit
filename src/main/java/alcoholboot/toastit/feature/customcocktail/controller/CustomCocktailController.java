@@ -7,8 +7,11 @@ import alcoholboot.toastit.feature.customcocktail.domain.Ingredient;
 import alcoholboot.toastit.feature.customcocktail.dto.CocktailDTO;
 import alcoholboot.toastit.feature.customcocktail.service.CustomCocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
+import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
+import alcoholboot.toastit.feature.user.service.LikeService;
 import alcoholboot.toastit.feature.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +34,14 @@ public class CustomCocktailController {
     private final CustomCocktailService customCocktailService;
     private final S3imageUploadService s3imageUploadService;
     private final UserService userService;
+    private final LikeService likeService;
 
     @Autowired
-    public CustomCocktailController(CustomCocktailService customCocktailService, S3imageUploadService s3imageUploadService, UserService userService) {
+    public CustomCocktailController(CustomCocktailService customCocktailService, S3imageUploadService s3imageUploadService, UserService userService, LikeService likeService) {
         this.customCocktailService = customCocktailService;
         this.s3imageUploadService = s3imageUploadService;
         this.userService = userService;
+        this.likeService = likeService;
     }
 
     @GetMapping("/custom")
@@ -208,6 +213,21 @@ public class CustomCocktailController {
         }
 
         model.addAttribute("cocktail", cocktail);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            String loginUserEmail = authentication.getName();
+            Optional<User> loginUser = userService.findByEmail(loginUserEmail);
+
+            if (loginUser.isPresent()) {
+                LikeEntity existingLike = likeService.findByUserIdAndCustomCocktailId(loginUser.get().getId(), id);
+                model.addAttribute("isLiked", existingLike != null); // 좋아요 여부 추가
+            } else {
+                model.addAttribute("isLiked", false); // 로그인 사용자 없음
+            }
+        } else {
+            model.addAttribute("isLiked", false); // 로그인하지 않은 경우
+        }
         return "/feature/customcocktail/customdetail";
     }
 }

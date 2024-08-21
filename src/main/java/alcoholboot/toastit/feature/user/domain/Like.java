@@ -4,6 +4,7 @@ import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import lombok.*;
+import org.bson.types.ObjectId;
 
 @Getter
 @Setter
@@ -13,6 +14,7 @@ import lombok.*;
 public class Like {
     private Long id;
     private Long cocktailId;
+    private ObjectId defaultCocktailId;
     private CustomCocktail customCocktail;
     private UserEntity userEntity;
 
@@ -20,6 +22,7 @@ public class Like {
         return LikeEntity.builder()
                 .id(this.id)
                 .cocktailId(this.cocktailId)
+                .defaultCocktailsId(this.defaultCocktailId)
                 .customCocktail(this.getCustomCocktail())
                 .user(userEntity)
                 .build();
