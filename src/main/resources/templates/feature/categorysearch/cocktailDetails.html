@@ -16,17 +16,6 @@
             padding: 10px 30px;
         }
 
-        .logo {
-            margin-right: 20px;
-            width: 40px;
-            height: 40px;
-        }
-
-        .menu {
-            display: flex;
-            gap: 30px;
-            flex-grow: 0;
-        }
 
         .menu a {
             text-decoration: none;
@@ -39,11 +28,6 @@
             color: #FFA832;
         }
 
-        .profile {
-            margin-left: auto;
-            display: flex;
-            gap: 20px;
-        }
 
         .profile a {
             text-decoration: none;
@@ -78,7 +62,7 @@
         .ingredient-list li {
             margin-bottom: 5px;
         }
-        .back-button {
+        .back-button like-button {
             display: inline-block;
             margin-top: 20px;
             padding: 10px 15px;
@@ -91,6 +75,20 @@
         .back-button:hover {
             background-color: #FF8C00;
         }
+        .like-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #FFA832;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .like-button:hover {
+            background-color: #FF8C00;
+        }
+
     </style>
 </head>
 <body>
@@ -100,9 +98,11 @@
 
 <div th:if="${cocktail.isPresent()}" class="cocktail-details">
     <h1 th:text="${cocktail.get().strDrink}">칵테일 이름</h1>
+    <h1 class="default-cocktail-number" th:text="${cocktail.get().getId()}" style="display: none" >칵테일 번호</h1>
     <p><strong>종류:</strong> <span th:text="${cocktail.get().strAlcoholic}"></span></p>
     <p><strong>카테고리:</strong> <span th:text="${cocktail.get().strCategory}"></span></p>
     <p><strong>잔 종류:</strong> <span th:text="${cocktail.get().strGlass}"></span></p>
+
 
     <h2>재료:</h2>
     <ul class="ingredient-list">
@@ -117,7 +117,7 @@
     <h2>제조 방법:</h2>
     <p th:text="${cocktail.get().strInstructions}"></p>
 
-    <p><strong>좋아요 수:</strong> <span th:text="${cocktail.get().likeCount}"></span></p>
+    <p><strong>좋아요 수:</strong> <span th:text="${likeCount}">0</span></p>
 </div>
 
 <div th:unless="${cocktail.isPresent()}">
@@ -125,5 +125,43 @@
 </div>
 
 <a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
+<button class="like-button" id="likeButton"
+        th:text="${isLiked ? '좋아요 취소' : '좋아요'}" onClick="likeCocktail()"></button>
+
+<script>
+    const cocktailId = document.querySelector('.default-cocktail-number').innerText; // 칵테일 번호 가져오기
+    const likeButton = document.getElementById('likeButton'); // 버튼 요소 가져오기
+
+    // 좋아요 상태 관리 변수
+    let isLiked = /*[[${isLiked}]]*/ false; // 서버에서 받은 좋아요 상태
+
+    function likeCocktail() {
+        fetch('/defaultLike', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "default-cocktail-number": cocktailId }) // 칵테일 이름을 JSON 형태로 전송
+        })
+            .then(response => {
+                if (response.ok) {
+                    isLiked = !isLiked; // 좋아요 상태 토글
+                    likeButton.innerText = isLiked ? '좋아요 취소' : '좋아요'; // 버튼 텍스트 변경
+                    alert(isLiked ? '좋아요 상태가 반영되었습니다!' : '좋아요가 취소되었습니다!');
+
+                    // 페이지 새로 고침
+                    setTimeout(() => {
+                        location.reload(); // 페이지를 새로 고침하여 최신 좋아요 갯수 표시
+                    }, 500); // 0.5초 후에 새로 고침
+                } else {
+                    alert('좋아요 처리 중 오류가 발생했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('에러가 발생했습니다.');
+            });
+    }
+</script>
 </body>
 </html>

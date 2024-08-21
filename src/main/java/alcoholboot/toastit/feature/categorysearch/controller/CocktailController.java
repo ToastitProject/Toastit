@@ -2,7 +2,12 @@ package alcoholboot.toastit.feature.categorysearch.controller;
 
 import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
 import alcoholboot.toastit.feature.categorysearch.service.CocktailService;
+import alcoholboot.toastit.feature.user.domain.User;
+import alcoholboot.toastit.feature.user.entity.LikeEntity;
+import alcoholboot.toastit.feature.user.service.LikeService;
+import alcoholboot.toastit.feature.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,16 +15,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Controller
 //@RestController
 @RequiredArgsConstructor
 @RequestMapping("/cocktails")
 public class CocktailController {
     private final CocktailService cocktailService;
+    private final LikeService likeService;
+    private final UserService userService;
 
     // 레시피 탐색
     /*@GetMapping("/all")
@@ -29,6 +40,7 @@ public class CocktailController {
 
         return ResponseEntity.ok(cocktails);
     }*/
+
     @GetMapping("/all")
     public String getAllCocktails(
             @RequestParam(defaultValue = "0") int page,
@@ -137,9 +149,31 @@ public class CocktailController {
     @GetMapping("/id")
     public String getCocktailById(
             @RequestParam("id") String id,
-            Model model) {
+            Model model,
+            RedirectAttributes redirectAttributes) {
         Optional<Cocktail> cocktail = cocktailService.getCocktailById(new ObjectId(id));
         model.addAttribute("cocktail", cocktail);
+
+        ObjectId defaultCocktailId = new ObjectId(id);
+        int likeCount = likeService.countByDefaultCocktailsId(defaultCocktailId);
+        model.addAttribute("likeCount", likeCount);
+        log.info(defaultCocktailId + " 의 좋아요 갯 수 : "+likeCount);
+
+        // 로그인한 사용자의 좋아요 상태 확인
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            String loginUserEmail = authentication.getName();
+            Optional<User> loginUser = userService.findByEmail(loginUserEmail);
+
+            if (loginUser.isPresent()) {
+                LikeEntity existingLike = likeService.findByUserIdAndDefaultCocktailsId(loginUser.get().getId(), defaultCocktailId);
+                model.addAttribute("isLiked", existingLike != null); // 좋아요 여부 추가
+            } else {
+                model.addAttribute("isLiked", false); // 로그인 사용자 없음
+            }
+        } else {
+            model.addAttribute("isLiked", false); // 로그인하지 않은 경우
+        }
 
         return "feature/categorysearch/cocktailDetails";
     }
