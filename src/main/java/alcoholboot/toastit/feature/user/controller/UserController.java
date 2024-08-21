@@ -191,8 +191,8 @@ public class UserController {
         return "redirect:/user/login";
     }
 
-    @GetMapping("/mypage")
-    public String showMyPage(Model model) {
+    @GetMapping("/mypages")
+    public String showMyPages(Model model) {
         log.info("myPage 로 GetMapping 들어옴!");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
@@ -205,6 +205,50 @@ public class UserController {
                 log.info("찾은 user Nickname 을 모델에 담은 값 : " + userOptional.get().getNickname());
                 log.info("찾은 user create_date 를 모델에 담은 값 : " + userOptional.get().getCreateDate());
                 log.info("이미지 url : " +userOptional.get().getProfileImageUrl());
+            } else {
+                model.addAttribute("error", "사용자를 찾을 수 없습니다.");
+            }
+        } else {
+            model.addAttribute("error", "사용자가 인증되지 않았습니다.");
+        }
+
+        return "/feature/user/mypageForm";
+    }
+
+    @GetMapping("/mypage")
+    public String showMyPage(@RequestParam("nickname") String nickname, Model model) {
+        log.info("myPage로 GetMapping 들어옴!");
+
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            String email = authentication.getName();
+
+            // 로그인한 사용자 정보 조회
+            Optional<User> loggedInUserOptional = userService.findByEmail(email);
+            if (loggedInUserOptional.isPresent()) {
+                User loggedInUser = loggedInUserOptional.get();
+                model.addAttribute("loggedInUser", loggedInUser);
+
+                log.info("로그인한 사용자 email: " + loggedInUser.getEmail());
+                log.info("로그인한 사용자 Nickname: " + loggedInUser.getNickname());
+
+                // 요청된 닉네임과 로그인한 사용자의 닉네임 비교
+                if (loggedInUser.getNickname().equals(nickname)) {
+                    // 자신의 정보인 경우
+                    model.addAttribute("user", loggedInUser);
+                    log.info("자신의 정보를 보여줍니다.");
+                } else {
+                    // 다른 사용자의 정보인 경우
+                    Optional<User> otherUserOptional = userService.findByNickname(nickname);
+                    if (otherUserOptional.isPresent()) {
+                        model.addAttribute("user", otherUserOptional.get());
+                        log.info("다른 사용자의 정보를 보여줍니다: " + nickname);
+                    } else {
+                        model.addAttribute("error", "다른 사용자를 찾을 수 없습니다.");
+                    }
+                }
             } else {
                 model.addAttribute("error", "사용자를 찾을 수 없습니다.");
             }

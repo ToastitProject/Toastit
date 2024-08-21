@@ -90,7 +90,9 @@
             <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
             <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
             <div class="nickname">
-                <span th:text="${cocktail.user.nickname}">닉네임</span>
+                <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none; color: inherit;">
+                    <span th:text="${cocktail.user.nickname}">닉네임</span>
+                </a>
                 <br>
                 <!-- 날짜와 시간을 분리하고, 분 단위까지만 출력 -->
                 <span th:text="${#temporals.format(cocktail.createDate, 'yyyy-MM-dd')}">작성일자</span>
@@ -98,7 +100,7 @@
             </div>
         </a>
     </div>
-
 </div>
+
 </body>
 </html>
