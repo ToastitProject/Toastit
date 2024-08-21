@@ -1,13 +1,12 @@
 package alcoholboot.toastit.feature.user.service;
 
-//import alcoholboot.toastit.feature.user.domain.Like;
-//import alcoholboot.toastit.feature.user.entity.LikeEntity;
-//import org.bson.types.ObjectId;
-//
-//import java.util.Optional;
-//
-//public interface LikeService {
-//    void save(Like like);
-//    void delete(Like like);
-//    Optional<LikeEntity> findByUserIdAndCocktailId(Long userId, ObjectId cocktailId);
-//}
+import alcoholboot.toastit.feature.user.entity.LikeEntity;
+import org.springframework.stereotype.Service;
+
+
+@Service
+public interface LikeService {
+    LikeEntity findByUserIdAndCustomCocktailId (Long userId, Long CustomCocktailId);
+void saveLike (LikeEntity likeEntity);
+void deleteLike (LikeEntity likeEntity);
+}

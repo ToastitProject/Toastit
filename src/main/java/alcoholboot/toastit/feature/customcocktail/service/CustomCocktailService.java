@@ -2,6 +2,7 @@ package alcoholboot.toastit.feature.customcocktail.service;
 
 import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
 import alcoholboot.toastit.feature.customcocktail.repository.CustomCocktailRepository;
+import alcoholboot.toastit.feature.user.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

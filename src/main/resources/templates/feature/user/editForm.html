@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/user/joinForm.css}" rel="stylesheet">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <title>술프링부트 - 내 정보 수정</title>
     <style>
         body {
@@ -18,18 +19,6 @@
             padding: 10px 30px;
         }
 
-        .logo {
-            margin-right: 20px;
-            width: 40px;
-            height: 40px;
-        }
-
-        .menu {
-            display: flex;
-            gap: 30px;
-            flex-grow: 0;
-        }
-
         .menu a {
             text-decoration: none;
             color: black;
@@ -39,12 +28,6 @@
 
         .menu a:hover {
             color: #FFA832;
-        }
-
-        .profile {
-            margin-left: auto;
-            display: flex;
-            gap: 20px;
         }
 
         .profile a {
@@ -69,20 +52,25 @@
             border-radius: 10px;
             padding: 20px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 800px;
-            height: 400px;
+            width: 600px;
+            height: 500px;
+            text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             margin: 150px auto;
         }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .profile-pic {
-            padding-left: 0px;
-            margin-right: 100px;
-            border-radius: 10px;
-            width: 200px;
-            height: 200px;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
             object-fit: cover;
+            margin-bottom: 20px;
         }
 
         .info {
@@ -92,9 +80,9 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding-left: 20px;
-            padding-right: 20px;
+            margin-left: 20px;
         }
+
 
         .button-container {
             margin-top: 20px;
@@ -128,8 +116,10 @@
 <hr class="divider">
 
 <div class="card">
-    <img th:src="${user.profileImageUrl}"
-         alt="프로필 사진" class="profile-pic">
+    <div class="profile-container">
+        <img th:src="${user.profileImageUrl}"
+             alt="프로필 사진" class="profile-pic">
+    </div>
     <div class="info">
         <form action="/user/edit" method="post">
             <p>이메일: <span th:text="${user.email}"></span></p>
