@@ -1,10 +1,10 @@
 
 package alcoholboot.toastit.feature.user.controller;
 
-import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
-import alcoholboot.toastit.feature.categorysearch.service.CocktailService;
 import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
 import alcoholboot.toastit.feature.customcocktail.service.CustomCocktailService;
+import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
+import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 
@@ -41,6 +41,7 @@ public class LikeController {
         Optional<User> loginUser = userService.findByEmail(loginUserEmail);
 
         String cocktailName = requestBody.get("drink-name");
+
         CustomCocktail cocktail = customCocktailService.findIdByName(cocktailName);
 
         log.info("현재 로그인 한 user email : " + loginUserEmail);
