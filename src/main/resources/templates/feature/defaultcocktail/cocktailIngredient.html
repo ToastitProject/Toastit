@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <link th:href="@{/css/defaultcocktail/defaultcocktail.css}" rel="stylesheet">
+    <title>재료로 칵테일 검색</title>
+    <!--    <style>-->
+    <!--        body {-->
+    <!--            font-family: Arial, sans-serif;-->
+    <!--            line-height: 1.6;-->
+    <!--            margin: 0;-->
+    <!--            padding: 20px;-->
+    <!--            background-color: #f4f4f4;-->
+    <!--        }-->
+
+    <!--        .container {-->
+    <!--            max-width: 1200px;-->
+    <!--            margin: auto;-->
+    <!--            background: white;-->
+    <!--            padding: 20px;-->
+    <!--            border-radius: 5px;-->
+    <!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
+    <!--        }-->
+
+    <!--        h1, h2 {-->
+    <!--            color: #333;-->
+    <!--        }-->
+
+    <!--        .search-form {-->
+    <!--            margin-bottom: 20px;-->
+    <!--        }-->
+
+    <!--        .search-form input[type="text"] {-->
+    <!--            padding: 10px;-->
+    <!--            width: 300px;-->
+    <!--            border: 1px solid #ddd;-->
+    <!--            border-radius: 4px;-->
+    <!--        }-->
+
+    <!--        .search-form button {-->
+    <!--            padding: 10px 20px;-->
+    <!--            background-color: #007bff;-->
+    <!--            color: white;-->
+    <!--            border: none;-->
+    <!--            border-radius: 4px;-->
+    <!--            cursor: pointer;-->
+    <!--        }-->
+
+    <!--        .search-form button:hover {-->
+    <!--            background-color: #0056b3;-->
+    <!--        }-->
+
+    <!--        .cocktail-grid {-->
+    <!--            display: grid;-->
+    <!--            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));-->
+    <!--            gap: 20px;-->
+    <!--        }-->
+
+    <!--        .cocktail-item {-->
+    <!--            border: 1px solid #ddd;-->
+    <!--            padding: 15px;-->
+    <!--            border-radius: 8px;-->
+    <!--            background-color: #fff;-->
+    <!--        }-->
+
+    <!--        .cocktail-item h3 {-->
+    <!--            margin-top: 0;-->
+    <!--            color: #007bff;-->
+    <!--        }-->
+
+    <!--        .pagination {-->
+    <!--            margin-top: 20px;-->
+    <!--            text-align: center;-->
+    <!--        }-->
+
+    <!--        .pagination a {-->
+    <!--            margin: 0 5px;-->
+    <!--            text-decoration: none;-->
+    <!--            color: #007bff;-->
+    <!--            padding: 5px 10px;-->
+    <!--            border: 1px solid #007bff;-->
+    <!--            border-radius: 3px;-->
+    <!--        }-->
+
+    <!--    </style>-->
+</head>
+<body>
+
+<div th:replace="~{/fragment/navbar-fragment :: navbarFragment}"></div>
+
+<hr class="divider">
+
+<h1>재료로 칵테일 검색</h1>
+
+<div class="search-form">
+    <form th:action="@{/cocktails/all/ingredient}" method="get">
+        <input type="hidden" name="page" value="0">
+        <input type="text" name="ingredient" th:value="${ingredient}" placeholder="재료 입력 (예: 보드카, 럼)">
+        <button type="submit">검색</button>
+    </form>
+</div>
+
+<div th:if="${ingredient}" class="search-result">
+    <h2>검색된 재료: <span th:text="${ingredient}"></span></h2>
+</div>
+
+<div th:if="${cocktails != null and cocktails.isEmpty()}" class="error-message">
+    검색 결과가 없습니다. 다른 재료를 입력해보세요.
+</div>
+
+<div class="cocktail-grid">
+    <div th:each="cocktail : ${cocktails}" class="cocktail-item">
+        <a th:href="@{/cocktails/id(id=${cocktail.id})}" class="cocktail-link">
+            <h2 th:text="${cocktail.strDrink}"></h2>
+            <p>종류: <span th:text="${cocktail.strAlcoholic}"></span></p>
+            <p>카테고리: <span th:text="${cocktail.strCategory}"></span></p>
+            <p>잔 종류: <span th:text="${cocktail.strGlass}"></span></p>
+            <h3>재료:</h3>
+            <ul>
+                <li th:if="${cocktail.strIngredient1 != null and !cocktail.strIngredient1.isEmpty()}"
+                    th:text="${cocktail.strIngredient1 + (cocktail.strMeasure1 != null and !cocktail.strMeasure1.isEmpty() ? ' - ' + cocktail.strMeasure1 : '')}"></li>
+                <li th:if="${cocktail.strIngredient2 != null and !cocktail.strIngredient2.isEmpty()}"
+                    th:text="${cocktail.strIngredient2 + (cocktail.strMeasure2 != null and !cocktail.strMeasure2.isEmpty() ? ' - ' + cocktail.strMeasure2 : '')}"></li>
+                <li th:if="${cocktail.strIngredient3 != null and !cocktail.strIngredient3.isEmpty()}"
+                    th:text="${cocktail.strIngredient3 + (cocktail.strMeasure3 != null and !cocktail.strMeasure3.isEmpty() ? ' - ' + cocktail.strMeasure3 : '')}"></li>
+                <li th:if="${cocktail.strIngredient4 != null and !cocktail.strIngredient4.isEmpty()}"
+                    th:text="${cocktail.strIngredient4 + (cocktail.strMeasure4 != null and !cocktail.strMeasure4.isEmpty() ? ' - ' + cocktail.strMeasure4 : '')}"></li>
+                <li th:if="${cocktail.strIngredient5 != null and !cocktail.strIngredient5.isEmpty()}"
+                    th:text="${cocktail.strIngredient5 + (cocktail.strMeasure5 != null and !cocktail.strMeasure5.isEmpty() ? ' - ' + cocktail.strMeasure5 : '')}"></li>
+                <li th:if="${cocktail.strIngredient6 != null and !cocktail.strIngredient6.isEmpty()}"
+                    th:text="${cocktail.strIngredient6 + (cocktail.strMeasure6 != null and !cocktail.strMeasure6.isEmpty() ? ' - ' + cocktail.strMeasure6 : '')}"></li>
+            </ul>
+            <p>제조 방법: <span th:text="${cocktail.strInstructions}"></span></p>
+            <p>좋아요 수: <span th:text="${cocktail.likeCount}"></span></p>
+        </a>
+    </div>
+</div>
+
+<!--페이지네이션 부분을 수정했습니다. 이제 1 페이지에 모두 나타나면 1로
+ 그 이상이면 1 / 2 같은 방식으로 표현됩니다.-->
+<div class="pagination">
+    <a th:if="${currentPage > 0}" th:href="@{/cocktails/all/ingredient(page=${currentPage - 1})}">이전</a>
+    <span th:text="${currentPage != null ? currentPage + 1 : 1}"></span> / <span th:text="${totalPages}"></span>
+    <a th:if="${currentPage < totalPages - 1}" th:href="@{/cocktails/all/ingredient(page=${currentPage + 1})}">다음</a>
+</div>
+
+</body>
+</html>

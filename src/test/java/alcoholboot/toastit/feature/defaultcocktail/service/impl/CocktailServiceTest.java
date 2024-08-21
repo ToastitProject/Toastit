@@ -1,9 +1,9 @@
 /*
-package alcoholboot.toastit.feature.categorysearch.service.impl;
+package alcoholboot.toastit.feature.defaultcocktail.service.impl;
 
-import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
-import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
-import alcoholboot.toastit.feature.categorysearch.repository.CocktailRepository;
+import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
+import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailEntity;
+import alcoholboot.toastit.feature.defaultcocktail.repository.CocktailRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

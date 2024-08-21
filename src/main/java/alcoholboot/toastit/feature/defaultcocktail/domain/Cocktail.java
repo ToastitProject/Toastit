@@ -1,84 +1,59 @@
-package alcoholboot.toastit.feature.categorysearch.entity;
+package alcoholboot.toastit.feature.defaultcocktail.domain;
 
-import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailDocument;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
+@Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Document(collection = "cocktails")
-public class CocktailDocument {
-    @Id
-    @Field("_id")
-    private ObjectId id;
+public class Cocktail {
 
-    @Field("strDrink")
+    private String id;
+
     private String strDrink;
 
-    @NotNull
-    @Field("strAlcoholic")
     private String strAlcoholic;
 
-    @NotNull
-    @Field("strCategory")
     private String strCategory;
 
-    @NotNull
-    @Field("strGlass")
     private String strGlass;
 
-    @Field("strIngredient1")
     private String strIngredient1;
 
-    @Field("strIngredient2")
     private String strIngredient2;
 
-    @Field("strIngredient3")
     private String strIngredient3;
 
-    @Field("strIngredient4")
     private String strIngredient4;
 
-    @Field("strIngredient5")
     private String strIngredient5;
 
-    @Field("strIngredient6")
     private String strIngredient6;
 
-    @Field("strInstructions")
     private String strInstructions;
 
-    @Field("strMeasure1")
     private String strMeasure1;
 
-    @Field("strMeasure2")
     private String strMeasure2;
 
-    @Field("strMeasure3")
     private String strMeasure3;
 
-    @Field("strMeasure4")
     private String strMeasure4;
 
-    @Field("strMeasure5")
     private String strMeasure5;
 
-    @Field("strMeasure6")
     private String strMeasure6;
 
-    @Field("likeCount")
     private Integer likeCount;
 
-    // 아직 도메인과 엔티티의 변환을 사용하지 않음. 사용법 고안해야 함
-    public Cocktail convertToDomain() {
-        return Cocktail.builder()
-                .id(this.id.toString())
+    public CocktailDocument convertToEntity() {
+        return CocktailDocument.builder()
+                .id(new ObjectId(this.id))
                 .strDrink(this.strDrink)
                 .strAlcoholic(this.strAlcoholic)
                 .strCategory(this.strCategory)

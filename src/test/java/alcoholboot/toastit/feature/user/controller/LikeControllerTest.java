@@ -1,8 +1,8 @@
 /*
 package alcoholboot.toastit.feature.user.controller;
 
-import alcoholboot.toastit.feature.categorysearch.entity.CocktailEntity;
-import alcoholboot.toastit.feature.categorysearch.service.CocktailService;
+import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailEntity;
+import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
 import alcoholboot.toastit.feature.user.domain.Like;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
