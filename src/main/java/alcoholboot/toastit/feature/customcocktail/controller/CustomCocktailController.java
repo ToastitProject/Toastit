@@ -199,35 +199,30 @@ public class CustomCocktailController {
     @GetMapping("/custom/{id}")
     public String showCustomDetail(@PathVariable("id") Long id, Model model) {
         CustomCocktail cocktail = customCocktailService.getCocktailById(id);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
-            String email = authentication.getName();
-            Optional<User> userOptional = userService.findByEmail(email);
-
-            if (userOptional.isPresent()) {
-                User user = userOptional.get();
-                boolean isOwner = cocktail.getUser().getEmail().equals(user.getEmail());
-                model.addAttribute("isOwner", isOwner);
-            }
-        }
-
         model.addAttribute("cocktail", cocktail);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             String loginUserEmail = authentication.getName();
             Optional<User> loginUser = userService.findByEmail(loginUserEmail);
 
             if (loginUser.isPresent()) {
-                LikeEntity existingLike = likeService.findByUserIdAndCustomCocktailId(loginUser.get().getId(), id);
-                model.addAttribute("isLiked", existingLike != null); // 좋아요 여부 추가
+                User user = loginUser.get();
+                boolean isOwner = cocktail.getUser().getId().equals(user.getId());
+                model.addAttribute("isOwner", isOwner);
+
+                LikeEntity existingLike = likeService.findByUserIdAndCustomCocktailId(user.getId(), id);
+                model.addAttribute("isLiked", existingLike != null);
             } else {
-                model.addAttribute("isLiked", false); // 로그인 사용자 없음
+                model.addAttribute("isOwner", false);
+                model.addAttribute("isLiked", false);
             }
         } else {
-            model.addAttribute("isLiked", false); // 로그인하지 않은 경우
+            model.addAttribute("isOwner", false);
+            model.addAttribute("isLiked", false);
         }
+
         return "/feature/customcocktail/customdetail";
     }
+
 }
