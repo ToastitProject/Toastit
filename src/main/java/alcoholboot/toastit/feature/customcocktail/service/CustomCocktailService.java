@@ -40,5 +40,9 @@ public class CustomCocktailService {
     public CustomCocktail findIdByName(String cocktailName) {
         return customCocktailRepository.findIdByName(cocktailName);
     }
+
+    public void deleteCocktail(Long id) {
+        customCocktailRepository.deleteById(id);
+    }
 }
 

@@ -21,7 +21,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -49,14 +48,14 @@ public class CustomCocktailController {
     public String customPage(Model model) {
         List<CustomCocktail> cocktails = customCocktailService.getAllCocktails();
         model.addAttribute("cocktails", cocktails);
-        log.info("haha");
+        log.info("Accessed custom cocktails page");
         return "/feature/customcocktail/custommain";
     }
 
     @GetMapping("/custom/write")
     public String customWritePage(RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
+        if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다");
             return "redirect:/login";
         }
@@ -96,8 +95,6 @@ public class CustomCocktailController {
 
                 // 이미지 추가 및 업로드
                 if (cocktailDTO.getImage() != null && !cocktailDTO.getImage().isEmpty()) {
-
-
                     String imagePath = s3imageUploadService.uploadCustomImage(cocktailDTO.getImage());
                     String newUrl = imagePath.replace("https://s3.amazonaws.com/toastitbucket",
                             "https://toastitbucket.s3.ap-northeast-2.amazonaws.com");
@@ -119,35 +116,113 @@ public class CustomCocktailController {
         } catch (Exception e) {
             log.error("칵테일 저장 실패: ", e);
             redirectAttributes.addFlashAttribute("message", "칵테일 저장 중 오류가 발생했습니다.");
-            return "redirect:/customcocktail/write";
+            return "redirect:/custom/write";
         }
 
-        return "redirect:/customcocktail";
+        return "redirect:/custom";
+    }
+
+    @GetMapping("/custom/edit/{id}")
+    public String editCocktailForm(@PathVariable("id") Long id, Model model) {
+        CustomCocktail cocktail = customCocktailService.getCocktailById(id);
+        model.addAttribute("cocktail", cocktail);
+        model.addAttribute("image", cocktail.getImages());
+        model.addAttribute("ingredients", cocktail.getIngredients()); // Add ingredients to the model
+        return "/feature/customcocktail/edit";
+    }
+
+    @PostMapping("/custom/edit/{id}")
+    public String updateCocktail(@PathVariable("id") Long id, @ModelAttribute CocktailDTO cocktailDTO, RedirectAttributes redirectAttributes) {
+        try {
+            CustomCocktail existingCocktail = customCocktailService.getCocktailById(id);
+
+            // 칵테일 정보 업데이트
+            existingCocktail.setName(cocktailDTO.getName());
+            existingCocktail.setDescription(cocktailDTO.getDescription());
+            existingCocktail.setRecipe(cocktailDTO.getRecipe());
+
+            // 이미지 업데이트 제어
+            if (cocktailDTO.getImage() != null && !cocktailDTO.getImage().isEmpty()) {
+                String imagePath = s3imageUploadService.uploadCustomImage(cocktailDTO.getImage());
+                String newUrl = imagePath.replace("https://s3.amazonaws.com/toastitbucket",
+                        "https://toastitbucket.s3.ap-northeast-2.amazonaws.com");
+
+                Image existingImage = existingCocktail.getImages().stream()
+                        .filter(img -> img.getImageName().equals(cocktailDTO.getImage().getOriginalFilename()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (existingImage != null) {
+                    // 기존 이미지 업데이트
+                    existingImage.setImagePath(newUrl);
+                } else {
+                    // 새로운 이미지 추가
+                    Image newImage = new Image();
+                    newImage.setImageName(cocktailDTO.getImage().getOriginalFilename());
+                    newImage.setImagePath(newUrl);
+                    newImage.setCocktail(existingCocktail);
+
+                    existingCocktail.getImages().add(newImage);
+                }
+            }
+
+            // 칵테일 저장
+            customCocktailService.saveCocktail(existingCocktail);
+            redirectAttributes.addFlashAttribute("message", "칵테일이 성공적으로 수정되었습니다.");
+            return "redirect:/custom/" + id;
+        } catch (Exception e) {
+            log.error("칵테일 수정 실패: ", e);
+            redirectAttributes.addFlashAttribute("message", "칵테일 수정 중 오류가 발생했습니다.");
+            return "redirect:/custom/edit/" + id;
+        }
     }
 
 
 
-    //게시물 세부 페이지
+
+
+
+    @PostMapping("/custom/delete/{id}")
+    public String deleteCocktail(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        try {
+            customCocktailService.deleteCocktail(id);
+            redirectAttributes.addFlashAttribute("message", "칵테일이 성공적으로 삭제되었습니다.");
+            System.out.println("칵테일 삭제");
+            return "redirect:/custom";
+        } catch (Exception e) {
+            log.error("칵테일 삭제 실패: ", e);
+            redirectAttributes.addFlashAttribute("message", "칵테일 삭제 중 오류가 발생했습니다.");
+            return "redirect:/custom/" + id;
+        }
+    }
+
     @GetMapping("/custom/{id}")
     public String showCustomDetail(@PathVariable("id") Long id, Model model) {
         CustomCocktail cocktail = customCocktailService.getCocktailById(id);
-        System.out.println(cocktail);
         model.addAttribute("cocktail", cocktail);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             String loginUserEmail = authentication.getName();
             Optional<User> loginUser = userService.findByEmail(loginUserEmail);
 
             if (loginUser.isPresent()) {
-                LikeEntity existingLike = likeService.findByUserIdAndCustomCocktailId(loginUser.get().getId(), id);
-                model.addAttribute("isLiked", existingLike != null); // 좋아요 여부 추가
+                User user = loginUser.get();
+                boolean isOwner = cocktail.getUser().getId().equals(user.getId());
+                model.addAttribute("isOwner", isOwner);
+
+                LikeEntity existingLike = likeService.findByUserIdAndCustomCocktailId(user.getId(), id);
+                model.addAttribute("isLiked", existingLike != null);
             } else {
-                model.addAttribute("isLiked", false); // 로그인 사용자 없음
+                model.addAttribute("isOwner", false);
+                model.addAttribute("isLiked", false);
             }
         } else {
-            model.addAttribute("isLiked", false); // 로그인하지 않은 경우
+            model.addAttribute("isOwner", false);
+            model.addAttribute("isLiked", false);
         }
+
         return "/feature/customcocktail/customdetail";
     }
+
 }

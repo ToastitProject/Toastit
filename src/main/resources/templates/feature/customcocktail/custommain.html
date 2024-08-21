@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
-    <link href="/css/fragment/navbar-fragment.css" rel="stylesheet">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <title>Custom Main</title>
     <style>
         body {
@@ -17,18 +17,20 @@
             display: flex;
             flex-direction: column; /* 세로 방향으로 버튼 배치 */
             padding: 0 20px; /* 양쪽 공백 추가 */
+            margin-top: 20px; /* 헤더와의 공백 추가 */
         }
         .write-button {
             background-color: white;
             border: 2px solid #FFA832; /* 테두리 색상 */
-            border-radius: 25px; /* 둥근 모서리 */
-            padding: 10px 20px;
+            border-radius: 5px; /* 둥근 모서리 */
+            padding: 10px 10px; /* 버튼의 내부 패딩 조정 */
             font-size: 16px;
             color: #FFA832;
             text-align: center;
             text-decoration: none;
-            margin-bottom: 20px; /* 버튼과 게시물 사이의 간격 */
-            max-width: 200px; /* 최대 너비 설정 */
+            margin-bottom: 10px; /* 버튼과 게시물 사이의 간격 */
+            max-width: 100px; /* 버튼의 최대 너비를 절반으로 줄임 */
+            align-self: flex-start; /* 버튼을 왼쪽으로 정렬 */
         }
         .posts {
             display: flex;
@@ -76,7 +78,7 @@
     </style>
 </head>
 <body>
-<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
+<header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
 
 <hr class="divider">
 
@@ -88,12 +90,15 @@
             <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
             <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
             <div class="nickname">
-                작성자: <span th:text="${cocktail.user.nickname}">닉네임</span> - <span th:text="${cocktail.createDate}">작성일자</span>
+                <span th:text="${cocktail.user.nickname}">닉네임</span>
+                <br>
+                <!-- 날짜와 시간을 분리하고, 분 단위까지만 출력 -->
+                <span th:text="${#temporals.format(cocktail.createDate, 'yyyy-MM-dd')}">작성일자</span>
+                <span th:text="${#temporals.format(cocktail.createDate, 'HH:mm')}">작성시간</span>
             </div>
         </a>
     </div>
+
 </div>
-
-
 </body>
 </html>
