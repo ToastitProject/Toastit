@@ -4,6 +4,7 @@ import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.repository.LikeRepository;
 import alcoholboot.toastit.feature.user.service.LikeService;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,5 +25,15 @@ public class LikeServiceImpl implements LikeService {
     @Transactional
     public void deleteLike(LikeEntity likeEntity){
         likerepository.delete(likeEntity);
+    }
+
+    @Override
+    public LikeEntity findByUserIdAndDefaultCocktailsId(Long userId, ObjectId objectId) {
+        return likerepository.findByUserIdAndDefaultCocktailsId(userId,objectId);
+    }
+
+    @Override
+    public int countByDefaultCocktailsId(ObjectId objectId) {
+        return likerepository.countByDefaultCocktailsId(objectId);
     }
 }

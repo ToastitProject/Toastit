@@ -1,6 +1,7 @@
 package alcoholboot.toastit.feature.categorysearch.service;
 
 import alcoholboot.toastit.feature.categorysearch.domain.Cocktail;
+import alcoholboot.toastit.feature.categorysearch.entity.CocktailDocument;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
