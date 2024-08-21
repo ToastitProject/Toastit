@@ -33,6 +33,14 @@ public class CustomCocktailService {
         return cocktail.orElseThrow(() -> new RuntimeException("Cocktail not found"));
     }
 
+    public Optional<UserEntity> findUserByName(String username) {
+        return customCocktailRepository.findUserByName(username);
+    }
+
+    public CustomCocktail findIdByName(String cocktailName) {
+        return customCocktailRepository.findIdByName(cocktailName);
+    }
+
     public void deleteCocktail(Long id) {
         customCocktailRepository.deleteById(id);
     }
