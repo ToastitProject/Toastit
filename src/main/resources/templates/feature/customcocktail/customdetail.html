@@ -82,6 +82,14 @@
 <body>
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 
+<div th:if="${isOwner}">
+  <a href="#" onclick="showEditForm()">수정</a>
+  <form id="deleteForm" method="post" th:action="@{/custom/delete/{id}(id=${cocktail.id})}">
+    <input type="hidden" name="_method" value="DELETE" />
+    <button type="button" onclick="confirmDelete()">삭제</button>
+  </form>
+</div>
+
 <div class="container">
   <img th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지" class="drink-image">
   <div class="drink-info">
@@ -105,6 +113,16 @@
   <div class="section-title">레시피</div>
   <div class="instructions" th:text="${cocktail.recipe}">조리 방법</div>
 </div>
+<script>
+  function confirmDelete() {
+    if (confirm('정말 삭제하십니까?')) {
+      document.getElementById('deleteForm').submit();
+    }
+  }
 
+  function showEditForm() {
+    window.location.href = '/custom/edit/' + [[${cocktail.id}]];
+  }
+</script>
 </body>
 </html>

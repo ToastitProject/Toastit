@@ -31,5 +31,9 @@ public class CustomCocktailService {
         Optional<CustomCocktail> cocktail = customCocktailRepository.findById(id);
         return cocktail.orElseThrow(() -> new RuntimeException("Cocktail not found"));
     }
+
+    public void deleteCocktail(Long id) {
+        customCocktailRepository.deleteById(id);
+    }
 }
 
