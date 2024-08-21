@@ -71,7 +71,12 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
                 Criteria.where("strIngredient3").regex(ingredient, "i"),
                 Criteria.where("strIngredient4").regex(ingredient, "i"),
                 Criteria.where("strIngredient5").regex(ingredient, "i"),
-                Criteria.where("strIngredient6").regex(ingredient, "i")
+                Criteria.where("strIngredient6").regex(ingredient, "i"),
+                Criteria.where("strIngredient7").regex(ingredient, "i"),
+                Criteria.where("strIngredient8").regex(ingredient, "i"),
+                Criteria.where("strIngredient9").regex(ingredient, "i"),
+                Criteria.where("strIngredient10").regex(ingredient, "i"),
+                Criteria.where("strIngredient11").regex(ingredient, "i")
         );
 
         // 쿼리 생성
@@ -95,7 +100,12 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
                 Criteria.where("strIngredient3").regex(ingredient, "i"),
                 Criteria.where("strIngredient4").regex(ingredient, "i"),
                 Criteria.where("strIngredient5").regex(ingredient, "i"),
-                Criteria.where("strIngredient6").regex(ingredient, "i")
+                Criteria.where("strIngredient6").regex(ingredient, "i"),
+                Criteria.where("strIngredient7").regex(ingredient, "i"),
+                Criteria.where("strIngredient8").regex(ingredient, "i"),
+                Criteria.where("strIngredient9").regex(ingredient, "i"),
+                Criteria.where("strIngredient10").regex(ingredient, "i"),
+                Criteria.where("strIngredient11").regex(ingredient, "i")
         );
 
         Criteria glassAndCategoryCriteria = new Criteria().andOperator(

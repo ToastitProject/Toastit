@@ -7,9 +7,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface CustomCocktailRepository {
-//    List<CocktailDocument> findCocktailsByIngredient(String ingredient);
-//    List<CocktailDocument> findByIngredientAndGlassAndCategory(String ingredient, String glass, String category);
-
     // 각 기능에 페이징 기능을 추가하기 위해서 추가
     Page<CocktailDocument> findCocktailsByIngredientPage(String ingredient, Pageable pageable);
     Page<CocktailDocument> findByIngredientAndGlassAndCategoryPage(String ingredient, String glass, String category, Pageable pageable);

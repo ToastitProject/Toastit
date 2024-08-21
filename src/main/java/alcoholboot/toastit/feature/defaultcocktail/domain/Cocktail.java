@@ -35,6 +35,16 @@ public class Cocktail {
 
     private String strIngredient6;
 
+    private String strIngredient7;
+
+    private String strIngredient8;
+
+    private String strIngredient9;
+
+    private String strIngredient10;
+
+    private String strIngredient11;
+
     private String strInstructions;
 
     private String strMeasure1;
@@ -48,6 +58,16 @@ public class Cocktail {
     private String strMeasure5;
 
     private String strMeasure6;
+
+    private String strMeasure7;
+
+    private String strMeasure8;
+
+    private String strMeasure9;
+
+    private String strMeasure10;
+
+    private String strMeasure11;
 
     private Integer likeCount;
 

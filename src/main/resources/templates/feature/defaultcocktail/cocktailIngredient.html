@@ -131,6 +131,16 @@
                     th:text="${cocktail.strIngredient5 + (cocktail.strMeasure5 != null and !cocktail.strMeasure5.isEmpty() ? ' - ' + cocktail.strMeasure5 : '')}"></li>
                 <li th:if="${cocktail.strIngredient6 != null and !cocktail.strIngredient6.isEmpty()}"
                     th:text="${cocktail.strIngredient6 + (cocktail.strMeasure6 != null and !cocktail.strMeasure6.isEmpty() ? ' - ' + cocktail.strMeasure6 : '')}"></li>
+                <li th:if="${cocktail.strIngredient7 != null and !cocktail.strIngredient7.isEmpty()}"
+                    th:text="${cocktail.strIngredient7 + (cocktail.strMeasure7 != null and !cocktail.strMeasure7.isEmpty() ? ' - ' + cocktail.strMeasure7 : '')}"></li>
+                <li th:if="${cocktail.strIngredient8 != null and !cocktail.strIngredient8.isEmpty()}"
+                    th:text="${cocktail.strIngredient8 + (cocktail.strMeasure8 != null and !cocktail.strMeasure8.isEmpty() ? ' - ' + cocktail.strMeasure8 : '')}"></li>
+                <li th:if="${cocktail.strIngredient9 != null and !cocktail.strIngredient9.isEmpty()}"
+                    th:text="${cocktail.strIngredient9 + (cocktail.strMeasure9 != null and !cocktail.strMeasure9.isEmpty() ? ' - ' + cocktail.strMeasure9 : '')}"></li>
+                <li th:if="${cocktail.strIngredient10 != null and !cocktail.strIngredient10.isEmpty()}"
+                    th:text="${cocktail.strIngredient10 + (cocktail.strMeasure10 != null and !cocktail.strMeasure10.isEmpty() ? ' - ' + cocktail.strMeasure10 : '')}"></li>
+                <li th:if="${cocktail.strIngredient11 != null and !cocktail.strIngredient11.isEmpty()}"
+                    th:text="${cocktail.strIngredient11 + (cocktail.strMeasure11 != null and !cocktail.strMeasure11.isEmpty() ? ' - ' + cocktail.strMeasure11 : '')}"></li>
             </ul>
             <p>제조 방법: <span th:text="${cocktail.strInstructions}"></span></p>
             <p>좋아요 수: <span th:text="${cocktail.likeCount}"></span></p>
