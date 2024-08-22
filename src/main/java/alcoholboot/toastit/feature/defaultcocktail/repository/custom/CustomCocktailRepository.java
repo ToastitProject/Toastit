@@ -9,5 +9,10 @@ import java.util.List;
 public interface CustomCocktailRepository {
     // 각 기능에 페이징 기능을 추가하기 위해서 추가
     Page<CocktailDocument> findCocktailsByIngredientPage(String ingredient, Pageable pageable);
+    Page<CocktailDocument> findCocktailsByGlassPage(String glass, Pageable pageable);
+    Page<CocktailDocument> findCocktailsByCategoryPage(String category, Pageable pageable);
+    Page<CocktailDocument> findByIngredientAndGlass(String ingredient, String glass, Pageable pageable);
+    Page<CocktailDocument> findByIngredientAndCategoryPage(String ingredient, String category, Pageable pageable);
+    Page<CocktailDocument> findByGlassAndCategoryPage(String glass, String category, Pageable pageable);
     Page<CocktailDocument> findByIngredientAndGlassAndCategoryPage(String ingredient, String glass, String category, Pageable pageable);
 }

@@ -89,7 +89,7 @@
     <div class="search-form">
         <form th:action="@{/cocktails/all/mult}" method="get">
             <input type="text" name="ingredient" th:value="${ingredient}" placeholder="재료 (예: 보드카, 럼)">
-            <input type="text" name="glass" th:value="${glass}" placeholder="글라스 타입 (예: 칵테일 잔)">
+            <input type="text" name="glass" th:value="${glass}" placeholder="잔 종류 (예: 칵테일 잔)">
             <input type="text" name="category" th:value="${category}" placeholder="카테고리 (예: 칵테일, 일반 음료)">
             <button type="submit">검색</button>
         </form>
