@@ -44,5 +44,9 @@ public class CustomCocktailService {
     public void deleteCocktail(Long id) {
         customCocktailRepository.deleteById(id);
     }
+
+    public List<CustomCocktail> getCocktailsByUserIds(List<Long> ids) {
+        return customCocktailRepository.getCocktailsByUserIds(ids);
+    }
 }
 

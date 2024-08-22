@@ -177,11 +177,6 @@ public class CustomCocktailController {
         }
     }
 
-
-
-
-
-
     @PostMapping("/custom/delete/{id}")
     public String deleteCocktail(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
@@ -189,8 +184,10 @@ public class CustomCocktailController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String loginUserEmail = authentication.getName();
             Optional<User> loginUser = userService.findByEmail(loginUserEmail);
-            LikeEntity deleteLike =likeService.findByUserIdAndCustomCocktailId(loginUser.get().getId(), id);
-            likeService.deleteLike(deleteLike);
+
+            Optional<LikeEntity> deleteLikeOpt = Optional.ofNullable(likeService.findByUserIdAndCustomCocktailId(loginUser.get().getId(), id));
+            deleteLikeOpt.ifPresent(likeService::deleteLike); // 좋아요가 있는 경우에만 삭제
+
             //칵테일도 지운다
             customCocktailService.deleteCocktail(id);
             redirectAttributes.addFlashAttribute("message", "칵테일이 성공적으로 삭제되었습니다.");
