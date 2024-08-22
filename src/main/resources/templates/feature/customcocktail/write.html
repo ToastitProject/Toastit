@@ -219,7 +219,7 @@
             <div class="thumbnail" id="thumbnail">
                 <div>
                     <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
-                    사진 업로드
+                    사진 업로드(PNG, JPEG, JPG 지원)
                 </div>
                 <div id="preview-container">
                     <div>추천사진 1<br>깔끔하게 흰 배경에 찍어보세요!</div>
@@ -245,9 +245,9 @@
             <div id="ingredients">
                 <div class="ingredient">
                     <label>재료 1</label>
-                    <input type="text" name="ingredients[0].name" placeholder="재료 이름을 입력해주세요">
-                    <input type="text" name="ingredients[0].amount" placeholder="용량">
-                    <input type="text" name="ingredients[0].unit" placeholder="단위를 선택해주세요">
+                    <input type="text" name="ingredients[0].name" placeholder="재료 이름을 입력해주세요(소주 등)">
+                    <input type="text" name="ingredients[0].amount" placeholder="용량(수치)">
+                    <input type="text" name="ingredients[0].unit" placeholder="단위를 입력해주세요(ml, teaspoon 등)">
                     <button type="button" class="remove-btn" onclick="removeIngredient(this)">x</button>
                 </div>
             </div>
