@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <title>Custom Main</title>
+    <style>
+        body {
+            font-family: 'Gmarket Sans', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex; /* 추가: 카드들을 가로로 배치 */
+            flex-wrap: wrap; /* 추가: 카드가 다음 줄로 넘어갈 수 있도록 */
+            padding: 0 20px;
+            margin-top: 20px;
+        }
+
+        .post {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 15px; /* 게시물 사이 공백 최소화 */
+            padding: 15px;
+            width: calc(20% - 30px); /* 3개 가로 배치 - 마진 고려 */
+            box-sizing: border-box;
+            text-decoration: none; /* 링크의 기본 텍스트 꾸미기 제거 */
+            color: inherit; /* 텍스트 색상 상속 */
+        }
+
+        .post img {
+            width: 100%;
+            border-radius: 5px;
+            max-height: 200px; /* 최대 높이 설정 */
+            object-fit: cover; /* 이미지 비율 유지 */
+        }
+
+        .drink-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .nickname-and-date {
+            display: flex;
+            justify-content: space-between; /* 좌우 정렬 */
+            align-items: center; /* 세로 가운데 정렬 */
+            font-size: 14px;
+            color: gray;
+            margin-top: 5px;
+        }
+
+        .date-time {
+            text-align: right; /* 오른쪽 정렬 */
+        }
+
+        @media (max-width: 768px) {
+            .post {
+                width: calc(50% - 30px); /* 2개 가로 배치 */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .post {
+                width: 100%; /* 1개 가로 배치 */
+            }
+        }
+    </style>
+</head>
+<body>
+<header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
+
+<hr class="divider">
+
+<div class="container">
+    <div class="post" th:each="cocktail : ${cocktails}">
+        <a th:href="@{/custom/{id}(id=${cocktail.id})}" style="text-decoration: none; color: inherit;">
+            <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
+            <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
+            <div class="nickname-and-date">
+                <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none; color: inherit;">
+                    <span th:text="${cocktail.user.nickname}">닉네임</span>
+                </a>
+                <span class="date-time">
+                    <span th:text="${#temporals.format(cocktail.createDate, 'yyyy-MM-dd')}">작성일자</span>
+                    <span th:text="${#temporals.format(cocktail.createDate, 'HH:mm')}">작성시간</span>
+                </span>
+            </div>
+        </a>
+    </div>
+</div>
+
+</body>
+
+</html>
