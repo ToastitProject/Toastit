@@ -184,6 +184,13 @@
         textarea {
             height: 200px; /* 크기를 2배로 키움 */
         }
+
+        .tall-input {
+            height: 150px; /* 높이를 5배로 키움 */
+            padding: 10px; /* 내용과 테두리 사이 여백 */
+            box-sizing: border-box; /* 패딩과 테두리를 높이에 포함 */
+        }
+
     </style>
     <title>칵테일 수정</title>
 </head>
@@ -237,7 +244,7 @@
         <!-- Cocktail Description Section -->
         <div class="section">
             <label for="description">칵테일 설명</label>
-            <input type="text" id="description" name="description" placeholder="칵테일 소개를 적어주세요." maxlength="200" required th:value="${cocktail.description}"></input>
+            <input type="text" id="description" name="description" placeholder="칵테일 소개를 적어주세요." maxlength="200" required th:value="${cocktail.description}" class="tall-input"></input>
         </div>
 
         <!-- Ingredient Section -->
@@ -261,7 +268,7 @@
         <!-- Cocktail Recipe Section -->
         <div class="section">
             <label for="recipe">칵테일 레시피</label>
-            <input type="text" id="recipe" name="recipe" placeholder="레시피를 적어주세요." maxlength="200" required th:value="${cocktail.recipe}"></input>
+            <input type="text" id="recipe" name="recipe" placeholder="레시피를 적어주세요." maxlength="200" required th:value="${cocktail.recipe}" class="tall-input"></input>
         </div>
 
         <!-- Submit Button Section -->
