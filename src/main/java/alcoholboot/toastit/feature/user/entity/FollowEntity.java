@@ -3,13 +3,11 @@ package alcoholboot.toastit.feature.user.entity;
 import alcoholboot.toastit.feature.user.domain.Follow;
 import alcoholboot.toastit.global.Entity.JpaAuditingFields;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
