@@ -26,12 +26,21 @@
     }
 
     .drink-image {
-      width: 50%;
+      width: 400px;
+      height: 400px;
       max-height: 400px;
       object-fit: cover;
       border-radius: 8px;
       margin-right: 20px;
     }
+    .drink-image-none {
+      width: 400px;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 20px;
+    }
+
     .drink-info {
       width: 50%;
       display: flex; /* 가로 방향으로 나열 */
@@ -147,7 +156,12 @@
     </form>
   </div>
   <div style="display: flex; align-items: flex-start;"> <!-- flex-start로 변경 -->
-    <img th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지" class="drink-image">
+    <div th:if="${cocktail.images.size() > 0}">
+      <img th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지" class="drink-image">
+    </div>
+    <div th:if="${cocktail.images.size() == 0}">
+      <p>등록된 사진이 없습니다.</p>
+    </div>
     <div class="drink-info">
       <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
       <div class="drink-description" th:text="${cocktail.description}">칵테일 설명</div>
