@@ -191,9 +191,10 @@ public class UserController {
         return "redirect:/user/login";
     }
 
+    //홈 화면에서 마이페이지 접속하는 컨트롤러
     @GetMapping("/mypages")
     public String showMyPages(Model model) {
-        log.info("myPage 로 GetMapping 들어옴!");
+        log.info("myPages 로 GetMapping 들어옴!");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             String email = authentication.getName();
@@ -201,6 +202,7 @@ public class UserController {
             Optional<User> userOptional = userService.findByEmail(email);
             if (userOptional.isPresent()) {
                 model.addAttribute("user", userOptional.get());
+                model.addAttribute("notLoginUser", false);
                 log.info("찾은 user email 을 모델에 담은 값 : " + userOptional.get().getEmail());
                 log.info("찾은 user Nickname 을 모델에 담은 값 : " + userOptional.get().getNickname());
                 log.info("찾은 user create_date 를 모델에 담은 값 : " + userOptional.get().getCreateDate());
@@ -215,6 +217,7 @@ public class UserController {
         return "/feature/user/mypageForm";
     }
 
+    //닉네임을 클릭해서 마이페이지로 접속하는 컨트롤러
     @GetMapping("/mypage")
     public String showMyPage(@RequestParam("nickname") String nickname, Model model) {
         log.info("myPage로 GetMapping 들어옴!");
@@ -238,12 +241,14 @@ public class UserController {
                 if (loggedInUser.getNickname().equals(nickname)) {
                     // 자신의 정보인 경우
                     model.addAttribute("user", loggedInUser);
+                    model.addAttribute("notLoginUser", false);
                     log.info("자신의 정보를 보여줍니다.");
                 } else {
                     // 다른 사용자의 정보인 경우
                     Optional<User> otherUserOptional = userService.findByNickname(nickname);
                     if (otherUserOptional.isPresent()) {
                         model.addAttribute("user", otherUserOptional.get());
+                        model.addAttribute("notLoginUser", true);
                         log.info("다른 사용자의 정보를 보여줍니다: " + nickname);
                     } else {
                         model.addAttribute("error", "다른 사용자를 찾을 수 없습니다.");
@@ -302,7 +307,7 @@ public class UserController {
             }
         }
 
-        return "redirect:/user/mypage"; // 변경 후 마이 페이지로 리다이렉트
+        return "redirect:/user/mypages"; // 변경 후 마이 페이지로 리다이렉트
     }
 
     @PostMapping("/imageChange")

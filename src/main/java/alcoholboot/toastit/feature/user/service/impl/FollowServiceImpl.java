@@ -7,6 +7,8 @@ import alcoholboot.toastit.feature.user.service.FollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class FollowServiceImpl implements FollowService {
@@ -25,5 +27,10 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public FollowEntity findByFollowerIdAndFolloweeId(Long followerId, Long followeeId) {
         return followRepository.findByFollowerIdAndFolloweeId(followerId, followeeId);
+    }
+
+    @Override
+    public List<Long> findFolloweeIdsByFollowerId(Long followerId) {
+        return followRepository.findFolloweeIdsByFollowerId(followerId);
     }
 }
