@@ -6,13 +6,382 @@
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <title>술프링부트 - 메인 페이지</title>
 </head>
+
+<style>
+    body {
+        font-family: 'Gmarket Sans', sans-serif;
+        color: #FFA832;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        gap: 50px; /* 섹션 간의 간격 */
+    }
+
+    .a-card-container {
+        display: flex;
+        justify-content: flex-start; /* 카드 왼쪽 정렬 */
+        flex-wrap: nowrap; /* 카드가 줄바꿈 불가능하도록 설정 */
+        overflow-x: hidden; /* 스크롤 바를 숨김 */
+        margin-top: 20px;
+    }
+
+    section {
+        padding: 15px;
+        background-color: #ffffff;
+    }
+    .note {
+        font-size: 1em; /* 글씨 크기를 0.75배로 설정 */
+        color: #000 ; ;  /* 검은색 글씨 */
+        margin-top: 10px; /* 상단 여백 */
+        text-align: left; /* 좌측 정렬 */
+        font-weight: bold;
+    }
+
+    .card-container {
+        display: flex;
+        justify-content: center; /* 카드 왼쪽 정렬 */
+        flex-wrap: nowrap; /* 카드가 줄바꿈 불가능하도록 설정 */
+        overflow-x: auto;
+        margin-top: 20px;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        text-align: center; /* 문구를 가운데 정렬 */
+        align-items: center;
+        width: 200px;
+        height: 250px;
+        min-width: 200px;
+        min-height: 180px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-right: 25px; /* 카드 간의 간격 */
+        margin-bottom: 10px; /* 카드 간의 세로 간격 */
+        transition: transform 0.2s;
+        position: relative; /* 자식 요소의 절대 위치 설정을 위한 relative */
+    }
+
+    .r-card{
+        background-color: #ffffff;
+        border: none;
+        padding-bottom: 15px;
+        text-align: center; /* 문구를 가운데 정렬 */
+        align-items: center;
+        width: 300px;
+        height: 180px;
+        min-width: 300px;
+        min-height: 180px;
+        margin-right: 10px;
+        overflow: hidden;
+        box-shadow: none;
+        margin-bottom: 10px; /* 카드 간의 세로 간격 */
+        transition: transform 0.2s;
+        position: relative; /* 자식 요소의 절대 위치 설정을 위한 relative */
+
+    }
+    .r-card img {
+        width: 100%; /* 이미지 가로 크기 조정 */
+        height: 100%; /* 이미지 세로 크기 조정 */
+        border-radius: 5px;
+        object-fit: cover;
+        transition: opacity 0.4s; /* 이미지 흐림 효과 */
+    }
+    .r-card .text {
+        position: absolute; /* 절대 위치 설정 */
+        top: 50%; /* 세로 중앙 정렬 */
+        left: 50%; /* 가로 중앙 정렬 */
+        transform: translate(-50%, -50%); /* 중앙 정렬을 위한 변환 */
+        opacity: 0; /* 기본적으로 숨김 */
+        transition: opacity 0.5s; /* 텍스트 나타나는 효과 */
+        color: #000000; /* 텍스트 색상 */
+        font-weight: bold; /* 글씨를 두껍게 */
+        font-size: 1.5em;
+    }
+    .r-card:hover img {
+        opacity: 0.4; /* 호버 시 이미지 흐림 */
+    }
+
+    .r-card:hover .text {
+        opacity: 1; /* 호버 시 텍스트 나타남 */
+    }
+
+
+    .card:hover {
+        transform: scale(1.05); /* 카드 호버 시 확대 효과 */
+    }
+
+    .s-card{
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        text-align: center; /* 문구를 가운데 정렬 */
+        align-items: center;
+        width: 450px;
+        height: 160px;
+
+        box-sizing: border-box;
+
+        min-height: 150px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-right: 25px; /* 카드 간의 간격 */
+        margin-bottom: 10px; /* 카드 간의 세로 간격 */
+        transition: transform 0.2s;
+        position: relative; /* 자식 요소의 절대 위치 설정을 위한 relative */
+    }
+    .slider {
+        display: flex;
+        transition: transform 0.5s ease;
+        width: calc(100% * 1/6); /* 카드 수에 맞게 조정 */
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 1.5em;
+        text-align: left;
+    }
+    .divider {
+        border: none;
+        height: 2px;
+        background-color: #FFA832;
+        margin-top: -10px;
+    }
+    .sort-options {
+        display: flex; /* 가로로 정렬 */
+        justify-content: flex-end; /* 왼쪽 정렬 */
+        margin-top: -35px;
+        margin-bottom: 20px; /* 카드와의 간격 */
+        max-width: 1230px;
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }
+
+    .sort-item {
+        margin-right: 20px; /* 항목 간격 */
+        cursor: pointer; /* 포인터 커서 */
+        transition: color 0.3s; /* 색상 전환 효과 */
+    }
+
+    .sort-item:hover {
+        color: #FFA832; /* 호버 시 색상 변화 */
+    }
+    .cocktail-image {
+        width: 100%; /* 카드 너비에 맞추기 */
+        height: 220px; /* 비율에 맞춰 높이 조절 */
+        border-radius: 4px; /* 이미지 모서리 둥글게 */
+        margin-bottom: 8px; /* 이미지와 텍스트 간의 간격 */
+    }
+
+    .cocktail-name {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #ffffff; /* 칵테일 이름 색상 */
+        font-size: 1.3em; /* 기본 텍스트 크기 */
+        opacity: 0; /* 초기 상태에서 숨김 */
+        transition: opacity 0.3s ease;
+        white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+        overflow: hidden; /* 넘치는 부분 숨김 */
+        text-overflow: ellipsis; /* 넘치는 부분을 '...'으로 표시 */
+        max-width: 90%; /* 최대 너비를 설정하여 글씨 크기 조정 */
+    }
+
+    .nickName{
+        color : #000000;
+        text-decoration: none;
+    }
+
+    .card:hover .cocktail-image {
+        filter: blur(7px); /* 이미지 흐리기 */
+    }
+
+    .card:hover .cocktail-name {
+        opacity: 1; /* 호버 시 텍스트 표시 */
+    }
+
+    .shopping-section{
+        overflow: hidden;
+    }
+    .text-center {
+        text-align: center; /* 텍스트 가운데 정렬 */
+        margin: 10px; /* 여백 자동 설정 */
+    }
+</style>
+
+
+
 <body>
 
 <header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
 
 <hr class="divider">
 
-<h2> 메인페이지 </h2>
+<div class="container">
+    <!--추천섹션-->
+    <section class="cocktail-recommendations">
+        <h3 class="text-center">칵테일 추천</h3>
+        <p class="note text-center">지금 당신에게 딱 맞는 칵테일 추천</p>
+        <div class="card-container">
+            <div class="r-card">
+                <a th:href="@{/map}">
+                    <img src="/image/mapcocktail.png" alt="Image">
+                    <div class="text">접속 위치</div>
+                </a>
+            </div>
+            <div class="r-card">
+                <a th:href="@{/weather}">
+                    <img src="/image/wheather.png" alt="Image">
+                    <div class="text">날씨</div>
+                </a>
+            </div>
+            <div class="r-card">
+                <a th:href="@{/date}">
+                    <img src="/image/dateCocktail.png" alt="Image">
+                    <div class="text">날짜</div>
+                </a>
+            </div>
+            <div class="r-card">
+                <a th:href="@{/random}">
+                    <img src="/image/ramdomcock.png" alt="Image">
+                    <div class="text">무작위</div>
+                </a>
+            </div>
+            <div class="r-card">
+                <a th:href="@{/setting}">
+                    <img src="/image/setting.png" alt="Image">
+                    <div class="text">추가 예정</div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- 기본 레시피 섹션 -->
+    <section class="basic-recipes">
+        <h3>기본 레시피 TOP 5</h3>
+        <p class="note">우리 모두가 좋아하는 칵테일 레시피</p>
+        <div class="card-container">
+            <div class="card">레시피 1</div>
+            <div class="card">레시피 2</div>
+            <div class="card">레시피 3</div>
+            <div class="card">레시피 4</div>
+            <div class="card">레시피 5</div>
+        </div>
+    </section>
 
+    <!-- 커스텀 레시피 섹션 -->
+    <section class="custom-recipes">
+        <h3>커스텀 레시피 TOP 5</h3>
+        <p class="note">회원님들이 만든 이색 칵테일 레시피</p>
+        <div class="sort-options">
+            <span class="sort-item" data-sort="latest" onclick="changeSort('latest')">최신순</span>
+            <span class="sort-item" data-sort="popular" onclick="changeSort('popular')">인기순</span>
+            <span class="sort-item" data-sort="followers" onclick="changeSort('followers')">팔로워순</span>
+        </div>
+        <div class="card-container">
+            <div th:each="cocktail : ${cocktails}" class="card">
+                <a th:href="@{/custom/{id}(id=${cocktail.id})}" th:if="${cocktail.images.size() > 0}">
+                    <img th:src="${cocktail.images[0].imagePath}" alt="사진없음" class="cocktail-image"/>
+                    <span class="cocktail-name" th:text="${cocktail.name}">칵테일 이름</span>
+                </a>
+                <input type="hidden" th:if="${cocktail.id == null}" th:value="${cocktail.id}" id="hiddenCocktailId"/>
+                <a th:href="@{/user/mypage(nickname=${cocktail.getUser().getNickname()})}">
+                    <span class="nickName" th:text="${cocktail.getUser().getNickname()}">닉네임 이름</span>
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- 쇼핑 공간 섹션 -->
+    <section class="shopping-section">
+        <h3 class="text-center">칵테일 재료 쇼핑</h3>
+        <p class="note text-center">부족한 재료는 여기서 구매</p>
+        <div class="a-card-container">
+            <div class="slider">
+                <div class="s-card">
+                    <a href="https://link.coupang.com/a/bflAdO" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/ads/ad1.png" alt="ads">
+                    </a>
+                </div>
+                <div class="s-card">
+                    <a href="https://link.coupang.com/a/bflAyQ" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/ads/ad2.png" alt="ads">
+                    </a>
+                </div>
+                <div class="s-card">
+                    <a href="https://link.coupang.com/a/bOTCVa" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/ads/ad3.png" alt="ads">
+                    </a>
+                </div>
+                <div class="s-card">
+                    <a href="https://link.coupang.com/a/bOTDB9" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/ads/ad4.png" alt="ads">
+                    </a>
+                </div>
+                <div class="s-card">
+                    <a href="https://link.coupang.com/a/0pWXk" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/ads/ad5.png" alt="ads">
+                    </a>
+                </div>
+                <div class="s-card">
+                    <a href="https://link.coupang.com/a/0pW46" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/ads/ad6.png" alt="ads">
+                    </a>
+                </div>
+                <div class="s-card">
+                    <a href="https://link.coupang.com/a/bflAdO" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/ads/ad1.png" alt="ads">
+                    </a>
+                </div>
+                <div class="s-card">
+                    <a href="https://link.coupang.com/a/bflAyQ" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/ads/ad2.png" alt="ads">
+                    </a>
+                </div>
+                <div class="s-card">
+                    <a href="https://link.coupang.com/a/bOTCVa" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/ads/ad3.png" alt="ads">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</div>
 </body>
+<script>
+    function changeSort(sortType) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('sort', sortType);
+        window.location.href = '?' + urlParams.toString();
+    }
+
+    let currentIndex = 0;
+    const cards = document.querySelectorAll('.s-card');
+    const totalCards = cards.length;
+    const slider = document.querySelector('.slider');
+
+    function showNextCards() {
+        currentIndex = (currentIndex + 1) % totalCards; // 다음 인덱스 계산
+        const offset = -currentIndex * (100 / 3); // 슬라이드 이동 거리 계산
+        slider.style.transform = `translateX(${offset}%)`;
+    }
+
+    // 5초마다 카드 변경
+    setInterval(showNextCards, 3000);
+
+</script>
+
+
+
 </html>
