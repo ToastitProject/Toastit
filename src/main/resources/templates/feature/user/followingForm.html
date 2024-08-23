@@ -19,19 +19,6 @@
             padding: 0 20px;
             margin-top: 20px;
         }
-        .write-button {
-            background-color: white;
-            border: 2px solid #FFA832; /* 테두리 색상 */
-            border-radius: 5px; /* 둥근 모서리 */
-            padding: 10px 10px; /* 버튼의 내부 패딩 조정 */
-            font-size: 16px;
-            color: #FFA832;
-            text-align: center;
-            text-decoration: none;
-            margin-bottom: 10px; /* 버튼과 게시물 사이의 간격 */
-            max-width: 100px; /* 버튼의 최대 너비를 절반으로 줄임 */
-            align-self: flex-start; /* 버튼을 왼쪽으로 정렬 */
-        }
 
         .post {
             background-color: white;
@@ -44,12 +31,20 @@
             text-decoration: none; /* 링크의 기본 텍스트 꾸미기 제거 */
             color: inherit; /* 텍스트 색상 상속 */
         }
+
         .post img {
             width: 100%;
             border-radius: 5px;
             max-height: 200px; /* 최대 높이 설정 */
             object-fit: cover; /* 이미지 비율 유지 */
         }
+
+        .drink-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
         .nickname-and-date {
             display: flex;
             justify-content: space-between; /* 좌우 정렬 */
@@ -57,11 +52,6 @@
             font-size: 14px;
             color: gray;
             margin-top: 5px;
-        }
-        .drink-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 10px 0;
         }
 
         .date-time {
@@ -73,6 +63,7 @@
                 width: calc(50% - 30px); /* 2개 가로 배치 */
             }
         }
+
         @media (max-width: 480px) {
             .post {
                 width: 100%; /* 1개 가로 배치 */
@@ -84,8 +75,7 @@
 <header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
 
 <hr class="divider">
-<p></p>
-<a href="/custom/write" class="write-button">글쓰기</a>
+
 <div class="container">
     <div class="post" th:each="cocktail : ${cocktails}">
         <a th:href="@{/custom/{id}(id=${cocktail.id})}" style="text-decoration: none; color: inherit;">
@@ -105,4 +95,5 @@
 </div>
 
 </body>
+
 </html>
