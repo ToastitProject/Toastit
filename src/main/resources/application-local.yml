@@ -58,3 +58,11 @@ jwt:
   refreshSecret: ${LOC_JWT_REFRESH_SECRET}
   accessTokenExpire: ${LOC_JWT_ACCESS_EXPIRE}
   refreshTokenExpire: ${LOC_JWT_REFRESH_EXPIRE}
+
+google:
+  maps:
+    api:
+      key: ${LOC_GOOGLE_MAP_API_KEY}
+  geocoding:
+    api:
+      key: ${LOC_GOOGLE_GEOCODING_API_KEY}
