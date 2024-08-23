@@ -1,9 +1,9 @@
 spring:
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${LOC_MYSQL_URL}
     username: ${LOC_MYSQL_USERNAME}
     password: ${LOC_MYSQL_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
 
   data:
     redis:
