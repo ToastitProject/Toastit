@@ -3,85 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <link th:href="@{/css/defaultcocktail/defaultcocktail.css}" rel="stylesheet">
     <title>술잔으로 칵테일 검색</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1, h2 {
-            color: #333;
-        }
-        .search-form {
-            margin-bottom: 20px;
-        }
-        .search-form input[type="text"] {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .search-form button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .search-form button:hover {
-            background-color: #0056b3;
-        }
-        .cocktail-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .cocktail-item {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-            background-color: #fff;
-        }
-        .cocktail-item h3 {
-            margin-top: 0;
-            color: #007bff;
-        }
-        .pagination {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .pagination a {
-            margin: 0 5px;
-            text-decoration: none;
-            color: #007bff;
-            padding: 5px 10px;
-            border: 1px solid #007bff;
-            border-radius: 3px;
-        }
-        .pagination a:hover {
-            background-color: #007bff;
-            color: white;
-        }
-        .error-message {
-            color: red;
-            margin-bottom: 10px;
-        }
-    </style>
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            line-height: 1.6;-->
+<!--            margin: 0;-->
+<!--            padding: 20px;-->
+<!--            background-color: #f4f4f4;-->
+<!--        }-->
+<!--        .container {-->
+<!--            max-width: 1200px;-->
+<!--            margin: auto;-->
+<!--            background: white;-->
+<!--            padding: 20px;-->
+<!--            border-radius: 5px;-->
+<!--            box-shadow: 0 0 10px rgba(0,0,0,0.1);-->
+<!--        }-->
+<!--        h1, h2 {-->
+<!--            color: #333;-->
+<!--        }-->
+<!--        .search-form {-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+<!--        .search-form input[type="text"] {-->
+<!--            padding: 10px;-->
+<!--            width: 300px;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 4px;-->
+<!--        }-->
+<!--        .search-form button {-->
+<!--            padding: 10px 20px;-->
+<!--            background-color: #007bff;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            border-radius: 4px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        .search-form button:hover {-->
+<!--            background-color: #0056b3;-->
+<!--        }-->
+<!--        .cocktail-grid {-->
+<!--            display: grid;-->
+<!--            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));-->
+<!--            gap: 20px;-->
+<!--        }-->
+<!--        .cocktail-item {-->
+<!--            border: 1px solid #ddd;-->
+<!--            padding: 15px;-->
+<!--            border-radius: 8px;-->
+<!--            background-color: #fff;-->
+<!--        }-->
+<!--        .cocktail-item h3 {-->
+<!--            margin-top: 0;-->
+<!--            color: #007bff;-->
+<!--        }-->
+<!--        .pagination {-->
+<!--            margin-top: 20px;-->
+<!--            text-align: center;-->
+<!--        }-->
+<!--        .pagination a {-->
+<!--            margin: 0 5px;-->
+<!--            text-decoration: none;-->
+<!--            color: #007bff;-->
+<!--            padding: 5px 10px;-->
+<!--            border: 1px solid #007bff;-->
+<!--            border-radius: 3px;-->
+<!--        }-->
+<!--        .pagination a:hover {-->
+<!--            background-color: #007bff;-->
+<!--            color: white;-->
+<!--        }-->
+<!--        .error-message {-->
+<!--            color: red;-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+<!--    </style>-->
 </head>
 <body>
-<div class="container">
+    <div th:replace="~{/fragment/navbar-fragment :: navbarFragment}"></div>
+
+    <hr class="divider">
+
     <h1>술 잔으로 칵테일 검색</h1>
 
     <div class="search-form">
@@ -131,17 +136,17 @@
                     th:text="${cocktail.strIngredient11 + (cocktail.strMeasure11 != null and !cocktail.strMeasure11.isEmpty() ? ' - ' + cocktail.strMeasure11 : '')}"></li>
             </ul>
             <p><strong>제조 방법:</strong> <span th:text="${cocktail.strInstructions}"></span></p>
+<!--            <p>좋아요 수: <span th:text="${cocktail.likeCount}"></span></p>-->
         </div>
     </div>
 
     <div th:if="${cocktails != null and !cocktails.isEmpty()}" class="pagination">
         <a th:if="${currentPage != null and currentPage > 0}"
-           th:href="@{/cocktails/byIngredient(ingredient=${ingredient}, page=${currentPage - 1})}">이전</a>
+           th:href="@{/cocktails/all/glass(glass=${glass}, page=${currentPage - 1})}">이전</a>
         <span th:text="${currentPage != null ? currentPage + 1 : ''}"></span>
         <span th:if="${totalPages != null}" th:text="' / ' + ${totalPages}"></span>
         <a th:if="${currentPage != null and totalPages != null and currentPage < totalPages - 1}"
-           th:href="@{/cocktails/byIngredient(ingredient=${ingredient}, page=${currentPage + 1})}">다음</a>
+           th:href="@{/cocktails/all/glass(glass=${glass}, page=${currentPage + 1})}">다음</a>
     </div>
-</div>
 </body>
 </html>

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <link th:href="@{/css/defaultcocktail/defaultcocktail.css}" rel="stylesheet">
+
+    <script th:src="@{/js/defaultcocktail/toggle.js}" defer></script>
+
     <title>칵테일 목록</title>
 </head>
 <body>
@@ -15,10 +18,13 @@
 <h1>칵테일 목록</h1>
 
 <div class="cocktail-buttons">
-    <a href="/cocktails/all/ingredient?ingredient=진" class="cocktail-button">재료 검색</a>
-    <a href="/cocktails/all/glass?glass=칵테일+잔" class="cocktail-button">술 잔 검색</a>
-    <a href="/cocktails/all/type?type=칵테일" class="cocktail-button">타입 검색</a>
-    <a href="/cocktails/all/mult?ingredient=진&glass=칵테일+잔&type=칵테일" class="cocktail-button">복합 검색</a>
+    <button id="toggleSearch" class="cocktail-button">검색 옵션 토글</button>
+    <div id="searchOptions" style="display: none;">
+        <input type="text" id="ingredientInput" placeholder="재료 (예: 보드카, 럼)">
+        <input type="text" id="glassInput" placeholder="잔 종류 (예: 칵테일 잔)">
+        <input type="text" id="categoryInput" placeholder="타입 (예: 칵테일, 일반 음료)">
+        <button id="searchButton" class="cocktail-button">검색</button>
+    </div>
 </div>
 
 <div class="cocktail-grid">
@@ -54,6 +60,7 @@
                     th:text="${cocktail.strIngredient11 + (cocktail.strMeasure11 != null and !cocktail.strMeasure11.isEmpty() ? ' - ' + cocktail.strMeasure11 : '')}"></li>
             </ul>
             <p>제조 방법: <span th:text="${cocktail.strInstructions}"></span></p>
+<!--            <p>좋아요 수: <span th:text="${cocktail.likeCount}"></span></p>-->
         </a>
     </div>
 </div>

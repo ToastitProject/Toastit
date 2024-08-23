@@ -64,7 +64,11 @@ public class CocktailController {
             Model model) {
         Page<Cocktail> cocktails = cocktailService.getCocktailsByGlassPaged(glass, PageRequest.of(page, 20));
         model.addAttribute("cocktails", cocktails);
-        model.addAttribute("page", page);
+
+        model.addAttribute("currentPage", page);
+
+        model.addAttribute("totalPages", cocktails.getTotalPages());
+
         model.addAttribute("glass", glass);
         return "feature/defaultcocktail/cocktailGlass";
     }
@@ -76,24 +80,37 @@ public class CocktailController {
             Model model) {
         Page<Cocktail> cocktails = cocktailService.getCocktailsByTypePaged(type, PageRequest.of(page, 20));
         model.addAttribute("cocktails", cocktails);
-        model.addAttribute("page", page);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", cocktails.getTotalPages());
         model.addAttribute("type", type);
         return "feature/defaultcocktail/cocktailType";
     }
 
-    @GetMapping("/all/mult")
-    public String getCocktailsByMult(
+    @GetMapping("/all/complex")
+    public String getCocktailsByComplex(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(required = false) String ingredient,
             @RequestParam(required = false) String glass,
             @RequestParam(required = false) String type,
             Model model) {
-        Page<Cocktail> cocktails = cocktailService.getCocktailsByFilterPaged(ingredient, glass, type, PageRequest.of(page, 20));
-        model.addAttribute("page", page);
-        model.addAttribute("cocktails", cocktails);
-        model.addAttribute("ingredient", ingredient);
-        model.addAttribute("glass", glass);
-        model.addAttribute("type", type);
+
+        Page<Cocktail> cocktails = cocktailService.getCocktailsByFilterPaged(
+                ingredient, glass, type, PageRequest.of(page, 20));
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", cocktails.getTotalPages());
+        model.addAttribute("cocktails", cocktails.getContent());
+
+        // 입력된 값만 모델에 추가
+        if (ingredient != null && !ingredient.trim().isEmpty()) {
+            model.addAttribute("ingredient", ingredient);
+        }
+        if (glass != null && !glass.trim().isEmpty()) {
+            model.addAttribute("glass", glass);
+        }
+        if (type != null && !type.trim().isEmpty()) {
+            model.addAttribute("type", type);
+        }
 
         return "feature/defaultcocktail/cocktailComplex";
     }
@@ -109,7 +126,6 @@ public class CocktailController {
         ObjectId defaultCocktailId = new ObjectId(id);
         int likeCount = likeService.countByDefaultCocktailsId(defaultCocktailId);
         model.addAttribute("likeCount", likeCount);
-//        log.info(defaultCocktailId + " 의 좋아요 갯 수 : "+likeCount);
 
         // 로그인한 사용자의 좋아요 상태 확인
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

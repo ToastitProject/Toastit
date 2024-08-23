@@ -3,93 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <link th:href="@{/css/defaultcocktail/defaultcocktail.css}" rel="stylesheet">
     <title th:text="${cocktail.isPresent() ? cocktail.get().strDrink : '칵테일 상세 정보'}">칵테일 상세 정보</title>
-    <style>
-        body {
-            font-family: 'Gmarket Sans', sans-serif;
-            /*color: #FFA832;*/
-        }
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Gmarket Sans', sans-serif;-->
+<!--            /*color: #FFA832;*/-->
+<!--        }-->
 
-        header {
-            display: flex;
-            align-items: center;
-            padding: 10px 30px;
-        }
-
-
-        .menu a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .menu a:hover {
-            color: #FFA832;
-        }
+<!--        header {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            padding: 10px 30px;-->
+<!--        }-->
 
 
-        .profile a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
+<!--        .menu a {-->
+<!--            text-decoration: none;-->
+<!--            color: black;-->
+<!--            font-weight: bold;-->
+<!--            transition: color 0.3s;-->
+<!--        }-->
 
-        .profile a:hover {
-            color: #FFA832;
-        }
+<!--        .menu a:hover {-->
+<!--            color: #FFA832;-->
+<!--        }-->
 
-        .divider {
-            border: none;
-            height: 2px;
-            background-color: #FFA832;
-            margin-top: -10px;
-        }
-        h1 {
-            /*color: #FFA832;*/
-        }
-        .cocktail-details {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .ingredient-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .ingredient-list li {
-            margin-bottom: 5px;
-        }
-        .back-button like-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #FFA832;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .back-button:hover {
-            background-color: #FF8C00;
-        }
-        .like-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #FFA832;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .like-button:hover {
-            background-color: #FF8C00;
-        }
 
-    </style>
+<!--        .profile a {-->
+<!--            text-decoration: none;-->
+<!--            color: black;-->
+<!--            font-weight: bold;-->
+<!--            transition: color 0.3s;-->
+<!--        }-->
+
+<!--        .profile a:hover {-->
+<!--            color: #FFA832;-->
+<!--        }-->
+
+<!--        .divider {-->
+<!--            border: none;-->
+<!--            height: 2px;-->
+<!--            background-color: #FFA832;-->
+<!--            margin-top: -10px;-->
+<!--        }-->
+<!--        h1 {-->
+<!--            /*color: #FFA832;*/-->
+<!--        }-->
+<!--        .cocktail-details {-->
+<!--            background-color: #f9f9f9;-->
+<!--            border-radius: 8px;-->
+<!--            padding: 20px;-->
+<!--            box-shadow: 0 2px 4px rgba(0,0,0,0.1);-->
+<!--        }-->
+<!--        .ingredient-list {-->
+<!--            list-style-type: none;-->
+<!--            padding: 0;-->
+<!--        }-->
+<!--        .ingredient-list li {-->
+<!--            margin-bottom: 5px;-->
+<!--        }-->
+<!--        .back-button like-button {-->
+<!--            display: inline-block;-->
+<!--            margin-top: 20px;-->
+<!--            padding: 10px 15px;-->
+<!--            background-color: #FFA832;-->
+<!--            color: white;-->
+<!--            text-decoration: none;-->
+<!--            border-radius: 5px;-->
+<!--            transition: background-color 0.3s;-->
+<!--        }-->
+<!--        .back-button:hover {-->
+<!--            background-color: #FF8C00;-->
+<!--        }-->
+<!--        .like-button {-->
+<!--            display: inline-block;-->
+<!--            margin-top: 20px;-->
+<!--            padding: 10px 15px;-->
+<!--            background-color: #FFA832;-->
+<!--            color: white;-->
+<!--            text-decoration: none;-->
+<!--            border-radius: 5px;-->
+<!--            transition: background-color 0.3s;-->
+<!--        }-->
+<!--        .like-button:hover {-->
+<!--            background-color: #FF8C00;-->
+<!--        }-->
+
+<!--    </style>-->
 </head>
 <body>
 <div th:replace="~{/fragment/navbar-fragment :: navbarFragment}"></div>
@@ -106,17 +108,28 @@
 
     <h2>재료:</h2>
     <ul class="ingredient-list">
-        <li th:if="${cocktail.get().strIngredient1}" th:text="${cocktail.get().strIngredient1 + ' - ' + cocktail.get().strMeasure1}"></li>
-        <li th:if="${cocktail.get().strIngredient2}" th:text="${cocktail.get().strIngredient2 + ' - ' + cocktail.get().strMeasure2}"></li>
-        <li th:if="${cocktail.get().strIngredient3}" th:text="${cocktail.get().strIngredient3 + ' - ' + cocktail.get().strMeasure3}"></li>
-        <li th:if="${cocktail.get().strIngredient4}" th:text="${cocktail.get().strIngredient4 + ' - ' + cocktail.get().strMeasure4}"></li>
-        <li th:if="${cocktail.get().strIngredient5}" th:text="${cocktail.get().strIngredient5 + ' - ' + cocktail.get().strMeasure5}"></li>
-        <li th:if="${cocktail.get().strIngredient6}" th:text="${cocktail.get().strIngredient6 + ' - ' + cocktail.get().strMeasure6}"></li>
-        <li th:if="${cocktail.get().strIngredient6}" th:text="${cocktail.get().strIngredient7 + ' - ' + cocktail.get().strMeasure7}"></li>
-        <li th:if="${cocktail.get().strIngredient6}" th:text="${cocktail.get().strIngredient8 + ' - ' + cocktail.get().strMeasure8}"></li>
-        <li th:if="${cocktail.get().strIngredient6}" th:text="${cocktail.get().strIngredient9 + ' - ' + cocktail.get().strMeasure9}"></li>
-        <li th:if="${cocktail.get().strIngredient6}" th:text="${cocktail.get().strIngredient10 + ' - ' + cocktail.get().strMeasure10}"></li>
-        <li th:if="${cocktail.get().strIngredient6}" th:text="${cocktail.get().strIngredient11 + ' - ' + cocktail.get().strMeasure11}"></li>
+        <li th:if="${cocktail.get().strIngredient1 != null and !cocktail.get().strIngredient1.isEmpty()}"
+            th:text="${cocktail.get().strIngredient1 + (cocktail.get().strMeasure1 != null and !cocktail.get().strMeasure1.isEmpty() ? ' - ' + cocktail.get().strMeasure1 : '')}"></li>
+        <li th:if="${cocktail.get().strIngredient2 != null and !cocktail.get().strIngredient2.isEmpty()}"
+            th:text="${cocktail.get().strIngredient2 + (cocktail.get().strMeasure2 != null and !cocktail.get().strMeasure2.isEmpty() ? ' - ' + cocktail.get().strMeasure2 : '')}"></li>
+        <li th:if="${cocktail.get().strIngredient3 != null and !cocktail.get().strIngredient3.isEmpty()}"
+            th:text="${cocktail.get().strIngredient3 + (cocktail.get().strMeasure3 != null and !cocktail.get().strMeasure3.isEmpty() ? ' - ' + cocktail.get().strMeasure3 : '')}"></li>
+        <li th:if="${cocktail.get().strIngredient4 != null and !cocktail.get().strIngredient4.isEmpty()}"
+            th:text="${cocktail.get().strIngredient4 + (cocktail.get().strMeasure4 != null and !cocktail.get().strMeasure4.isEmpty() ? ' - ' + cocktail.get().strMeasure4 : '')}"></li>
+        <li th:if="${cocktail.get().strIngredient5 != null and !cocktail.get().strIngredient5.isEmpty()}"
+            th:text="${cocktail.get().strIngredient5 + (cocktail.get().strMeasure5 != null and !cocktail.get().strMeasure5.isEmpty() ? ' - ' + cocktail.get().strMeasure5 : '')}"></li>
+        <li th:if="${cocktail.get().strIngredient6 != null and !cocktail.get().strIngredient6.isEmpty()}"
+            th:text="${cocktail.get().strIngredient6 + (cocktail.get().strMeasure6 != null and !cocktail.get().strMeasure6.isEmpty() ? ' - ' + cocktail.get().strMeasure6 : '')}"></li>
+        <li th:if="${cocktail.get().strIngredient7 != null and !cocktail.get().strIngredient7.isEmpty()}"
+            th:text="${cocktail.get().strIngredient7 + (cocktail.get().strMeasure7 != null and !cocktail.get().strMeasure7.isEmpty() ? ' - ' + cocktail.get().strMeasure7 : '')}"></li>
+        <li th:if="${cocktail.get().strIngredient8 != null and !cocktail.get().strIngredient8.isEmpty()}"
+            th:text="${cocktail.get().strIngredient8 + (cocktail.get().strMeasure8 != null and !cocktail.get().strMeasure8.isEmpty() ? ' - ' + cocktail.get().strMeasure8 : '')}"></li>
+        <li th:if="${cocktail.get().strIngredient9 != null and !cocktail.get().strIngredient9.isEmpty()}"
+            th:text="${cocktail.get().strIngredient9 + (cocktail.get().strMeasure9 != null and !cocktail.get().strMeasure9.isEmpty() ? ' - ' + cocktail.get().strMeasure9 : '')}"></li>
+        <li th:if="${cocktail.get().strIngredient10 != null and !cocktail.get().strIngredient10.isEmpty()}"
+            th:text="${cocktail.get().strIngredient10 + (cocktail.get().strMeasure10 != null and !cocktail.get().strMeasure10.isEmpty() ? ' - ' + cocktail.get().strMeasure10 : '')}"></li>
+        <li th:if="${cocktail.get().strIngredient11 != null and !cocktail.get().strIngredient11.isEmpty()}"
+            th:text="${cocktail.get().strIngredient11 + (cocktail.get().strMeasure11 != null and !cocktail.get().strMeasure11.isEmpty() ? ' - ' + cocktail.get().strMeasure11 : '')}"></li>
     </ul>
 
     <h2>제조 방법:</h2>
@@ -129,9 +142,10 @@
     <p>죄송합니다. 요청하신 칵테일을 찾을 수 없습니다.</p>
 </div>
 
-<a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
 <button class="like-button" id="likeButton"
         th:text="${isLiked ? '좋아요 취소' : '좋아요'}" onClick="likeCocktail()"></button>
+
+<a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
 
 <script>
     const cocktailId = document.querySelector('.default-cocktail-number').innerText; // 칵테일 번호 가져오기

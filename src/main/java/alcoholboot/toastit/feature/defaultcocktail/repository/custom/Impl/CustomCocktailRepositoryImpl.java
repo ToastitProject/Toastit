@@ -25,6 +25,9 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
      * @return 생성된 Criteria 객체
      */
     private Criteria createIngredientCriteria(String ingredient) {
+        if (ingredient == null || ingredient.trim().isEmpty()) {
+            return new Criteria();
+        }
         return new Criteria().orOperator(
                 Criteria.where("strIngredient1").regex(ingredient, "i"),
                 Criteria.where("strIngredient2").regex(ingredient, "i"),
@@ -47,6 +50,9 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
      * @return 생성된 Criteria 객체
      */
     private Criteria createGlassCriteria(String glass) {
+        if (glass == null || glass.trim().isEmpty()) {
+            return new Criteria();
+        }
         return new Criteria().orOperator(
                 Criteria.where("strGlass").regex(glass, "i")
         );
@@ -59,6 +65,9 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
      * @return 생성된 Criteria 객체
      */
     private Criteria createCategoryCriteria(String category) {
+        if (category == null || category.trim().isEmpty()) {
+            return new Criteria();
+        }
         return new Criteria().orOperator(
                 Criteria.where("strCategory").regex(category, "i")
         );
