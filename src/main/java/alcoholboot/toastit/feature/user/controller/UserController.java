@@ -191,9 +191,10 @@ public class UserController {
         return "redirect:/user/login";
     }
 
-    @GetMapping("/mypage")
-    public String showMyPage(Model model) {
-        log.info("myPage 로 GetMapping 들어옴!");
+    //홈 화면에서 마이페이지 접속하는 컨트롤러
+    @GetMapping("/mypages")
+    public String showMyPages(Model model) {
+        log.info("myPages 로 GetMapping 들어옴!");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             String email = authentication.getName();
@@ -201,10 +202,58 @@ public class UserController {
             Optional<User> userOptional = userService.findByEmail(email);
             if (userOptional.isPresent()) {
                 model.addAttribute("user", userOptional.get());
+                model.addAttribute("notLoginUser", false);
                 log.info("찾은 user email 을 모델에 담은 값 : " + userOptional.get().getEmail());
                 log.info("찾은 user Nickname 을 모델에 담은 값 : " + userOptional.get().getNickname());
                 log.info("찾은 user create_date 를 모델에 담은 값 : " + userOptional.get().getCreateDate());
                 log.info("이미지 url : " +userOptional.get().getProfileImageUrl());
+            } else {
+                model.addAttribute("error", "사용자를 찾을 수 없습니다.");
+            }
+        } else {
+            model.addAttribute("error", "사용자가 인증되지 않았습니다.");
+        }
+
+        return "/feature/user/mypageForm";
+    }
+
+    //닉네임을 클릭해서 마이페이지로 접속하는 컨트롤러
+    @GetMapping("/mypage")
+    public String showMyPage(@RequestParam("nickname") String nickname, Model model) {
+        log.info("myPage로 GetMapping 들어옴!");
+
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            String email = authentication.getName();
+
+            // 로그인한 사용자 정보 조회
+            Optional<User> loggedInUserOptional = userService.findByEmail(email);
+            if (loggedInUserOptional.isPresent()) {
+                User loggedInUser = loggedInUserOptional.get();
+                model.addAttribute("loggedInUser", loggedInUser);
+
+                log.info("로그인한 사용자 email: " + loggedInUser.getEmail());
+                log.info("로그인한 사용자 Nickname: " + loggedInUser.getNickname());
+
+                // 요청된 닉네임과 로그인한 사용자의 닉네임 비교
+                if (loggedInUser.getNickname().equals(nickname)) {
+                    // 자신의 정보인 경우
+                    model.addAttribute("user", loggedInUser);
+                    model.addAttribute("notLoginUser", false);
+                    log.info("자신의 정보를 보여줍니다.");
+                } else {
+                    // 다른 사용자의 정보인 경우
+                    Optional<User> otherUserOptional = userService.findByNickname(nickname);
+                    if (otherUserOptional.isPresent()) {
+                        model.addAttribute("user", otherUserOptional.get());
+                        model.addAttribute("notLoginUser", true);
+                        log.info("다른 사용자의 정보를 보여줍니다: " + nickname);
+                    } else {
+                        model.addAttribute("error", "다른 사용자를 찾을 수 없습니다.");
+                    }
+                }
             } else {
                 model.addAttribute("error", "사용자를 찾을 수 없습니다.");
             }
@@ -258,7 +307,7 @@ public class UserController {
             }
         }
 
-        return "redirect:/user/mypage"; // 변경 후 마이 페이지로 리다이렉트
+        return "redirect:/user/mypages"; // 변경 후 마이 페이지로 리다이렉트
     }
 
     @PostMapping("/imageChange")

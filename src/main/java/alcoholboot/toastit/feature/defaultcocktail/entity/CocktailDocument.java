@@ -51,6 +51,21 @@ public class CocktailDocument {
     @Field("strIngredient6")
     private String strIngredient6;
 
+    @Field("strIngredient7")
+    private String strIngredient7;
+
+    @Field("strIngredient8")
+    private String strIngredient8;
+
+    @Field("strIngredient9")
+    private String strIngredient9;
+
+    @Field("strIngredient10")
+    private String strIngredient10;
+
+    @Field("strIngredient11")
+    private String strIngredient11;
+
     @Field("strInstructions")
     private String strInstructions;
 
@@ -72,6 +87,22 @@ public class CocktailDocument {
     @Field("strMeasure6")
     private String strMeasure6;
 
+    @Field("strMeasure7")
+    private String strMeasure7;
+
+    @Field("strMeasure8")
+    private String strMeasure8;
+
+    @Field("strMeasure9")
+    private String strMeasure9;
+
+    @Field("strMeasure10")
+    private String strMeasure10;
+
+    @Field("strMeasure11")
+    private String strMeasure11;
+
+
     @Field("likeCount")
     private Integer likeCount;
 
@@ -89,6 +120,11 @@ public class CocktailDocument {
                 .strIngredient4(this.strIngredient4)
                 .strIngredient5(this.strIngredient5)
                 .strIngredient6(this.strIngredient6)
+                .strIngredient7(this.strIngredient7)
+                .strIngredient8(this.strIngredient8)
+                .strIngredient9(this.strIngredient9)
+                .strIngredient10(this.strIngredient10)
+                .strIngredient11(this.strIngredient11)
                 .strInstructions(this.strInstructions)
                 .strMeasure1(this.strMeasure1)
                 .strMeasure2(this.strMeasure2)
@@ -96,6 +132,11 @@ public class CocktailDocument {
                 .strMeasure4(this.strMeasure4)
                 .strMeasure5(this.strMeasure5)
                 .strMeasure6(this.strMeasure6)
+                .strMeasure7(this.strMeasure7)
+                .strMeasure8(this.strMeasure8)
+                .strMeasure9(this.strMeasure9)
+                .strMeasure10(this.strMeasure10)
+                .strMeasure11(this.strMeasure11)
                 .likeCount(this.likeCount)
                 .build();
     }

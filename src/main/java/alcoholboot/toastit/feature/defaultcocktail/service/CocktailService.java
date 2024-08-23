@@ -15,6 +15,9 @@ public interface CocktailService {
     Page<Cocktail> getCocktailsByIngredientPaged(String ingredient, Pageable pageable);
     Page<Cocktail> getCocktailsByGlassPaged(String glass, Pageable pageable);
     Page<Cocktail> getCocktailsByTypePaged(String type, Pageable pageable);
+    Page<Cocktail> getCocktailsByIngredientAndGlassPaged(String ingredient, String glass, Pageable pageable);
+    Page<Cocktail> getCocktailsByIngredientAndTypePaged(String ingredient, String type, Pageable pageable);
+    Page<Cocktail> getCocktailsByGlassAndTypePaged(String glass, String type, Pageable pageable);
     Page<Cocktail> getCocktailsByFilterPaged(String ingredient, String glass, String type, Pageable pageable);
     Optional<Cocktail> getCocktailById(ObjectId id);
 }
