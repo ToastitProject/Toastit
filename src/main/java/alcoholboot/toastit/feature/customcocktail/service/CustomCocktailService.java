@@ -4,6 +4,8 @@ import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
 import alcoholboot.toastit.feature.customcocktail.repository.CustomCocktailRepository;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,6 +49,22 @@ public class CustomCocktailService {
 
     public List<CustomCocktail> getCocktailsByUserIds(List<Long> ids) {
         return customCocktailRepository.getCocktailsByUserIds(ids);
+    }
+
+    //등록된 커스텀 레시피 중, 최신 등록된 레시피를 limit 개 가져온다.
+    public List<CustomCocktail> getLatestCocktails(int limit) {
+        Pageable pageable = PageRequest.of(0, limit);
+        return customCocktailRepository.findTop5ByOrderByCreateDateDesc(pageable);
+    }
+    //등록된 커스텀 레시피 중, 좋아요를 많이 받은 레시피를 limit 개 가져온다.
+    public List<CustomCocktail> getTopNCocktails(int limit) {
+        Pageable pageable = PageRequest.of(0, limit);
+        return customCocktailRepository.findTopByOrderByLikesDesc(pageable);
+    }
+    //등록된 커스텀 레시피 중, 팔로우가 많이 된 사용자들의 레시피를 limit 개 가져온다.
+    public List<CustomCocktail> getTopNCocktailsByFollowerCount(int limit) {
+        Pageable pageable = PageRequest.of(0, limit); // 페이지 번호 0, 가져올 수 limit
+        return customCocktailRepository.findTopByOrderByFollowerCountDesc(pageable);
     }
 }
 
