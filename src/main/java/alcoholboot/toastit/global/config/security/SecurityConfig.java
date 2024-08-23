@@ -43,7 +43,8 @@ public class SecurityConfig {
             "/user/resign",  // 회원 탈퇴 API
             "/custom/**", // 커스텀 칵테일 레시피 API
             "/like/**", // 좋아요 API
-            "/follow/**" //팔로우 API
+            "/follow/**", //팔로우 API
+            "/map/**" //지도 API
     };
 
     // 비로그인 유저 허용 페이지
