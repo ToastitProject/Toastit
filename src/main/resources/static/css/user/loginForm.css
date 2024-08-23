@@ -1,0 +1,80 @@
+body {
+    font-family: 'Gmarket Sans', sans-serif;
+    color: #FFA832;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.card {
+    background-color: #FFA832;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 800px;
+    height: 400px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 150px auto;
+    flex-direction: column;
+}
+
+.info {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: center;
+    text-align: right;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.input-container {
+    text-align: center;
+    margin: 20px;
+    margin-left: -20px;
+    margin-right: 60px;
+    width: 200px
+}
+
+.input {
+    padding-right: 10px;
+    margin-right: -90px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+    height: 30px;
+}
+
+.button-container {
+    margin-top: 15px;
+}
+
+.button {
+    background-color: white;
+    color: #FFA832;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    width: 300px;
+}
+
+.button:hover {
+    background-color: #dfbc8e;
+    color: white;
+}
+
+.password-reset {
+    color: white;
+    text-decoration: none;
+    padding-top: 5px;
+    margin-top: -5px;
+    margin-right: -210px;
+    text-align: right;
+}
