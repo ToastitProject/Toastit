@@ -63,6 +63,7 @@ google:
   maps:
     api:
       key: ${LOC_GOOGLE_MAP_API_KEY}
+
   geocoding:
     api:
       key: ${LOC_GOOGLE_GEOCODING_API_KEY}

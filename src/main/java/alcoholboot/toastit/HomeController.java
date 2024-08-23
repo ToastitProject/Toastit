@@ -44,10 +44,10 @@ public class HomeController {
                 break;
         }
         model.addAttribute("cocktails", cocktails);
-        for (int i = 0; i < 4; i++) {
-            log.info("뷰로 실제로 보내는 값 : " + cocktails.get(i).getName());
-        }
 
+//        for (int i = 0; i < 4; i++) {
+//            log.info("뷰로 실제로 보내는 값 : " + cocktails.get(i).getName());
+//        }
 
         return "index";
     }
