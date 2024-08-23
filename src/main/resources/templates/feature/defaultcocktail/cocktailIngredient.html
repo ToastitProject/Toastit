@@ -6,85 +6,6 @@
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <link th:href="@{/css/defaultcocktail/defaultcocktail.css}" rel="stylesheet">
     <title>재료로 칵테일 검색</title>
-    <!--    <style>-->
-    <!--        body {-->
-    <!--            font-family: Arial, sans-serif;-->
-    <!--            line-height: 1.6;-->
-    <!--            margin: 0;-->
-    <!--            padding: 20px;-->
-    <!--            background-color: #f4f4f4;-->
-    <!--        }-->
-
-    <!--        .container {-->
-    <!--            max-width: 1200px;-->
-    <!--            margin: auto;-->
-    <!--            background: white;-->
-    <!--            padding: 20px;-->
-    <!--            border-radius: 5px;-->
-    <!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
-    <!--        }-->
-
-    <!--        h1, h2 {-->
-    <!--            color: #333;-->
-    <!--        }-->
-
-    <!--        .search-form {-->
-    <!--            margin-bottom: 20px;-->
-    <!--        }-->
-
-    <!--        .search-form input[type="text"] {-->
-    <!--            padding: 10px;-->
-    <!--            width: 300px;-->
-    <!--            border: 1px solid #ddd;-->
-    <!--            border-radius: 4px;-->
-    <!--        }-->
-
-    <!--        .search-form button {-->
-    <!--            padding: 10px 20px;-->
-    <!--            background-color: #007bff;-->
-    <!--            color: white;-->
-    <!--            border: none;-->
-    <!--            border-radius: 4px;-->
-    <!--            cursor: pointer;-->
-    <!--        }-->
-
-    <!--        .search-form button:hover {-->
-    <!--            background-color: #0056b3;-->
-    <!--        }-->
-
-    <!--        .cocktail-grid {-->
-    <!--            display: grid;-->
-    <!--            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));-->
-    <!--            gap: 20px;-->
-    <!--        }-->
-
-    <!--        .cocktail-item {-->
-    <!--            border: 1px solid #ddd;-->
-    <!--            padding: 15px;-->
-    <!--            border-radius: 8px;-->
-    <!--            background-color: #fff;-->
-    <!--        }-->
-
-    <!--        .cocktail-item h3 {-->
-    <!--            margin-top: 0;-->
-    <!--            color: #007bff;-->
-    <!--        }-->
-
-    <!--        .pagination {-->
-    <!--            margin-top: 20px;-->
-    <!--            text-align: center;-->
-    <!--        }-->
-
-    <!--        .pagination a {-->
-    <!--            margin: 0 5px;-->
-    <!--            text-decoration: none;-->
-    <!--            color: #007bff;-->
-    <!--            padding: 5px 10px;-->
-    <!--            border: 1px solid #007bff;-->
-    <!--            border-radius: 3px;-->
-    <!--        }-->
-
-    <!--    </style>-->
 </head>
 <body>
 
@@ -131,6 +52,16 @@
                     th:text="${cocktail.strIngredient5 + (cocktail.strMeasure5 != null and !cocktail.strMeasure5.isEmpty() ? ' - ' + cocktail.strMeasure5 : '')}"></li>
                 <li th:if="${cocktail.strIngredient6 != null and !cocktail.strIngredient6.isEmpty()}"
                     th:text="${cocktail.strIngredient6 + (cocktail.strMeasure6 != null and !cocktail.strMeasure6.isEmpty() ? ' - ' + cocktail.strMeasure6 : '')}"></li>
+                <li th:if="${cocktail.strIngredient7 != null and !cocktail.strIngredient7.isEmpty()}"
+                    th:text="${cocktail.strIngredient7 + (cocktail.strMeasure7 != null and !cocktail.strMeasure7.isEmpty() ? ' - ' + cocktail.strMeasure7 : '')}"></li>
+                <li th:if="${cocktail.strIngredient8 != null and !cocktail.strIngredient8.isEmpty()}"
+                    th:text="${cocktail.strIngredient8 + (cocktail.strMeasure8 != null and !cocktail.strMeasure8.isEmpty() ? ' - ' + cocktail.strMeasure8 : '')}"></li>
+                <li th:if="${cocktail.strIngredient9 != null and !cocktail.strIngredient9.isEmpty()}"
+                    th:text="${cocktail.strIngredient9 + (cocktail.strMeasure9 != null and !cocktail.strMeasure9.isEmpty() ? ' - ' + cocktail.strMeasure9 : '')}"></li>
+                <li th:if="${cocktail.strIngredient10 != null and !cocktail.strIngredient10.isEmpty()}"
+                    th:text="${cocktail.strIngredient10 + (cocktail.strMeasure10 != null and !cocktail.strMeasure10.isEmpty() ? ' - ' + cocktail.strMeasure10 : '')}"></li>
+                <li th:if="${cocktail.strIngredient11 != null and !cocktail.strIngredient11.isEmpty()}"
+                    th:text="${cocktail.strIngredient11 + (cocktail.strMeasure11 != null and !cocktail.strMeasure11.isEmpty() ? ' - ' + cocktail.strMeasure11 : '')}"></li>
             </ul>
             <p>제조 방법: <span th:text="${cocktail.strInstructions}"></span></p>
             <p>좋아요 수: <span th:text="${cocktail.likeCount}"></span></p>
@@ -138,12 +69,15 @@
     </div>
 </div>
 
-<!--페이지네이션 부분을 수정했습니다. 이제 1 페이지에 모두 나타나면 1로
- 그 이상이면 1 / 2 같은 방식으로 표현됩니다.-->
-<div class="pagination">
-    <a th:if="${currentPage > 0}" th:href="@{/cocktails/all/ingredient(page=${currentPage - 1})}">이전</a>
-    <span th:text="${currentPage != null ? currentPage + 1 : 1}"></span> / <span th:text="${totalPages}"></span>
-    <a th:if="${currentPage < totalPages - 1}" th:href="@{/cocktails/all/ingredient(page=${currentPage + 1})}">다음</a>
+<a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
+
+<div th:if="${cocktails != null and !cocktails.isEmpty()}" class="pagination">
+    <a th:if="${currentPage != null and currentPage > 0}"
+       th:href="@{/cocktails/all/ingredient(ingredient=${ingredient}, page=${currentPage - 1})}">이전</a>
+    <span th:text="${currentPage != null ? currentPage + 1 : ''}"></span>
+    <span th:if="${totalPages != null}" th:text="' / ' + ${totalPages}"></span>
+    <a th:if="${currentPage != null and totalPages != null and currentPage < totalPages - 1}"
+       th:href="@{/cocktails/all/ingredient(ingredient=${ingredient}, page=${currentPage + 1})}">다음</a>
 </div>
 
 </body>

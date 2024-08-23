@@ -58,6 +58,24 @@ public class CocktailServiceImpl implements CocktailService {
                 .map(CocktailDocument::convertToDomain);
     }
 
+    @Override
+    public Page<Cocktail> getCocktailsByIngredientAndGlassPaged(String ingredient, String glass, Pageable pageable) {
+        return cocktailRepository.findByIngredientAndGlass(ingredient, glass, pageable)
+                .map(CocktailDocument::convertToDomain);
+    }
+
+    @Override
+    public Page<Cocktail> getCocktailsByIngredientAndTypePaged(String ingredient, String type, Pageable pageable) {
+        return cocktailRepository.findByIngredientAndCategoryPage(ingredient, type, pageable)
+                .map(CocktailDocument::convertToDomain);
+    }
+
+    @Override
+    public Page<Cocktail> getCocktailsByGlassAndTypePaged(String glass, String type, Pageable pageable) {
+        return cocktailRepository.findByGlassAndCategoryPage(glass, type, pageable)
+                .map(CocktailDocument::convertToDomain);
+    }
+
     // 카테고리 적용 - 복합
     @Override
     public Page<Cocktail> getCocktailsByFilterPaged(String ingredient, String glass, String type, Pageable pageable) {

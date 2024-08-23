@@ -57,3 +57,16 @@
     color: red;
     margin-bottom: 10px;
 }
+
+.back-button {
+    background-color: #FFA832;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    background-color: #FF8A00; /* hover 색상 */
+}
