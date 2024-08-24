@@ -14,4 +14,5 @@ public interface UserService {
     Optional<User> findByNickname(String nickname);
     void save(UserEntity user);
     void deleteByEmail(String email);
+    String encryptPassword(String password);
 }

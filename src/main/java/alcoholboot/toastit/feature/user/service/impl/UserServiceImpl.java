@@ -9,9 +9,6 @@ import alcoholboot.toastit.feature.user.service.VerificationService;
 import alcoholboot.toastit.feature.user.util.RandomNickname;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import alcoholboot.toastit.global.config.response.exception.CustomException;
-import lombok.AllArgsConstructor;
-import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
-import alcoholboot.toastit.global.config.response.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -99,7 +96,7 @@ public class UserServiceImpl implements UserService {
      * @param password 비밀번호
      * @return 암호화된 비밀번호
      */
-    private String encryptPassword(String password) {
+    public String encryptPassword(String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(password);
     }

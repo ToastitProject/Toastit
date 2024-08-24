@@ -1,6 +1,5 @@
 package alcoholboot.toastit.feature.user.controller;
 
-
 import alcoholboot.toastit.auth.jwt.domain.Token;
 import alcoholboot.toastit.auth.jwt.entity.TokenEntity;
 import alcoholboot.toastit.auth.jwt.repository.TokenRepository;
@@ -18,7 +17,6 @@ import alcoholboot.toastit.global.config.response.exception.CustomException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +52,7 @@ public class UserController {
 
         log.info("로그인 템플릿 반환");
 
-        return "feature/user/loginForm";
+        return "/feature/user/loginForm";
     }
 
     @PostMapping("/login")
@@ -407,5 +405,4 @@ public class UserController {
         log.info("회원 탈퇴 완료");
         return "redirect:/";
     }
-
 }
