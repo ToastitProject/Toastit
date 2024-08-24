@@ -54,7 +54,7 @@ public class UserController {
 
         log.info("로그인 템플릿 반환");
 
-        return "/feature/user/loginForm";
+        return "feature/user/loginForm";
     }
 
     @PostMapping("/login")
