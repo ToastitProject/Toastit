@@ -92,8 +92,11 @@ dependencies {
     testImplementation 'org.seleniumhq.selenium:selenium-java:4.0.0'
     testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.0.0'
 
-    //Thumbnailator (이미지 리사이징)
+    // Thumbnailator (이미지 리사이징)
     implementation 'net.coobird:thumbnailator:0.4.14'
+
+    // OAuth2 Clinet
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {

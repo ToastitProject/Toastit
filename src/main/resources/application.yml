@@ -3,7 +3,7 @@ spring:
     name: toastit
 
   profiles:
-    active: local
+    active: local, oauth
 
   jpa:
     show-sql: true
