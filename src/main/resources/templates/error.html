@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <title>술프링 부트 - 페이지 오류</title>
     <style>
         body {
@@ -49,6 +50,8 @@
     </style>
 </head>
 <body>
+
+<header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
 
 <div class="container">
     <div class="error-code" th:text="${code}">Error</div>
