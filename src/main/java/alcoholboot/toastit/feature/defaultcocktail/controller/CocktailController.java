@@ -35,7 +35,7 @@ public class CocktailController {
         model.addAttribute("cocktails", cocktails);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", cocktails.getTotalPages());
-        return "/feature/defaultcocktail/cocktailList";
+        return "feature/defaultcocktail/cocktailList";
     }
 
     @GetMapping("/all/ingredient")

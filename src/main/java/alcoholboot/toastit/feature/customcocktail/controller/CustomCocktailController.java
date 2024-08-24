@@ -49,7 +49,7 @@ public class CustomCocktailController {
         List<CustomCocktail> cocktails = customCocktailService.getAllCocktails();
         model.addAttribute("cocktails", cocktails);
         log.info("Accessed custom cocktails page");
-        return "/feature/customcocktail/custommain";
+        return "feature/customcocktail/custommain";
     }
 
     @GetMapping("/custom/write")
@@ -59,7 +59,7 @@ public class CustomCocktailController {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다");
             return "redirect:/login";
         }
-        return "/feature/customcocktail/write";
+        return "feature/customcocktail/write";
     }
 
     @PostMapping("/custom")
@@ -128,7 +128,7 @@ public class CustomCocktailController {
         model.addAttribute("cocktail", cocktail);
         model.addAttribute("image", cocktail.getImages());
         model.addAttribute("ingredients", cocktail.getIngredients()); // Add ingredients to the model
-        return "/feature/customcocktail/edit";
+        return "feature/customcocktail/edit";
     }
 
     @PostMapping("/custom/edit/{id}")
@@ -226,7 +226,7 @@ public class CustomCocktailController {
             model.addAttribute("isLiked", false);
         }
 
-        return "/feature/customcocktail/customdetail";
+        return "feature/customcocktail/customdetail";
     }
 
 }
