@@ -54,15 +54,15 @@ public class TokenRenewalServiceImpl implements TokenRenewalService {
         // 사용자 정보를 바탕으로 새로운 액세스 토큰을 생성
         String accessToken = jwtTokenizer.createAccessToken(userId, user.getEmail(), user.getNickname(), authority);
 
+        // 기존 리프레시 토큰에 해당하는 액세스 토큰 정보를 업데이트
+        tokenService.updateByRefreshToken(refreshToken, accessToken);
+
         // 액세스 토큰을 담은 쿠키를 생성하고 응답에 추가
         Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setPath("/");
         accessTokenCookie.setMaxAge(Math.toIntExact(JwtTokenizer.accessTokenExpire / 1000));
         response.addCookie(accessTokenCookie);
-
-        // 기존 리프레시 토큰에 해당하는 액세스 토큰 정보를 업데이트
-        tokenService.updateByRefreshToken(refreshToken, accessToken);
 
         // 새로 발급된 액세스 토큰을 반환
         return accessToken;
