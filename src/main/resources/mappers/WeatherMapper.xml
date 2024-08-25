@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="alcoholboot.toastit.feature.api.repository.WeatherMapper">
+    <select id="selectArea" resultType="AreaRequestDTO" parameterType="Map">
+        <choose>
+            <when test="type == 'city'">
+                SELECT
+                areacode, step1
+                FROM
+                addressTest.tb_weather_area
+                WHERE
+                step2 is null AND step3 is null
+                ORDER BY
+                step1
+            </when>
+
+            <when test="type == 'county'">
+                SELECT
+                areacode, step2
+                FROM
+                addressTest.tb_weather_area
+                WHERE
+                step1 = #{keyword} AND step3 is null AND step2 is not null
+                ORDER BY
+                step2
+            </when>
+
+            <when test="type == 'town'">
+                SELECT
+                areacode, step3
+                FROM
+                addressTest.tb_weather_area
+                WHERE
+                step2 = #{keyword} AND step3 is not null
+                ORDER BY
+                step3
+            </when>
+        </choose>
+    </select>
+</mapper>>
