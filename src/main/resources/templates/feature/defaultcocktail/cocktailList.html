@@ -7,6 +7,7 @@
     <link th:href="@{/css/defaultcocktail/defaultcocktail.css}" rel="stylesheet">
 
     <script th:src="@{/js/defaultcocktail/toggle.js}" defer></script>
+    <script th:src="@{/js/defaultcocktail/formVail.js}" defer></script>
 
     <title>칵테일 목록</title>
 </head>
@@ -20,10 +21,12 @@
 <div class="cocktail-buttons">
     <button id="toggleSearch" class="cocktail-button">검색 옵션 토글</button>
     <div id="searchOptions" style="display: none;">
-        <input type="text" id="ingredientInput" placeholder="재료 (예: 보드카, 럼)">
-        <input type="text" id="glassInput" placeholder="잔 종류 (예: 칵테일 잔)">
-        <input type="text" id="categoryInput" placeholder="타입 (예: 칵테일, 일반 음료)">
-        <button id="searchButton" class="cocktail-button">검색</button>
+        <form th:action="@{/cocktails/all/complex}" method="get">
+            <input type="text" id="ingredientInput" name="ingredient" placeholder="재료 (예: 보드카, 럼)">
+            <input type="text" id="glassInput" name="glass" placeholder="잔 종류 (예: 칵테일 잔)">
+            <input type="text" id="categoryInput" name="type" placeholder="타입 (예: 칵테일, 일반 음료)">
+            <button id="searchButton" class="cocktail-button" type="submit">검색</button>
+        </form>
     </div>
 </div>
 
