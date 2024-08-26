@@ -102,6 +102,8 @@ public class CocktailDocument {
     @Field("strMeasure11")
     private String strMeasure11;
 
+    @Field("imagePath")
+    private String imagePath;
 
     @Field("likeCount")
     private Integer likeCount;
@@ -138,6 +140,7 @@ public class CocktailDocument {
                 .strMeasure10(this.strMeasure10)
                 .strMeasure11(this.strMeasure11)
                 .likeCount(this.likeCount)
+                .imagePath(this.imagePath)
                 .build();
     }
 }
