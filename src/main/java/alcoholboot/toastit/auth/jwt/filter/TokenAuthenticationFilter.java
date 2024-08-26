@@ -74,7 +74,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                         String newAccessToken = tokenRenewalService.refreshAccessToken(response, refreshToken);
 
                         log.info("[AUTH START] : " + newAccessToken);
-                        getAuthentication(accessToken);
+                        getAuthentication(newAccessToken);
                     } catch (ExpiredJwtException er) {
                         log.error("[TOKEN EXPIRED] - " + CommonExceptionCode.JWT_EXPIRED_ERROR.getData());
                         throw new CustomException(CommonExceptionCode.TIMEOUT_LOGOUT);
@@ -124,7 +124,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         Collection<? extends GrantedAuthority> authorities = Collections.singletonList(authority);
 
         // 인증 주체 선언
-        CustomUserDetails userDetails = new CustomUserDetails(email, "", nickname, (List<GrantedAuthority>) authorities);
+        CustomUserDetails userDetails = new CustomUserDetails(email, nickname, (List<GrantedAuthority>) authorities);
 
         // 인증 객체 생성
         Authentication authentication = new JwtAuthenticationToken(authorities, userDetails, null);

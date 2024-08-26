@@ -1,6 +1,5 @@
 package alcoholboot.toastit.feature.user.controller;
 
-
 import alcoholboot.toastit.auth.jwt.domain.Token;
 import alcoholboot.toastit.auth.jwt.entity.TokenEntity;
 import alcoholboot.toastit.auth.jwt.repository.TokenRepository;
@@ -18,7 +17,6 @@ import alcoholboot.toastit.global.config.response.exception.CustomException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +52,7 @@ public class UserController {
 
         log.info("로그인 템플릿 반환");
 
-        return "/feature/user/loginForm";
+        return "feature/user/loginForm";
     }
 
     @PostMapping("/login")
@@ -67,7 +65,7 @@ public class UserController {
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(error -> log.error("Validation error: {}", error.getDefaultMessage()));
-            return "/feature/user/loginForm";
+            return "feature/user/loginForm";
         }
 
         User user = userService.findByEmail(userLoginDto.getEmail())
@@ -158,7 +156,7 @@ public class UserController {
 
         log.info("회원가입 템플릿 반환");
 
-        return "/feature/user/joinForm";
+        return "feature/user/joinForm";
     }
 
     @PostMapping("/join")
@@ -179,7 +177,7 @@ public class UserController {
                 }
             });
 
-            return "/feature/user/joinForm";
+            return "feature/user/joinForm";
         }
 
         log.info("유저 저장 시작! 이메일: {}, 인증코드: {}", userJoinDto.getEmail(), userJoinDto.getAuthCode());
@@ -214,7 +212,7 @@ public class UserController {
             model.addAttribute("error", "사용자가 인증되지 않았습니다.");
         }
 
-        return "/feature/user/mypageForm";
+        return "feature/user/mypageForm";
     }
 
     //닉네임을 클릭해서 마이페이지로 접속하는 컨트롤러
@@ -261,7 +259,7 @@ public class UserController {
             model.addAttribute("error", "사용자가 인증되지 않았습니다.");
         }
 
-        return "/feature/user/mypageForm";
+        return "feature/user/mypageForm";
     }
 
     @GetMapping("/edit")
@@ -280,7 +278,7 @@ public class UserController {
                 log.info(user.get().getProfileImageUrl());
             }
         }
-        return "/feature/user/editForm";
+        return "feature/user/editForm";
     }
 
     @PostMapping("/edit")
@@ -371,7 +369,7 @@ public class UserController {
         log.info("접속한 사용자의 이메일 : "+userOptional.get().getEmail());
         model.addAttribute("user", userOptional.get().convertToEntity());
         log.info("Model에 담긴 닉네임 값 : "+ userOptional.get().convertToEntity().getNickname());
-        return "/feature/user/resignForm";
+        return "feature/user/resignForm";
     }
 
     @PostMapping("/resign")
@@ -407,5 +405,4 @@ public class UserController {
         log.info("회원 탈퇴 완료");
         return "redirect:/";
     }
-
 }

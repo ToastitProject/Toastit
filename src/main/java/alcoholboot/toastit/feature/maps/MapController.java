@@ -24,6 +24,6 @@ public class MapController {
         model.addAttribute("geocodingApiKey", geocodingApiKey);
 //        log.info("모델에 담아 보내는 MAP API KEY : "+ mapsApiKey);
 //        log.info("모델에 담아 보내는 Geocoding API KEY : "+geocodingApiKey);
-        return "/feature/maps/main";
+        return "feature/maps/main";
     }
 }

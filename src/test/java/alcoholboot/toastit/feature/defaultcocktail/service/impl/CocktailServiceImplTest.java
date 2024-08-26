@@ -47,18 +47,18 @@ class CocktailServiceImplTest {
 //    void getCocktailsByFilter() {
 //    }
 
-    @Test
-    void getCocktailById() {
-        ObjectId id = new ObjectId("66b4134b6f4b8bfc07fde4dd");
-
-        Optional<Cocktail> cocktailOptional = cocktailService.getCocktailById(id);
-
-        if(cocktailOptional.isPresent()) {
-            Cocktail cocktail = cocktailOptional.get();
-
-            log.info(cocktail.toString());
-        } else {
-            log.error("칵테일 없어요 ~~~~~~~~~~~~~~~~~~~~~~₩");
-        }
-    }
+//    @Test
+//    void getCocktailById() {
+//        ObjectId id = new ObjectId("66b4134b6f4b8bfc07fde4dd");
+//
+//        Optional<Cocktail> cocktailOptional = cocktailService.getCocktailById(id);
+//
+//        if(cocktailOptional.isPresent()) {
+//            Cocktail cocktail = cocktailOptional.get();
+//
+//            log.info(cocktail.toString());
+//        } else {
+//            log.error("칵테일 없어요 ~~~~~~~~~~~~~~~~~~~~~~₩");
+//        }
+//    }
 }

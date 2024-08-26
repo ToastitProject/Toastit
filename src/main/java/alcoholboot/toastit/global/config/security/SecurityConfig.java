@@ -3,6 +3,9 @@ package alcoholboot.toastit.global.config.security;
 import alcoholboot.toastit.auth.jwt.filter.TokenAuthenticationFilter;
 import alcoholboot.toastit.auth.jwt.service.TokenRenewalService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
+import alcoholboot.toastit.auth.oauth2.handler.OAuth2AuthenticationFailureHandler;
+import alcoholboot.toastit.auth.oauth2.handler.OAuth2AuthenticationSuccessHandler;
+import alcoholboot.toastit.auth.oauth2.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,31 +30,42 @@ public class SecurityConfig {
     // JWT TokenRenewalService
     private final TokenRenewalService tokenRenewalService;
 
+    // OAuth2 관련 서비스와 핸들러
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+
     // 모든 유저 허용 페이지
     String[] allAllowPage = new String[]{
             "/", // 메인페이지
-            "/email/**", // 이메일 API
-            "/user/logout", // 로그아웃 API
+
             "/error", // 예외 처리 API
             "/test/**", // 테스트 API
-            "/image/**", // 이미지 리소스 및 API
+
             "/js/**", // JS 리소스
             "/css/**", // CSS 리소스
-            "/user/**", // 회원 정보 API
-            "/cocktails/**", // 기본 칵테일 레시피 API
-            "/user/eidt", // 회원 정보 수정 API
-            "/user/resign",  // 회원 탈퇴 API
+            "/image/**", // 이미지 리소스 및 API
+
             "/custom/**", // 커스텀 칵테일 레시피 API
+            "/cocktails/**", // 기본 칵테일 레시피 API
+
+            "/map/**", //지도 API
+            "/email/**", // 이메일 API
+
+            "/user/mypage", // 회원 정보 API
+            "/user/eidt", // 회원 정보 수정 API
+
+            "/user/resign",  // 회원 탈퇴 API
+            "/user/logout", // 로그아웃 API
+
             "/like/**", // 좋아요 API
-            "/follow/**", //팔로우 API
-            "/map/**" //지도 API
+            "/follow/**" //팔로우 API
     };
 
     // 비로그인 유저 허용 페이지
     String[] notLoggedAllowPage = new String[]{
             "/user/login", // 로그인 API
             "/user/join", // 회원가입 API
-            "/cocktails/**" // 기본 칵테일 레시피 API
     };
 
     /**
@@ -84,6 +98,13 @@ public class SecurityConfig {
 
         // JWT 필터 사용
         http.addFilterBefore(new TokenAuthenticationFilter(jwtTokenizer, tokenRenewalService), UsernamePasswordAuthenticationFilter.class);
+
+        // OAuth2 로그인 설정
+        http.oauth2Login(oauth2 -> oauth2
+                .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService)) // 사용자 정보 처리 서비스 설정
+                .successHandler(oAuth2AuthenticationSuccessHandler) // 성공 핸들러 설정
+                .failureHandler(oAuth2AuthenticationFailureHandler) // 실패 핸들러 설정
+        );
 
         // SecurityFilterChain을 빌드 후 반환
         return http.build();

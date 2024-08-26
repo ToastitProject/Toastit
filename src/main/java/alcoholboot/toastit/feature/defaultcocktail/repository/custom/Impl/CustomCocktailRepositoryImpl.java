@@ -8,8 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+//import org.springframework.data.mongodb.repository.Aggregation;
 
 import java.util.List;
 
@@ -180,5 +183,21 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         );
 
         return findCocktails(combinedCriteria, pageable);
+    }
+
+    /**
+     *  랜덤한 칵테일을 반환한다.
+     * @param count 반환할 칵테일 수
+     * @return 랜덤한 칵테일
+     */
+    @Override
+    public List<CocktailDocument> findRandomCocktails(int count) {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.sample(count)
+        );
+        AggregationResults<CocktailDocument> results = mongoTemplate.aggregate(
+                aggregation, "cocktails", CocktailDocument.class
+        );
+        return results.getMappedResults();
     }
 }

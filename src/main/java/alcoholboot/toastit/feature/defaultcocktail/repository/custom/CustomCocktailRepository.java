@@ -15,4 +15,7 @@ public interface CustomCocktailRepository {
     Page<CocktailDocument> findByIngredientAndCategoryPage(String ingredient, String category, Pageable pageable);
     Page<CocktailDocument> findByGlassAndCategoryPage(String glass, String category, Pageable pageable);
     Page<CocktailDocument> findByIngredientAndGlassAndCategoryPage(String ingredient, String glass, String category, Pageable pageable);
+
+    // 랜덤 레시피를 반환
+    List<CocktailDocument> findRandomCocktails(int count);
 }
