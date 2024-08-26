@@ -88,6 +88,7 @@
                     }, 500); // 0.5초 후에 새로 고침
                 } else {
                     alert('좋아요 처리 중 오류가 발생했습니다.');
+                    location.reload();
                 }
             })
             .catch(error => {
