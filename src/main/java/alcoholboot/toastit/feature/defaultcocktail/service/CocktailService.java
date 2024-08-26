@@ -20,4 +20,7 @@ public interface CocktailService {
     Page<Cocktail> getCocktailsByGlassAndTypePaged(String glass, String type, Pageable pageable);
     Page<Cocktail> getCocktailsByFilterPaged(String ingredient, String glass, String type, Pageable pageable);
     Optional<Cocktail> getCocktailById(ObjectId id);
+
+    // 랜덤한 칵테일 반환
+    List<Cocktail> getRandomCocktails(int count);
 }
