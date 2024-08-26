@@ -5,20 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
   <title>술프링부트 - 지도 페이지</title>
-<!--  <script th:src="@{https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}}"></script>-->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwmPE4956q5DEBA3hAIGlcltT_9-rrex4"></script>
-  <script src="https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBtUzXIwbxDpYyOWLU08r-Fb-jahI-a53k"></script>
-<!--  <script th:src="@{https://maps.googleapis.com/maps/api/geocode/json?key=${geocodingApiKey}}"></script>-->
-
-  <style>
-    #map {
-      width: 600px;
-      height: 400px;
-      margin: 0 auto;
-    }
-  </style>
   <script>
-
     function initMap() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -52,6 +40,8 @@
           if (results[0]) {
             const address = results[0].formatted_address;
             document.getElementById("location").innerText = `현재 위치: ${address}`;
+            // 날씨 정보 가져오기
+            getWeather(latitude, longitude);
           } else {
             document.getElementById("location").innerText = "주소를 찾을 수 없습니다.";
           }
@@ -66,20 +56,64 @@
       document.getElementById("location").innerText = "위치 정보를 가져오는 데 실패했습니다.";
     }
 
+    function getWeather(lat, lon) {
+      const apiKey = '003bc8be75b1158dc922dc9f84160674'; // 여기에 API 키를 입력하세요
+      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=kr`;
+
+      fetch(weatherUrl)
+              .then(response => response.json())
+              .then(data => {
+                if (data.weather) {
+                  const weatherDescription = data.weather[0].description;
+                  const temperature = data.main.temp;
+                  const iconCode = data.weather[0].icon;
+                  document.getElementById("weather").innerText = `현재 날씨: ${weatherDescription}, 기온: ${temperature}°C`;
+                  const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+                  document.querySelector('img').src = iconUrl;
+                } else {
+                  document.getElementById("weather").innerText = "날씨 정보를 가져오는 데 실패했습니다.";
+                }
+              })
+              .catch(error => {
+                console.error("날씨 정보를 가져오는 데 오류가 발생했습니다: ", error);
+                document.getElementById("weather").innerText = "날씨 정보를 가져오는 데 오류가 발생했습니다.";
+              });
+    }
+
     window.onload = initMap;
   </script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #map {
+      width: 600px;
+      height: 400px;
+      margin: 0 auto;
+    }
+    p {
+      text-align: center;
+      margin: 10px 0;
+    }
+    img {
+      margin-top: 10px;
+    }
+  </style>
 </head>
-
-
 <body>
-
 <header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
-
 <hr class="divider">
 <p></p>
 <div id="map"></div>
 <p></p>
-<p></p>
 <p id="location" style="text-align: center;"></p>
+<p id="weather" style="text-align: center;"></p> <!-- 날씨 정보를 표시할 부분 추가 -->
+<img src="http://openweathermap.org/img/wn/10d@2x.png" alt="날씨 아이콘">
 </body>
 </html>
+
