@@ -7,7 +7,7 @@
                 SELECT
                 areacode, step1
                 FROM
-                addressTest.tb_weather_area
+                toastitdb.weather_area
                 WHERE
                 step2 is null AND step3 is null
                 ORDER BY
@@ -18,7 +18,7 @@
                 SELECT
                 areacode, step2
                 FROM
-                addressTest.tb_weather_area
+                toastitdb.weather_area
                 WHERE
                 step1 = #{keyword} AND step3 is null AND step2 is not null
                 ORDER BY
@@ -29,7 +29,7 @@
                 SELECT
                 areacode, step3
                 FROM
-                addressTest.tb_weather_area
+                toastitdb.weather_area
                 WHERE
                 step2 = #{keyword} AND step3 is not null
                 ORDER BY

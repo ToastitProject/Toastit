@@ -21,7 +21,7 @@ public class WeatherController {
 
     @GetMapping("/weather")
     public String weather() {
-        return "weather";
+        return "feature/api/weather";
     }
 
     @PostMapping("/weatherArea")
