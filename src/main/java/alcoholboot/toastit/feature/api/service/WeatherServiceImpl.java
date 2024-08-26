@@ -165,12 +165,23 @@ public class WeatherServiceImpl implements WeatherService {
             rs.lng = alon * RADDEG;
         }
 
-        rs.intX=(int)rs.x;
-        rs.intY=(int)rs.y;
+        rs.intX = (int) rs.x;
+        rs.intY = (int) rs.y;
 
-        rs.stringX=String.valueOf(rs.intX);
-        rs.stringY=String.valueOf(rs.intY);
+        rs.stringX = String.valueOf(rs.intX);
+        rs.stringY = String.valueOf(rs.intY);
 
         return rs;
+    }
+
+    @Override
+    public WeatherDTO getWeatherByCategory(List<WeatherDTO> weatherDTOList, String category) {
+        for (WeatherDTO weatherDTO : weatherDTOList) {
+            if (weatherDTO.getCategory().equals(category)) {
+                return weatherDTO;
+            }
+        }
+
+        return null;
     }
 }

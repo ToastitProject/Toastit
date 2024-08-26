@@ -25,4 +25,6 @@ public interface WeatherService {
     ResponseEntity<WeatherApiResponseDTO> requestWeatherApi(AreaRequestDTO areaRequestDTO) throws UnsupportedEncodingException, URISyntaxException;
 
     LatXLngY convertGRID_GPS(int mode, double lat_X, double lng_Y);
+
+    WeatherDTO getWeatherByCategory(List<WeatherDTO> weatherDTOList, String category);
 }

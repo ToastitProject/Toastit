@@ -102,8 +102,9 @@ public class AreaWeatherController {
 
         List<WeatherDTO> weatherDTOList = weatherService.getWeather(areaRequestDTO);
 
-        // 받은 날씨 정보에서 기온과 기상형태를 받기
-        // System.out.println(weatherDTOList);
+        // 받은 날씨 정보에서 기온(T1H)과 기상형태(PTY)를 받기
+        System.out.println(weatherService.getWeatherByCategory(weatherDTOList, "T1H"));
+        System.out.println(weatherService.getWeatherByCategory(weatherDTOList, "PTY"));
 
         return "/feature/api/areaweather";
     }
