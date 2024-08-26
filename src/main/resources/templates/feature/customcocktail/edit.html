@@ -4,60 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
-    <link href="/css/fragment/navbar-fragment.css" rel="stylesheet">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <style>
-        /* header css */
-        body {
-            font-family: 'Gmarket Sans', sans-serif;
-            color: #FFA832;
-            background-color: #f4f4f4;
-            margin: 0;
-        }
-        header {
-            display: flex;
-            align-items: center;
-            padding: 10px 30px;
-        }
-
-        .logo {
-            margin-right: 20px;
-            width: 40px;
-            height: 40px;
-        }
-
-        .menu {
-            display: flex;
-            gap: 30px;
-            flex-grow: 0;
-        }
-
-        .menu a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .menu a:hover {
-            color: #FFA832;
-        }
-
-        .profile {
-            margin-left: auto;
-            display: flex;
-            gap: 20px;
-        }
-
-        .profile a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .profile a:hover {
-            color: #FFA832;
-        }
 
         .divider {
             border: none;
@@ -195,25 +143,8 @@
     <title>칵테일 수정</title>
 </head>
 <body>
-<header th:fragment="header">
-    <img src="https://toastitbucket.s3.ap-northeast-2.amazonaws.com/static/5d7e0e23-c3d6-4137-ab5e-42f5d236e672.png" alt="로고" class="logo">
-    <nav>
-        <div class="menu">
-            <a href="/recommend">추천칵테일</a>
-            <a href="/custom">커스텀칵테일</a>
-            <a href="/weather">날씨추천칵테일</a>
-        </div>
-    </nav>
-    <div class="profile">
-        <div sec:authorize="isAnonymous()">
-            <a href="/login">로그인</a>
-        </div>
-        <div sec:authorize="isAuthenticated()">
-            <a href="/mypage">마이페이지</a>
-            <a href="/logout">로그아웃</a>
-        </div>
-    </div>
-</header>
+<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
+
 <hr class="divider">
 <div class="container">
     <form id="cocktailForm" method="post" th:action="@{/custom/edit/{id}(id=${cocktail.id})}" enctype="multipart/form-data">
@@ -244,7 +175,7 @@
         <!-- Cocktail Description Section -->
         <div class="section">
             <label for="description">칵테일 설명</label>
-            <input type="text" id="description" name="description" placeholder="칵테일 소개를 적어주세요." maxlength="200" required th:value="${cocktail.description}" class="tall-input"></input>
+            <input type="text" id="description" name="description" placeholder="칵테일 소개를 적어주세요." maxlength="500" required th:value="${cocktail.description}" class="tall-input"></input>
         </div>
 
         <!-- Ingredient Section -->
@@ -268,7 +199,7 @@
         <!-- Cocktail Recipe Section -->
         <div class="section">
             <label for="recipe">칵테일 레시피</label>
-            <input type="text" id="recipe" name="recipe" placeholder="레시피를 적어주세요." maxlength="200" required th:value="${cocktail.recipe}" class="tall-input"></input>
+            <input type="text" id="recipe" name="recipe" placeholder="레시피를 적어주세요." maxlength="500" required th:value="${cocktail.recipe}" class="tall-input"></input>
         </div>
 
         <!-- Submit Button Section -->
