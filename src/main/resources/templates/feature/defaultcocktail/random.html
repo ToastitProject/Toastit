@@ -1,43 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <link th:href="@{/css/defaultcocktail/defaultcocktail.css}" rel="stylesheet">
-    <title>타입으로 칵테일 검색</title>
+
+    <script th:src="@{/js/defaultcocktail/toggle.js}" defer></script>
+
+    <title>랜덤 칵테일</title>
 </head>
 <body>
-
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 
 <hr class="divider">
 
-<div class="container">
-    <h1>타입으로 칵테일 검색</h1>
+<h1>칵테일 목록</h1>
 
-    <div class="search-form">
-        <form th:action="@{/cocktails/all/type}" method="get">
-            <input type="text" name="type" th:value="${type}" placeholder="타입 입력 (예: 칵테일, 일반 음료)">
-            <button type="submit">검색</button>
-        </form>
-    </div>
-
-    <div th:if="${type}" class="search-result">
-        <h2>검색된 재료: <span th:text="${type}"></span></h2>
-    </div>
-
-    <div th:if="${cocktails != null and cocktails.isEmpty()}" class="error-message">
-        검색 결과가 없습니다. 다른 재료를 입력해보세요.
-    </div>
-
-    <div th:if="${cocktails != null and !cocktails.isEmpty()}" class="cocktail-grid">
-        <div th:each="cocktail : ${cocktails}" class="cocktail-item">
-            <h3 th:text="${cocktail.strDrink}"></h3>
-            <p><strong>종류:</strong> <span th:text="${cocktail.strAlcoholic}"></span></p>
-            <p><strong>카테고리:</strong> <span th:text="${cocktail.strCategory}"></span></p>
-            <p><strong>잔 종류:</strong> <span th:text="${cocktail.strGlass}"></span></p>
-            <h4>재료:</h4>
+<div class="cocktail-grid">
+    <div th:each="cocktail : ${cocktails}" class="cocktail-item">
+        <a th:href="@{/cocktails/id(id=${cocktail.id})}" class="cocktail-link">
+            <h2 th:text="${cocktail.strDrink}"></h2>
+            <p>종류: <span th:text="${cocktail.strAlcoholic}"></span></p>
+            <p>카테고리: <span th:text="${cocktail.strCategory}"></span></p>
+            <p>잔 종류: <span th:text="${cocktail.strGlass}"></span></p>
+            <h3>재료:</h3>
             <ul>
                 <li th:if="${cocktail.strIngredient1 != null and !cocktail.strIngredient1.isEmpty()}"
                     th:text="${cocktail.strIngredient1 + (cocktail.strMeasure1 != null and !cocktail.strMeasure1.isEmpty() ? ' - ' + cocktail.strMeasure1 : '')}"></li>
@@ -62,19 +49,10 @@
                 <li th:if="${cocktail.strIngredient11 != null and !cocktail.strIngredient11.isEmpty()}"
                     th:text="${cocktail.strIngredient11 + (cocktail.strMeasure11 != null and !cocktail.strMeasure11.isEmpty() ? ' - ' + cocktail.strMeasure11 : '')}"></li>
             </ul>
-            <p><strong>제조 방법:</strong> <span th:text="${cocktail.strInstructions}"></span></p>
-        </div>
-    </div>
-    <a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
-
-    <div th:if="${cocktails != null and !cocktails.isEmpty()}" class="pagination">
-        <a th:if="${currentPage != null and currentPage > 0}"
-           th:href="@{/cocktails/all/type(type=${type}, page=${currentPage - 1})}">이전</a>
-        <span th:text="${currentPage != null ? currentPage + 1 : ''}"></span>
-        <span th:if="${totalPages != null}" th:text="' / ' + ${totalPages}"></span>
-        <a th:if="${currentPage != null and totalPages != null and currentPage < totalPages - 1}"
-           th:href="@{/cocktails/all/type(type=${type}, page=${currentPage + 1})}">다음</a>
+            <p>제조 방법: <span th:text="${cocktail.strInstructions}"></span></p>
+        </a>
     </div>
 </div>
+
 </body>
 </html>
