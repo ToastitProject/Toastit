@@ -37,4 +37,46 @@
             </when>
         </choose>
     </select>
-</mapper>>
+
+    <select id="selectCoordinate" parameterType="String" resultType="AreaRequestDTO">
+        SELECT gridX as nx,
+               gridY as ny
+        FROM toastitdb.weather_area
+        WHERE areacode = #{areacode}
+    </select>
+
+    <select id="selectSameCoordinateWeatherList" parameterType="AreaRequestDTO"
+            resultType="WeatherDTO">
+        SELECT DISTINCT baseDate,
+                        baseTime,
+                        category,
+                        nx,
+                        ny,
+                        obsrValue
+        FROM toastitdb.weather_response
+        WHERE baseDate = #{baseDate}
+          AND baseTime = #{baseTime}
+          AND nx = #{nx}
+          AND ny = #{ny}
+    </select>
+
+    <insert id="insertWeatherList" parameterType="WeatherDTO">
+        INSERT INTO toastitdb.weather_response(
+        baseDate
+        ,baseTime
+        ,category
+        ,nx
+        ,ny
+        ,obsrValue
+        )
+        VALUES
+        <foreach collection="list" item="item" open="(" separator="),(" close=")">
+            #{item.baseDate}
+            ,#{item.baseTime}
+            ,#{item.category}
+            ,#{item.nx}
+            ,#{item.ny}
+            ,#{item.obsrValue}
+        </foreach>
+    </insert>
+</mapper>
