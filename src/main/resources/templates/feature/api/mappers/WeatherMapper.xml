@@ -38,9 +38,8 @@
         </choose>
     </select>
 
-    <select id="selectCoordinate" parameterType="String" resultType="AreaRequestDTO">
-        SELECT gridX as nx,
-               gridY as ny
+    <select id="selectCoordinate" parameterType="Map" resultType="AreaRequestDTO">
+        SELECT areacode
         FROM toastitdb.weather_area
         WHERE areacode = #{areacode}
     </select>
@@ -58,6 +57,12 @@
           AND baseTime = #{baseTime}
           AND nx = #{nx}
           AND ny = #{ny}
+    </select>
+
+    <select id="selectAreaCode" parameterType="Map" resultType="String">
+        SELECT areacode
+        FROM toastitdb.weather_area
+        WHERE gridX = #{nx} and gridY = #{ny}
     </select>
 
     <insert id="insertWeatherList" parameterType="WeatherDTO">

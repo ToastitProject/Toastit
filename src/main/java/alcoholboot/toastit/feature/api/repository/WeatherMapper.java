@@ -16,4 +16,6 @@ public interface WeatherMapper {
     List<WeatherDTO> selectSameCoordinateWeatherList(AreaRequestDTO areaRequestDTO);
 
     void insertWeatherList(List<WeatherDTO> weatherList);
+
+    List<String> selectAreaCode(String nx, String ny);
 }
