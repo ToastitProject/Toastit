@@ -90,4 +90,12 @@ public class CocktailServiceImpl implements CocktailService {
                 .map(CocktailDocument::convertToDomain);
     }
 
+    // 랜덤한 칵테일을 반환함
+    @Override
+    public List<Cocktail> getRandomCocktails(int count) {
+        return cocktailRepository.findRandomCocktails(count)
+                .stream()
+                .map(CocktailDocument::convertToDomain)
+                .collect(Collectors.toList());
+    }
 }

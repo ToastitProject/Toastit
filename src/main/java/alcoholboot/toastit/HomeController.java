@@ -33,10 +33,10 @@ public class HomeController {
                 cocktails = customCocktailService.getTopNCocktails(5); //좋아요순
                 log.info("좋아요 순 정렬 요청 보냄");
                 break;
-            case "followers":
-                cocktails = customCocktailService.getTopNCocktailsByFollowerCount(5);
-                log.info("팔로워 순 정렬 요청 보냄");
-                break;
+//            case "followers":
+//                cocktails = customCocktailService.getTopNCocktailsByFollowerCount(5);
+//                log.info("팔로워 순 정렬 요청 보냄");
+//                break;
             case "latest":
             default:
                 cocktails = customCocktailService.getLatestCocktails(5); // 최신순
