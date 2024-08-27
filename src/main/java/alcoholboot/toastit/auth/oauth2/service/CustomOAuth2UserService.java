@@ -44,9 +44,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, originAttributes);
         User user = saveOrUpdate(attributes, registrationId);
 
-        Collection<? extends GrantedAuthority> authorities = Collections.singletonList(Authority.USER);
+        List<GrantedAuthority> authorities = Collections.singletonList(Authority.USER);
 
-        return new PrincipalDetails(user.getEmail(), user.getNickname(), (List<GrantedAuthority>) authorities, originAttributes);
+        return new PrincipalDetails(user.getEmail(), user.getNickname(),authorities, originAttributes);
     }
 
     /**

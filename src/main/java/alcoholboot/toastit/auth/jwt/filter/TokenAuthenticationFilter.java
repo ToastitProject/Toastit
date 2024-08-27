@@ -121,10 +121,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         // 사용자 권한 추출
         Authority authority = Authority.valueOf(claims.get("authority", String.class));
 
-        Collection<? extends GrantedAuthority> authorities = Collections.singletonList(authority);
+        List<GrantedAuthority> authorities = Collections.singletonList(authority);
 
         // 인증 주체 선언
-        PrincipalDetails userDetails = new PrincipalDetails(email, nickname, (List<GrantedAuthority>) authorities);
+        PrincipalDetails userDetails = new PrincipalDetails(email, nickname, authorities);
 
         // 인증 객체 생성
         Authentication authentication = new JwtAuthenticationToken(authorities, userDetails, null);
