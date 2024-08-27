@@ -31,12 +31,15 @@ public class User {
     @Setter
     private String profileImageUrl;
 
+    private String providerType;
+
     private LocalDateTime createDate;
 
-    public void update(String nickname, String password, String profileImageUrl) {
+    public void update(String nickname, String password, String profileImageUrl, String providerType) {
         this.nickname = nickname;
         this.password = password;
         this.profileImageUrl = profileImageUrl;
+        this.providerType = providerType;
     }
 
     public UserEntity convertToEntity(){
@@ -47,6 +50,7 @@ public class User {
                 .password(this.password)
                 .authority(this.authority)
                 .profileImageUrl(this.profileImageUrl)
+                .providerType(this.providerType)
                 .build();
     }
     public LocalDate getCreateDate() {

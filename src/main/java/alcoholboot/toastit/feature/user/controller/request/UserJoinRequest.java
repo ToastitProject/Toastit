@@ -51,6 +51,7 @@ public class UserJoinRequest {
                 .email(this.email)
                 .password(this.password)
                 .authority(Authority.USER)
+                .providerType("internal")
                 .build();
     }
 }
