@@ -53,7 +53,7 @@ public class WeatherServiceImpl implements WeatherService {
             }
             this.weatherMapper.insertWeatherList(weatherList); // API요청 후 결과값을 DB에 저장
 
-            return weatherList;    // 로그를 찍지 않으려면 삭제해도 OK
+            return weatherList;
         }
         return weatherList;    // DB에 기존 저장되어있는 값에서 가져온 List
     }

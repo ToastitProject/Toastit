@@ -3,6 +3,7 @@ package alcoholboot.toastit.feature.api.controller;
 import alcoholboot.toastit.feature.api.dto.AreaRequestDTO;
 import alcoholboot.toastit.feature.api.dto.LatXLngY;
 import alcoholboot.toastit.feature.api.dto.WeatherDTO;
+import alcoholboot.toastit.feature.api.service.RecommendByWeatherService;
 import alcoholboot.toastit.feature.api.service.WeatherService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +23,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 public class AreaWeatherController {
     private final WeatherService weatherService;
+    private final RecommendByWeatherService recommendByWeatherService;
 
     @Value("${google.maps.api.key}")
     private String mapsApiKey;
@@ -103,8 +106,44 @@ public class AreaWeatherController {
         List<WeatherDTO> weatherDTOList = weatherService.getWeather(areaRequestDTO);
 
         // 받은 날씨 정보에서 기온(T1H)과 기상형태(PTY)를 받기
-        System.out.println(weatherService.getWeatherByCategory(weatherDTOList, "T1H"));
-        System.out.println(weatherService.getWeatherByCategory(weatherDTOList, "PTY"));
+        Double t1h = weatherService.getWeatherByCategory(weatherDTOList, "T1H").getObsrValue();
+        Double doublePty = weatherService.getWeatherByCategory(weatherDTOList, "PTY").getObsrValue();
+        Integer pty = doublePty.intValue();
+
+        // 랜덤으로 쓸 재료를 검색
+        Random random = new Random();
+        random.setSeed(System.currentTimeMillis());
+        int randomInt = random.nextInt(2) + 1;
+        String weather = "";
+        switch (randomInt) {
+            case 1: // t1h
+                if (t1h < 8.0) {
+                    weather = "cold";
+                } else if (t1h < 16.0) {
+                    weather = "cool";
+                } else if (t1h < 24.0) {
+                    weather = "warm";
+                } else {
+                    weather = "hot";
+                }
+                break;
+            case 2: // pty
+                if (pty == 0) {
+                    weather = "clear";
+                } else if (pty == 1 || pty == 5) {
+                    weather = "rain";
+                } else {
+                    weather = "snow";
+                }
+                break;
+        }
+
+        List<String> ingredients = recommendByWeatherService.getIngredientsByWeather(weather);
+        // 출력해보기
+        System.out.println(ingredients);
+
+        // 선택한 재료로 랜덤 칵테일을 선택하기
+        
 
         return "/feature/api/areaweather";
     }
