@@ -47,16 +47,18 @@
     </div>
 
     <p><strong>좋아요 수:</strong> <span th:text="${likeCount}">0</span></p>
+
+    <button class="like-button" id="likeButton"
+            th:text="${isLiked ? '좋아요 취소' : '좋아요'}" onClick="likeCocktail()"></button>
 </div>
 
 <div th:unless="${cocktail.isPresent()}">
     <p>죄송합니다. 요청하신 칵테일을 찾을 수 없습니다.</p>
 </div>
 
-<button class="like-button" id="likeButton"
-        th:text="${isLiked ? '좋아요 취소' : '좋아요'}" onClick="likeCocktail()"></button>
-
-<a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
+<div class="back-button-container">
+    <a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
+</div>
 
 <script>
     const cocktailId = document.querySelector('.default-cocktail-number').innerText;
