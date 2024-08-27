@@ -15,7 +15,6 @@ public interface RecommendByLocationRepository extends JpaRepository<RecommendBy
     @Query("SELECT r.ingredient1, r.ingredient2, r.ingredient3, r.ingredient4 " +
             "FROM RecommendByLocation r " +
             "WHERE r.si = :si " +
-            "AND (:deo = '' OR r.deo = :deo)")
+            "AND (:deo IS NULL OR r.deo = :deo)")
     String findIngredientsBySiAndDeo(@Param("si") String si, @Param("deo") String deo);
-
 }
