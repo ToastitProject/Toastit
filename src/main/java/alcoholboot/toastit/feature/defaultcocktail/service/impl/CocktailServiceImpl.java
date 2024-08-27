@@ -9,7 +9,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -97,5 +96,10 @@ public class CocktailServiceImpl implements CocktailService {
                 .stream()
                 .map(CocktailDocument::convertToDomain)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Cocktail> getCocktailsByIngredient(String ingredient) {
+        return cocktailRepository.findByAnyIngredient(ingredient);
     }
 }

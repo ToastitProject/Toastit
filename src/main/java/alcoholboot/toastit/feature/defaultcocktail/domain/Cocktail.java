@@ -71,6 +71,8 @@ public class Cocktail {
 
     private Integer likeCount;
 
+    private String imagePath;
+
     public CocktailDocument convertToEntity() {
         return CocktailDocument.builder()
                 .id(new ObjectId(this.id))
@@ -92,6 +94,7 @@ public class Cocktail {
                 .strMeasure5(this.strMeasure5)
                 .strMeasure6(this.strMeasure6)
                 .likeCount(this.likeCount)
+                .imagePath(this.imagePath)
                 .build();
     }
 }

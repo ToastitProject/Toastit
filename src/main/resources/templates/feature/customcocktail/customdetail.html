@@ -80,35 +80,43 @@
       color: #FFA832;
       background-color: white; /* To make sure title is readable */
       padding: 10px;
-      position: absolute;
-      top: -30px;
-      left : 40px;
       border-radius: 4px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      width: 600px;
-      height: 20px;
+      width: 100%; /* Make sure title stretches to fit container width */
       text-align: center;
+      margin-bottom: 20px; /* Add margin to separate from content */
+      position: relative;
+      z-index: 0; /* Ensure title is below buttons */
     }
     .drink-like-count {
       margin-top: 20px;
+      font-size: 24px; /* 텍스트 크기를 24px로 설정 */
+      font-weight: bold; /* 텍스트를 굵게 설정 */
     }
+
     .like-button {
-      background-color: #FFA832;
-      width: 120px;
-      color: white;
+      width: 60px; /* 버튼 크기를 절반으로 줄임 (기존 120px) */
+      height: 60px; /* 버튼 높이 설정 */
+      border-radius: 50%; /* 버튼을 원 형태로 만들기 */
+      background-color: #FFA832; /* 배경 색상 설정 */
       border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
+      padding: 0;
+      font-size: 0; /* 텍스트 제거 */
+      background-image: url('/image/like-button.png'); /* 이미지 경로 설정 */
+      background-size: cover; /* 이미지 크기 조정 */
+      background-position: center; /* 이미지 위치 설정 */
       cursor: pointer;
-      margin-top: 20px; /* Add some space above the button */
+      margin-top: 20px; /* 위쪽 여백 추가 */
     }
+
     .like-container {
       display: flex;
-      flex-direction: column; /* 세로 방향으로 나열 */
+      flex-direction: row; /* 가로 방향으로 나열 */
       align-items: center; /* 가운데 정렬 */
       margin-left: 20px; /* 이미지와의 간격 조정 */
+      gap: 10px; /* 좋아요 개수와 버튼 사이의 간격을 10px로 설정 */
     }
+
 
     .container1, .container2 {
       padding-top: 40px; /* Add space at the top for the title */
@@ -120,17 +128,18 @@
     /* Style for edit and delete buttons */
     .action-buttons {
       position: absolute;
-      top: 10px;  /* Position below the top of the container */
-      right: 30px; /* Distance from the right edge */
+      top: -40px; /* Position above the container */
+      right: 20px; /* Distance from the right edge */
       display: flex;
       gap: 10px; /* Space between the buttons */
+      z-index: 1; /* Ensure buttons are on top */
     }
 
     .action-buttons a,
     .action-buttons button {
       background-color: white;
-      border: 1px solid #FFA832; /* Black border */
-      color: #FFA832; /* Black text */
+      border: 1px solid #FFA832; /* Border color */
+      color: #FFA832; /* Text color */
       padding: 8px 16px;
       font-size: 14px;
       border-radius: 5px; /* Rounded corners */
@@ -144,7 +153,7 @@
   </style>
 </head>
 <body>
-<header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
+<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 <hr class="divider">
 
 <div class="container">
@@ -174,98 +183,91 @@
   </div>
 </div>
 
-  <div class="container1">
-    <div class="section-title">재료</div>
-    <ul class="ingredient-list">
-      <li th:each="ingredient : ${cocktail.ingredients}">
-        <span th:text="${ingredient.name}">재료명</span> -
-        <span th:text="${ingredient.amount}">양</span>
-        <span th:text="${ingredient.unit}">단위</span>
-      </li>
-    </ul>
-  </div>
-  <div class="container2">
-    <div class="section-title">레시피</div>
-    <div class="instructions" th:text="${cocktail.recipe}">조리 방법</div>
-  </div>
+<div class="container1">
+  <div class="section-title">재료</div>
+  <ul class="ingredient-list">
+    <li th:each="ingredient : ${cocktail.ingredients}">
+      <span th:text="${ingredient.name}">재료명</span> -
+      <span th:text="${ingredient.amount}">양</span>
+      <span th:text="${ingredient.unit}">단위</span>
+    </li>
+  </ul>
+</div>
+<div class="container2">
+  <div class="section-title">레시피</div>
+  <div class="instructions" th:text="${cocktail.recipe}">조리 방법</div>
 </div>
 
+<script>
+  const cocktailName = document.querySelector('.drink-name').innerText; // 칵테일 이름 가져오기
+  const likeButton = document.getElementById('likeButton'); // 버튼 요소 가져오기
 
-  <script>
-    const cocktailName = document.querySelector('.drink-name').innerText; // 칵테일 이름 가져오기
-    const likeButton = document.getElementById('likeButton'); // 버튼 요소 가져오기
+  // 페이지 로드 시 좋아요 상태 확인
+  window.onload = function() {
+    // 서버에서 전달받은 isLiked 상태에 따라 버튼 텍스트를 설정
+    if (likeButton.innerText === '좋아요 취소') {
+      isLiked = true; // 좋아요 상태 업데이트
+    } else {
+      isLiked = false;
+    }
+  };
 
-    // 페이지 로드 시 좋아요 상태 확인
-    window.onload = function() {
-      // 서버에서 전달받은 isLiked 상태에 따라 버튼 텍스트를 설정
-      if (likeButton.innerText === '좋아요 취소') {
-        isLiked = true; // 좋아요 상태 업데이트
-      } else {
-        isLiked = false;
-      }
-    };
+  let isLiked = false; // 좋아요 상태 관리 변수
 
-    let isLiked = false; // 좋아요 상태 관리 변수
+  function likeCocktail() {
+    fetch('/like', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ "drink-name": cocktailName }) // 칵테일 이름을 JSON 형태로 전송
+    })
+            .then(response => {
+              if (response.ok) {
+                const likedCocktails = JSON.parse(localStorage.getItem('likedCocktails')) || [];
 
-    function likeCocktail() {
-      fetch('/like', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ "drink-name": cocktailName }) // 칵테일 이름을 JSON 형태로 전송
-      })
-              .then(response => {
-                if (response.ok) {
-                  const likedCocktails = JSON.parse(localStorage.getItem('likedCocktails')) || [];
-
-                  if (!isLiked) {
-                    isLiked = true; // 좋아요 상태 업데이트
-                    likeButton.innerText = '좋아요 취소'; // 버튼 텍스트 변경
-                    likedCocktails.push(cocktailName); // 좋아요 목록에 추가
-                    alert('좋아요가 등록되었습니다!');
-                  } else {
-                    isLiked = false; // 좋아요 상태 업데이트
-                    likeButton.innerText = '좋아요'; // 버튼 텍스트 원래대로 변경
-                    const index = likedCocktails.indexOf(cocktailName);
-                    if (index > -1) {
-                      likedCocktails.splice(index, 1); // 좋아요 목록에서 제거
-                    }
-                    alert('좋아요가 취소되었습니다!');
-                  }
-
-                  // 로컬 스토리지에 좋아요 상태 저장
-                  localStorage.setItem('likedCocktails', JSON.stringify(likedCocktails));
-
-                  // 페이지 새로 고침
-                  setTimeout(() => {
-                    location.reload(); // 페이지를 새로 고침하여 최신 좋아요 갯수 표시
-                  }, 500); // 0.5초 후에 새로 고침
+                if (!isLiked) {
+                  isLiked = true; // 좋아요 상태 업데이트
+                  // likeButton.innerText = '좋아요 취소'; // 버튼 텍스트 변경
+                  likedCocktails.push(cocktailName); // 좋아요 목록에 추가
+                  alert('좋아요 상태가 반영되었습니다!');
                 } else {
-                  alert('좋아요 정보가 반영되었습니다.');
-                  location.reload();
+                  isLiked = false; // 좋아요 상태 업데이트
+                  // likeButton.innerText = '좋아요'; // 버튼 텍스트 원래대로 변경
+                  const index = likedCocktails.indexOf(cocktailName);
+                  if (index > -1) {
+                    likedCocktails.splice(index, 1); // 좋아요 목록에서 제거
+                  }
+                  alert('좋아요 상태가 반영되었습니다!');
                 }
-              })
-              .catch(error => {
-                console.error('Error:', error);
-                alert('에러가 발생했습니다.');
+
+                // 로컬 스토리지에 좋아요 상태 저장
+                localStorage.setItem('likedCocktails', JSON.stringify(likedCocktails));
+
+                // 페이지 새로 고침
+                setTimeout(() => {
+                  location.reload(); // 페이지를 새로 고침하여 최신 좋아요 갯수 표시
+                }, 500); // 0.5초 후에 새로 고침
+              } else {
+                alert('좋아요 정보가 반영되지 않았습니다. 다시 시도해주세요.');
                 location.reload();
-              });
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('에러가 발생했습니다.');
+            });
+  }
+  function confirmDelete() {
+    if (confirm('정말 삭제하십니까?')) {
+      document.getElementById('deleteForm').submit();
     }
-    function confirmDelete() {
-      if (confirm('정말 삭제하십니까?')) {
-        document.getElementById('deleteForm').submit();
-      }
-    }
+  }
 
-    function showEditForm() {
-      window.location.href = '/custom/edit/' + [[${cocktail.id}]];
-    }
-  </script>
-
-
-
-
+  function showEditForm() {
+    window.location.href = '/custom/edit/' + [[${cocktail.id}]];
+  }
+</script>
 
 </body>
 </html>

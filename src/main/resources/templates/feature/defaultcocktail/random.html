@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
-    <link th:href="@{/css/defaultcocktail/defaultcocktail.css}" rel="stylesheet">
+    <link th:href="@{/css/defaultcocktail/defaultcocktailrandom.css}" rel="stylesheet">
     <title>랜덤 칵테일</title>
 </head>
 <body>
@@ -17,11 +17,12 @@
 <div class="cocktail-grid">
     <div th:each="cocktail : ${cocktails}" class="cocktail-item">
         <a th:href="@{/cocktails/id(id=${cocktail.id})}" class="cocktail-link">
+            <img th:src="@{${cocktail.imagePath}}" th:alt="${cocktail.strDrink}" class="cocktail-image">
             <h2 th:text="${cocktail.strDrink}"></h2>
             <p>종류: <span th:text="${cocktail.strAlcoholic}"></span></p>
             <p>카테고리: <span th:text="${cocktail.strCategory}"></span></p>
             <p>잔 종류: <span th:text="${cocktail.strGlass}"></span></p>
-            <h3>재료:</h3>
+            <!--<h3>재료:</h3>
             <ul>
                 <li th:if="${cocktail.strIngredient1 != null and !cocktail.strIngredient1.isEmpty()}"
                     th:text="${cocktail.strIngredient1 + (cocktail.strMeasure1 != null and !cocktail.strMeasure1.isEmpty() ? ' - ' + cocktail.strMeasure1 : '')}"></li>
@@ -46,9 +47,13 @@
                 <li th:if="${cocktail.strIngredient11 != null and !cocktail.strIngredient11.isEmpty()}"
                     th:text="${cocktail.strIngredient11 + (cocktail.strMeasure11 != null and !cocktail.strMeasure11.isEmpty() ? ' - ' + cocktail.strMeasure11 : '')}"></li>
             </ul>
-            <p>제조 방법: <span th:text="${cocktail.strInstructions}"></span></p>
+            <p>제조 방법: <span th:text="${cocktail.strInstructions}"></span></p>-->
         </a>
     </div>
+</div>
+
+<div class="back-button-container">
+    <a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
 </div>
 
 </body>
