@@ -6,6 +6,7 @@ import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.service.LikeService;
 import alcoholboot.toastit.feature.user.service.UserService;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -42,7 +43,7 @@ public class CocktailController {
     @GetMapping("/all/ingredient")
     public String getCocktailsByIngredient(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam String ingredient,
+            @RequestParam @NotEmpty String ingredient,
             Model model) {
 
         Page<Cocktail> cocktailPage = cocktailService.getCocktailsByIngredientPaged(ingredient, PageRequest.of(page, 20));
@@ -61,7 +62,7 @@ public class CocktailController {
     @GetMapping("/all/glass")
     public String getCocktailsByGlass(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam String glass,
+            @RequestParam @NotEmpty String glass,
             Model model) {
         Page<Cocktail> cocktails = cocktailService.getCocktailsByGlassPaged(glass, PageRequest.of(page, 20));
         model.addAttribute("cocktails", cocktails);
@@ -77,7 +78,7 @@ public class CocktailController {
     @GetMapping("/all/type")
     public String getCocktailsByType(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam String type,
+            @RequestParam @NotEmpty String type,
             Model model) {
         Page<Cocktail> cocktails = cocktailService.getCocktailsByTypePaged(type, PageRequest.of(page, 20));
         model.addAttribute("cocktails", cocktails);
