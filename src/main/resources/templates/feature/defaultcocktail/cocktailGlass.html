@@ -68,7 +68,10 @@
 <!--            <p>좋아요 수: <span th:text="${cocktail.likeCount}"></span></p>-->
         </div>
     </div>
-    <a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
+
+    <div class="back-button-container">
+        <a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
+    </div>
 
     <div th:if="${cocktails != null and !cocktails.isEmpty()}" class="pagination">
         <a th:if="${currentPage != null and currentPage > 0}"

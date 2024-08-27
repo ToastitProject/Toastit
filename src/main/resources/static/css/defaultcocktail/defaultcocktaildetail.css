@@ -1,0 +1,135 @@
+body {
+    font-family: 'Gmarket Sans', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.cocktail-details {
+    max-width: 800px;
+    margin: 50px auto 0;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.round-rectangle {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Flexbox container for image and text */
+.cocktail-info-container {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+.cocktail-image-container {
+    flex-shrink: 0;
+}
+
+.cocktail-detail-image {
+    width: 100%;
+    max-width: 400px;
+    height: 330px;
+    border-radius: 8px;
+}
+
+.cocktail-text-container {
+    flex-grow: 1;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.ingredient-list {
+    margin-bottom: 20px;
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+.ingredient-list li {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFA832;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.divider {
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.like-button {
+    display: block;
+    width: 100px;
+    height: 40px;
+    margin: 20px auto;
+    background-color: #FFA832;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.like-button:hover {
+    background-color: #e08a2b;
+}
+
+.back-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 30px;
+    background-color: #e0e0e0;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.back-button:hover {
+    background-color: #d0d0d0;
+}
+
+.cocktail-details strong {
+    font-weight: bold;
+}
+
+.cocktail-details .like-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.cocktail-details .like-button-container span {
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
