@@ -97,4 +97,9 @@ public class CocktailServiceImpl implements CocktailService {
                 .map(CocktailDocument::convertToDomain)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Cocktail> getCocktailsByIngredient(String ingredient) {
+        return cocktailRepository.findByAnyIngredient(ingredient);
+    }
 }
