@@ -82,15 +82,11 @@
                         cocktailImageElement.src = data.imagePath;
                         cocktailImageElement.style.display = "block";
                     }
-
                 })
                 .catch(error => {
                     console.error('서버에 전송하는 데 오류 발생:', error);
                 });
         }
-
-
-
         function errorCallback(error) {
             console.error("위치 정보를 가져오는 데 실패했습니다: ", error);
             document.getElementById("location").innerText = "위치 정보를 가져오는 데 실패했습니다.";
