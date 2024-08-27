@@ -72,7 +72,7 @@
     let isLiked = /*[[${isLiked}]]*/ false; // 서버에서 받은 좋아요 상태
 
     function likeCocktail() {
-        fetch('http://toastit.duckdns.org/defaultLike', {
+        fetch('https://toastit.duckdns.org/defaultLike', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
