@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +45,7 @@ public class RecommendByLocationController {
     }
 
     @PostMapping("/map")
-    public ResponseEntity<?> receiveLocation(@RequestBody LocationData locationData ) {
+    public ResponseEntity<?> receiveLocation(@RequestBody LocationData locationData) {
         log.info("postMapping 요청");
         log.info("사용자로 부터 받은 지역 : " + locationData.getProvince());
         log.info("사용자로 부터 받은 시 : " + locationData.getCity());
@@ -58,35 +57,39 @@ public class RecommendByLocationController {
         String ingredientsString = recommendByLocationService.getIngredients(si, deo);
         List<String> ingredients = Arrays.asList(ingredientsString.split(","));
 
-// 재료가 비어 있는지 확인
+        // 재료가 비어 있는지 확인
         if (ingredients.isEmpty()) {
             log.warn("저장된 재료가 없습니다.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("저장된 재료가 없습니다.");
         } else {
             for (String ingredient : ingredients) {
-                log.info("불러온 저장된 재료들 : " + ingredient);
+                log.info("저장된 재료들 : " + ingredient);
             }
-
-            // 재료 중에 랜덤으로 1개를 뽑는다.
             Random random = new Random();
-            String randomIngredient = ingredients.get(random.nextInt(ingredients.size()));
-            log.info("랜덤으로 뽑힌 재료 : " + randomIngredient);
+            Cocktail recommendedCocktail = null;
 
-            // 랜덤 재료로 뽑힌 칵테일 중 하나를 랜덤으로 뽑는다.
-            List<Cocktail> recommendedCocktails = cocktailService.getCocktailsByIngredient(randomIngredient);
+            // 칵테일을 찾을 때까지 반복
+            while (recommendedCocktail == null) {
+                String randomIngredient = ingredients.get(random.nextInt(ingredients.size()));
+                log.info("랜덤으로 선택된 재료 : " + randomIngredient);
 
-            // 추천된 칵테일이 비어 있는지 확인
-            if (recommendedCocktails.isEmpty()) {
-                log.warn("추천된 칵테일이 없습니다.");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("추천된 칵테일이 없습니다.");
-            } else {
-                Cocktail recommendedCocktail = recommendedCocktails.get(random.nextInt(recommendedCocktails.size()));
-                log.info("랜덤으로 뽑힌 칵테일 : " + recommendedCocktail.getStrDrink());
-                log.info("view 로 추천 칵테일 하나를 보내준다 : "+ recommendedCocktail.getStrDrink());
-                return ResponseEntity.ok(recommendedCocktail);
+                // 랜덤 재료로 뽑힌 칵테일 중 하나를 랜덤으로 뽑는다.
+                List<Cocktail> recommendedCocktails = cocktailService.getCocktailsByIngredient(randomIngredient);
+
+                // 추천된 칵테일이 비어 있는지 확인
+                if (!recommendedCocktails.isEmpty()) {
+                    recommendedCocktail = recommendedCocktails.get(random.nextInt(recommendedCocktails.size()));
+                    log.info("랜덤으로 뽑힌 칵테일 : " + recommendedCocktail.getStrDrink());
+                } else {
+                    log.warn("추천된 칵테일이 없습니다. 다른 재료를 선택합니다.");
+                }
             }
+            log.info("view 로 추천 칵테일 하나를 보내준다 : " + recommendedCocktail.getStrDrink());
+            return ResponseEntity.ok(recommendedCocktail);
         }
     }
+
+
     @Getter
     public static class LocationData {
         private String province;
