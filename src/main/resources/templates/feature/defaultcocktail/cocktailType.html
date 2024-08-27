@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <link th:href="@{/css/defaultcocktail/defaultcocktail.css}" rel="stylesheet">
+
+    <script th:src="@{/js/defaultcocktail/formVail.js}" defer></script>
+
     <title>타입으로 칵테일 검색</title>
 </head>
 <body>
@@ -33,6 +36,7 @@
 
     <div th:if="${cocktails != null and !cocktails.isEmpty()}" class="cocktail-grid">
         <div th:each="cocktail : ${cocktails}" class="cocktail-item">
+            <img th:src="@{${cocktail.imagePath}}" th:alt="${cocktail.strDrink}" class="cocktail-image">
             <h3 th:text="${cocktail.strDrink}"></h3>
             <p><strong>종류:</strong> <span th:text="${cocktail.strAlcoholic}"></span></p>
             <p><strong>카테고리:</strong> <span th:text="${cocktail.strCategory}"></span></p>
