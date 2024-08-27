@@ -50,8 +50,11 @@ public class RecommendByLocationController {
         log.info("사용자로 부터 받은 지역 : " + locationData.getProvince());
         log.info("사용자로 부터 받은 시 : " + locationData.getCity());
 
-        String si = locationData.getProvince();
-        String deo = locationData.getCity();
+        String deo = locationData.getProvince();
+        String si = locationData.getCity();
+
+        log.info("쿼리문을 돌릴 문자열 광역시/도 : "+deo);
+        log.info("쿼리문을 돌릴 문자열 시 : "+si);
 
         // **시(도) **시(군) 에서 저장된 재료 4개를 List 로 불러온다
         String ingredientsString = recommendByLocationService.getIngredients(si, deo);
@@ -88,8 +91,6 @@ public class RecommendByLocationController {
             return ResponseEntity.ok(recommendedCocktail);
         }
     }
-
-
     @Getter
     public static class LocationData {
         private String province;
