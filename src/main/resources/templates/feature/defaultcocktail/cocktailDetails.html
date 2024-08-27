@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,9 +61,10 @@
     <p>죄송합니다. 요청하신 칵테일을 찾을 수 없습니다.</p>
 </div>
 
-<button class="like-button" id="likeButton"
-        th:text="${isLiked ? '좋아요 취소' : '좋아요'}" onClick="likeCocktail()"></button>
-
+<div sec:authorize="isAuthenticated()">
+    <button class="like-button" id="likeButton"
+            th:text="${isLiked ? '좋아요 취소' : '좋아요'}" onClick="likeCocktail()"></button>
+</div>
 <a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
 
 <script>
