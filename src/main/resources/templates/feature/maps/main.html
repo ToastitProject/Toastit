@@ -1,109 +1,129 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
-  <title>술프링부트 - 지도 페이지</title>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwmPE4956q5DEBA3hAIGlcltT_9-rrex4"></script>
-  <script>
-    function initMap() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-      } else {
-        alert("이 브라우저는 위치 정보를 지원하지 않습니다.");
-      }
-    }
-
-    function successCallback(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-
-      const mapOptions = {
-        center: new google.maps.LatLng(latitude, longitude),
-        zoom: 15,
-      };
-      const map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-      const marker = new google.maps.Marker({
-        position: { lat: latitude, lng: longitude },
-        map: map,
-        title: "현재 위치"
-      });
-
-      // Geocoding API를 사용하여 주소 가져오기
-      const geocoder = new google.maps.Geocoder();
-      const latlng = { lat: latitude, lng: longitude };
-
-      geocoder.geocode({ location: latlng }, (results, status) => {
-        if (status === 'OK') {
-          if (results[0]) {
-            const address = results[0].formatted_address;
-            document.getElementById("location").innerText = `현재 위치: ${address}`;
-            // 날씨 정보 가져오기
-            getWeather(latitude, longitude);
-          } else {
-            document.getElementById("location").innerText = "주소를 찾을 수 없습니다.";
-          }
-        } else {
-          document.getElementById("location").innerText = "Geocoder 서비스에 문제가 발생했습니다.";
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <title>술프링부트 - 지도 페이지</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwmPE4956q5DEBA3hAIGlcltT_9-rrex4"></script>
+    <script>
+        function initMap() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+            } else {
+                alert("이 브라우저는 위치 정보를 지원하지 않습니다.");
+            }
         }
-      });
-    }
 
-    function errorCallback(error) {
-      console.error("위치 정보를 가져오는 데 실패했습니다: ", error);
-      document.getElementById("location").innerText = "위치 정보를 가져오는 데 실패했습니다.";
-    }
+        function successCallback(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
 
-    function getWeather(lat, lon) {
-      const apiKey = '003bc8be75b1158dc922dc9f84160674'; // 여기에 API 키를 입력하세요
-      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=kr`;
+            const mapOptions = {
+                center: new google.maps.LatLng(latitude, longitude),
+                zoom: 15,
+            };
+            const map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-      fetch(weatherUrl)
-              .then(response => response.json())
-              .then(data => {
-                if (data.weather) {
-                  const weatherDescription = data.weather[0].description;
-                  const temperature = data.main.temp;
-                  const iconCode = data.weather[0].icon;
-                  document.getElementById("weather").innerText = `현재 날씨: ${weatherDescription}, 기온: ${temperature}°C`;
-                  const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
-                  document.querySelector('img').src = iconUrl;
+            const marker = new google.maps.Marker({
+                position: { lat: latitude, lng: longitude },
+                map: map,
+                title: "현재 위치"
+            });
+
+            const geocoder = new google.maps.Geocoder();
+            const latlng = { lat: latitude, lng: longitude };
+
+            geocoder.geocode({ location: latlng }, (results, status) => {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        const address = results[0].formatted_address;
+                        const match = address.replace("대한민국", "").trim().split(" ").slice(0, 2);
+
+                        // 각 문자열을 변수에 저장
+                        const province = match[0]; // 예: 경기도
+                        const city = match[1]; // 예: 부천시
+
+                        document.getElementById("location").innerText = `당신은 현재 : ${province}, ${city}에 계시는 군요!!`;
+
+                        // 서버로 데이터 전송
+                        sendDataToServer(province, city);
+
+                    } else {
+                        document.getElementById("location").innerText = "주소를 찾을 수 없습니다.";
+                    }
                 } else {
-                  document.getElementById("weather").innerText = "날씨 정보를 가져오는 데 실패했습니다.";
+                    document.getElementById("location").innerText = "Geocoder 서비스에 문제가 발생했습니다.";
                 }
-              })
-              .catch(error => {
-                console.error("날씨 정보를 가져오는 데 오류가 발생했습니다: ", error);
-                document.getElementById("weather").innerText = "날씨 정보를 가져오는 데 오류가 발생했습니다.";
-              });
-    }
+            });
+        }
 
-    window.onload = initMap;
-  </script>
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-    #map {
-      width: 600px;
-      height: 400px;
-      margin: 0 auto;
-    }
-    p {
-      text-align: center;
-      margin: 10px 0;
-    }
-    img {
-      margin-top: 10px;
-    }
-  </style>
+        function sendDataToServer(province, city) {
+            fetch('/map', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ province: province, city: city }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('서버 응답:', data);
+
+                    // 서버 응답에서 칵테일 정보를 표시
+                    const cocktailNameElement = document.getElementById("cocktail-name");
+                    cocktailNameElement.innerText = data.strDrink;
+
+                    // 칵테일 이름이 null이 아닐 경우에만 보이게 함
+                    if (data.strDrink) {
+                        cocktailNameElement.style.display = "block";
+                        cocktailNameElement.innerText = data.strDrink + " 추천합니다!!!";
+                    }
+
+
+
+
+                })
+                .catch(error => {
+                    console.error('서버에 전송하는 데 오류 발생:', error);
+                });
+        }
+
+
+
+        function errorCallback(error) {
+            console.error("위치 정보를 가져오는 데 실패했습니다: ", error);
+            document.getElementById("location").innerText = "위치 정보를 가져오는 데 실패했습니다.";
+        }
+
+        window.onload = initMap;
+    </script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #map {
+            display: none;
+        }
+        p {
+            text-align: center;
+            margin: 10px 0;
+        }
+        img {
+            margin-top: 10px;
+        }
+        #location {
+            font-size: 2.5em; /* 크기 조정 */
+            font-weight: bold; /* 글자 두께 */
+            color: #FFA832; /* 텍스트 색상 */
+            margin-top: 20px; /* 위쪽 여백 */
+        }
+    </style>
 </head>
 <body>
 <header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
@@ -112,8 +132,9 @@
 <div id="map"></div>
 <p></p>
 <p id="location" style="text-align: center;"></p>
-<p id="weather" style="text-align: center;"></p> <!-- 날씨 정보를 표시할 부분 추가 -->
-<img src="http://openweathermap.org/img/wn/10d@2x.png" alt="날씨 아이콘">
+<div id="cocktail-info" style="text-align: center; margin-top: 20px;">
+    <h2 id="cocktail-name" style="display: none;"></h2>
+</div>
+
 </body>
 </html>
-
