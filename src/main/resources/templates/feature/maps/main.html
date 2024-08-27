@@ -72,16 +72,16 @@
 
                     // 서버 응답에서 칵테일 정보를 표시
                     const cocktailNameElement = document.getElementById("cocktail-name");
-                    cocktailNameElement.innerText = data.strDrink;
+                    const cocktailImageElement = document.getElementById("cocktail-image")
+
 
                     // 칵테일 이름이 null이 아닐 경우에만 보이게 함
                     if (data.strDrink) {
                         cocktailNameElement.style.display = "block";
                         cocktailNameElement.innerText = data.strDrink + " 추천합니다!!!";
+                        cocktailImageElement.src = data.imagePath;
+                        cocktailImageElement.style.display = "block";
                     }
-
-
-
 
                 })
                 .catch(error => {
@@ -118,10 +118,14 @@
             margin-top: 10px;
         }
         #location {
-            font-size: 2.5em; /* 크기 조정 */
-            font-weight: bold; /* 글자 두께 */
-            color: #FFA832; /* 텍스트 색상 */
-            margin-top: 20px; /* 위쪽 여백 */
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #FFA832;
+            margin-top: 20px;
+        }
+        #cocktail-image{
+            width:300px;
+            height:300px;
         }
     </style>
 </head>
@@ -133,6 +137,7 @@
 <p></p>
 <p id="location" style="text-align: center;"></p>
 <div id="cocktail-info" style="text-align: center; margin-top: 20px;">
+    <img id="cocktail-image" style="display: none;" alt="Cocktail Image" />
     <h2 id="cocktail-name" style="display: none;"></h2>
 </div>
 
