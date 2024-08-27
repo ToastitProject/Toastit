@@ -23,4 +23,5 @@ public interface CocktailService {
 
     // 랜덤한 칵테일 반환
     List<Cocktail> getRandomCocktails(int count);
+    List<Cocktail> getCocktailsByIngredient(String ingredient);
 }
