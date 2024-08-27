@@ -34,6 +34,7 @@
 
     <div th:if="${cocktails != null and !cocktails.isEmpty()}" class="cocktail-grid">
         <div th:each="cocktail : ${cocktails}" class="cocktail-item">
+            <img th:src="@{${cocktail.imagePath}}" th:alt="${cocktail.strDrink}" class="cocktail-image">
             <h3 th:text="${cocktail.strDrink}"></h3>
             <p><strong>종류:</strong> <span th:text="${cocktail.strAlcoholic}"></span></p>
             <p><strong>카테고리:</strong> <span th:text="${cocktail.strCategory}"></span></p>

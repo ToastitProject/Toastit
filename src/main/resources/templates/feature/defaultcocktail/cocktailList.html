@@ -33,6 +33,7 @@
 <div class="cocktail-grid">
     <div th:each="cocktail : ${cocktails}" class="cocktail-item">
         <a th:href="@{/cocktails/id(id=${cocktail.id})}" class="cocktail-link">
+            <img th:src="@{${cocktail.imagePath}}" th:alt="${cocktail.strDrink}" class="cocktail-image">
             <h2 th:text="${cocktail.strDrink}"></h2>
             <p>종류: <span th:text="${cocktail.strAlcoholic}"></span></p>
             <p>카테고리: <span th:text="${cocktail.strCategory}"></span></p>
