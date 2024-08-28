@@ -6,6 +6,17 @@
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <title>술프링부트 - 로그인</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Gmarket Sans', sans-serif;
+            color: #FFA832;
+            margin: 0;
+            padding: 20px;
+        }
         .card {
             background-color: #ffffff;
             border: solid;
@@ -16,8 +27,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 500px;
-            height: 600px;
+            width: 550px;
+            height: 700px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             margin: 100px auto 10px auto;
         }
@@ -61,12 +72,11 @@
             border: none;
             border-radius: 5px;
             padding: 10px 20px;
-            margin: 10px;
-            cursor: pointer;
+            margin: 0px;
             font-weight: bold;
             transition: background-color 0.3s;
             width: 300px;
-            height: 50px;
+            height: 45px;
             font-size: 1.1em;
         }
 
@@ -85,22 +95,23 @@
 
         .oathlogin img {
             width: 300px; /* 이미지 너비 조정 */
-            height: 50px; /* 비율 유지 */
+            height: 45px; /* 비율 유지 */
             margin: 5px 0; /* 버튼 간격 조정 */
             border-radius: 5px;
         }
 
         .login-title {
             color: #FFA832;
-            margin-bottom: 10px;
-            font-size: 24px; /* 글씨 크기 조정 */
-            font-weight: bold; /* 두께 조정 */
+            margin-top: 15px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
             text-align: center;
         }
 
         .top {
             margin-top: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 30px;
         }
         .separator-container {
             display: flex;
@@ -126,8 +137,21 @@
             margin-top: -10px;
         }
         .inputLogo{
-            width: 100px;
-            height: 100px;
+            margin-top : -20px;
+            width: 80px;
+            height: 80px;
+        }
+        .bottom {
+            margin-top: 15px;
+        }
+        input#email {
+            width: 290px;
+            height: 40px;
+        }
+        input#password {
+            width: 290px;
+            height: 40px;
+            margin-top: 5px;
         }
     </style>
 </head>
