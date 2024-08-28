@@ -28,5 +28,3 @@ jobs:
         uses: Aleph-Kim/discord-github-notification@v1.2.1
         with:
           discord-webhook-url: ${{ secrets.WEBHOOK_FOR_DISCORD }} # secret key에 저장한 discord webhook url
-          language: "korean" # 필수 X
-          custom: true # 필수 X
