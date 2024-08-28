@@ -49,7 +49,7 @@ public class WeatherController {
         model.addAttribute("geocodingApiKey", geocodingApiKey);
 //        log.info("모델에 담아 보내는 MAP API KEY : "+ mapsApiKey);
 //        log.info("모델에 담아 보내는 Geocoding API KEY : "+geocodingApiKey);
-        return "weather";
+        return "/feature/api/weather";
     }
 
     @PostMapping("/save-coordinates")
