@@ -19,6 +19,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -43,7 +44,7 @@ public class WeatherServiceImpl implements WeatherService {
         if (weatherList.isEmpty()) {
             ResponseEntity<WeatherApiResponseDTO> response = requestWeatherApi(areaRequestDTO); // 데이터가 하나도 없는 경우 새로 생성
             ObjectMapper objectMapper = new ObjectMapper();
-            List<WeatherItemDTO> weatherItemList = response.getBody()
+            List<WeatherItemDTO> weatherItemList = Objects.requireNonNull(response.getBody())
                     .getResponse()
                     .getBody()
                     .getItems()
