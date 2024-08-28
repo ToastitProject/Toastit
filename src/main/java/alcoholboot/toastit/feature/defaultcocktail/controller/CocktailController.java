@@ -43,7 +43,7 @@ public class CocktailController {
     @GetMapping("/all/ingredient")
     public String getCocktailsByIngredient(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam @NotEmpty String ingredient,
+            @RequestParam @NotEmpty List<String> ingredient,
             Model model) {
 
         Page<Cocktail> cocktailPage = cocktailService.getCocktailsByIngredientPaged(ingredient, PageRequest.of(page, 20));
@@ -54,7 +54,7 @@ public class CocktailController {
 
         model.addAttribute("totalPages", cocktailPage.getTotalPages());
 
-        model.addAttribute("ingredient", ingredient);
+        model.addAttribute("ingredient", String.join(",", ingredient));
 
         return "feature/defaultcocktail/cocktailIngredient";
     }
@@ -71,7 +71,7 @@ public class CocktailController {
 
         model.addAttribute("totalPages", cocktails.getTotalPages());
 
-        model.addAttribute("glass", glass);
+        model.addAttribute("glass", String.join(",", glass));
         return "feature/defaultcocktail/cocktailGlass";
     }
 
@@ -84,14 +84,14 @@ public class CocktailController {
         model.addAttribute("cocktails", cocktails);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", cocktails.getTotalPages());
-        model.addAttribute("type", type);
+        model.addAttribute("type", String.join(", ", type));
         return "feature/defaultcocktail/cocktailType";
     }
 
     @GetMapping("/all/complex")
     public String getCocktailsByComplex(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(required = false) String ingredient,
+            @RequestParam(required = false) List<String> ingredient,
             @RequestParam(required = false) String glass,
             @RequestParam(required = false) String type,
             Model model) {
@@ -104,14 +104,14 @@ public class CocktailController {
         model.addAttribute("cocktails", cocktails.getContent());
 
         // 입력된 값만 모델에 추가
-        if (ingredient != null && !ingredient.trim().isEmpty()) {
-            model.addAttribute("ingredient", ingredient);
+        if (ingredient != null && !ingredient.isEmpty()) {
+            model.addAttribute("ingredient", String.join(", ", ingredient));
         }
-        if (glass != null && !glass.trim().isEmpty()) {
-            model.addAttribute("glass", glass);
+        if (glass != null && !glass.isEmpty()) {
+            model.addAttribute("glass", String.join(", ", glass));
         }
-        if (type != null && !type.trim().isEmpty()) {
-            model.addAttribute("type", type);
+        if (type != null && !type.isEmpty()) {
+            model.addAttribute("type", String.join(", ", type));
         }
 
         return "feature/defaultcocktail/cocktailComplex";

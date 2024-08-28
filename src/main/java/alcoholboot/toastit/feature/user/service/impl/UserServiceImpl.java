@@ -44,9 +44,9 @@ public class UserServiceImpl implements UserService {
         User user = userJoinDto.toDomain();
 
         // 비밀번호 암호화
-        String encryptedPassword = encryptPassword(userJoinDto.getPassword());
+        String encryptedPassword = encryptPassword(user.getPassword());
 
-        user.update(getUniqueNickname(), encryptedPassword, defaultProfileImg);
+        user.update(getUniqueNickname(), encryptedPassword, defaultProfileImg, user.getProviderType());
 
         userRepository.save(user.convertToEntity());
     }
@@ -68,6 +68,11 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email).map(UserEntity::convertToDomain);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> findByEmailAndProviderType(String email, String providerType) {
+        return userRepository.findByEmailAndProviderType(email, providerType).map(UserEntity::convertToDomain);
     }
 
     @Transactional(readOnly = true)
