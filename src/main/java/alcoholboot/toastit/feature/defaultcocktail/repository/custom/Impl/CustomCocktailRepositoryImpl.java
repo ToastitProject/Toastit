@@ -21,14 +21,35 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
     private final MongoTemplate mongoTemplate;
 
     /**
+     * 복수의 재료 검색을 위한 Criteria를 생성합니다.
+     * 이 메서드는 strIngredient1부터 strIngredient11까지의 필드에 대해 검색 조건을 생성합니다.
+     *
+     * @param ingredients 검색할 복수의 재료 이름
+     * @return 생성된 Criteria 객체
+     */
+    private Criteria createIngredientCriteria(List<String> ingredients) {
+        if (ingredients == null || ingredients.isEmpty()) {
+            return new Criteria();
+        }
+
+        // 복수 키워드를 적용하기 위해, 단일 키워드를 연결하는 방식으로 진행
+        List<Criteria> allIngredientsCriteria = ingredients.stream()
+                .map(this::createSingleIngredientCriteria)
+                .toList();
+
+        // 크기를 0으로 하면 Java에서 반환될 크기를 자동으로 결정한다.
+        return new Criteria().andOperator(allIngredientsCriteria.toArray(new Criteria[0]));
+    }
+
+    /**
      * 재료 검색을 위한 Criteria를 생성합니다.
      * 이 메서드는 strIngredient1부터 strIngredient11까지의 필드에 대해 검색 조건을 생성합니다.
      *
      * @param ingredient 검색할 재료 이름
      * @return 생성된 Criteria 객체
      */
-    private Criteria createIngredientCriteria(String ingredient) {
-        if (ingredient == null || ingredient.trim().isEmpty()) {
+    private Criteria createSingleIngredientCriteria(String ingredient) {
+        if (ingredient == null || ingredient.isEmpty()) {
             return new Criteria();
         }
         return new Criteria().orOperator(
@@ -57,7 +78,8 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
             return new Criteria();
         }
         return new Criteria().orOperator(
-                Criteria.where("strGlass").regex(glass, "i")
+                // regex -> in 으로 수정
+                Criteria.where("strGlass").in(glass, "i")
         );
     }
 
@@ -72,7 +94,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
             return new Criteria();
         }
         return new Criteria().orOperator(
-                Criteria.where("strCategory").regex(category, "i")
+                Criteria.where("strCategory").in(category, "i")
         );
     }
 
@@ -101,7 +123,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
      * 주어진 재료로 칵테일을 검색합니다.
      */
     @Override
-    public Page<CocktailDocument> findCocktailsByIngredientPage(String ingredient, Pageable pageable) {
+    public Page<CocktailDocument> findCocktailsByIngredientPage(List<String> ingredient, Pageable pageable) {
 
         return findCocktails(createIngredientCriteria(ingredient), pageable);
     }
@@ -128,7 +150,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
      * 주어진 재료와 잔 종류로 칵테일을 검색합니다.
      */
     @Override
-    public Page<CocktailDocument> findByIngredientAndGlass(String ingredient, String glass, Pageable pageable) {
+    public Page<CocktailDocument> findByIngredientAndGlass(List<String> ingredient, String glass, Pageable pageable) {
 
         // Criteria 생성
         Criteria combinedCriteria = new Criteria().andOperator(
@@ -143,7 +165,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
      * 주어진 재료와 카테고리로 칵테일을 검색합니다.
      */
     @Override
-    public Page<CocktailDocument> findByIngredientAndCategoryPage(String ingredient, String category, Pageable pageable) {
+    public Page<CocktailDocument> findByIngredientAndCategoryPage(List<String> ingredient, String category, Pageable pageable) {
 
         // Criteria 생성
         Criteria combinedCriteria = new Criteria().andOperator(
@@ -173,7 +195,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
      * 주어진 재료, 잔 종류, 카테고리로 칵테일을 검색합니다.
      */
     @Override
-    public Page<CocktailDocument> findByIngredientAndGlassAndCategoryPage(String ingredient, String glass, String category, Pageable pageable) {
+    public Page<CocktailDocument> findByIngredientAndGlassAndCategoryPage(List<String> ingredient, String glass, String category, Pageable pageable) {
 
         // Criteria 생성
         Criteria combinedCriteria = new Criteria().andOperator(

@@ -54,9 +54,9 @@ body {
     display: grid;
     color: black;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    margin-left: 2rem;
-    margin-right: 2rem;
-    gap: 20px;
+    gap: 135px;
+    row-gap: 55px;
+    margin: auto 15rem;
 }
 
 .cocktail-item {
@@ -97,11 +97,23 @@ body {
     color: white;
 }
 
+#search-guide {
+    text-align: center;
+    color: #666666;
+    font-size: 15px;
+    margin-bottom: -5px;
+}
+
 .cocktail-buttons {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
+    transition: margin-right 0.1s ease;
+}
+
+.cocktail-buttons.search-hidden {
+    margin-right: 67px;
 }
 
 .cocktail-button {

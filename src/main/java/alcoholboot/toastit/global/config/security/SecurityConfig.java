@@ -48,6 +48,7 @@ public class SecurityConfig {
             "/js/**", // JS 리소스
             "/css/**", // CSS 리소스
             "/image/**", // 이미지 리소스 및 API
+            "/favicon.ico", // 
 
             "/custom/**", // 커스텀 칵테일 레시피 API
             "/cocktails/**", // 기본 칵테일 레시피 API

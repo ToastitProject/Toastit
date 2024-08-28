@@ -1,6 +1,6 @@
 package alcoholboot.toastit.auth.jwt.filter;
 
-import alcoholboot.toastit.auth.jwt.info.CustomUserDetails;
+import alcoholboot.toastit.auth.common.PrincipalDetails;
 import alcoholboot.toastit.auth.jwt.service.TokenRenewalService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
 import alcoholboot.toastit.auth.jwt.token.JwtAuthenticationToken;
@@ -121,10 +121,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         // 사용자 권한 추출
         Authority authority = Authority.valueOf(claims.get("authority", String.class));
 
-        Collection<? extends GrantedAuthority> authorities = Collections.singletonList(authority);
+        List<GrantedAuthority> authorities = Collections.singletonList(authority);
 
         // 인증 주체 선언
-        CustomUserDetails userDetails = new CustomUserDetails(email, nickname, (List<GrantedAuthority>) authorities);
+        PrincipalDetails userDetails = new PrincipalDetails(email, nickname, authorities);
 
         // 인증 객체 생성
         Authentication authentication = new JwtAuthenticationToken(authorities, userDetails, null);

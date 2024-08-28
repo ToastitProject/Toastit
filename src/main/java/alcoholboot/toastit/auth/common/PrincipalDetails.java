@@ -1,4 +1,4 @@
-package alcoholboot.toastit.auth.jwt.info;
+package alcoholboot.toastit.auth.common;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +13,7 @@ import java.util.Map;
  * {@link OAuth2User} 인터페이스를 구현한 클래스
  * 사용자 인증 및 권한 관리를 위한 사용자 세부 정보를 제공한다.
  */
-public class CustomUserDetails implements UserDetails, OAuth2User {
+public class PrincipalDetails implements UserDetails, OAuth2User {
     private final String email;  // 사용자 이름
     private final String nickname; // 이름
     private final String password;  // 비밀번호
@@ -27,7 +27,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
      * @param nickname 닉네임
      * @param authorities 권한 목록
      */
-    public CustomUserDetails(String email, String nickname, List<GrantedAuthority> authorities){
+    public PrincipalDetails(String email, String nickname, List<GrantedAuthority> authorities){
         this.email = email;
         this.password = "";
         this.nickname = nickname;
@@ -37,7 +37,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     /**
      * 생성자 - OAuth2 사용자
      */
-    public CustomUserDetails(String email, String nickname, List<GrantedAuthority> authorities, Map<String, Object> attributes) {
+    public PrincipalDetails(String email, String nickname, List<GrantedAuthority> authorities, Map<String, Object> attributes) {
         this.email = email;
         this.nickname = nickname;
         this.password = "";  // OAuth2 사용자라면 비밀번호는 사용하지 않음
