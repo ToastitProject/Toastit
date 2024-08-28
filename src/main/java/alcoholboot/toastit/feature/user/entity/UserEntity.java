@@ -38,8 +38,11 @@ public class UserEntity extends JpaAuditingFields {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "profile_image_url")
     private String profileImageUrl;
+
+    @Column(name = "provider_type")
+    private String providerType;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<CustomCocktail> cocktails = new ArrayList<>();
@@ -75,6 +78,7 @@ public class UserEntity extends JpaAuditingFields {
                 .authority(this.authority)
                 .profileImageUrl(this.profileImageUrl)
                 .createDate(this.createDate)
+                .providerType(this.providerType)
                 .build();
     }
 }

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface UserService {
     void save(UserJoinRequest userJoinDto);
+    Optional<User> findByEmailAndProviderType(String email, String providerType);
     String getUniqueNickname();
     Optional<User> findByEmail(String email);
     Optional<User> findById(Long id);
