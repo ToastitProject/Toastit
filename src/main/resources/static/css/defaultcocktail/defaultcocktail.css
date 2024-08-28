@@ -54,7 +54,7 @@ body {
     display: grid;
     color: black;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 160px;
+    gap: 135px;
     row-gap: 55px;
     margin: auto 15rem;
 }
@@ -113,7 +113,7 @@ body {
 }
 
 .cocktail-buttons.search-hidden {
-    margin-right: 63px;
+    margin-right: 67px;
 }
 
 .cocktail-button {
