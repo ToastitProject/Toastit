@@ -7,6 +7,7 @@
     <link th:href="@{/css/defaultcocktail/defaultcocktail.css}" rel="stylesheet">
 
     <script th:src="@{/js/defaultcocktail/toggle.js}" defer></script>
+    <script th:src="@{/js/defaultcocktail/search.js}" defer></script>
     <script th:src="@{/js/defaultcocktail/formVail.js}" defer></script>
 
     <title>칵테일 목록</title>
@@ -22,6 +23,7 @@
     <p>이런 칵테일은 어떠세요?</p>
 </div>
 
+<p id="search-guide" style="display: none">검색은 쉼표(,)로 구분합니다. 최소 하나 이상의 검색어를 넣어주세요</p>
 
 <div class="cocktail-buttons">
     <button id="toggleSearch" class="cocktail-button">검색 옵션 토글</button>
