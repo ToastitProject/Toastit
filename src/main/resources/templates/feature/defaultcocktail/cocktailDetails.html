@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <link th:href="@{/css/defaultcocktail/defaultcocktaildetail.css}" rel="stylesheet">
+
+    <script th:src="@{/js/defaultcocktail/detail.js}" defer></script>
     <title th:text="${cocktail.isPresent() ? cocktail.get().strDrink : '칵테일 상세 정보'}">칵테일 상세 정보</title>
 </head>
 <body>
@@ -36,7 +38,26 @@
         <ul class="ingredient-list">
             <li th:if="${cocktail.get().strIngredient1 != null and !cocktail.get().strIngredient1.isEmpty()}"
                 th:text="${cocktail.get().strIngredient1 + (cocktail.get().strMeasure1 != null and !cocktail.get().strMeasure1.isEmpty() ? ' - ' + cocktail.get().strMeasure1 : '')}"></li>
-            <!-- 추가 재료 목록 -->
+            <li th:if="${cocktail.get().strIngredient2 != null and !cocktail.get().strIngredient2.isEmpty()}"
+                th:text="${cocktail.get().strIngredient2 + (cocktail.get().strMeasure2 != null and !cocktail.get().strMeasure2.isEmpty() ? ' - ' + cocktail.get().strMeasure2 : '')}"></li>
+            <li th:if="${cocktail.get().strIngredient3 != null and !cocktail.get().strIngredient3.isEmpty()}"
+                th:text="${cocktail.get().strIngredient3 + (cocktail.get().strMeasure3 != null and !cocktail.get().strMeasure3.isEmpty() ? ' - ' + cocktail.get().strMeasure3 : '')}"></li>
+            <li th:if="${cocktail.get().strIngredient4 != null and !cocktail.get().strIngredient4.isEmpty()}"
+                th:text="${cocktail.get().strIngredient4 + (cocktail.get().strMeasure4 != null and !cocktail.get().strMeasure4.isEmpty() ? ' - ' + cocktail.get().strMeasure4 : '')}"></li>
+            <li th:if="${cocktail.get().strIngredient5 != null and !cocktail.get().strIngredient5.isEmpty()}"
+                th:text="${cocktail.get().strIngredient5 + (cocktail.get().strMeasure5 != null and !cocktail.get().strMeasure5.isEmpty() ? ' - ' + cocktail.get().strMeasure5 : '')}"></li>
+            <li th:if="${cocktail.get().strIngredient6 != null and !cocktail.get().strIngredient6.isEmpty()}"
+                th:text="${cocktail.get().strIngredient6 + (cocktail.get().strMeasure6 != null and !cocktail.get().strMeasure6.isEmpty() ? ' - ' + cocktail.get().strMeasure6 : '')}"></li>
+            <li th:if="${cocktail.get().strIngredient7 != null and !cocktail.get().strIngredient7.isEmpty()}"
+                th:text="${cocktail.get().strIngredient7 + (cocktail.get().strMeasure7 != null and !cocktail.get().strMeasure7.isEmpty() ? ' - ' + cocktail.get().strMeasure7 : '')}"></li>
+            <li th:if="${cocktail.get().strIngredient8 != null and !cocktail.get().strIngredient8.isEmpty()}"
+                th:text="${cocktail.get().strIngredient8 + (cocktail.get().strMeasure8 != null and !cocktail.get().strMeasure8.isEmpty() ? ' - ' + cocktail.get().strMeasure8 : '')}"></li>
+            <li th:if="${cocktail.get().strIngredient9 != null and !cocktail.get().strIngredient9.isEmpty()}"
+                th:text="${cocktail.get().strIngredient9 + (cocktail.get().strMeasure9 != null and !cocktail.get().strMeasure9.isEmpty() ? ' - ' + cocktail.get().strMeasure9 : '')}"></li>
+            <li th:if="${cocktail.get().strIngredient10 != null and !cocktail.get().strIngredient10.isEmpty()}"
+                th:text="${cocktail.get().strIngredient10 + (cocktail.get().strMeasure10 != null and !cocktail.get().strMeasure10.isEmpty() ? ' - ' + cocktail.get().strMeasure10 : '')}"></li>
+            <li th:if="${cocktail.get().strIngredient11 != null and !cocktail.get().strIngredient11.isEmpty()}"
+                th:text="${cocktail.get().strIngredient11 + (cocktail.get().strMeasure11 != null and !cocktail.get().strMeasure11.isEmpty() ? ' - ' + cocktail.get().strMeasure11 : '')}"></li>
         </ul>
     </div>
 
@@ -58,6 +79,7 @@
 
 <div class="back-button-container">
     <a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
+    <a id="backToSearchResult" style="display: none;" class="back-button">검색 결과로 돌아가기</a>
 </div>
 
 <script>
