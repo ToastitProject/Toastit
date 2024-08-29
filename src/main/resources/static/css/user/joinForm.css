@@ -1,19 +1,13 @@
 body {
     font-family: 'Gmarket Sans', sans-serif;
     color: #FFA832;
-    background-color: #f4f4f4;
+    background-color: white;
     margin: 0;
 }
-
-/*.divider {*/
-/*    border: none;*/
-/*    height: 2px;*/
-/*    background-color: #FFA832;*/
-/*    margin-top: -10px;*/
-/*}*/
-
 .card {
-    background-color: #FFA832;
+    background-color: #ffffff;
+    border: 5px solid;
+    border-color: #FFA832;
     border-radius: 10px;
     padding: 20px;
     display: flex;
@@ -22,7 +16,7 @@ body {
     width: 800px;
     height: auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    margin: 150px auto;
+    margin: 300px auto;
     flex-direction: column;
 }
 
@@ -40,23 +34,48 @@ body {
 
 .input-container {
     display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 30px;
     width: 600px;
     margin-right: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .input {
     padding-right: 10px;
     margin-left: 10px;
-    border: none;
     border-radius: 5px;
     width: 300px;
     height: 30px;
+    border: 2px solid;
+}
+input#passwordCheck {
+    margin-top: 30px;
+}
+button#submitButton {
+    color: white;
+    background: #FFA832;
+}
+div#endtimer {
+    color: black;
+    width: 100%;
+    height: 20px;
+    text-align: center;
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+div#userDetailsSection {
+    margin-top: 30px;
+    flex-direction: column;
+    margin-bottom: 30px;
+    margin-right: 12px;
 }
 
 .button-container {
-    margin-top: 15px;
+    margin-top: 0px;
 }
 
 .button-code {
@@ -78,16 +97,16 @@ body {
 }
 
 .code-button {
-    background-color: white;
-    color: #FFA832;
+    background-color: #FFA832;
+    color: white;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
-    margin: 10px;
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s;
     width: 150px;
+    margin-top: 30px;
 }
 
 .button:hover {
@@ -111,4 +130,38 @@ body {
     margin-bottom: 20px;
     width: 600px;
     margin-right: 10px;
+}
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
+input#authCode {
+    padding-right: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    width: 300px;
+    height: 30px;
+    border: 2px solid;
+}
+span#timer {
+    color: black;
+    margin-top: 20px;
+    margin-bottom: -30px;
+    font-weight: bold;
+}
+.inputHidden {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: -20px;
+}
+.passwordError {
+    margin-top: 20px;
+    margin-bottom: -10px;
 }
