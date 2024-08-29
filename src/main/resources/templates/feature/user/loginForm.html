@@ -186,9 +186,15 @@
             <div class="input-container">
                 <input type="email" class="input" th:field="*{email}" id="email" required placeholder="  이메일">
             </div>
+
+            <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
             <div class="input-container">
-                <input type="password" class="input" th:field="*{password}" id="password" required placeholder="  비밀번호">
+                <input type="password" class="input" th:field="*{password}" id="password" required placeholder="  비밀번호" autocomplete="off">
             </div>
+
+            <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
             <a href="#" class="password-reset">비밀번호 찾기</a>
             <button id="submitButton" class="button" type="submit">로그인</button>
         </div>
