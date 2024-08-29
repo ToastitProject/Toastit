@@ -1,6 +1,5 @@
 package alcoholboot.toastit.feature.defaultcocktail.repository.custom.Impl;
 
-import alcoholboot.toastit.feature.customcocktail.domain.Ingredient;
 import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailDocument;
 import alcoholboot.toastit.feature.defaultcocktail.repository.custom.CustomCocktailRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,17 +11,22 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-//import org.springframework.data.mongodb.repository.Aggregation;
 
 import java.util.List;
 
+
+/**
+ * CustomCocktailRepository의 구현 클래스입니다.
+ * 이 클래스는 칵테일 검색과 관련된 사용자 정의 쿼리 메서드를 제공합니다.
+ */
 @RequiredArgsConstructor
 public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
     private final MongoTemplate mongoTemplate;
 
     /**
      * 복수의 재료 검색을 위한 Criteria를 생성합니다.
-     * 이 메서드는 strIngredient1부터 strIngredient11까지의 필드에 대해 검색 조건을 생성합니다.
+     * 이 메서드는 주어진 재료 목록에 대해 AND 조건으로 Criteria를 생성합니다.
+     * 각 재료는 strIngredient1부터 strIngredient11까지의 필드 중 하나와 일치해야 합니다.
      *
      * @param ingredients 검색할 복수의 재료 이름
      * @return 생성된 Criteria 객체
@@ -119,77 +123,77 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         return new PageImpl<>(cocktails, pageable, total);
     }
 
-    /**
-     * 주어진 재료로 칵테일을 검색합니다.
-     */
-    @Override
-    public Page<CocktailDocument> findCocktailsByIngredientPage(List<String> ingredient, Pageable pageable) {
+//    /**
+//     * 주어진 재료로 칵테일을 검색합니다.
+//     */
+//    @Override
+//    public Page<CocktailDocument> findCocktailsByIngredientPage(List<String> ingredient, Pageable pageable) {
+//
+//        return findCocktails(createIngredientCriteria(ingredient), pageable);
+//    }
 
-        return findCocktails(createIngredientCriteria(ingredient), pageable);
-    }
+//    /**
+//     * 주어진 잔 종류로 칵테일을 검색합니다.
+//     */
+//    @Override
+//    public Page<CocktailDocument> findCocktailsByGlassPage(String glass, Pageable pageable) {
+//
+//        return findCocktails(createGlassCriteria(glass), pageable);
+//    }
 
-    /**
-     * 주어진 잔 종류로 칵테일을 검색합니다.
-     */
-    @Override
-    public Page<CocktailDocument> findCocktailsByGlassPage(String glass, Pageable pageable) {
+//    /**
+//     * 주어진 카테고리로 칵테일을 검색합니다.
+//     */
+//    @Override
+//    public Page<CocktailDocument> findCocktailsByCategoryPage(String category, Pageable pageable) {
+//
+//        return findCocktails(createCategoryCriteria(category), pageable);
+//    }
 
-        return findCocktails(createGlassCriteria(glass), pageable);
-    }
+//    /**
+//     * 주어진 재료와 잔 종류로 칵테일을 검색합니다.
+//     */
+//    @Override
+//    public Page<CocktailDocument> findByIngredientAndGlass(List<String> ingredient, String glass, Pageable pageable) {
+//
+//        // Criteria 생성
+//        Criteria combinedCriteria = new Criteria().andOperator(
+//                createIngredientCriteria(ingredient),
+//                createGlassCriteria(glass)
+//        );
+//
+//        return findCocktails(combinedCriteria, pageable);
+//    }
 
-    /**
-     * 주어진 카테고리로 칵테일을 검색합니다.
-     */
-    @Override
-    public Page<CocktailDocument> findCocktailsByCategoryPage(String category, Pageable pageable) {
+//    /**
+//     * 주어진 재료와 카테고리로 칵테일을 검색합니다.
+//     */
+//    @Override
+//    public Page<CocktailDocument> findByIngredientAndCategoryPage(List<String> ingredient, String category, Pageable pageable) {
+//
+//        // Criteria 생성
+//        Criteria combinedCriteria = new Criteria().andOperator(
+//                createIngredientCriteria(ingredient),
+//                createCategoryCriteria(category)
+//        );
+//
+//        return findCocktails(combinedCriteria, pageable);
+//    }
 
-        return findCocktails(createCategoryCriteria(category), pageable);
-    }
-
-    /**
-     * 주어진 재료와 잔 종류로 칵테일을 검색합니다.
-     */
-    @Override
-    public Page<CocktailDocument> findByIngredientAndGlass(List<String> ingredient, String glass, Pageable pageable) {
-
-        // Criteria 생성
-        Criteria combinedCriteria = new Criteria().andOperator(
-                createIngredientCriteria(ingredient),
-                createGlassCriteria(glass)
-        );
-
-        return findCocktails(combinedCriteria, pageable);
-    }
-
-    /**
-     * 주어진 재료와 카테고리로 칵테일을 검색합니다.
-     */
-    @Override
-    public Page<CocktailDocument> findByIngredientAndCategoryPage(List<String> ingredient, String category, Pageable pageable) {
-
-        // Criteria 생성
-        Criteria combinedCriteria = new Criteria().andOperator(
-                createIngredientCriteria(ingredient),
-                createCategoryCriteria(category)
-        );
-
-        return findCocktails(combinedCriteria, pageable);
-    }
-
-    /**
-     * 주어진 잔 종류와 카테고리로 칵테일을 검색합니다.
-     */
-    @Override
-    public Page<CocktailDocument> findByGlassAndCategoryPage(String glass, String category, Pageable pageable) {
-
-        // Criteria 생성
-        Criteria combinedCriteria = new Criteria().andOperator(
-                createGlassCriteria(glass),
-                createCategoryCriteria(category)
-        );
-
-        return findCocktails(combinedCriteria, pageable);
-    }
+//    /**
+//     * 주어진 잔 종류와 카테고리로 칵테일을 검색합니다.
+//     */
+//    @Override
+//    public Page<CocktailDocument> findByGlassAndCategoryPage(String glass, String category, Pageable pageable) {
+//
+//        // Criteria 생성
+//        Criteria combinedCriteria = new Criteria().andOperator(
+//                createGlassCriteria(glass),
+//                createCategoryCriteria(category)
+//        );
+//
+//        return findCocktails(combinedCriteria, pageable);
+//    }
 
     /**
      * 주어진 재료, 잔 종류, 카테고리로 칵테일을 검색합니다.
