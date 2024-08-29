@@ -4,6 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchGuide = document.getElementById('search-guide');
     const cocktailButtons = document.querySelector('.cocktail-buttons');
 
+    // 페이지 로드 시 초기 상태 설정
+    if (searchOptions.style.display === 'none') {
+        cocktailButtons.classList.remove('search-hidden');
+    }
+
+    // 검색 버튼 토글
     if (toggleButton && searchOptions && searchGuide && cocktailButtons) {
         toggleButton.addEventListener('click', function() {
             if (searchOptions.style.display === 'none') {
@@ -18,10 +24,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 cocktailButtons.classList.remove('search-hidden');
             }
         });
-    }
-
-    // 페이지 로드 시 초기 상태 설정
-    if (searchOptions.style.display === 'none') {
-        cocktailButtons.classList.remove('search-hidden');
     }
 });
