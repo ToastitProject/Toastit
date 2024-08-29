@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
-    <title>술프링부트 - 유저 탈퇴</title>
+    <title>술프링부트 - 로그인</title>
     <script>
         function submitResign() {
             fetch('/user/resign', {
@@ -133,21 +133,30 @@
 <hr class="divider">
 
 <div class="card">
-    <div class="profile-container">
-        <img th:src="${user.profileImageUrl}"
-             alt="프로필 사진" class="profile-pic">
-    </div>
-    <div class="info">
-        <p></p>
-        <p>칵테일은 1 도 모르는  <span th:text="${user.nickname}"></span> 회원 님 !!</p>
-        <p>정말로 탈퇴를 진행 하시겠어요??</p>
-        <div class="button-container">
-            <button class="button" onclick="submitResign()">RESIGN</button>
-            <button class="button" th:onclick="|location.href='@{/user/mypages}'|">CANCLE</button>
+    <h2 style="color: white; margin-bottom: 40px;">이메일 로그인</h2>
+    <form id="loginForm" th:action="@{/user/login}" th:object="${userLoginRequest}" method="post" class="info">
+        <div class="info">
+            <div class="input-container" style="display: flex; align-items: center; margin-bottom: 10px;">
+                <label for="email" style="color: white; margin-right: 10px; width: 70px;">이메일</label>
+                <input type="email" class="input" th:field="*{email}" id="email" required>
+            </div>
+
+            <div class="input-container" style="display: flex; align-items: center; margin-bottom: 10px;">
+                <label for="password" style="color: white; margin-right: 10px; width: 70px;">비밀번호</label>
+                <input type="password" class="input" th:field="*{password}" id="password" required>
+            </div>
+
+            <a href="/oauth2/authorization/kakao"> 카카오 로그인</a>
+            <a href="/oauth2/authorization/naver"> 네이버 로그인</a>
+            <!--            <a href="/oauth2/authorization/google"> 구글 로그인</a>-->
+
+            <a href="#" class="password-reset">비밀번호 찾기</a>
+
+            <div class="button-container">
+                <button id="submitButton" class="button" type="submit">로그인</button>
+            </div>
         </div>
-
-    </div>
-
+    </form>
 </div>
 </body>
 

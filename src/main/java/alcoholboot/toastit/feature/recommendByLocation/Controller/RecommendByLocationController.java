@@ -27,9 +27,11 @@ public class RecommendByLocationController {
     private final RecommendByLocationService recommendByLocationService;
     private final CocktailService cocktailService;
 
+    //api key
     @Value("${google.maps.api.key}")
     private String mapsApiKey;
 
+    //Geo api key
     @Value("${google.geocoding.api.key}")
     private String geocodingApiKey;
 
@@ -39,8 +41,6 @@ public class RecommendByLocationController {
         log.info("map 으로 GetMapping 이 들어옴");
         model.addAttribute("mapsApiKey", mapsApiKey);
         model.addAttribute("geocodingApiKey", geocodingApiKey);
-//        log.info("모델에 담아 보내는 MAP API KEY : "+ mapsApiKey);
-//        log.info("모델에 담아 보내는 Geocoding API KEY : "+geocodingApiKey);
         return "feature/maps/main";
     }
 
