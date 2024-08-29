@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const glassInput = document.getElementById('glassInput');
     const categoryInput = document.getElementById('categoryInput');
 
+    // searchButton이 클릭되면 실행
     if (searchButton) {
         searchButton.addEventListener('click', function() {
             // 복합 검색 URL 생성
@@ -11,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const glass = glassInput.value.trim();
             const category = categoryInput.value.trim();
 
-            let url = '/cocktails/all';
+            let url = '/cocktails/complex';
             let params = [];
 
             if (ingredient) params.push(`ingredient=${encodeURIComponent(ingredient)}`);
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (category) params.push(`type=${encodeURIComponent(category)}`);
 
             if (params.length > 0) {
-                url += '/complex' + '?' + params.join('&');
+                url += '?' + params.join('&');
                 sessionStorage.setItem('lastSearchUrl', url)
             }
         });
