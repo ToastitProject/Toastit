@@ -12,8 +12,8 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 public interface CocktailRepository extends MongoRepository<CocktailDocument, ObjectId>, CustomCocktailRepository {
-    Page<CocktailDocument> findByStrGlass(String glass, Pageable pageable);
-    Page<CocktailDocument> findByStrCategory(String category, Pageable pageable);
+//    Page<CocktailDocument> findByStrGlass(String glass, Pageable pageable);
+//    Page<CocktailDocument> findByStrCategory(String category, Pageable pageable);
 
     @Query("{ $or: [ " +
             "{ 'strIngredient1': ?0 }, " +
