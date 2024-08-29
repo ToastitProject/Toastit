@@ -13,6 +13,12 @@
       padding: 20px;
       background-color: #ffffff;
     }
+
+    .all-container {
+      padding-top: 50px;
+      margin-top: 50px;
+    }
+
     .container, .container1, .container2 {
       display: flex;
       flex-direction: column;
@@ -154,49 +160,51 @@
 </head>
 <body>
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
-<hr class="divider">
 
-<div class="container">
-  <div class="action-buttons" th:if="${isOwner}">
-    <a href="#" onclick="showEditForm()">수정</a>
-    <form id="deleteForm" method="post" th:action="@{/custom/delete/{id}(id=${cocktail.id})}" style="display:inline;">
-      <input type="hidden" name="_method" value="DELETE" />
-      <button type="button" onclick="confirmDelete()">삭제</button>
-    </form>
-  </div>
-  <div style="display: flex; align-items: flex-start;"> <!-- flex-start로 변경 -->
-    <div th:if="${cocktail.images.size() > 0}">
-      <img th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지" class="drink-image">
+<div class="all-container">
+  <div class="container">
+    <div class="action-buttons" th:if="${isOwner}">
+      <a href="#" onclick="showEditForm()">수정</a>
+      <form id="deleteForm" method="post" th:action="@{/custom/delete/{id}(id=${cocktail.id})}" style="display:inline;">
+        <input type="hidden" name="_method" value="DELETE" />
+        <button type="button" onclick="confirmDelete()">삭제</button>
+      </form>
     </div>
-    <div th:if="${cocktail.images.size() == 0}">
-      <p>등록된 사진이 없습니다.</p>
-    </div>
-    <div class="drink-info">
-      <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
-      <div class="drink-description" th:text="${cocktail.description}">칵테일 설명</div>
-      <div class="like-container">
-        <div class="drink-like-count" th:text="${cocktail.getLikes().size()}">♡</div>
-        <button class="like-button" id="likeButton" onclick="likeCocktail()"
-                th:text="${isLiked ? '좋아요 취소' : '좋아요'}"></button>
+    <div style="display: flex; align-items: flex-start;"> <!-- flex-start로 변경 -->
+      <div th:if="${cocktail.images.size() > 0}">
+        <img th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지" class="drink-image">
+      </div>
+      <div th:if="${cocktail.images.size() == 0}">
+        <p>등록된 사진이 없습니다.</p>
+      </div>
+      <div class="drink-info">
+        <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
+        <div class="drink-description" th:text="${cocktail.description}">칵테일 설명</div>
+        <div class="like-container">
+          <div class="drink-like-count" th:text="${cocktail.getLikes().size()}">♡</div>
+          <button class="like-button" id="likeButton" onclick="likeCocktail()"
+                  th:text="${isLiked ? '좋아요 취소' : '좋아요'}"></button>
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="container1">
+    <div class="section-title">재료</div>
+    <ul class="ingredient-list">
+      <li th:each="ingredient : ${cocktail.ingredients}">
+        <span th:text="${ingredient.name}">재료명</span> -
+        <span th:text="${ingredient.amount}">양</span>
+        <span th:text="${ingredient.unit}">단위</span>
+      </li>
+    </ul>
+  </div>
+  <div class="container2">
+    <div class="section-title">레시피</div>
+    <div class="instructions" th:text="${cocktail.recipe}">조리 방법</div>
+  </div>
 </div>
 
-<div class="container1">
-  <div class="section-title">재료</div>
-  <ul class="ingredient-list">
-    <li th:each="ingredient : ${cocktail.ingredients}">
-      <span th:text="${ingredient.name}">재료명</span> -
-      <span th:text="${ingredient.amount}">양</span>
-      <span th:text="${ingredient.unit}">단위</span>
-    </li>
-  </ul>
-</div>
-<div class="container2">
-  <div class="section-title">레시피</div>
-  <div class="instructions" th:text="${cocktail.recipe}">조리 방법</div>
-</div>
 
 <script>
   const cocktailName = document.querySelector('.drink-name').innerText; // 칵테일 이름 가져오기

@@ -1,9 +1,7 @@
-package alcoholboot.toastit.feature.recommendByDate.entity;
+package alcoholboot.toastit.feature.recommendbydate.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-
-import java.lang.annotation.Target;
 
 @Entity
 @Table
