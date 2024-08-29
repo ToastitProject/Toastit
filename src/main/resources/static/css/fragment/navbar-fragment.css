@@ -2,20 +2,24 @@ body {
     font-family: 'Gmarket Sans', sans-serif;
     margin: 0;
     padding: 0;
+    max-width: 1800px;
 }
 
 header {
     display: flex;
-    justify-content: space-between; /* 항목 간의 공간을 균등하게 배분 */
-    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
     background-color: white;
+    max-height: 94px;
+    overflow: hidden;
+
 }
 
 .logo {
     width: 50px;
-    height: auto;
-    margin-right: 20px;
+    height: 50px;
+    margin: 0 20px 0 0;
     border-radius: 10%; /* 모서리 둥글게 */
 }
 
@@ -28,8 +32,8 @@ nav {
 
 .menu a {
     text-decoration: none;
-    color: #2C3E50;
-    font-weight: 500; /* 더 얇은 폰트 */
+    color: #000000;
+    font-weight: bold;
     transition: color 0.3s;
     margin-right: 20px; /* 링크 간의 간격 추가 */
 }
@@ -39,21 +43,46 @@ nav {
 }
 
 #loginLink, #joinLink {
-    background-color: #FFA832;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
     text-decoration: none;
-    margin-left: auto; /* 오른쪽으로 정렬 */
-    margin-right: 40px;
+    color: #FFA832;
+    font-weight: bold;
+    transition: color 0.3s;
+    margin-right: 20px; /* 링크 간의 간격 추가 */
+}
+#logoutLink, #myPageLink {
+    text-decoration: none;
+    color: #FFA832;
+    font-weight: bold;
+    transition: color 0.3s;
+    margin-right: 20px; /* 링크 간의 간격 추가 */
+}
+#logoLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 50px;
 }
 
 #loginLink:hover, #joinLink:hover {
-    background-color: #FF8A00; /* hover 색상 */
+    color: #000000; /* hover 색상 */
+}
+#logoutLink:hover, #myPageLink:hover {
+    color: #000000; /* hover 색상 */
 }
 
 .divider {
     width: 100%;
     border: 1px solid #FFA832; /* 회색 선 */
     margin: 0px 0; /* 상하 여백 */
+}
+
+.menu {
+    display: flex; /* 메뉴 항목들을 가로로 나열 */
+    flex-grow: 1;
+    max-width: 1350px;
+}
+.profile {
+    display: flex; /* 프로필 항목들을 가로로 나열 */
+    align-items: center; /* 수직 가운데 정렬 */
 }

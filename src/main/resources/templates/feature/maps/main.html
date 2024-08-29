@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
-    <title>술프링부트 - 지도 페이지</title>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwmPE4956q5DEBA3hAIGlcltT_9-rrex4"></script>
     <script>
         function initMap() {
@@ -44,7 +43,7 @@
                         const province = match[0]; // 예: 경기도
                         const city = match[1]; // 예: 부천시
 
-                        document.getElementById("location").innerText = `당신은 현재 : ${province}, ${city}에 계시는 군요!!`;
+                        document.getElementById("location").innerText = `${province} ${city} 에 계시는 군요!!`;
 
                         // 서버로 데이터 전송
                         sendDataToServer(province, city);
@@ -82,15 +81,11 @@
                         cocktailImageElement.src = data.imagePath;
                         cocktailImageElement.style.display = "block";
                     }
-
                 })
                 .catch(error => {
                     console.error('서버에 전송하는 데 오류 발생:', error);
                 });
         }
-
-
-
         function errorCallback(error) {
             console.error("위치 정보를 가져오는 데 실패했습니다: ", error);
             document.getElementById("location").innerText = "위치 정보를 가져오는 데 실패했습니다.";
@@ -98,48 +93,117 @@
 
         window.onload = initMap;
     </script>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        #map {
-            display: none;
-        }
-        p {
-            text-align: center;
-            margin: 10px 0;
-        }
-        img {
-            margin-top: 10px;
-        }
-        #location {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #FFA832;
-            margin-top: 20px;
-        }
-        #cocktail-image{
-            width:300px;
-            height:300px;
-        }
-    </style>
+    <title>술프링부트 - 추천 페이지</title>
 </head>
-<body>
-<header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
-<hr class="divider">
-<p></p>
-<div id="map"></div>
-<p></p>
-<p id="location" style="text-align: center;"></p>
-<div id="cocktail-info" style="text-align: center; margin-top: 20px;">
-    <img id="cocktail-image" style="display: none;" alt="Cocktail Image" />
-    <h2 id="cocktail-name" style="display: none;"></h2>
-</div>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Gmarket Sans', sans-serif;
+        color: #FFA832;
+        margin: 0;
+        padding: 20px;
+        display: flow;
 
+    }
+    .section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .divider {
+        border: none;
+        height: 2px;
+        background-color: #FFA832;
+        margin-top: -10px;
+    }
+    .main {
+        margin-top: 100px;
+    }
+    #map {
+        display: none;
+    }
+    p {
+        text-align: center;
+        margin: 10px 0;
+    }
+    img {
+        margin-top: 10px;
+        align-items: center;
+        text-align: center;
+    }
+    #location {
+        font-size: 2.5em;
+        text-align: center;
+        font-weight: bold;
+        color: #FFA832;
+        margin-top: 20px;
+    }
+    #cocktail-image {
+        width: 300px;
+        height: 300px;
+        display: block;
+        margin: 30px auto;
+        border-radius: 5px;
+        align-items: center;
+    }
+    #cocktail-info {
+        margin-top: 40px;
+        text-align: center;
+        justify-items: center;
+    }
+    #cocktail-name {
+        margin-top: 40px;
+        color: #000000;
+    }
+    #you {
+        text-align: center;
+        margin-top: 100px;
+        color: #FFA832;
+        font-size: 2.5em;
+        font-weight: bold;
+    }
+    .sidebar {
+        margin-top: 100px;
+        height: 800px;
+        width: 200px;
+        background-color: #555252;
+        padding: 10px;
+    }
+    .content {
+        margin: 0 20px;
+        text-align: center;
+        border: 5px solid #FFA832;
+        border-radius: 10px;
+        padding: 20px;
+        height: 800px;
+        width: 600px;
+    }
+</style>
+<body>
+
+<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
+<hr class="divider">
+
+<div class="section">
+    <div class="sidebar">좌측 광고 배너</div>
+    <div class="main">
+        <div class="content">
+            <div id="map"></div>
+            <p id="you">당신은 현재</p>
+            <p id="location"></p>
+            <div id="cocktail-info">
+                <img id="cocktail-image" style="display: none;" alt="Cocktail Image" />
+                <h2 id="cocktail-name" style="display: none;"></h2>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar">우측 광고 배너</div>
+</div>
 </body>
+
+
 </html>

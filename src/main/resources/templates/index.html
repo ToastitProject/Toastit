@@ -8,6 +8,11 @@
 </head>
 
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
     body {
         font-family: 'Gmarket Sans', sans-serif;
         color: #FFA832;
@@ -49,6 +54,7 @@
         flex-wrap: nowrap; /* 카드가 줄바꿈 불가능하도록 설정 */
         overflow-x: auto;
         margin-top: 20px;
+        height: 280px;
     }
 
     .card {
@@ -59,7 +65,7 @@
         text-align: center; /* 문구를 가운데 정렬 */
         align-items: center;
         width: 200px;
-        height: 250px;
+        height: 270px;
         min-width: 200px;
         min-height: 180px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -113,13 +119,11 @@
         opacity: 1; /* 호버 시 텍스트 나타남 */
     }
 
-
     .card:hover {
         transform: scale(1.05); /* 카드 호버 시 확대 효과 */
     }
 
     .s-card{
-        /*background-color: #F3F3F3;*/
         background-color: #ffffff;
         padding: 10px;
         text-align: center; /* 문구를 가운데 정렬 */
@@ -168,6 +172,7 @@
         margin-right: 20px; /* 항목 간격 */
         cursor: pointer; /* 포인터 커서 */
         transition: color 0.3s; /* 색상 전환 효과 */
+        font-weight: bold;
     }
 
     .sort-item:hover {
@@ -196,6 +201,8 @@
     }
 
     .nickName{
+        font-family: 'Gmarket Sans', sans-serif;
+        font-weight: bold;
         color : #000000;
         text-decoration: none;
     }
@@ -255,7 +262,7 @@
                 </a>
             </div>
             <div class="r-card">
-                <a th:href="@{/random}">
+                <a th:href="@{/cocktails/random}">
                     <img src="/image/ramdomcock.png" alt="Image">
                     <div class="text">무작위</div>
                 </a>

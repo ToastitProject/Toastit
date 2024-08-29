@@ -29,6 +29,13 @@ public class CocktailController {
     private final LikeService likeService;
     private final UserService userService;
 
+    /**
+     * 모든 칵테일 목록을 페이지네이션하여 조회합니다.
+     *
+     * @param page 조회할 페이지 번호
+     * @param model Spring MVC 모델
+     * @return 칵테일 목록 뷰 이름
+     */
     @GetMapping("/all")
     public String getAllCocktails(
             @RequestParam(defaultValue = "0") int page,
@@ -40,58 +47,68 @@ public class CocktailController {
         return "feature/defaultcocktail/cocktailList";
     }
 
-    @GetMapping("/all/ingredient")
-    public String getCocktailsByIngredient(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam @NotEmpty String ingredient,
-            Model model) {
+//    @GetMapping("/all/ingredient")
+//    public String getCocktailsByIngredient(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam @NotEmpty List<String> ingredient,
+//            Model model) {
+//
+//        Page<Cocktail> cocktailPage = cocktailService.getCocktailsByIngredientPaged(ingredient, PageRequest.of(page, 20));
+//
+//        model.addAttribute("cocktails", cocktailPage.getContent());
+//
+//        model.addAttribute("currentPage", page);
+//
+//        model.addAttribute("totalPages", cocktailPage.getTotalPages());
+//
+//        model.addAttribute("ingredient", String.join(",", ingredient));
+//
+//        return "feature/defaultcocktail/cocktailIngredient";
+//    }
 
-        Page<Cocktail> cocktailPage = cocktailService.getCocktailsByIngredientPaged(ingredient, PageRequest.of(page, 20));
+//    @GetMapping("/all/glass")
+//    public String getCocktailsByGlass(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam @NotEmpty String glass,
+//            Model model) {
+//        Page<Cocktail> cocktails = cocktailService.getCocktailsByGlassPaged(glass, PageRequest.of(page, 20));
+//        model.addAttribute("cocktails", cocktails);
+//
+//        model.addAttribute("currentPage", page);
+//
+//        model.addAttribute("totalPages", cocktails.getTotalPages());
+//
+//        model.addAttribute("glass", String.join(",", glass));
+//        return "feature/defaultcocktail/cocktailGlass";
+//    }
 
-        model.addAttribute("cocktails", cocktailPage.getContent());
+//    @GetMapping("/all/type")
+//    public String getCocktailsByType(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam @NotEmpty String type,
+//            Model model) {
+//        Page<Cocktail> cocktails = cocktailService.getCocktailsByTypePaged(type, PageRequest.of(page, 20));
+//        model.addAttribute("cocktails", cocktails);
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", cocktails.getTotalPages());
+//        model.addAttribute("type", String.join(", ", type));
+//        return "feature/defaultcocktail/cocktailType";
+//    }
 
-        model.addAttribute("currentPage", page);
-
-        model.addAttribute("totalPages", cocktailPage.getTotalPages());
-
-        model.addAttribute("ingredient", ingredient);
-
-        return "feature/defaultcocktail/cocktailIngredient";
-    }
-
-    @GetMapping("/all/glass")
-    public String getCocktailsByGlass(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam @NotEmpty String glass,
-            Model model) {
-        Page<Cocktail> cocktails = cocktailService.getCocktailsByGlassPaged(glass, PageRequest.of(page, 20));
-        model.addAttribute("cocktails", cocktails);
-
-        model.addAttribute("currentPage", page);
-
-        model.addAttribute("totalPages", cocktails.getTotalPages());
-
-        model.addAttribute("glass", glass);
-        return "feature/defaultcocktail/cocktailGlass";
-    }
-
-    @GetMapping("/all/type")
-    public String getCocktailsByType(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam @NotEmpty String type,
-            Model model) {
-        Page<Cocktail> cocktails = cocktailService.getCocktailsByTypePaged(type, PageRequest.of(page, 20));
-        model.addAttribute("cocktails", cocktails);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", cocktails.getTotalPages());
-        model.addAttribute("type", type);
-        return "feature/defaultcocktail/cocktailType";
-    }
-
-    @GetMapping("/all/complex")
+    /**
+     * 복합 조건(재료, 잔, 타입)으로 칵테일을 필터링하여 조회합니다.
+     *
+     * @param page 조회할 페이지 번호
+     * @param ingredient 필터링할 재료 목록
+     * @param glass 필터링할 잔 종류
+     * @param type 필터링할 칵테일 타입
+     * @param model Spring MVC 모델
+     * @return 필터링된 칵테일 목록 뷰 이름
+     */
+    @GetMapping("/complex")
     public String getCocktailsByComplex(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(required = false) String ingredient,
+            @RequestParam(required = false) List<String> ingredient,
             @RequestParam(required = false) String glass,
             @RequestParam(required = false) String type,
             Model model) {
@@ -104,19 +121,27 @@ public class CocktailController {
         model.addAttribute("cocktails", cocktails.getContent());
 
         // 입력된 값만 모델에 추가
-        if (ingredient != null && !ingredient.trim().isEmpty()) {
-            model.addAttribute("ingredient", ingredient);
+        if (ingredient != null && !ingredient.isEmpty()) {
+            model.addAttribute("ingredient", String.join(", ", ingredient));
         }
-        if (glass != null && !glass.trim().isEmpty()) {
-            model.addAttribute("glass", glass);
+        if (glass != null && !glass.isEmpty()) {
+            model.addAttribute("glass", String.join(", ", glass));
         }
-        if (type != null && !type.trim().isEmpty()) {
-            model.addAttribute("type", type);
+        if (type != null && !type.isEmpty()) {
+            model.addAttribute("type", String.join(", ", type));
         }
 
         return "feature/defaultcocktail/cocktailComplex";
     }
 
+    /**
+     * 특정 ID의 칵테일 상세 정보를 조회합니다.
+     *
+     * @param id 조회할 칵테일의 ID
+     * @param model Spring MVC 모델
+     * @param redirectAttributes 리다이렉트 시 사용할 속성
+     * @return 칵테일 상세 정보 뷰 이름
+     */
     @GetMapping("/id")
     public String getCocktailById(
             @RequestParam("id") String id,
@@ -148,6 +173,13 @@ public class CocktailController {
         return "feature/defaultcocktail/cocktailDetails";
     }
 
+    /**
+     * 지정된 개수만큼 랜덤 칵테일을 조회합니다.
+     *
+     * @param count 조회할 랜덤 칵테일의 개수
+     * @param model Spring MVC 모델
+     * @return 랜덤 칵테일 목록 뷰 이름
+     */
     @GetMapping("/random")
     public String getRandom(@RequestParam(defaultValue = "5") int count,
                             Model model) {

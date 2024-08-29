@@ -10,15 +10,14 @@ import java.util.Optional;
 
 public interface CocktailService {
     // 카테고리 검색
-    List<Cocktail> getAllCocktails();
     Page<Cocktail> getAllCocktailsPaged(Pageable pageable);
-    Page<Cocktail> getCocktailsByIngredientPaged(String ingredient, Pageable pageable);
-    Page<Cocktail> getCocktailsByGlassPaged(String glass, Pageable pageable);
-    Page<Cocktail> getCocktailsByTypePaged(String type, Pageable pageable);
-    Page<Cocktail> getCocktailsByIngredientAndGlassPaged(String ingredient, String glass, Pageable pageable);
-    Page<Cocktail> getCocktailsByIngredientAndTypePaged(String ingredient, String type, Pageable pageable);
-    Page<Cocktail> getCocktailsByGlassAndTypePaged(String glass, String type, Pageable pageable);
-    Page<Cocktail> getCocktailsByFilterPaged(String ingredient, String glass, String type, Pageable pageable);
+//    Page<Cocktail> getCocktailsByIngredientPaged(List<String> ingredient, Pageable pageable);
+//    Page<Cocktail> getCocktailsByGlassPaged(String glass, Pageable pageable);
+//    Page<Cocktail> getCocktailsByTypePaged(String type, Pageable pageable);
+//    Page<Cocktail> getCocktailsByIngredientAndGlassPaged(List<String> ingredient, String glass, Pageable pageable);
+//    Page<Cocktail> getCocktailsByIngredientAndTypePaged(List<String> ingredient, String type, Pageable pageable);
+//    Page<Cocktail> getCocktailsByGlassAndTypePaged(String glass, String type, Pageable pageable);
+    Page<Cocktail> getCocktailsByFilterPaged(List<String> ingredient, String glass, String type, Pageable pageable);
     Optional<Cocktail> getCocktailById(ObjectId id);
 
     // 랜덤한 칵테일 반환
