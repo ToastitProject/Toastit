@@ -13,41 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const followButton = document.getElementById('followButton');
 
-            function followUser() {
-                const nickname = document.getElementById('nickname').innerText; // 함수 내에서 닉네임 읽기
-
-                fetch('/follow', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'nickname=' + encodeURIComponent(nickname)
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            return response.json(); // 서버에서 JSON 응답을 받을 경우
-                        }
-                        throw new Error('Network response was not ok.');
-                    })
-                    .then(data => {
-                        // 성공적으로 팔로우한 경우 처리
-                        alert(data.message || '팔로우 정보 반영 완료');
-                        // 페이지를 리다이렉트
-                        window.location.href = '/follow';
-                    })
-                    .catch(error => {
-                        // 오류 처리
-                        alert('팔로우 정보 반영 완료');
-                    });
-            }
-            // followButton 클릭 이벤트 리스너 설정
-            followButton.addEventListener('click', followUser);
-        });
-    </script>
     <title>술프링부트 - 유저 페이지</title>
 </head>
 <style>
@@ -146,6 +112,10 @@
             color: white;
         }
 
+    button#followButton {
+        padding: 10px 10px;
+    }
+
 
 </style>
 <body>
@@ -168,10 +138,57 @@
         </div>
 
         <div th:if="${notLoginUser}" class="button-container">
-            <button class="button" id="followButton" onclick="followUser()">FOLLOW</button>
+            <button class="button" id="followButton"
+                    th:text="${alreadyFollow != null ? 'UNFOLLOW' : 'FOLLOW'}"
+                    onclick="followUser()"></button>
         </div>
     </div>
 </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const followButton = document.getElementById('followButton');
+        const nickname = document.getElementById('nickname').innerText;
+
+
+        function updateFollowButton() {
+            followButton.innerText = followStatus === 'follow' ? 'FOLLOW' : 'UNFOLLOW'; // 버튼 텍스트 업데이트
+        }
+
+        async function followUser() {
+            try {
+                const response = await fetch('/follow', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'nickname=' + encodeURIComponent(nickname)
+                });
+
+                const message = await response.text(); // 응답을 텍스트로 처리
+
+                // 서버 응답에 따라 상태 업데이트
+                if (message === 'follow') {
+                    followStatus = 'unfollow';
+                } else if (message === 'unfollow') {
+                    followStatus = 'follow';
+                }
+
+
+                updateFollowButton(); // 버튼 텍스트 업데이트
+                alert(message === 'follow' ? '팔로우 했습니다.' : '언팔로우 했습니다.');
+                setTimeout(() => { location.reload(); }, 500);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('팔로우는 로그인을 하셔야 반영할 수 있습니다.');
+            }
+        }
+
+        followButton.addEventListener('click', followUser);
+        updateFollowButton(); // 페이지 로드 시 버튼 텍스트 초기화
+    });
+</script>
+
+
 
 </html>

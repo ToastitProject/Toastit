@@ -11,6 +11,7 @@ import alcoholboot.toastit.feature.user.service.FollowService;
 import alcoholboot.toastit.feature.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,7 @@ public class FollowController {
 
 
     @PostMapping("/follow")
-    public String Follow (@RequestParam("nickname") String nickname) { //현재 접속한 다른 User 의 프로필 페이지에서 id를 가져와야 한다.
+    public ResponseEntity<?> Follow (@RequestParam("nickname") String nickname) { //현재 접속한 다른 User 의 프로필 페이지에서 id를 가져와야 한다.
         log.info("Follow 포스트 매핑 요청이 들어옴");
         //접속한 User 의 정보를 이메일로 찾는다
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -52,6 +53,7 @@ public class FollowController {
         if (alreadyFollow != null) { //이미 팔로우 중이라면, 팔로우 객체를 삭제한다
             log.info("이미 팔로우 중이라 팔로우를 삭제");
             followService.unfollow(alreadyFollow);
+            return ResponseEntity.ok("unfollow");
         }
         //아나라면 새로운 팔로우 객체를 하나 생성한다.
         else {
@@ -60,9 +62,8 @@ public class FollowController {
             follow.setFollower(loginUser.get().convertToEntity());
             follow.setFollowee(followUser.get().convertToEntity());
             followService.follow(follow);
+            return ResponseEntity.ok("follow");
         }
-        log.info("팔로우 정보 변경 완료");
-        return "redirect:/follow";
         }
 
         @GetMapping("/follow")
