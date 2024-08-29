@@ -1,8 +1,8 @@
-package alcoholboot.toastit.feature.recommendByDate.controller;
+package alcoholboot.toastit.feature.recommendbydate.controller;
 
 import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
 import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
-import alcoholboot.toastit.feature.recommendByDate.service.RecommendByDateService;
+import alcoholboot.toastit.feature.recommendbydate.service.RecommendByDateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

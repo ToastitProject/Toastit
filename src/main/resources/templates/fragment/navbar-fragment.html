@@ -40,5 +40,17 @@
 
 <hr class="divider">
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const links = document.querySelectorAll('.menu a, .profile a');
+
+        links.forEach(link => {
+            link.addEventListener('click', function () {
+                links.forEach(l => l.classList.remove('active-link'));
+                this.classList.add('active-link');
+            });
+        });
+    });
+</script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.recommendByDate.service;
+package alcoholboot.toastit.feature.recommendbydate.service;
 
 import org.springframework.stereotype.Service;
 

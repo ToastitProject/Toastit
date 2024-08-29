@@ -3,6 +3,7 @@ body {
     margin: 0;
     padding: 0;
     max-width: 1800px;
+    padding-top: 94px; /* 헤더의 높이만큼 상단 여백 추가 */
 }
 
 header {
@@ -13,7 +14,12 @@ header {
     background-color: white;
     max-height: 94px;
     overflow: hidden;
-
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* 헤더가 다른 요소들 위에 위치하도록 설정 */
+    border-bottom: 2px solid #FFA832; /* 주황색 선 추가 */
 }
 
 .logo {
@@ -74,7 +80,7 @@ nav {
 .divider {
     width: 100%;
     border: 1px solid #FFA832; /* 회색 선 */
-    margin: 0px 0; /* 상하 여백 */
+    margin: 0 0; /* 상하 여백 */
 }
 
 .menu {
@@ -85,4 +91,8 @@ nav {
 .profile {
     display: flex; /* 프로필 항목들을 가로로 나열 */
     align-items: center; /* 수직 가운데 정렬 */
+}
+
+.active-link {
+    color: #FFA832 !important; /* 중요도 높임 */
 }
