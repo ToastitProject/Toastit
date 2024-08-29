@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CocktailServiceImpl implements CocktailService {
+public class    CocktailServiceImpl implements CocktailService {
 
     private final CocktailRepository cocktailRepository;
 
