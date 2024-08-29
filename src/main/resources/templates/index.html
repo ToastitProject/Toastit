@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <title>술프링부트 - 메인 페이지</title>
 </head>
-
 <style>
     * {
         margin: 0;
@@ -51,10 +52,29 @@
     .card-container {
         display: flex;
         justify-content: center; /* 카드 왼쪽 정렬 */
+        overflow: hidden;
         flex-wrap: nowrap; /* 카드가 줄바꿈 불가능하도록 설정 */
-        overflow-x: auto;
         margin-top: 20px;
+        width: 1125px;
+        min-width: 1125px;
         height: 280px;
+        cursor: pointer;
+    }
+    .swiper mySwiper {
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+        flex-wrap: nowrap;
+        margin-top: 20px;
+        width: 1125px;
+        min-width: 1125px;
+        height: 220px;
+        cursor: pointer;
+    }
+    section.cocktail-recommendations {
+        width: 1155px;
+        min-width: 1155px;
+        overflow: hidden;
     }
 
     .card {
@@ -62,29 +82,29 @@
         border: 1px solid #ddd;
         border-radius: 5px;
         padding: 10px;
-        text-align: center; /* 문구를 가운데 정렬 */
+        text-align: center;
         align-items: center;
         width: 200px;
         height: 270px;
         min-width: 200px;
         min-height: 180px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        margin-right: 25px; /* 카드 간의 간격 */
-        margin-bottom: 10px; /* 카드 간의 세로 간격 */
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-bottom: 10px;
         transition: transform 0.2s;
-        position: relative; /* 자식 요소의 절대 위치 설정을 위한 relative */
+        position: relative;
     }
 
-    .r-card{
+    .swiper-slide{
         background-color: #ffffff;
         border: none;
-        padding-bottom: 15px;
         text-align: center; /* 문구를 가운데 정렬 */
         align-items: center;
         width: 300px;
-        height: 180px;
+        height: 200px;
         min-width: 300px;
-        min-height: 180px;
+        min-height: 200px;
         margin-right: 10px;
         overflow: hidden;
         box-shadow: none;
@@ -93,14 +113,14 @@
         position: relative; /* 자식 요소의 절대 위치 설정을 위한 relative */
 
     }
-    .r-card img {
+    .swiper-slide img {
         width: 100%; /* 이미지 가로 크기 조정 */
         height: 100%; /* 이미지 세로 크기 조정 */
         border-radius: 5px;
         object-fit: cover;
         transition: opacity 0.4s; /* 이미지 흐림 효과 */
     }
-    .r-card .text {
+    .swiper-slide .text {
         position: absolute; /* 절대 위치 설정 */
         top: 50%; /* 세로 중앙 정렬 */
         left: 50%; /* 가로 중앙 정렬 */
@@ -111,11 +131,11 @@
         font-weight: bold; /* 글씨를 두껍게 */
         font-size: 1.5em;
     }
-    .r-card:hover img {
+    .swiper-slide:hover img {
         opacity: 0.4; /* 호버 시 이미지 흐림 */
     }
 
-    .r-card:hover .text {
+    .swiper-slide:hover .text {
         opacity: 1; /* 호버 시 텍스트 나타남 */
     }
 
@@ -227,9 +247,12 @@
         max-width: 430px;
         min-height: 130px;
     }
+    section.basic-recipes {
+        width: 1155px;
+        min-width: 1155px;
+    }
+
 </style>
-
-
 
 <body>
 
@@ -242,37 +265,40 @@
     <section class="cocktail-recommendations">
         <h3 class="text-center">칵테일 추천</h3>
         <p class="note text-center">지금 당신에게 딱 맞는 칵테일 추천</p>
-        <div class="card-container">
-            <div class="r-card">
-                <a th:href="@{/map}">
-                    <img src="/image/mapcocktail.png" alt="Image">
-                    <div class="text">접속 위치</div>
-                </a>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a th:href="@{/map}">
+                        <img src="/image/mapcocktail.png" alt="Image">
+                        <div class="text">접속 위치</div>
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a th:href="@{/weather}">
+                        <img src="/image/wheather.png" alt="Image">
+                        <div class="text">날씨</div>
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a th:href="@{/date}">
+                        <img src="/image/dateCocktail.png" alt="Image">
+                        <div class="text">날짜</div>
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a th:href="@{/cocktails/random}">
+                        <img src="/image/ramdomcock.png" alt="Image">
+                        <div class="text">무작위</div>
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a th:href="@{/setting}">
+                        <img src="/image/setting.png" alt="Image">
+                        <div class="text">추가 예정</div>
+                    </a>
+                </div>
             </div>
-            <div class="r-card">
-                <a th:href="@{/weather}">
-                    <img src="/image/wheather.png" alt="Image">
-                    <div class="text">날씨</div>
-                </a>
-            </div>
-            <div class="r-card">
-                <a th:href="@{/date}">
-                    <img src="/image/dateCocktail.png" alt="Image">
-                    <div class="text">날짜</div>
-                </a>
-            </div>
-            <div class="r-card">
-                <a th:href="@{/cocktails/random}">
-                    <img src="/image/ramdomcock.png" alt="Image">
-                    <div class="text">무작위</div>
-                </a>
-            </div>
-            <div class="r-card">
-                <a th:href="@{/setting}">
-                    <img src="/image/setting.png" alt="Image">
-                    <div class="text">추가 예정</div>
-                </a>
-            </div>
+            <div class="swiper-pagination"></div>
         </div>
     </section>
     <!-- 기본 레시피 섹션 -->
@@ -371,6 +397,16 @@
 </div>
 </body>
 <script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+
+
     function changeSort(sortType) {
         const urlParams = new URLSearchParams(window.location.search);
         urlParams.set('sort', sortType);
