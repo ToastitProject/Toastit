@@ -11,6 +11,8 @@ import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
 import alcoholboot.toastit.feature.user.controller.request.UserLoginRequest;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.amazonimage.service.S3imageUploadService;
+import alcoholboot.toastit.feature.user.entity.FollowEntity;
+import alcoholboot.toastit.feature.user.service.FollowService;
 import alcoholboot.toastit.feature.user.service.UserService;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import alcoholboot.toastit.global.config.response.exception.CustomException;
@@ -45,6 +47,7 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
     private final TokenRepository tokenRepository;
+    private final FollowService followService;
 
     @GetMapping("/login")
     public String showLoginPage(Model model) {
@@ -244,10 +247,20 @@ public class UserController {
                 } else {
                     // 다른 사용자의 정보인 경우
                     Optional<User> otherUserOptional = userService.findByNickname(nickname);
+
+                    //접속한 user id 와 팔로우할 사람의 id 로 조회하여 FollowEntity 를 생성한다.
+                    FollowEntity alreadyFollow = followService.findByFollowerIdAndFolloweeId(
+                            loggedInUser.getId(),
+                            otherUserOptional.get().getId()
+                    );
                     if (otherUserOptional.isPresent()) {
                         model.addAttribute("user", otherUserOptional.get());
                         model.addAttribute("notLoginUser", true);
                         log.info("다른 사용자의 정보를 보여줍니다: " + nickname);
+                        if (alreadyFollow != null) {
+                            //팔로우를 하고 있다면 모델에 alreadyFollow 를 담아 간다
+                            model.addAttribute("alreadyFollow", alreadyFollow);
+                        }
                     } else {
                         model.addAttribute("error", "다른 사용자를 찾을 수 없습니다.");
                     }
