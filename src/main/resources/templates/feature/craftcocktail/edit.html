@@ -61,7 +61,7 @@
 
         .container {
             max-width: 800px;
-            margin: 20px auto;
+            margin: 300px auto 20px;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
@@ -147,7 +147,7 @@
 
 <hr class="divider">
 <div class="container">
-    <form id="cocktailForm" method="post" th:action="@{/custom/edit/{id}(id=${cocktail.id})}" enctype="multipart/form-data">
+    <form id="cocktailForm" method="post" th:action="@{/craft/edit/{id}(id=${cocktail.id})}" enctype="multipart/form-data">
         <!-- Cocktail Image Section -->
         <div class="section">
             <label for="image">칵테일 사진</label>

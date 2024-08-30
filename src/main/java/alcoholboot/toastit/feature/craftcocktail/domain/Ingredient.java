@@ -29,5 +29,5 @@ public class Ingredient {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cocktail_id")
-    private CustomCocktail cocktail;
+    private CraftCocktail cocktail;
 }

@@ -2,7 +2,7 @@ package alcoholboot.toastit.feature.calendarcocktail.controller;
 
 import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
 import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
-import alcoholboot.toastit.feature.calendarcocktail.service.RecommendByDateService;
+import alcoholboot.toastit.feature.calendarcocktail.service.CalendarCocktailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,19 +16,19 @@ import java.util.List;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-public class RecommendByDateController {
+public class CalendarCocktailController {
 
-    private final RecommendByDateService recommendByDateService;
+    private final CalendarCocktailService calendarCocktailService;
     private final CocktailService cocktailService;
 
-    @GetMapping("/date")
+    @GetMapping("/season-date")
     public String getRandomAndDate(
             @RequestParam(defaultValue = "1") int count,
             Model model
     ) {
         List<Cocktail> cocktails = cocktailService.getRandomCocktails(count);
 
-        LocalDate currentDate = recommendByDateService.getCurrentDate();
+        LocalDate currentDate = calendarCocktailService.getCurrentDate();
         String season = getSeason(currentDate.getMonthValue());
 
         model.addAttribute("cocktails", cocktails);

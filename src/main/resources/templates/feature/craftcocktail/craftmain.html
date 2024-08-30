@@ -117,13 +117,13 @@
 
 <div class="container-banner">
     <div class="banner-content">
-        <a href="/custom/write" class="write-button">글쓰기</a>
+        <a href="/craft/write" class="write-button">글쓰기</a>
     </div>
 </div>
 
 <div class="container">
     <div class="post" th:each="cocktail : ${cocktails}">
-        <a th:href="@{/custom/{id}(id=${cocktail.id})}" style="text-decoration: none; color: inherit;">
+        <a th:href="@{/craft/{id}(id=${cocktail.id})}" style="text-decoration: none; color: inherit;">
             <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
             <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
             <div class="nickname-and-date">
