@@ -188,4 +188,13 @@ public class CocktailController {
 
         return "feature/defaultcocktail/random";
     }
+
+    @GetMapping("/name")
+    public String getName(@RequestParam("name") String name,
+                          Model model) {
+        Cocktail cocktail = cocktailService.getSingleCocktailByName(name);
+        model.addAttribute("cocktail", cocktail);
+
+        return "feature/defaultcocktail/name";
+    }
 }

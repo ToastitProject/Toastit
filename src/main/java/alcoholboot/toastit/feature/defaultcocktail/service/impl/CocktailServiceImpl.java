@@ -168,4 +168,20 @@ public class    CocktailServiceImpl implements CocktailService {
     public List<Cocktail> getCocktailsByIngredient(String ingredient) {
         return cocktailRepository.findByAnyIngredient(ingredient);
     }
+
+
+
+    @Override
+    public List<Cocktail> getCocktailsByName(List<String> names) {
+        return cocktailRepository.findCocktailsByName(names)
+                .stream()
+                .map(CocktailDocument::convertToDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Cocktail getSingleCocktailByName(String name) {
+        return cocktailRepository.findSingleCocktailByName(name)
+                .convertToDomain();
+    }
 }

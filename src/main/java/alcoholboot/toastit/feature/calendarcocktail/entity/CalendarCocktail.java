@@ -6,7 +6,7 @@ import lombok.Getter;
 @Entity
 @Table
 @Getter
-public class RecommendByDate {
+public class CalendarCocktail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

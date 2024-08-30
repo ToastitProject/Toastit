@@ -2,10 +2,10 @@ package alcoholboot.toastit.feature.craftcocktail.controller;
 
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.feature.amazonimage.service.S3imageUploadService;
-import alcoholboot.toastit.feature.craftcocktail.domain.CustomCocktail;
+import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
 import alcoholboot.toastit.feature.craftcocktail.domain.Ingredient;
 import alcoholboot.toastit.feature.craftcocktail.dto.CocktailDTO;
-import alcoholboot.toastit.feature.craftcocktail.service.CustomCocktailService;
+import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
@@ -26,41 +26,41 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class CustomCocktailController {
+public class CraftCocktailController {
 
-    private static final Logger log = LoggerFactory.getLogger(CustomCocktailController.class);
-    private final CustomCocktailService customCocktailService;
+    private static final Logger log = LoggerFactory.getLogger(CraftCocktailController.class);
+    private final CraftCocktailService customCocktailService;
     private final S3imageUploadService s3imageUploadService;
     private final UserService userService;
     private final LikeService likeService;
 
     @Autowired
-    public CustomCocktailController(CustomCocktailService customCocktailService, S3imageUploadService s3imageUploadService, UserService userService, LikeService likeService) {
+    public CraftCocktailController(CraftCocktailService customCocktailService, S3imageUploadService s3imageUploadService, UserService userService, LikeService likeService) {
         this.customCocktailService = customCocktailService;
         this.s3imageUploadService = s3imageUploadService;
         this.userService = userService;
         this.likeService = likeService;
     }
 
-    @GetMapping("/custom")
+    @GetMapping("/craft")
     public String customPage(Model model) {
-        List<CustomCocktail> cocktails = customCocktailService.getAllCocktails();
+        List<CraftCocktail> cocktails = customCocktailService.getAllCocktails();
         model.addAttribute("cocktails", cocktails);
         log.info("Accessed custom cocktails page");
-        return "feature/customcocktail/custommain";
+        return "feature/craftcocktail/craftmain";
     }
 
-    @GetMapping("/custom/write")
+    @GetMapping("/craft/write")
     public String customWritePage(RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다");
             return "redirect:/login";
         }
-        return "feature/customcocktail/write";
+        return "feature/craftcocktail/write";
     }
 
-    @PostMapping("/custom")
+    @PostMapping("/craft")
     public String saveCocktail(@ModelAttribute CocktailDTO cocktailDTO, RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
@@ -76,7 +76,7 @@ public class CustomCocktailController {
                 User user = userOptional.get();
                 UserEntity userEntity = user.convertToEntity();  // User를 UserEntity로 변환
 
-                CustomCocktail customCocktail = new CustomCocktail();
+                CraftCocktail customCocktail = new CraftCocktail();
                 customCocktail.setName(cocktailDTO.getName());
                 customCocktail.setDescription(cocktailDTO.getDescription());
                 customCocktail.setRecipe(cocktailDTO.getRecipe());
@@ -114,25 +114,25 @@ public class CustomCocktailController {
         } catch (Exception e) {
             log.error("칵테일 저장 실패: ", e);
             redirectAttributes.addFlashAttribute("message", "칵테일 저장 중 오류가 발생했습니다.");
-            return "redirect:/custom/write";
+            return "redirect:/craft/write";
         }
 
-        return "redirect:/custom";
+        return "redirect:/craft";
     }
 
-    @GetMapping("/custom/edit/{id}")
+    @GetMapping("/craft/edit/{id}")
     public String editCocktailForm(@PathVariable("id") Long id, Model model) {
-        CustomCocktail cocktail = customCocktailService.getCocktailById(id);
+        CraftCocktail cocktail = customCocktailService.getCocktailById(id);
         model.addAttribute("cocktail", cocktail);
         model.addAttribute("image", cocktail.getImages());
         model.addAttribute("ingredients", cocktail.getIngredients()); // Add ingredients to the model
-        return "feature/customcocktail/edit";
+        return "feature/craftcocktail/edit";
     }
 
-    @PostMapping("/custom/edit/{id}")
+    @PostMapping("/craft/edit/{id}")
     public String updateCocktail(@PathVariable("id") Long id, @ModelAttribute CocktailDTO cocktailDTO, RedirectAttributes redirectAttributes) {
         try {
-            CustomCocktail existingCocktail = customCocktailService.getCocktailById(id);
+            CraftCocktail existingCocktail = customCocktailService.getCocktailById(id);
 
             // 칵테일 정보 업데이트
             existingCocktail.setName(cocktailDTO.getName());
@@ -167,15 +167,15 @@ public class CustomCocktailController {
             // 칵테일 저장
             customCocktailService.saveCocktail(existingCocktail);
             redirectAttributes.addFlashAttribute("message", "칵테일이 성공적으로 수정되었습니다.");
-            return "redirect:/custom/" + id;
+            return "redirect:/craft/" + id;
         } catch (Exception e) {
             log.error("칵테일 수정 실패: ", e);
             redirectAttributes.addFlashAttribute("message", "칵테일 수정 중 오류가 발생했습니다.");
-            return "redirect:/custom/edit/" + id;
+            return "redirect:/craft/edit/" + id;
         }
     }
 
-    @PostMapping("/custom/delete/{id}")
+    @PostMapping("/craft/delete/{id}")
     public String deleteCocktail(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
             //유저 아이디와 커스텀 칵테일 아이디로 좋아요 객체를 찾아서 지운다
@@ -189,17 +189,17 @@ public class CustomCocktailController {
             //칵테일도 지운다
             customCocktailService.deleteCocktail(id);
             redirectAttributes.addFlashAttribute("message", "칵테일이 성공적으로 삭제되었습니다.");
-            return "redirect:/custom";
+            return "redirect:/craft";
         } catch (Exception e) {
             log.error("칵테일 삭제 실패: ", e);
             redirectAttributes.addFlashAttribute("message", "칵테일 삭제 중 오류가 발생했습니다.");
-            return "redirect:/custom/" + id;
+            return "redirect:/craft/" + id;
         }
     }
 
-    @GetMapping("/custom/{id}")
+    @GetMapping("/craft/{id}")
     public String showCustomDetail(@PathVariable("id") Long id, Model model) {
-        CustomCocktail cocktail = customCocktailService.getCocktailById(id);
+        CraftCocktail cocktail = customCocktailService.getCocktailById(id);
         model.addAttribute("cocktail", cocktail);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -223,7 +223,7 @@ public class CustomCocktailController {
             model.addAttribute("isLiked", false);
         }
 
-        return "feature/customcocktail/customdetail";
+        return "feature/craftcocktail/craftdetail";
     }
 
 }

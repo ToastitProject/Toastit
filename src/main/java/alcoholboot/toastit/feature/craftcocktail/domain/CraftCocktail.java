@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomCocktail extends JpaAuditingFields {
+public class CraftCocktail extends JpaAuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,8 +48,8 @@ public class CustomCocktail extends JpaAuditingFields {
     private List<LikeEntity> likes = new ArrayList<>();
 
 
-    public static CustomCocktail createCocktail(UserEntity user, String name, String description, String recipe) {
-        CustomCocktail cocktail = new CustomCocktail();
+    public static CraftCocktail createCocktail(UserEntity user, String name, String description, String recipe) {
+        CraftCocktail cocktail = new CraftCocktail();
         cocktail.setUser(user);
         cocktail.setName(name);
         cocktail.setDescription(description);
