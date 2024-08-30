@@ -2,7 +2,7 @@
 //
 //import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailDocument;
 //import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailEntity;
-//import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
+//import alcoholboot.toastit.feature.defaultcocktail.AWSService.CocktailService;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.mockito.InjectMocks;

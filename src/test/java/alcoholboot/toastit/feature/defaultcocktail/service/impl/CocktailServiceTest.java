@@ -1,5 +1,5 @@
 /*
-package alcoholboot.toastit.feature.defaultcocktail.service.impl;
+package alcoholboot.toastit.feature.defaultcocktail.AWSService.impl;
 
 import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
 import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailEntity;

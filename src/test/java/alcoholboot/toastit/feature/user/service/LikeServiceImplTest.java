@@ -1,4 +1,4 @@
-//package alcoholboot.toastit.feature.user.service;
+//package alcoholboot.toastit.feature.user.AWSService;
 //
 //import static org.junit.jupiter.api.Assertions.*;
 //import static org.mockito.Mockito.*;
@@ -8,7 +8,7 @@
 //import alcoholboot.toastit.feature.user.domain.User;
 //import alcoholboot.toastit.feature.user.entity.LikeEntity;
 //import alcoholboot.toastit.feature.user.repository.LikeRepository;
-//import alcoholboot.toastit.feature.user.service.impl.LikeServiceImpl;
+//import alcoholboot.toastit.feature.user.AWSService.impl.LikeServiceImpl;
 //import org.bson.types.ObjectId;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;

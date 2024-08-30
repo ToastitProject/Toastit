@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.amazonimage.domain;
+package alcoholboot.toastit.feature.image.entity;
 
 import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
@@ -15,8 +15,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "image")
-public class Image extends JpaAuditingFields {
+@Table(name = "images")
+public class ImageEntity extends JpaAuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,5 +43,4 @@ public class Image extends JpaAuditingFields {
     @ManyToOne
     @JoinColumn(name = "cocktail_id") // 외래 키 이름 설정
     private CraftCocktailEntity cocktail;
-
 }

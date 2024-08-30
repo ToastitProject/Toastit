@@ -50,7 +50,7 @@ public class SecurityConfig {
             "/image/**", // 이미지 리소스 및 API
             "/favicon.ico", // 
 
-            "/custom/**", // 커스텀 칵테일 레시피 API
+            "/craft/**,", // 커스텀 칵테일 레시피 API
             "/cocktails/**", // 기본 칵테일 레시피 API
             "/season", // 계절별 칵테일 추천 API
 
