@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 페이지 로드 시 초기 상태 설정
     if (searchOptions.style.display === 'none') {
-        cocktailButtons.classList.remove('search-hidden');
+        cocktailButtons.classList.remove('hidden');
     }
 
     // 검색 버튼 토글
@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 searchOptions.style.display = 'block';
                 searchGuide.style.display = 'block';
                 toggleButton.textContent = '검색 옵션 숨기기';
-                cocktailButtons.classList.add('search-hidden');
+                cocktailButtons.classList.add('hidden');
             } else {
                 searchOptions.style.display = 'none';
                 searchGuide.style.display = 'none';
                 toggleButton.textContent = '검색 옵션 토글';
-                cocktailButtons.classList.remove('search-hidden');
+                cocktailButtons.classList.remove('hidden');
             }
         });
     }

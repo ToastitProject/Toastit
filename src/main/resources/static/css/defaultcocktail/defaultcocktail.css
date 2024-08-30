@@ -5,6 +5,8 @@ body {
     color: #333;
 }
 
+
+/* 베너 스타일 */
 .default-banner {
     position: relative;
     width: 100%;
@@ -42,6 +44,64 @@ body {
      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
  }
 
+
+/* 검색 안내 스타일*/
+#search-guide {
+    text-align: right;
+    color: #666666;
+    font-size: 15px;
+    margin-bottom: -5px;
+    margin-right: 4rem;
+}
+
+
+/* 검색 버튼 스타일*/
+.cocktail-buttons {
+    display: flex;
+    justify-content: right;
+    gap: 10px;
+    margin-bottom: 2rem;
+    margin-right: 1rem;
+}
+
+#searchOptions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#searchOptions input {
+    flex: 1;
+    padding: 8px;
+    border: transparent;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0 0 5px 5px;
+}
+
+.cocktail-button {
+    padding: 10px 12px;
+    background-color: transparent;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cocktail-button:hover {
+    background-color: #FF8C00;
+}
+
+.cocktail-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+.cocktail-button:hover svg path {
+    fill: white;
+}
+
+/* 검색 결과 스타일 */
 .search-result {
     border: 1px solid #ddd;
     padding: 5px;
@@ -95,39 +155,6 @@ body {
 .pagination a:hover {
     background-color: #FF8C00;
     color: white;
-}
-
-#search-guide {
-    text-align: center;
-    color: #666666;
-    font-size: 15px;
-    margin-bottom: -5px;
-}
-
-.cocktail-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    transition: margin-right 0.1s ease;
-}
-
-.cocktail-buttons.search-hidden {
-    margin-right: 67px;
-}
-
-.cocktail-button {
-    padding: 10px 15px;
-    background-color: #FFA832;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.cocktail-button:hover {
-    background-color: #FF8C00;
 }
 
 .error-message {
