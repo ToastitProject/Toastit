@@ -1,28 +1,4 @@
-package alcoholboot.toastit.feature.amazonimage.controller;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import alcoholboot.toastit.feature.amazonimage.domain.Image;
-import alcoholboot.toastit.feature.amazonimage.service.ImageService;
-import alcoholboot.toastit.feature.amazonimage.service.S3imageUploadService;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
-import java.util.List;
+package alcoholboot.toastit.feature.image.controller;
 
 //@SpringBootTest
 //@AutoConfigureMockMvc
@@ -32,13 +8,13 @@ public class ImageUploadControllerTest {
 //    private MockMvc mockMvc;
 //
 //    @Mock
-//    private S3imageUploadService s3imageUploadService;
+//    private CloudStorageServiceImpl s3imageUploadService;
 //
 //    @Mock
 //    private ImageService imageService;
 //
 //    @InjectMocks
-//    private ImageUploadController imageUploadController;
+//    private ImageController imageUploadController;
 //
 //    @BeforeEach
 //    public void setUp() {

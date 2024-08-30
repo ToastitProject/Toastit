@@ -5,12 +5,13 @@ import alcoholboot.toastit.auth.jwt.entity.TokenEntity;
 import alcoholboot.toastit.auth.jwt.repository.TokenRepository;
 import alcoholboot.toastit.auth.jwt.service.TokenService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
-import alcoholboot.toastit.feature.amazonimage.domain.Image;
-import alcoholboot.toastit.feature.amazonimage.service.ImageService;
+import alcoholboot.toastit.feature.image.entity.ImageEntity;
+import alcoholboot.toastit.feature.image.entity.ImageEntity;
+import alcoholboot.toastit.feature.image.service.CloudStorageService;
+import alcoholboot.toastit.feature.image.service.ImageService;
 import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
 import alcoholboot.toastit.feature.user.controller.request.UserLoginRequest;
 import alcoholboot.toastit.feature.user.domain.User;
-import alcoholboot.toastit.feature.amazonimage.service.S3imageUploadService;
 import alcoholboot.toastit.feature.user.entity.FollowEntity;
 import alcoholboot.toastit.feature.user.service.FollowService;
 import alcoholboot.toastit.feature.user.service.UserService;
@@ -41,7 +42,7 @@ import java.util.Optional;
 public class UserController {
     private final UserService userService;
     private final TokenService tokenService;
-    private final S3imageUploadService s3imageUploadService;
+    private final CloudStorageService cloudStorageService;
     private final ImageService imageService;
 
     private final PasswordEncoder passwordEncoder;
@@ -334,28 +335,28 @@ public class UserController {
 
             try{
                 log.info("upload try start!!!");
-                String imageUrl = s3imageUploadService.uploadProfileImage(filePath);
+                String imageUrl = cloudStorageService.uploadProfileImage(filePath);
                 log.info("AWS bucket /profile 에 이미지 업로드 성공");
 
                 if(imageService.findByUserId(user.getId()) != null) { //DB에 user ID 가 존재하는 경우 새로 생성하지 않는다.
                     log.info("DB에 이미지 테이블을 가지고 있는 User 가 접근");
-                    Image image = imageService.findByUserId(user.getId());
-                    image.setImageName(filePath.getOriginalFilename());
-                    image.setImagePath(imageUrl);
-                    image.setImageType(filePath.getContentType());
-                    image.setImageSize(String.valueOf(filePath.getSize()));
-                    image.setImageUse("profile");
-                    imageService.save(image);
+                    ImageEntity imageEntity = imageService.findByUserId(user.getId());
+                    imageEntity.setImageName(filePath.getOriginalFilename());
+                    imageEntity.setImagePath(imageUrl);
+                    imageEntity.setImageType(filePath.getContentType());
+                    imageEntity.setImageSize(String.valueOf(filePath.getSize()));
+                    imageEntity.setImageUse("profile");
+                    imageService.save(imageEntity);
                 } else {
                     log.info("DB에 이미지 테이블을 가지고 있지 않은 user 가 접근");
-                    Image image = new Image(); //DB에 User Id가 존재하지 않는 경우 새로운 테이블을 만들어서 저장한다
-                    image.setId(user.getId());
-                    image.setImageName(filePath.getOriginalFilename());
-                    image.setImagePath(imageUrl);
-                    image.setImageType(filePath.getContentType());
-                    image.setImageSize(String.valueOf(filePath.getSize()));
-                    image.setImageUse("profile");
-                    imageService.save(image);
+                    ImageEntity imageEntity = new ImageEntity(); //DB에 User Id가 존재하지 않는 경우 새로운 테이블을 만들어서 저장한다
+                    imageEntity.setId(user.getId());
+                    imageEntity.setImageName(filePath.getOriginalFilename());
+                    imageEntity.setImagePath(imageUrl);
+                    imageEntity.setImageType(filePath.getContentType());
+                    imageEntity.setImageSize(String.valueOf(filePath.getSize()));
+                    imageEntity.setImageUse("profile");
+                    imageService.save(imageEntity);
                 }
 
                 String newUrl = imageUrl.replace("https://s3.amazonaws.com/toastitbucket",

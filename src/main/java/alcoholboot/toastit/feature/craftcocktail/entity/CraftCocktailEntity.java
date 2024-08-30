@@ -1,6 +1,6 @@
 package alcoholboot.toastit.feature.craftcocktail.entity;
 
-import alcoholboot.toastit.feature.amazonimage.domain.Image;
+import alcoholboot.toastit.feature.image.entity.ImageEntity;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.global.entity.JpaAuditingFields;
@@ -37,7 +37,7 @@ public class CraftCocktailEntity extends JpaAuditingFields {
     private String recipe;
 
     @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
-    private List<Image> images = new ArrayList<>();
+    private List<ImageEntity> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
     private List<IngredientEntity> ingredients = new ArrayList<>();

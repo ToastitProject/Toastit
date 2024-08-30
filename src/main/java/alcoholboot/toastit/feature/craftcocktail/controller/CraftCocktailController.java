@@ -1,11 +1,11 @@
 package alcoholboot.toastit.feature.craftcocktail.controller;
 
-import alcoholboot.toastit.feature.amazonimage.domain.Image;
-import alcoholboot.toastit.feature.amazonimage.service.S3imageUploadService;
+import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
+import alcoholboot.toastit.feature.image.entity.ImageEntity;
+import alcoholboot.toastit.feature.image.service.CloudStorageService;
 import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
 import alcoholboot.toastit.feature.craftcocktail.entity.IngredientEntity;
 import alcoholboot.toastit.feature.craftcocktail.controller.request.CraftCocktailCreateRequest;
-import alcoholboot.toastit.feature.craftcocktail.service.impl.CraftCocktailServiceImpl;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.service.LikeService;
@@ -30,8 +30,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CraftCocktailController {
 
-    private final CraftCocktailServiceImpl customCocktailService;
-    private final S3imageUploadService s3imageUploadService;
+    private final CraftCocktailService customCocktailService;
+    private final CloudStorageService cloudStorageService;
     private final UserService userService;
     private final LikeService likeService;
 
@@ -88,15 +88,15 @@ public class CraftCocktailController {
 
                 // 이미지 추가 및 업로드
                 if (craftCocktailCreateRequest.getImage() != null && !craftCocktailCreateRequest.getImage().isEmpty()) {
-                    String imagePath = s3imageUploadService.uploadCustomImage(craftCocktailCreateRequest.getImage());
+                    String imagePath = cloudStorageService.uploadCraftCocktailImage(craftCocktailCreateRequest.getImage());
                     String newUrl = imagePath.replace("https://s3.amazonaws.com/toastitbucket",
                             "https://toastitbucket.s3.ap-northeast-2.amazonaws.com");
-                    Image image = new Image();
-                    image.setImageName(craftCocktailCreateRequest.getImage().getOriginalFilename());
-                    image.setImagePath(newUrl);
-                    image.setUser(user.convertToEntity());
-                    image.setCocktail(craftCocktail);
-                    craftCocktail.getImages().add(image);
+                    ImageEntity imageEntity = new ImageEntity();
+                    imageEntity.setImageName(craftCocktailCreateRequest.getImage().getOriginalFilename());
+                    imageEntity.setImagePath(newUrl);
+                    imageEntity.setUser(user.convertToEntity());
+                    imageEntity.setCocktail(craftCocktail);
+                    craftCocktail.getImages().add(imageEntity);
                 }
 
                 customCocktailService.saveCocktail(craftCocktail);
@@ -136,26 +136,26 @@ public class CraftCocktailController {
 
             // 이미지 업데이트 제어
             if (craftCocktailCreateRequest.getImage() != null && !craftCocktailCreateRequest.getImage().isEmpty()) {
-                String imagePath = s3imageUploadService.uploadCustomImage(craftCocktailCreateRequest.getImage());
+                String imagePath = cloudStorageService.uploadCraftCocktailImage(craftCocktailCreateRequest.getImage());
                 String newUrl = imagePath.replace("https://s3.amazonaws.com/toastitbucket",
                         "https://toastitbucket.s3.ap-northeast-2.amazonaws.com");
 
-                Image existingImage = existingCocktail.getImages().stream()
+                ImageEntity existingImageEntity = existingCocktail.getImages().stream()
                         .filter(img -> img.getImageName().equals(craftCocktailCreateRequest.getImage().getOriginalFilename()))
                         .findFirst()
                         .orElse(null);
 
-                if (existingImage != null) {
+                if (existingImageEntity != null) {
                     // 기존 이미지 업데이트
-                    existingImage.setImagePath(newUrl);
+                    existingImageEntity.setImagePath(newUrl);
                 } else {
                     // 새로운 이미지 추가
-                    Image newImage = new Image();
-                    newImage.setImageName(craftCocktailCreateRequest.getImage().getOriginalFilename());
-                    newImage.setImagePath(newUrl);
-                    newImage.setCocktail(existingCocktail);
+                    ImageEntity newImageEntity = new ImageEntity();
+                    newImageEntity.setImageName(craftCocktailCreateRequest.getImage().getOriginalFilename());
+                    newImageEntity.setImagePath(newUrl);
+                    newImageEntity.setCocktail(existingCocktail);
 
-                    existingCocktail.getImages().add(newImage);
+                    existingCocktail.getImages().add(newImageEntity);
                 }
             }
 
