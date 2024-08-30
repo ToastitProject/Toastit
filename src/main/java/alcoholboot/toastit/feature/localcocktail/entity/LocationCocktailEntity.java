@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @Entity
 @Table(name = "location_cocktails")
-public class LocationCocktail {
+public class LocationCocktailEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

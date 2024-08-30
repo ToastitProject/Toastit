@@ -1,16 +1,16 @@
 package alcoholboot.toastit.feature.localcocktail.repository;
 
-import alcoholboot.toastit.feature.localcocktail.entity.LocationCocktail;
+import alcoholboot.toastit.feature.localcocktail.entity.LocationCocktailEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- * LocationCocktail 엔티티를 관리하는 레포지토리 인터페이스
+ * LocationCocktailEntity 엔티티를 관리하는 레포지토리 인터페이스
  */
 @Repository
-public interface LocationCocktailRepository extends JpaRepository<LocationCocktail, Long> {
+public interface LocationCocktailRepository extends JpaRepository<LocationCocktailEntity, Long> {
 
     /**
      * 시와 도에 따라 재료를 조회하는 쿼리
@@ -21,7 +21,7 @@ public interface LocationCocktailRepository extends JpaRepository<LocationCockta
      */
     @Query("""
             SELECT r.ingredient1, r.ingredient2, r.ingredient3, r.ingredient4
-            FROM LocationCocktail r
+            FROM LocationCocktailEntity r
             WHERE r.si = :si
             AND (:deo IS NULL OR r.deo = :deo)
             """)
