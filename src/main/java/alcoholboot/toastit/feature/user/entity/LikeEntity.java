@@ -2,7 +2,7 @@ package alcoholboot.toastit.feature.user.entity;
 
 import alcoholboot.toastit.feature.craftcocktail.domain.CustomCocktail;
 import alcoholboot.toastit.feature.user.domain.Like;
-import alcoholboot.toastit.global.Entity.JpaAuditingFields;
+import alcoholboot.toastit.global.entity.JpaAuditingFields;
 import jakarta.persistence.*;
 import lombok.*;
 import org.bson.types.ObjectId;

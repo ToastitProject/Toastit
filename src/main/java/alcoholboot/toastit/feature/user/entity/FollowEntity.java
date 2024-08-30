@@ -1,7 +1,7 @@
 package alcoholboot.toastit.feature.user.entity;
 
 import alcoholboot.toastit.feature.user.domain.Follow;
-import alcoholboot.toastit.global.Entity.JpaAuditingFields;
+import alcoholboot.toastit.global.entity.JpaAuditingFields;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,13 +1,12 @@
-package alcoholboot.toastit.feature.recommendByLocation.Entity;
+package alcoholboot.toastit.feature.localcocktail.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 
-
 @Entity
 @Table
 @Getter
-public class RecommendByLocation {
+public class LocationCocktail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

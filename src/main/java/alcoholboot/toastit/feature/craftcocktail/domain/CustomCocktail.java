@@ -3,7 +3,7 @@ package alcoholboot.toastit.feature.craftcocktail.domain;
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
-import alcoholboot.toastit.global.Entity.JpaAuditingFields;
+import alcoholboot.toastit.global.entity.JpaAuditingFields;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

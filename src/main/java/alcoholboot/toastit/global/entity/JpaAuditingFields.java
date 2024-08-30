@@ -1,4 +1,4 @@
-package alcoholboot.toastit.global.Entity;
+package alcoholboot.toastit.global.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
