@@ -1,6 +1,6 @@
 package alcoholboot.toastit.feature.craftcocktail.service;
 
-import alcoholboot.toastit.feature.craftcocktail.domain.CustomCocktail;
+import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
 import alcoholboot.toastit.feature.craftcocktail.repository.CustomCocktailRepository;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,25 +13,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CustomCocktailService {
+public class CraftCocktailService {
 
     private final CustomCocktailRepository customCocktailRepository;
 
     @Autowired
-    public CustomCocktailService(CustomCocktailRepository customCocktailRepository) {
+    public CraftCocktailService(CustomCocktailRepository customCocktailRepository) {
         this.customCocktailRepository = customCocktailRepository;
     }
 
-    public List<CustomCocktail> getAllCocktails() {
-        return (List<CustomCocktail>) customCocktailRepository.findAll();
+    public List<CraftCocktail> getAllCocktails() {
+        return (List<CraftCocktail>) customCocktailRepository.findAll();
     }
 
-    public void saveCocktail(CustomCocktail customCocktail) {
+    public void saveCocktail(CraftCocktail customCocktail) {
         customCocktailRepository.save(customCocktail);
     }
 
-    public CustomCocktail getCocktailById(Long id) {
-        Optional<CustomCocktail> cocktail = customCocktailRepository.findById(id);
+    public CraftCocktail getCocktailById(Long id) {
+        Optional<CraftCocktail> cocktail = customCocktailRepository.findById(id);
         return cocktail.orElseThrow(() -> new RuntimeException("Cocktail not found"));
     }
 
@@ -39,7 +39,7 @@ public class CustomCocktailService {
         return customCocktailRepository.findUserByName(username);
     }
 
-    public CustomCocktail findIdByName(String cocktailName) {
+    public CraftCocktail findIdByName(String cocktailName) {
         return customCocktailRepository.findIdByName(cocktailName);
     }
 
@@ -47,22 +47,22 @@ public class CustomCocktailService {
         customCocktailRepository.deleteById(id);
     }
 
-    public List<CustomCocktail> getCocktailsByUserIds(List<Long> ids) {
+    public List<CraftCocktail> getCocktailsByUserIds(List<Long> ids) {
         return customCocktailRepository.getCocktailsByUserIds(ids);
     }
 
     //등록된 커스텀 레시피 중, 최신 등록된 레시피를 limit 개 가져온다.
-    public List<CustomCocktail> getLatestCocktails(int limit) {
+    public List<CraftCocktail> getLatestCocktails(int limit) {
         Pageable pageable = PageRequest.of(0, limit);
         return customCocktailRepository.findTop5ByOrderByCreateDateDesc(pageable);
     }
     //등록된 커스텀 레시피 중, 좋아요를 많이 받은 레시피를 limit 개 가져온다.
-    public List<CustomCocktail> getTopNCocktails(int limit) {
+    public List<CraftCocktail> getTopNCocktails(int limit) {
         Pageable pageable = PageRequest.of(0, limit);
         return customCocktailRepository.findTopByOrderByLikesDesc(pageable);
     }
     //등록된 커스텀 레시피 중, 팔로우가 많이 된 사용자들의 레시피를 limit 개 가져온다.
-    public List<CustomCocktail> getTopNCocktailsByFollowerCount(int limit) {
+    public List<CraftCocktail> getTopNCocktailsByFollowerCount(int limit) {
         Pageable pageable = PageRequest.of(0, limit); // 페이지 번호 0, 가져올 수 limit
         return customCocktailRepository.findTopByOrderByFollowerCountDesc(pageable);
     }

@@ -1,7 +1,7 @@
 package alcoholboot.toastit;
 
-import alcoholboot.toastit.feature.craftcocktail.domain.CustomCocktail;
-import alcoholboot.toastit.feature.craftcocktail.service.CustomCocktailService;
+import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
+import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
 import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,14 +19,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeController {
     private final CocktailService cocktailService; //기본 레시피
-    private final CustomCocktailService customCocktailService; //커스텀 레시피
+    private final CraftCocktailService customCocktailService; //커스텀 레시피
 
     @GetMapping
     public String showHomePage(@RequestParam(value = "sort",defaultValue = "latest") String sort, Model model) {
         log.info("술프링 부트에 오신걸 환영합니다.");
 
         //조건에 맞는 커스텀 칵테일 뿌려주기
-        List<CustomCocktail> cocktails;
+        List<CraftCocktail> cocktails;
         log.info("화면에서 보내준 sort 값 : "+sort);
         switch (sort) {
             case "popular":

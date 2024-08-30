@@ -165,7 +165,7 @@
   <div class="container">
     <div class="action-buttons" th:if="${isOwner}">
       <a href="#" onclick="showEditForm()">수정</a>
-      <form id="deleteForm" method="post" th:action="@{/custom/delete/{id}(id=${cocktail.id})}" style="display:inline;">
+      <form id="deleteForm" method="post" th:action="@{/craft/delete/{id}(id=${cocktail.id})}" style="display:inline;">
         <input type="hidden" name="_method" value="DELETE" />
         <button type="button" onclick="confirmDelete()">삭제</button>
       </form>
@@ -273,7 +273,7 @@
   }
 
   function showEditForm() {
-    window.location.href = '/custom/edit/' + [[${cocktail.id}]];
+    window.location.href = '/craft/edit/' + [[${cocktail.id}]];
   }
 </script>
 
