@@ -1,4 +1,4 @@
-package alcoholboot.toastit.global.Entity;
+package alcoholboot.toastit.global.entity;
 
 import lombok.Getter;
 import org.bson.types.ObjectId;
