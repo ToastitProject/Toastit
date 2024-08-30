@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.customcocktail.domain;
+package alcoholboot.toastit.feature.craftcocktail.domain;
 
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;

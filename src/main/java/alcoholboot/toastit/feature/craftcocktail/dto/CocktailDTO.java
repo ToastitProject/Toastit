@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.customcocktail.dto;
+package alcoholboot.toastit.feature.craftcocktail.dto;
 
 import lombok.Getter;
 import lombok.Setter;

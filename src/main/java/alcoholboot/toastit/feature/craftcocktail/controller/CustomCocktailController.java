@@ -1,17 +1,16 @@
-package alcoholboot.toastit.feature.customcocktail.controller;
+package alcoholboot.toastit.feature.craftcocktail.controller;
 
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.feature.amazonimage.service.S3imageUploadService;
-import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
-import alcoholboot.toastit.feature.customcocktail.domain.Ingredient;
-import alcoholboot.toastit.feature.customcocktail.dto.CocktailDTO;
-import alcoholboot.toastit.feature.customcocktail.service.CustomCocktailService;
+import alcoholboot.toastit.feature.craftcocktail.domain.CustomCocktail;
+import alcoholboot.toastit.feature.craftcocktail.domain.Ingredient;
+import alcoholboot.toastit.feature.craftcocktail.dto.CocktailDTO;
+import alcoholboot.toastit.feature.craftcocktail.service.CustomCocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.service.LikeService;
 import alcoholboot.toastit.feature.user.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -191,7 +189,6 @@ public class CustomCocktailController {
             //칵테일도 지운다
             customCocktailService.deleteCocktail(id);
             redirectAttributes.addFlashAttribute("message", "칵테일이 성공적으로 삭제되었습니다.");
-            System.out.println("칵테일 삭제");
             return "redirect:/custom";
         } catch (Exception e) {
             log.error("칵테일 삭제 실패: ", e);

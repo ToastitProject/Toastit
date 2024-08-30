@@ -68,7 +68,13 @@
             box-sizing: border-box;
             text-decoration: none; /* 링크의 기본 텍스트 꾸미기 제거 */
             color: inherit; /* 텍스트 색상 상속 */
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
+
+        .post:hover {
+            transform: scale(1.1);
+        }
+
         .post img {
             width: 100%;
             border-radius: 5px;
@@ -76,9 +82,6 @@
             object-fit: cover; /* 이미지 비율 유지 */
         }
         .nickname-and-date {
-            display: flex;
-            justify-content: space-between; /* 좌우 정렬 */
-            align-items: center; /* 세로 가운데 정렬 */
             font-size: 14px;
             color: gray;
             margin-top: 5px;
@@ -90,7 +93,8 @@
         }
 
         .date-time {
-            text-align: right; /* 오른쪽 정렬 */
+            display: block; /* 날짜와 시간을 새로운 줄로 이동 */
+            margin-top: 5px; /* 닉네임과 날짜 사이의 간격 설정 */
         }
 
         @media (max-width: 768px) {
