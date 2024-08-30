@@ -95,6 +95,7 @@ function verifyAuthCode() {
             sessionStorage.setItem("emailVerified", "true"); // 세션 스토리지에 이메일 인증 상태 저장
             sessionStorage.setItem("verifiedEmail", email); // 인증된 이메일 저장
 
+            // 비밀번호 입력란을 보이게 함
             document.getElementById("userDetailsSection").classList.remove("hidden");
             document.getElementById("authSection").classList.add("hidden");
             document.getElementById("submitButton").classList.remove("hidden");
@@ -106,6 +107,7 @@ function verifyAuthCode() {
         }
     });
 }
+
 
 // 인증 코드 재발송을 처리하는 함수
 function resendAuthCode() {

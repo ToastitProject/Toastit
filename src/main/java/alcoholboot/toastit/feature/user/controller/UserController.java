@@ -63,6 +63,7 @@ public class UserController {
                         BindingResult bindingResult,
                         HttpServletResponse response,
                         Model model) {
+
         log.info(userLoginDto.getEmail() + " 해당 이메일이 로그인 요청을 하였습니다.");
 
         // 필드 에러 확인

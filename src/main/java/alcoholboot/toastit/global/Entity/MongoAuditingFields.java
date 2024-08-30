@@ -1,9 +1,10 @@
 package alcoholboot.toastit.global.Entity;
 
 import lombok.Getter;
-import lombok.ToString;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,8 +14,7 @@ import java.time.LocalDateTime;
  * create, modify date 추상 클래스
  */
 @Getter
-@ToString
-public abstract class MongoAuditingFields {
+public abstract class MongoAuditingFields implements Persistable<ObjectId> {
 
     /**
      * 다큐먼트 생성 시 create_date 자동 생성 및 수정 불가
@@ -31,4 +31,9 @@ public abstract class MongoAuditingFields {
     @LastModifiedDate
     @Field("modify_date")
     protected LocalDateTime modifyDate;
+
+    @Override
+    public boolean isNew() {
+        return createDate == null;
+    }
 }

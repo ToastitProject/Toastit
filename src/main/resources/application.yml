@@ -31,3 +31,7 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
       file-size-threshold: 10MB
+
+mybatis:
+  mapper-locations: templates/feature/api/mappers/*.xml
+  type-aliases-package: alcoholboot.toastit.feature.api.dto

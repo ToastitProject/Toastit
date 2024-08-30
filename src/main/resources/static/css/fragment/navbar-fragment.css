@@ -1,9 +1,7 @@
 body {
     font-family: 'Gmarket Sans', sans-serif;
     margin: 0;
-    padding: 0;
-    max-width: 1800px;
-    padding-top: 94px; /* 헤더의 높이만큼 상단 여백 추가 */
+
 }
 
 header {
@@ -20,6 +18,7 @@ header {
     right: 0;
     z-index: 1000; /* 헤더가 다른 요소들 위에 위치하도록 설정 */
     border-bottom: 2px solid #FFA832; /* 주황색 선 추가 */
+    min-width: 600px;
 }
 
 .logo {
