@@ -31,7 +31,7 @@
 <div class="cocktail-buttons">
     <div id="searchOptions">
         <form th:action="@{/cocktails/complex}" method="get">
-            <input type="text" id="ingredientInput" name="ingredient" th:value="${ingredient}" th:autocomplete="off" placeholder="재료 (예: 보드카, 럼)">
+            <input type="text" id="ingredientInput" name="ingredientEntity" th:value="${ingredientEntity}" th:autocomplete="off" placeholder="재료 (예: 보드카, 럼)">
             <input type="text" id="glassInput" name="glass" th:value="${glass}" th:autocomplete="off" placeholder="잔 종류 (예: 칵테일 잔)">
             <input type="text" id="categoryInput" name="type" th:value="${type}" th:autocomplete="off" placeholder="타입 (예: 칵테일, 일반 음료)">
             <button id="searchButton" class="cocktail-button" type="submit" aria-label="검색">

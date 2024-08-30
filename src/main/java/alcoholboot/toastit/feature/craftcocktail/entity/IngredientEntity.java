@@ -1,18 +1,19 @@
-package alcoholboot.toastit.feature.craftcocktail.domain;
+package alcoholboot.toastit.feature.craftcocktail.entity;
 
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "ingredient")
+@Table(name = "ingredients")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ingredient {
+public class IngredientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +30,5 @@ public class Ingredient {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cocktail_id")
-    private CraftCocktail cocktail;
+    private CraftCocktailEntity cocktail;
 }

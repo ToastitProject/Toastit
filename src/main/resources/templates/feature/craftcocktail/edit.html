@@ -178,17 +178,17 @@
             <input type="text" id="description" name="description" placeholder="칵테일 소개를 적어주세요." maxlength="500" required th:value="${cocktail.description}" class="tall-input"></input>
         </div>
 
-        <!-- Ingredient Section -->
-        <div class="section" id="ingredient-section">
+        <!-- IngredientEntity Section -->
+        <div class="section" id="ingredientEntity-section">
             <label>재료 정보</label>
             <div id="ingredients">
                 <!-- 기존 재료 데이터 로드 -->
-                <div th:each="ingredient, iterStat : ${cocktail.ingredients}">
-                    <div class="ingredient">
+                <div th:each="ingredientEntity, iterStat : ${cocktail.ingredients}">
+                    <div class="ingredientEntity">
                         <label th:text="'재료 ' + ${iterStat.index + 1}"></label>
-                        <input type="text" th:name="'ingredients[' + ${iterStat.index} + '].name'" th:value="${ingredient.name}" placeholder="재료 이름을 입력해주세요(소주 등)" required>
-                        <input type="text" th:name="'ingredients[' + ${iterStat.index} + '].amount'" th:value="${ingredient.amount}" placeholder="용량(수치)" required>
-                        <input type="text" th:name="'ingredients[' + ${iterStat.index} + '].unit'" th:value="${ingredient.unit}" placeholder="단위를 입력해주세요(ml, teaspoon 등)" required>
+                        <input type="text" th:name="'ingredients[' + ${iterStat.index} + '].name'" th:value="${ingredientEntity.name}" placeholder="재료 이름을 입력해주세요(소주 등)" required>
+                        <input type="text" th:name="'ingredients[' + ${iterStat.index} + '].amount'" th:value="${ingredientEntity.amount}" placeholder="용량(수치)" required>
+                        <input type="text" th:name="'ingredients[' + ${iterStat.index} + '].unit'" th:value="${ingredientEntity.unit}" placeholder="단위를 입력해주세요(ml, teaspoon 등)" required>
                         <button type="button" class="remove-btn" onclick="removeIngredient(this)">x</button>
                     </div>
                 </div>
@@ -228,14 +228,14 @@
         previewContainer.appendChild(closeButton);
     }
 
-    let ingredientCount = document.querySelectorAll('#ingredients .ingredient').length; // 현재 재료 개수
+    let ingredientCount = document.querySelectorAll('#ingredients .ingredientEntity').length; // 현재 재료 개수
 
     function addIngredient() {
         const ingredientsDiv = document.getElementById('ingredients');
 
         // 새로운 재료 섹션 생성
         const newIngredientDiv = document.createElement('div');
-        newIngredientDiv.classList.add('ingredient');
+        newIngredientDiv.classList.add('ingredientEntity');
 
         newIngredientDiv.innerHTML = `
             <label>재료 ${ingredientCount + 1}</label>
@@ -257,7 +257,7 @@
 
     function updateIngredientLabels() {
         const ingredientsDiv = document.getElementById('ingredients');
-        const ingredientDivs = ingredientsDiv.querySelectorAll('.ingredient');
+        const ingredientDivs = ingredientsDiv.querySelectorAll('.ingredientEntity');
         ingredientDivs.forEach((div, index) => {
             div.querySelector('label').textContent = `재료 ${index + 1}`;
             div.querySelectorAll('input').forEach(input => {

@@ -31,7 +31,7 @@
 <div class="cocktail-buttons">
     <div id="searchOptions">
         <form th:action="@{/cocktails/complex}" method="get">
-            <input type="text" id="ingredientInput" name="ingredient" th:value="${ingredient}" th:autocomplete="off" placeholder="재료 (예: 보드카, 럼)">
+            <input type="text" id="ingredientInput" name="ingredientEntity" th:value="${ingredientEntity}" th:autocomplete="off" placeholder="재료 (예: 보드카, 럼)">
             <input type="text" id="glassInput" name="glass" th:value="${glass}" th:autocomplete="off" placeholder="잔 종류 (예: 칵테일 잔)">
             <input type="text" id="categoryInput" name="type" th:value="${type}" th:autocomplete="off" placeholder="타입 (예: 칵테일, 일반 음료)">
             <button id="searchButton" class="cocktail-button" type="submit" aria-label="검색">
@@ -43,9 +43,9 @@
     </div>
 </div>
 
-<div th:if="${ingredient != null or glass != null or type != null}" class="search-result">
+<div th:if="${ingredientEntity != null or glass != null or type != null}" class="search-result">
     <h2>검색 조건:</h2>
-    <p th:if="${ingredient}">재료: <span th:text="${ingredient}"></span></p>
+    <p th:if="${ingredientEntity}">재료: <span th:text="${ingredientEntity}"></span></p>
     <p th:if="${glass}">잔 종류: <span th:text="${glass}"></span></p>
     <p th:if="${type}">카테고리: <span th:text="${type}"></span></p>
 </div>
@@ -72,7 +72,7 @@
     <a th:if="${currentPage > 0}"
        th:href="@{/cocktails/complex(
            page=${currentPage - 1},
-           ingredient=${ingredient != null ? ingredient : null},
+           ingredientEntity=${ingredientEntity != null ? ingredientEntity : null},
            glass=${glass != null ? glass : null},
            type=${type != null ? type : null}
        )}">이전</a>
@@ -80,7 +80,7 @@
     <a th:if="${currentPage < totalPages - 1}"
        th:href="@{/cocktails/complex(
            page=${currentPage + 1},
-           ingredient=${ingredient != null ? ingredient : null},
+           ingredientEntity=${ingredientEntity != null ? ingredientEntity : null},
            glass=${glass != null ? glass : null},
            type=${type != null ? type : null}
        )}">다음</a>

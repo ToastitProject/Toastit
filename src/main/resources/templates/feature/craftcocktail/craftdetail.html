@@ -72,10 +72,10 @@
       border-radius: 12px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    .ingredient-list {
+    .ingredientEntity-list {
       margin-bottom: 20px;
     }
-    .ingredient-list li {
+    .ingredientEntity-list li {
       font-size: 16px;
       margin-bottom: 5px;
     }
@@ -191,11 +191,11 @@
 
   <div class="container1">
     <div class="section-title">재료</div>
-    <ul class="ingredient-list">
-      <li th:each="ingredient : ${cocktail.ingredients}">
-        <span th:text="${ingredient.name}">재료명</span> -
-        <span th:text="${ingredient.amount}">양</span>
-        <span th:text="${ingredient.unit}">단위</span>
+    <ul class="ingredientEntity-list">
+      <li th:each="ingredientEntity : ${cocktail.ingredients}">
+        <span th:text="${ingredientEntity.name}">재료명</span> -
+        <span th:text="${ingredientEntity.amount}">양</span>
+        <span th:text="${ingredientEntity.unit}">단위</span>
       </li>
     </ul>
   </div>

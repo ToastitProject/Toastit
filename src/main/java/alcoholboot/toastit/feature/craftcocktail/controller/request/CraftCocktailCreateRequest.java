@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.craftcocktail.dto;
+package alcoholboot.toastit.feature.craftcocktail.controller.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CocktailDTO {
+public class CraftCocktailCreateRequest {
+
     private String name;
     private String description;
     private String recipe;
@@ -24,4 +25,3 @@ public class CocktailDTO {
         private String unit;
     }
 }
-

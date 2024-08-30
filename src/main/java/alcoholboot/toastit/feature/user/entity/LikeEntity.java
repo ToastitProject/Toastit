@@ -1,6 +1,6 @@
 package alcoholboot.toastit.feature.user.entity;
 
-import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
+import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
 import alcoholboot.toastit.feature.user.domain.Like;
 import alcoholboot.toastit.global.entity.JpaAuditingFields;
 import jakarta.persistence.*;
@@ -25,7 +25,7 @@ public class LikeEntity extends JpaAuditingFields {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "custom_cocktail_id", nullable = true)
-    private CraftCocktail customCocktail;
+    private CraftCocktailEntity customCocktail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
