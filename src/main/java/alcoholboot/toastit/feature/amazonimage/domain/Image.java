@@ -1,6 +1,6 @@
 package alcoholboot.toastit.feature.amazonimage.domain;
 
-import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
+import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.global.entity.JpaAuditingFields;
 import jakarta.persistence.*;
@@ -42,6 +42,6 @@ public class Image extends JpaAuditingFields {
 
     @ManyToOne
     @JoinColumn(name = "cocktail_id") // 외래 키 이름 설정
-    private CraftCocktail cocktail;
+    private CraftCocktailEntity cocktail;
 
 }

@@ -35,7 +35,7 @@
     <!-- 두 번째 라운드 사각형: 재료 -->
     <div class="round-rectangle">
         <h2>재료</h2>
-        <ul class="ingredient-list">
+        <ul class="ingredientEntity-list">
             <li th:if="${cocktail.get().strIngredient1 != null and !cocktail.get().strIngredient1.isEmpty()}"
                 th:text="${cocktail.get().strIngredient1 + (cocktail.get().strMeasure1 != null and !cocktail.get().strMeasure1.isEmpty() ? ' - ' + cocktail.get().strMeasure1 : '')}"></li>
             <li th:if="${cocktail.get().strIngredient2 != null and !cocktail.get().strIngredient2.isEmpty()}"

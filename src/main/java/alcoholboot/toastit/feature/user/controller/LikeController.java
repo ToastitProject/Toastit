@@ -1,8 +1,8 @@
 
 package alcoholboot.toastit.feature.user.controller;
 
-import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
-import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
+import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
+import alcoholboot.toastit.feature.craftcocktail.service.impl.CraftCocktailServiceImpl;
 import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
 import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
@@ -29,7 +29,7 @@ import java.util.Optional;
 public class LikeController {
     private final UserService userService;
     private final LikeService likeService;
-    private final CraftCocktailService customCocktailService;
+    private final CraftCocktailServiceImpl customCocktailService;
     private final CocktailService cocktailService;
 
     //커스텀 칵테일에 좋아요를 표시하는 기능
@@ -42,7 +42,7 @@ public class LikeController {
 
         String cocktailName = requestBody.get("drink-name");
 
-        CraftCocktail cocktail = customCocktailService.findIdByName(cocktailName);
+        CraftCocktailEntity cocktail = customCocktailService.findIdByName(cocktailName);
 
         log.info("현재 로그인 한 user email : " + loginUserEmail);
         log.info("좋아요 할 칵테일 레시피의 ID :" + cocktail.getId());
