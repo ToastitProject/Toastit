@@ -1,100 +1,84 @@
 package alcoholboot.toastit.feature.localcocktail.controller;
 
 import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
-import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
-import alcoholboot.toastit.feature.localcocktail.service.LocationService;
-import lombok.Getter;
+import alcoholboot.toastit.feature.localcocktail.controller.request.LocationDataRequest;
+import alcoholboot.toastit.feature.localcocktail.service.LocationCocktailService;
+import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
-@Controller
+/**
+ * 위치 기반 요청을 처리하는 컨트롤러
+ */
 @Slf4j
+@Controller
 @RequiredArgsConstructor
 public class LocationController {
-    private final LocationService LocationService;
-    private final CocktailService cocktailService;
 
-    // API KEY
+    /**
+     * 구글 맵 API 키
+     */
     @Value("${google.maps.api.key}")
     private String mapsApiKey;
 
-    // GEO API KEY
+    /**
+     * 구글 지오코딩 API 키
+     */
     @Value("${google.geocoding.api.key}")
     private String geocodingApiKey;
 
+    private final LocationCocktailService locationCocktailService;
+
+    /**
+     * "/map" 엔드포인트에 대한 GET 요청 처리
+     *
+     * @param model API 키를 뷰에 전달하기 위한 모델
+     * @return 맵 페이지의 뷰 이름
+     */
     @GetMapping("/map")
     public String map(Model model) {
-        log.debug("map 으로 GetMapping 이 들어옴");
+
+        log.debug("/map 경로에 대한 GET 요청을 수신했습니다.");
+
         model.addAttribute("mapsApiKey", mapsApiKey);
         model.addAttribute("geocodingApiKey", geocodingApiKey);
+
         return "feature/maps/main";
     }
 
+    /**
+     * "/map" 엔드포인트에 대한 POST 요청 처리
+     *
+     * @param request 위치 데이터를 포함한 요청 본문
+     * @return 추천 칵테일 또는 에러 메시지를 포함한 ResponseEntity
+     */
     @PostMapping("/map")
-    public ResponseEntity<?> receiveLocation(@RequestBody LocationData locationData) {
-        log.debug("postMapping 요청");
-        log.debug("사용자로 부터 받은 지역 : " + locationData.getProvince());
-        log.debug("사용자로 부터 받은 시 : " + locationData.getCity());
+    public ResponseEntity<?> receiveLocation(@RequestBody LocationDataRequest request) {
 
-        String deo = locationData.getProvince();
-        String si = locationData.getCity();
+        log.debug("POST 요청 /map - 위치 정보: 도 : {}, 시 : {}", request.getProvince(), request.getCity());
 
-        log.debug("쿼리문을 돌릴 문자열 광역시/도 : " + deo);
-        log.debug("쿼리문을 돌릴 문자열 시 : " + si);
+        Cocktail locationCocktail = locationCocktailService.getCocktailForLocation(request.getCity(), request.getProvince());
 
-        // **시(도) **시(군) 에서 저장된 재료 4개를 List 로 불러온다
-        String ingredientsString = LocationService.getIngredients(si, deo);
-        List<String> ingredients = Arrays.asList(ingredientsString.split(","));
-
-        // 재료가 비어 있는지 확인
-        if (ingredients.isEmpty()) {
-            log.debug("저장된 재료가 없습니다.");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("저장된 재료가 없습니다.");
-        } else {
-            for (String ingredient : ingredients) {
-                log.debug("저장된 재료들 : " + ingredient);
-            }
-
-            Random random = new Random();
-            Cocktail recommendedCocktail = null;
-
-            // 칵테일을 찾을 때까지 반복
-            while (recommendedCocktail == null) {
-                String randomIngredient = ingredients.get(random.nextInt(ingredients.size()));
-                log.debug("랜덤으로 선택된 재료 : " + randomIngredient);
-
-                // 랜덤 재료로 뽑힌 칵테일 중 하나를 랜덤으로 뽑는다.
-                List<Cocktail> recommendedCocktails = cocktailService.getCocktailsByIngredient(randomIngredient);
-
-                // 추천된 칵테일이 비어 있는지 확인
-                if (!recommendedCocktails.isEmpty()) {
-                    recommendedCocktail = recommendedCocktails.get(random.nextInt(recommendedCocktails.size()));
-                    log.debug("랜덤으로 뽑힌 칵테일 : " + recommendedCocktail.getStrDrink());
-                } else {
-                    log.debug("추천된 칵테일이 없습니다. 다른 재료를 선택합니다.");
-                }
-            }
-
-            log.debug("view 로 추천 칵테일 하나를 보내준다 : " + recommendedCocktail.getStrDrink());
-            return ResponseEntity.ok(recommendedCocktail);
+        if (locationCocktail == null) {
+            log.debug("해당 위치에 적합한 재료를 찾을 수 없습니다.");
+            return ResponseEntity.status(CommonExceptionCode.LOCATION_COCKTAIL_NOT_FOUND.getCode())
+                    .body(CommonExceptionCode.LOCATION_COCKTAIL_NOT_FOUND.getData());
         }
-    }
 
-    @Getter
-    public static class LocationData {
-        private String province;
-        private String city;
+        log.debug("추천 칵테일 : {}", locationCocktail.getStrDrink());
+        return ResponseEntity.ok(locationCocktail);
     }
 }
