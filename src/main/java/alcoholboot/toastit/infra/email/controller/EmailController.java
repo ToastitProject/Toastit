@@ -1,10 +1,10 @@
-package alcoholboot.toastit.auth.email.controller;
+package alcoholboot.toastit.infra.email.controller;
 
 import alcoholboot.toastit.feature.user.controller.request.EmailCheckRequest;
 import alcoholboot.toastit.feature.user.controller.request.EmailSendRequest;
-import alcoholboot.toastit.auth.email.service.EmailService;
-import alcoholboot.toastit.auth.email.service.VerificationService;
-import alcoholboot.toastit.auth.email.util.RandomAuthCode;
+import alcoholboot.toastit.infra.email.service.EmailService;
+import alcoholboot.toastit.infra.email.service.VerificationService;
+import alcoholboot.toastit.infra.email.util.RandomAuthCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
