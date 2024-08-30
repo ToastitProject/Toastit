@@ -1,7 +1,7 @@
 package alcoholboot.toastit.feature.user.entity;
 
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
-import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
+import alcoholboot.toastit.feature.craftcocktail.domain.CustomCocktail;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.type.Authority;
 import alcoholboot.toastit.global.Entity.JpaAuditingFields;

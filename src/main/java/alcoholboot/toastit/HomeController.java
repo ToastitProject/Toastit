@@ -1,7 +1,7 @@
 package alcoholboot.toastit;
 
-import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
-import alcoholboot.toastit.feature.customcocktail.service.CustomCocktailService;
+import alcoholboot.toastit.feature.craftcocktail.domain.CustomCocktail;
+import alcoholboot.toastit.feature.craftcocktail.service.CustomCocktailService;
 import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

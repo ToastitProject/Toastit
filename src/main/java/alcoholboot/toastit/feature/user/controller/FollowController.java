@@ -1,12 +1,9 @@
 package alcoholboot.toastit.feature.user.controller;
 
-import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
-import alcoholboot.toastit.feature.customcocktail.service.CustomCocktailService;
-import alcoholboot.toastit.feature.user.domain.Follow;
+import alcoholboot.toastit.feature.craftcocktail.domain.CustomCocktail;
+import alcoholboot.toastit.feature.craftcocktail.service.CustomCocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.FollowEntity;
-import alcoholboot.toastit.feature.user.entity.UserEntity;
-import alcoholboot.toastit.feature.user.repository.FollowRepository;
 import alcoholboot.toastit.feature.user.service.FollowService;
 import alcoholboot.toastit.feature.user.service.UserService;
 import lombok.RequiredArgsConstructor;

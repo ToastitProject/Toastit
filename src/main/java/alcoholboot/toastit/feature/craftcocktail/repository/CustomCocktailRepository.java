@@ -1,6 +1,6 @@
-package alcoholboot.toastit.feature.customcocktail.repository;
+package alcoholboot.toastit.feature.craftcocktail.repository;
 
-import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
+import alcoholboot.toastit.feature.craftcocktail.domain.CustomCocktail;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

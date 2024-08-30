@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.recommendbydate.service;
+package alcoholboot.toastit.feature.calendarcocktail.service;
 
 import org.springframework.stereotype.Service;
 

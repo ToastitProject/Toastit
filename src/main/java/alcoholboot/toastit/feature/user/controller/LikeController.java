@@ -1,8 +1,8 @@
 
 package alcoholboot.toastit.feature.user.controller;
 
-import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
-import alcoholboot.toastit.feature.customcocktail.service.CustomCocktailService;
+import alcoholboot.toastit.feature.craftcocktail.domain.CustomCocktail;
+import alcoholboot.toastit.feature.craftcocktail.service.CustomCocktailService;
 import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
 import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
@@ -17,10 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 import java.util.Optional;

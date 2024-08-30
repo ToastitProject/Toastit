@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.recommendbydate.entity;
+package alcoholboot.toastit.feature.calendarcocktail.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
