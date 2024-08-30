@@ -52,6 +52,7 @@ public class SecurityConfig {
 
             "/custom/**", // 커스텀 칵테일 레시피 API
             "/cocktails/**", // 기본 칵테일 레시피 API
+            "/season", // 계절별 칵테일 추천 API
 
             "/map/**", //지도 API
             "/email/**", // 이메일 API
@@ -63,7 +64,7 @@ public class SecurityConfig {
             "/user/logout", // 로그아웃 API
 
             "/like/**", // 좋아요 API
-            "/follow/**" //팔로우 API
+            "/follow/**", //팔로우 API
     };
 
     // 비로그인 유저 허용 페이지

@@ -1,12 +1,14 @@
-package alcoholboot.toastit.feature.calendarcocktail.entity;
+package alcoholboot.toastit.feature.seasonalcocktail.entity;
 
 import jakarta.persistence.*;
+
 import lombok.Getter;
 
-@Entity
-@Table
 @Getter
-public class CalendarCocktail {
+@Entity
+@Table(name = "seasonal_cocktails")
+public class SeasonalCocktail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
