@@ -1,7 +1,7 @@
 package alcoholboot.toastit.feature.user.controller;
 
-import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
-import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
+import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
+import alcoholboot.toastit.feature.craftcocktail.service.impl.CraftCocktailServiceImpl;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.FollowEntity;
 import alcoholboot.toastit.feature.user.service.FollowService;
@@ -27,7 +27,7 @@ import java.util.Optional;
 public class FollowController {
     private final FollowService followService;
     private final UserService userService;
-    private final CraftCocktailService customCocktailService;
+    private final CraftCocktailServiceImpl customCocktailService;
 
 
     @PostMapping("/follow")
@@ -74,7 +74,7 @@ public class FollowController {
             log.info("로그인 한 사람의 정보로 찾은 팔로우 한 사람들 목록 : "+followeeIds.toString());
 
             if (!followeeIds.isEmpty()) {
-                List<CraftCocktail> cocktails = customCocktailService.getCocktailsByUserIds(followeeIds);
+                List<CraftCocktailEntity> cocktails = customCocktailService.getCocktailsByUserIds(followeeIds);
                 log.info("팔로우 한 사람의 칵테일 정보들 : " + cocktails.toString());
                 model.addAttribute("cocktails", cocktails);
             } else {

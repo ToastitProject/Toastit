@@ -175,11 +175,11 @@
             <textarea id="description" name="description" placeholder="칵테일 소개를 적어주세요." maxlength="500"></textarea>
         </div>
 
-        <!-- Ingredient Section -->
-        <div class="section" id="ingredient-section">
+        <!-- IngredientEntity Section -->
+        <div class="section" id="ingredientEntity-section">
             <label>재료 정보</label>
             <div id="ingredients">
-                <div class="ingredient">
+                <div class="ingredientEntity">
                     <label>재료 1</label>
                     <input type="text" name="ingredients[0].name" placeholder="재료 이름을 입력해주세요(소주 등)">
                     <input type="text" name="ingredients[0].amount" placeholder="용량(수치)">
@@ -240,10 +240,10 @@
 
     function addIngredient() {
         var ingredientSection = document.getElementById('ingredients');
-        var ingredientCount = ingredientSection.getElementsByClassName('ingredient').length;
+        var ingredientCount = ingredientSection.getElementsByClassName('ingredientEntity').length;
 
         var newIngredient = document.createElement('div');
-        newIngredient.className = 'ingredient';
+        newIngredient.className = 'ingredientEntity';
         newIngredient.innerHTML = `
             <label>재료 ${ingredientCount + 1}</label>
             <input type="text" name="ingredients[${ingredientCount}].name" placeholder="재료 이름을 입력해주세요(소주 등)">

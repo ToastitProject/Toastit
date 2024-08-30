@@ -2,18 +2,18 @@ package alcoholboot.toastit.feature.craftcocktail.controller;
 
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.feature.amazonimage.service.S3imageUploadService;
-import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
-import alcoholboot.toastit.feature.craftcocktail.domain.Ingredient;
-import alcoholboot.toastit.feature.craftcocktail.dto.CocktailDTO;
-import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
+import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
+import alcoholboot.toastit.feature.craftcocktail.entity.IngredientEntity;
+import alcoholboot.toastit.feature.craftcocktail.controller.request.CraftCocktailCreateRequest;
+import alcoholboot.toastit.feature.craftcocktail.service.impl.CraftCocktailServiceImpl;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
-import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.service.LikeService;
 import alcoholboot.toastit.feature.user.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,44 +25,40 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Controller
+@RequiredArgsConstructor
 public class CraftCocktailController {
 
-    private static final Logger log = LoggerFactory.getLogger(CraftCocktailController.class);
-    private final CraftCocktailService customCocktailService;
+    private final CraftCocktailServiceImpl customCocktailService;
     private final S3imageUploadService s3imageUploadService;
     private final UserService userService;
     private final LikeService likeService;
 
-    @Autowired
-    public CraftCocktailController(CraftCocktailService customCocktailService, S3imageUploadService s3imageUploadService, UserService userService, LikeService likeService) {
-        this.customCocktailService = customCocktailService;
-        this.s3imageUploadService = s3imageUploadService;
-        this.userService = userService;
-        this.likeService = likeService;
-    }
-
     @GetMapping("/craft")
     public String customPage(Model model) {
-        List<CraftCocktail> cocktails = customCocktailService.getAllCocktails();
+        List<CraftCocktailEntity> cocktails = customCocktailService.getAllCocktails();
         model.addAttribute("cocktails", cocktails);
-        log.info("Accessed custom cocktails page");
+        log.debug("Accessed custom cocktails page");
         return "feature/craftcocktail/craftmain";
     }
 
     @GetMapping("/craft/write")
     public String customWritePage(RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다");
             return "redirect:/login";
         }
+
         return "feature/craftcocktail/write";
     }
 
     @PostMapping("/craft")
-    public String saveCocktail(@ModelAttribute CocktailDTO cocktailDTO, RedirectAttributes redirectAttributes) {
+    public String saveCocktail(@ModelAttribute CraftCocktailCreateRequest craftCocktailCreateRequest, RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다.");
             return "redirect:/login";
@@ -74,38 +70,37 @@ public class CraftCocktailController {
 
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                UserEntity userEntity = user.convertToEntity();  // User를 UserEntity로 변환
 
-                CraftCocktail customCocktail = new CraftCocktail();
-                customCocktail.setName(cocktailDTO.getName());
-                customCocktail.setDescription(cocktailDTO.getDescription());
-                customCocktail.setRecipe(cocktailDTO.getRecipe());
-                customCocktail.setUser(userEntity);  // 변환된 UserEntity 설정
+                CraftCocktailEntity craftCocktail = new CraftCocktailEntity();
+                craftCocktail.setName(craftCocktailCreateRequest.getName());
+                craftCocktail.setDescription(craftCocktailCreateRequest.getDescription());
+                craftCocktail.setRecipe(craftCocktailCreateRequest.getRecipe());
+                craftCocktail.setUser(user.convertToEntity());  // 변환된 UserEntity 설정
 
                 // 재료 추가
-                for (CocktailDTO.IngredientDTO ingredientDTO : cocktailDTO.getIngredients()) {
-                    Ingredient ingredient = new Ingredient();
+                for (CraftCocktailCreateRequest.IngredientDTO ingredientDTO : craftCocktailCreateRequest.getIngredients()) {
+                    IngredientEntity ingredient = new IngredientEntity();
                     ingredient.setName(ingredientDTO.getName());
                     ingredient.setAmount(ingredientDTO.getAmount());
                     ingredient.setUnit(ingredientDTO.getUnit());
-                    customCocktail.addIngredient(ingredient);
+                    craftCocktail.addIngredient(ingredient);
                 }
 
                 // 이미지 추가 및 업로드
-                if (cocktailDTO.getImage() != null && !cocktailDTO.getImage().isEmpty()) {
-                    String imagePath = s3imageUploadService.uploadCustomImage(cocktailDTO.getImage());
+                if (craftCocktailCreateRequest.getImage() != null && !craftCocktailCreateRequest.getImage().isEmpty()) {
+                    String imagePath = s3imageUploadService.uploadCustomImage(craftCocktailCreateRequest.getImage());
                     String newUrl = imagePath.replace("https://s3.amazonaws.com/toastitbucket",
                             "https://toastitbucket.s3.ap-northeast-2.amazonaws.com");
                     Image image = new Image();
-                    image.setImageName(cocktailDTO.getImage().getOriginalFilename());
+                    image.setImageName(craftCocktailCreateRequest.getImage().getOriginalFilename());
                     image.setImagePath(newUrl);
-                    image.setUser(userEntity);
-                    image.setCocktail(customCocktail);
-                    customCocktail.getImages().add(image);
+                    image.setUser(user.convertToEntity());
+                    image.setCocktail(craftCocktail);
+                    craftCocktail.getImages().add(image);
                 }
 
-                customCocktailService.saveCocktail(customCocktail);
-                log.info("칵테일 저장 성공: {}", cocktailDTO.getName());
+                customCocktailService.saveCocktail(craftCocktail);
+                log.info("칵테일 저장 성공: {}", craftCocktailCreateRequest.getName());
             } else {
                 log.warn("유저를 찾을 수 없습니다: " + email);
                 redirectAttributes.addFlashAttribute("message", "유저 정보를 찾을 수 없습니다.");
@@ -122,7 +117,7 @@ public class CraftCocktailController {
 
     @GetMapping("/craft/edit/{id}")
     public String editCocktailForm(@PathVariable("id") Long id, Model model) {
-        CraftCocktail cocktail = customCocktailService.getCocktailById(id);
+        CraftCocktailEntity cocktail = customCocktailService.getCocktailById(id);
         model.addAttribute("cocktail", cocktail);
         model.addAttribute("image", cocktail.getImages());
         model.addAttribute("ingredients", cocktail.getIngredients()); // Add ingredients to the model
@@ -130,23 +125,23 @@ public class CraftCocktailController {
     }
 
     @PostMapping("/craft/edit/{id}")
-    public String updateCocktail(@PathVariable("id") Long id, @ModelAttribute CocktailDTO cocktailDTO, RedirectAttributes redirectAttributes) {
+    public String updateCocktail(@PathVariable("id") Long id, @ModelAttribute CraftCocktailCreateRequest craftCocktailCreateRequest, RedirectAttributes redirectAttributes) {
         try {
-            CraftCocktail existingCocktail = customCocktailService.getCocktailById(id);
+            CraftCocktailEntity existingCocktail = customCocktailService.getCocktailById(id);
 
             // 칵테일 정보 업데이트
-            existingCocktail.setName(cocktailDTO.getName());
-            existingCocktail.setDescription(cocktailDTO.getDescription());
-            existingCocktail.setRecipe(cocktailDTO.getRecipe());
+            existingCocktail.setName(craftCocktailCreateRequest.getName());
+            existingCocktail.setDescription(craftCocktailCreateRequest.getDescription());
+            existingCocktail.setRecipe(craftCocktailCreateRequest.getRecipe());
 
             // 이미지 업데이트 제어
-            if (cocktailDTO.getImage() != null && !cocktailDTO.getImage().isEmpty()) {
-                String imagePath = s3imageUploadService.uploadCustomImage(cocktailDTO.getImage());
+            if (craftCocktailCreateRequest.getImage() != null && !craftCocktailCreateRequest.getImage().isEmpty()) {
+                String imagePath = s3imageUploadService.uploadCustomImage(craftCocktailCreateRequest.getImage());
                 String newUrl = imagePath.replace("https://s3.amazonaws.com/toastitbucket",
                         "https://toastitbucket.s3.ap-northeast-2.amazonaws.com");
 
                 Image existingImage = existingCocktail.getImages().stream()
-                        .filter(img -> img.getImageName().equals(cocktailDTO.getImage().getOriginalFilename()))
+                        .filter(img -> img.getImageName().equals(craftCocktailCreateRequest.getImage().getOriginalFilename()))
                         .findFirst()
                         .orElse(null);
 
@@ -156,7 +151,7 @@ public class CraftCocktailController {
                 } else {
                     // 새로운 이미지 추가
                     Image newImage = new Image();
-                    newImage.setImageName(cocktailDTO.getImage().getOriginalFilename());
+                    newImage.setImageName(craftCocktailCreateRequest.getImage().getOriginalFilename());
                     newImage.setImagePath(newUrl);
                     newImage.setCocktail(existingCocktail);
 
@@ -199,7 +194,7 @@ public class CraftCocktailController {
 
     @GetMapping("/craft/{id}")
     public String showCustomDetail(@PathVariable("id") Long id, Model model) {
-        CraftCocktail cocktail = customCocktailService.getCocktailById(id);
+        CraftCocktailEntity cocktail = customCocktailService.getCocktailById(id);
         model.addAttribute("cocktail", cocktail);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -225,5 +220,4 @@ public class CraftCocktailController {
 
         return "feature/craftcocktail/craftdetail";
     }
-
 }

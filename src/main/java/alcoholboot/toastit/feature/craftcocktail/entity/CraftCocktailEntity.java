@@ -1,10 +1,12 @@
-package alcoholboot.toastit.feature.craftcocktail.domain;
+package alcoholboot.toastit.feature.craftcocktail.entity;
 
 import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.global.entity.JpaAuditingFields;
+
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "cocktail")
+@Table(name = "craft_cocktails")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CraftCocktail extends JpaAuditingFields {
+public class CraftCocktailEntity extends JpaAuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +36,11 @@ public class CraftCocktail extends JpaAuditingFields {
     @Column(name = "recipe", nullable = false)
     private String recipe;
 
-    @OneToMany(mappedBy = "cocktail",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
-    private List<Ingredient> ingredients = new ArrayList<>();
+    private List<IngredientEntity> ingredients = new ArrayList<>();
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -48,8 +50,8 @@ public class CraftCocktail extends JpaAuditingFields {
     private List<LikeEntity> likes = new ArrayList<>();
 
 
-    public static CraftCocktail createCocktail(UserEntity user, String name, String description, String recipe) {
-        CraftCocktail cocktail = new CraftCocktail();
+    public static CraftCocktailEntity createCocktail(UserEntity user, String name, String description, String recipe) {
+        CraftCocktailEntity cocktail = new CraftCocktailEntity();
         cocktail.setUser(user);
         cocktail.setName(name);
         cocktail.setDescription(description);
@@ -57,13 +59,13 @@ public class CraftCocktail extends JpaAuditingFields {
         return cocktail;
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        ingredients.add(ingredient);
-        ingredient.setCocktail(this);
+    public void addIngredient(IngredientEntity ingredientEntity) {
+        ingredients.add(ingredientEntity);
+        ingredientEntity.setCocktail(this);
     }
 
-    public void removeIngredient(Ingredient ingredient) {
-        ingredients.remove(ingredient);
-        ingredient.setCocktail(null);
+    public void removeIngredient(IngredientEntity ingredientEntity) {
+        ingredients.remove(ingredientEntity);
+        ingredientEntity.setCocktail(null);
     }
 }
