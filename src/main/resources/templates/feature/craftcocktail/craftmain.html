@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300&display=swap" rel="stylesheet">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <title>Custom Main</title>
+    <style>
+        body {
+            font-family: 'Gmarket Sans', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: white;
+        }
+        .container {
+            display: flex; /* 추가: 카드들을 가로로 배치 */
+            flex-wrap: wrap; /* 추가: 카드가 다음 줄로 넘어갈 수 있도록 */
+            padding: 0 20px;
+        }
+
+        .container-banner {
+            border-radius: 15px; /* 둥근 모서리 */
+            background-image: url('/image/custom-banner.png');
+            background-size: cover; /* 이미지를 컨테이너에 맞게 조정 */
+            background-position: center; /* 이미지를 중앙에 배치 */
+            height: 300px; /* 높이를 원하는 대로 설정 */
+            width: 100%; /* 너비를 100%로 설정 */
+            position: relative; /* 추가: 자식 요소의 절대 위치를 설정하기 위해 */
+            margin-top: 80px;
+        }
+
+        .banner-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute; /* 추가: container-banner 내에서의 절대 위치 지정 */
+            left: 50%; /* 가로 중앙 정렬 */
+            transform: translateX(-50%); /* 가로 중앙 정렬 */
+            bottom: 20px; /* 컨테이너 아래쪽에서 20px 위로 배치 */
+        }
+
+        .write-button {
+            background-color: white;
+            border: 2px solid #FFA832; /* 테두리 색상 */
+            border-radius: 5px; /* 둥근 모서리 */
+            padding: 10px 10px; /* 버튼의 내부 패딩 조정 */
+            font-size: 16px;
+            color: #FFA832;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 10px; /* 버튼과 게시물 사이의 간격 */
+            max-width: 100px; /* 버튼의 최대 너비를 절반으로 줄임 */
+        }
+
+        .write-button:hover {
+            background-color: #FFA832; /* 배경색 변경 */
+            color: white; /* 글씨 색상 변경 */
+        }
+
+        .post {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 15px; /* 게시물 사이 공백 최소화 */
+            padding: 15px;
+            width: calc(20% - 30px); /* 3개 가로 배치 - 마진 고려 */
+            box-sizing: border-box;
+            text-decoration: none; /* 링크의 기본 텍스트 꾸미기 제거 */
+            color: inherit; /* 텍스트 색상 상속 */
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .post:hover {
+            transform: scale(1.1);
+        }
+
+        .post img {
+            width: 100%;
+            border-radius: 5px;
+            max-height: 200px; /* 최대 높이 설정 */
+            object-fit: cover; /* 이미지 비율 유지 */
+        }
+        .nickname-and-date {
+            font-size: 14px;
+            color: gray;
+            margin-top: 5px;
+        }
+        .drink-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .date-time {
+            display: block; /* 날짜와 시간을 새로운 줄로 이동 */
+            margin-top: 5px; /* 닉네임과 날짜 사이의 간격 설정 */
+        }
+
+        @media (max-width: 768px) {
+            .post {
+                width: calc(50% - 30px); /* 2개 가로 배치 */
+            }
+        }
+        @media (max-width: 480px) {
+            .post {
+                width: 100%; /* 1개 가로 배치 */
+            }
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
+
+<hr class="divider">
+<p></p>
+
+<div class="container-banner">
+    <div class="banner-content">
+        <a href="/craft/write" class="write-button">글쓰기</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="post" th:each="cocktail : ${cocktails}">
+        <a th:href="@{/craft/{id}(id=${cocktail.id})}" style="text-decoration: none; color: inherit;">
+            <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
+            <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
+            <div class="nickname-and-date">
+                <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none; color: inherit;">
+                    <span th:text="${cocktail.user.nickname}">닉네임</span>
+                </a>
+                <span class="date-time">
+                    <span th:text="${#temporals.format(cocktail.createDate, 'yyyy-MM-dd')}">작성일자</span>
+                    <span th:text="${#temporals.format(cocktail.createDate, 'HH:mm')}">작성시간</span>
+                </span>
+            </div>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 package alcoholboot.toastit.feature.user.domain;
 
-import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
+import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import lombok.*;
@@ -15,7 +15,7 @@ public class Like {
     private Long id;
     private Long cocktailId;
     private ObjectId defaultCocktailId;
-    private CustomCocktail customCocktail;
+    private CraftCocktail customCocktail;
     private UserEntity userEntity;
 
     public LikeEntity convertToEntity() {

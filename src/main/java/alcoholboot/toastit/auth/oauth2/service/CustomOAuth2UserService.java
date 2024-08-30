@@ -1,6 +1,6 @@
 package alcoholboot.toastit.auth.oauth2.service;
 
-import alcoholboot.toastit.auth.common.PrincipalDetails;
+import alcoholboot.toastit.auth.core.PrincipalDetails;
 import alcoholboot.toastit.auth.oauth2.domain.OAuthAttributes;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.repository.UserRepository;
