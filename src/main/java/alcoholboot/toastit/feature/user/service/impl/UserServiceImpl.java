@@ -5,7 +5,7 @@ import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.repository.UserRepository;
 import alcoholboot.toastit.feature.user.service.UserService;
-import alcoholboot.toastit.feature.user.service.VerificationService;
+import alcoholboot.toastit.auth.email.service.VerificationService;
 import alcoholboot.toastit.feature.user.util.RandomNickname;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import alcoholboot.toastit.global.config.response.exception.CustomException;

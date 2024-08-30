@@ -1,6 +1,6 @@
-package alcoholboot.toastit.feature.user.service.impl;
+package alcoholboot.toastit.auth.email.service.impl;
 
-import alcoholboot.toastit.feature.user.service.EmailService;
+import alcoholboot.toastit.auth.email.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

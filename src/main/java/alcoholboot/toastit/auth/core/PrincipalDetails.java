@@ -1,4 +1,4 @@
-package alcoholboot.toastit.auth.common;
+package alcoholboot.toastit.auth.core;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

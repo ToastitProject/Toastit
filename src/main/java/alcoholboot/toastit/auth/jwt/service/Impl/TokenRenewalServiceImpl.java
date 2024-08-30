@@ -12,14 +12,12 @@ import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
  * {@link TokenRenewalService} 인터페이스 구현 클래스
  * 만료된 액세스 토큰을 리프레시 토큰을 사용하여 재발급하는 기능을 제공한다.
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TokenRenewalServiceImpl implements TokenRenewalService {
