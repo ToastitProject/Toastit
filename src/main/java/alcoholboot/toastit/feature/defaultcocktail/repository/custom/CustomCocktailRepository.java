@@ -87,4 +87,7 @@ public interface CustomCocktailRepository {
      * @return 랜덤하게 선택된 칵테일 목록
      */
     List<CocktailDocument> findRandomCocktails(int count);
+
+    List<CocktailDocument> findCocktailsByName(List<String> name);
+    CocktailDocument findSingleCocktailByName(String name);
 }

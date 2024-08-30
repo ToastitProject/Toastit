@@ -22,5 +22,12 @@ public interface CocktailService {
 
     // 랜덤한 칵테일 반환
     List<Cocktail> getRandomCocktails(int count);
+
+
     List<Cocktail> getCocktailsByIngredient(String ingredient);
+
+    // 이름으로 칵테일 반환
+    List<Cocktail> getCocktailsByName(List<String> names);
+    // 이름으로 칵테일 반환
+    Cocktail getSingleCocktailByName(String name);
 }

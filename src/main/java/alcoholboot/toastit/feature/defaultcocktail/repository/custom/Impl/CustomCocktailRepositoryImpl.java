@@ -226,4 +226,42 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         );
         return results.getMappedResults();
     }
+
+    /**
+     * 주어진 이름 리스트에 해당하는 칵테일들을 반환한다.
+     * @param name 검색할 칵테일 이름 리스트
+     * @return 이름에 해당하는 칵테일 리스트
+     */
+    @Override
+    public List<CocktailDocument> findCocktailsByName(List<String> name) {
+        // list를 반환하기 때문에 0개도 반환할 수 있음.
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("strDrink").in(name))
+        );
+        AggregationResults<CocktailDocument> results = mongoTemplate.aggregate(
+                aggregation, "cocktails", CocktailDocument.class
+        );
+        return results.getMappedResults();
+    }
+
+    /**
+     * 주어진 이름에 해당하는 단일 칵테일을 반환한다.
+     * @param name 검색할 칵테일 이름
+     * @return 이름에 해당하는 칵테일, 없으면 null
+     */
+    @Override
+    public CocktailDocument findSingleCocktailByName(String name) {
+        // 단일 칵테일 이름으로 해당하는 칵테일 반환.
+        // limit(1)은 결과가 만약 다양하면 하나만 오도록 제한함.
+        // 만약 결과가 없으면 null을 반환함.
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("strDrink").is(name)),
+                Aggregation.limit(1)
+        );
+        AggregationResults<CocktailDocument> results = mongoTemplate.aggregate(
+                aggregation, "cocktails", CocktailDocument.class
+        );
+        List<CocktailDocument> cocktails = results.getMappedResults();
+        return cocktails.isEmpty() ? null : cocktails.get(0);
+    }
 }
