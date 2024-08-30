@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Entity
 @Table(name = "seasonal_cocktails")
-public class SeasonalCocktail {
+public class SeasonalCocktailEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
