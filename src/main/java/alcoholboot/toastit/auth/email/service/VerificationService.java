@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.user.service;
+package alcoholboot.toastit.auth.email.service;
 
 public interface VerificationService {
 
