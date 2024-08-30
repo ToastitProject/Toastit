@@ -75,7 +75,7 @@ body {
     padding: 8px;
     border: transparent;
     border-bottom: 1px solid #ddd;
-    border-radius: 0 0 5px 5px;
+    /*border-radius: 0 0 5px 5px;*/
 }
 
 .cocktail-button {
