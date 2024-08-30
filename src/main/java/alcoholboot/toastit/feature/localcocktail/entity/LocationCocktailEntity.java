@@ -9,8 +9,8 @@ import lombok.Getter;
  */
 @Getter
 @Entity
-@Table(name = "location_cocktails")
-public class LocationCocktail {
+@Table(name = "location_cocktail")
+public class LocationCocktailEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
