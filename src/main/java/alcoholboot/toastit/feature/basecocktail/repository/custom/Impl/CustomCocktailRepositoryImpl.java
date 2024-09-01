@@ -83,7 +83,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         }
         return new Criteria().orOperator(
                 // regex -> in 으로 수정
-                Criteria.where("strGlass").in(glass, "i")
+                Criteria.where("strGlass").regex(glass, "i")
         );
     }
 
@@ -98,7 +98,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
             return new Criteria();
         }
         return new Criteria().orOperator(
-                Criteria.where("strCategory").in(category, "i")
+                Criteria.where("strCategory").regex(category, "i")
         );
     }
 
