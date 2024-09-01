@@ -58,9 +58,9 @@
 
 <!--페이지 구역-->
 <div class="pagination">
-    <a th:if="${currentPage > 0}" th:href="@{/cocktails/all(page=${currentPage - 1})}">이전</a>
+    <a th:if="${currentPage > 0}" th:href="@{/cocktails/all(page=${currentPage - 1})}" class="page-link">이전</a>
     <span th:text="${currentPage != null ? currentPage + 1 : 1}"></span> / <span th:text="${totalPages}"></span>
-    <a th:if="${currentPage < totalPages - 1}" th:href="@{/cocktails/all(page=${currentPage + 1})}">다음</a>
+    <a th:if="${currentPage < totalPages - 1}" th:href="@{/cocktails/all(page=${currentPage + 1})}" class="page-link">다음</a>
 </div>
 
 </body>
