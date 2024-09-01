@@ -28,12 +28,12 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public LikeEntity findByUserIdAndDefaultCocktailsId(Long userId, ObjectId objectId) {
-        return likerepository.findByUserIdAndDefaultCocktailsId(userId,objectId);
+    public LikeEntity findByUserIdAndBasecocktailsId(Long userId, ObjectId objectId) {
+        return likerepository.findByUserIdAndBasecocktailsId(userId,objectId);
     }
 
     @Override
-    public int countByDefaultCocktailsId(ObjectId objectId) {
-        return likerepository.countByDefaultCocktailsId(objectId);
+    public int countByBasecocktailsId(ObjectId objectId) {
+        return likerepository.countByBasecocktailsId(objectId);
     }
 }

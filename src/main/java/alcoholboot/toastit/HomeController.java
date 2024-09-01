@@ -2,7 +2,7 @@ package alcoholboot.toastit;
 
 import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
 import alcoholboot.toastit.feature.craftcocktail.service.impl.CraftCocktailServiceImpl;
-import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
+import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

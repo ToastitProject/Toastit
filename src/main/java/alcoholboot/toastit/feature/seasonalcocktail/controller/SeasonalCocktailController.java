@@ -1,7 +1,7 @@
 package alcoholboot.toastit.feature.seasonalcocktail.controller;
 
-import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
-import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
+import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
+import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
 import alcoholboot.toastit.feature.seasonalcocktail.service.SeasonalCocktailService;
 
 import lombok.RequiredArgsConstructor;

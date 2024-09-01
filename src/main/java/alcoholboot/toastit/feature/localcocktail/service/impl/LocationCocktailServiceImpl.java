@@ -1,7 +1,7 @@
 package alcoholboot.toastit.feature.localcocktail.service.impl;
 
-import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
-import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
+import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
+import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
 import alcoholboot.toastit.feature.localcocktail.repository.LocationCocktailRepository;
 import alcoholboot.toastit.feature.localcocktail.service.LocationCocktailService;
 
