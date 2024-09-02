@@ -3,7 +3,9 @@ package alcoholboot.toastit.feature.user.service.impl;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.repository.LikeRepository;
 import alcoholboot.toastit.feature.user.service.LikeService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +16,11 @@ public class LikeServiceImpl implements LikeService {
     private final LikeRepository likerepository;
 
     @Override
-    public LikeEntity findByUserIdAndCustomCocktailId(Long userId, Long customCocktailId) {
-        return likerepository.findByUserIdAndCustomCocktailId(userId,customCocktailId);
+    public LikeEntity getByUserIdAndCraftCocktailId(Long userId, Long craftCocktailId) {
+        return likerepository.findByUserIdAndCraftCocktailId(userId, craftCocktailId);
     }
 
+    @Transactional
     public void saveLike (LikeEntity likeEntity) {
         likerepository.save(likeEntity);
     }

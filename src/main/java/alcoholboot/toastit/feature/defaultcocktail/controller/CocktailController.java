@@ -5,8 +5,7 @@ import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.service.LikeService;
-import alcoholboot.toastit.feature.user.service.UserService;
-import jakarta.validation.constraints.NotEmpty;
+import alcoholboot.toastit.feature.user.service.UserManagementService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -27,7 +26,7 @@ import java.util.Optional;
 public class CocktailController {
     private final CocktailService cocktailService;
     private final LikeService likeService;
-    private final UserService userService;
+    private final UserManagementService userManagementService;
 
     /**
      * 모든 칵테일 목록을 페이지네이션하여 조회합니다.
@@ -158,7 +157,7 @@ public class CocktailController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             String loginUserEmail = authentication.getName();
-            Optional<User> loginUser = userService.findByEmail(loginUserEmail);
+            Optional<User> loginUser = userManagementService.findByEmail(loginUserEmail);
 
             if (loginUser.isPresent()) {
                 LikeEntity existingLike = likeService.findByUserIdAndDefaultCocktailsId(loginUser.get().getId(), defaultCocktailId);

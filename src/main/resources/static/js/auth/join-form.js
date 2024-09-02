@@ -5,7 +5,7 @@ let timerInterval;
 let remainingTime = 180;
 
 // 페이지 로드 시 세션 스토리지에 저장된 이메일 인증 상태를 확인 및 유지
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const isEmailVerified = sessionStorage.getItem("emailVerified");
     const verifiedEmail = sessionStorage.getItem("verifiedEmail");
 
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // 타이머를 시작하고, 남은 시간을 UI에 업데이트하는 함수
 function startTimer() {
-    timerInterval = setInterval(function() {
+    timerInterval = setInterval(function () {
         if (remainingTime <= 0) {
             clearInterval(timerInterval);
             document.getElementById("timer").innerText = ""; // 타이머 숫자를 사라지게 만듦
@@ -63,7 +63,7 @@ function sendAuthCode() {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ email: email })
+        body: JSON.stringify({email: email})
     }).then(response => {
         if (response.ok) {
             alert("인증 코드가 발송되었습니다.");
@@ -89,7 +89,7 @@ function verifyAuthCode() {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ email: email, authCode: authCode })
+        body: JSON.stringify({email: email, authCode: authCode})
     }).then(response => {
         if (response.ok) {
             sessionStorage.setItem("emailVerified", "true"); // 세션 스토리지에 이메일 인증 상태 저장

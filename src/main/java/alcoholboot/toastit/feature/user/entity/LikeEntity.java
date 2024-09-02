@@ -1,10 +1,12 @@
 package alcoholboot.toastit.feature.user.entity;
 
 import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
-import alcoholboot.toastit.feature.user.domain.Like;
 import alcoholboot.toastit.global.entity.JpaAuditingFields;
+
 import jakarta.persistence.*;
+
 import lombok.*;
+
 import org.bson.types.ObjectId;
 
 @Getter
@@ -24,21 +26,10 @@ public class LikeEntity extends JpaAuditingFields {
     private ObjectId defaultCocktailsId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "custom_cocktail_id", nullable = true)
-    private CraftCocktailEntity customCocktail;
+    @JoinColumn(name = "craft_cocktails_id", nullable = true)
+    private CraftCocktailEntity craftCocktail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
-
-    public Like convertToDomain() {
-        return Like.builder()
-                .id(this.id)
-                .cocktailId(cocktailId)
-                .defaultCocktailId(this.defaultCocktailsId)
-                .customCocktail(this.customCocktail)
-                .userEntity(this.user)
-                .build();
-
-    }
 }

@@ -60,8 +60,8 @@ public class SecurityConfig {
             "/user/mypage", // 회원 정보 API
             "/user/eidt", // 회원 정보 수정 API
 
-            "/user/resign",  // 회원 탈퇴 API
-            "/user/logout", // 로그아웃 API
+            "/auth/resign",  // 회원 탈퇴 API
+            "/auth/logout", // 로그아웃 API
 
             "/like/**", // 좋아요 API
             "/follow/**", //팔로우 API
@@ -69,8 +69,8 @@ public class SecurityConfig {
 
     // 비로그인 유저 허용 페이지
     String[] notLoggedAllowPage = new String[]{
-            "/user/login", // 로그인 API
-            "/user/join", // 회원가입 API
+            "/auth/login", // 로그인 API
+            "/auth/join", // 회원가입 API
     };
 
     /**
