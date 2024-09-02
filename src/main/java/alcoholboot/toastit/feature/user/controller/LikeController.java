@@ -1,9 +1,7 @@
-
 package alcoholboot.toastit.feature.user.controller;
 
 import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
-import alcoholboot.toastit.feature.craftcocktail.service.impl.CraftCocktailServiceImpl;
-import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
+import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.service.LikeService;
@@ -32,8 +30,7 @@ public class LikeController {
     // 서비스 의존성 주입
     private final UserManagementService userManagementService;
     private final LikeService likeService;
-    private final CraftCocktailServiceImpl craftCocktailServiceCocktail;
-    private final CocktailService cocktailService;
+    private final CraftCocktailService craftCocktailServiceCocktail;
 
     // 커스텀 칵테일에 좋아요를 표시하는 메서드
     @PostMapping("/like")
@@ -98,6 +95,7 @@ public class LikeController {
         if (existingLike != null) {
             // 기존 좋아요가 존재하면 삭제
             likeService.deleteLike(existingLike);
+
             return ResponseEntity.ok("좋아요가 취소되었습니다");
         } else {
             LikeEntity like = new LikeEntity();

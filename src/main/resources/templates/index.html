@@ -16,6 +16,7 @@
         padding: 0;
         box-sizing: border-box;
     }
+
     body {
         font-family: 'Gmarket Sans', sans-serif;
         color: #FFA832;
@@ -44,9 +45,10 @@
         padding: 15px;
         background-color: #ffffff;
     }
+
     .note {
         font-size: 1em; /* 글씨 크기를 0.75배로 설정 */
-        color: #000 ; ;  /* 검은색 글씨 */
+        color: #000;; /* 검은색 글씨 */
         margin-top: 10px; /* 상단 여백 */
         text-align: left; /* 좌측 정렬 */
         font-weight: bold;
@@ -63,6 +65,7 @@
         height: 280px;
         cursor: pointer;
     }
+
     .swiper mySwiper {
         display: flex;
         justify-content: center;
@@ -74,6 +77,7 @@
         height: 220px;
         cursor: pointer;
     }
+
     section.cocktail-recommendations {
         width: 100%;
         overflow: hidden;
@@ -100,7 +104,7 @@
         position: relative;
     }
 
-    .swiper-slide{
+    .swiper-slide {
         background-color: #ffffff;
         border: none;
         text-align: center; /* 문구를 가운데 정렬 */
@@ -117,6 +121,7 @@
         position: relative; /* 자식 요소의 절대 위치 설정을 위한 relative */
 
     }
+
     .swiper-slide img {
         width: 100%; /* 이미지 가로 크기 조정 */
         height: 100%; /* 이미지 세로 크기 조정 */
@@ -124,6 +129,7 @@
         object-fit: cover;
         transition: opacity 0.4s; /* 이미지 흐림 효과 */
     }
+
     .swiper-slide .text {
         position: absolute; /* 절대 위치 설정 */
         top: 50%; /* 세로 중앙 정렬 */
@@ -135,6 +141,7 @@
         font-weight: bold; /* 글씨를 두껍게 */
         font-size: 1.5em;
     }
+
     .swiper-slide:hover img {
         opacity: 0.4; /* 호버 시 이미지 흐림 */
     }
@@ -147,7 +154,7 @@
         transform: scale(1.05); /* 카드 호버 시 확대 효과 */
     }
 
-    .s-card{
+    .s-card {
         background-color: #ffffff;
         padding: 10px;
         text-align: center; /* 문구를 가운데 정렬 */
@@ -164,10 +171,11 @@
         transition: transform 0.2s;
         position: relative; /* 자식 요소의 절대 위치 설정을 위한 relative */
     }
+
     .slider {
         display: flex;
         transition: transform 0.5s ease;
-        width: calc(100% * 1/6); /* 카드 수에 맞게 조정 */
+        width: calc(100% * 1 / 6); /* 카드 수에 맞게 조정 */
     }
 
     h3 {
@@ -175,12 +183,14 @@
         font-size: 1.5em;
         text-align: left;
     }
+
     .divider {
         border: none;
         height: 2px;
         background-color: #FFA832;
         margin-top: -10px;
     }
+
     .sort-options {
         display: flex; /* 가로로 정렬 */
         justify-content: flex-end; /* 왼쪽 정렬 */
@@ -202,6 +212,7 @@
     .sort-item:hover {
         color: #FFA832; /* 호버 시 색상 변화 */
     }
+
     .cocktail-image {
         width: 100%; /* 카드 너비에 맞추기 */
         height: 220px; /* 비율에 맞춰 높이 조절 */
@@ -224,10 +235,10 @@
         max-width: 90%; /* 최대 너비를 설정하여 글씨 크기 조정 */
     }
 
-    .nickName{
+    .nickName {
         font-family: 'Gmarket Sans', sans-serif;
         font-weight: bold;
-        color : #000000;
+        color: #000000;
         text-decoration: none;
     }
 
@@ -239,31 +250,37 @@
         opacity: 1; /* 호버 시 텍스트 표시 */
     }
 
-    .shopping-section{
+    .shopping-section {
         overflow: hidden;
     }
+
     .text-center {
         text-align: center; /* 텍스트 가운데 정렬 */
         margin: 10px; /* 여백 자동 설정 */
     }
+
     .s-card img {
         width: 430px;
         max-width: 430px;
         min-height: 130px;
     }
+
     section.basic-recipes {
         width: 1155px;
         min-width: 1155px;
     }
+
     img.trend_img {
         width: 178px;
         height: 220px;
     }
+
     h4 {
         margin-top: 5px;
         color: black;
     }
-    .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+
+    .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
         bottom: -5px;
         left: 0;
         width: 100%;
@@ -325,7 +342,8 @@
         <div class="card-container">
             <div th:each="trendCocktail : ${trendCocktails}" class="card">
                 <a th:href="@{/cocktails/id(id=${trendCocktail.getId()})}">
-                    <input type="hidden" th:if="${trendCocktail.getId() == null}" th:value="${trendCocktail.getId()}" id="hiddenTrendCocktailId"/>
+                    <input type="hidden" th:if="${trendCocktail.getId() == null}" th:value="${trendCocktail.getId()}"
+                           id="hiddenTrendCocktailId"/>
                     <img th:src="${trendCocktail.imagePath}" alt="trendCocktail 이미지" class="trend_img">
                     <h4 th:text="${trendCocktail.getStrDrink()}"></h4>
                 </a>
@@ -413,7 +431,7 @@
 
 
 </div>
-</body>
+
 <script>
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 3,
@@ -423,7 +441,6 @@
             clickable: true,
         },
     });
-
 
     function changeSort(sortType) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -447,6 +464,5 @@
 
 </script>
 
-
-
+</body>
 </html>

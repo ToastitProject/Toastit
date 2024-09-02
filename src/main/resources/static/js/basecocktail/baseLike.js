@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const cocktailId = document.querySelector('.base-cocktail-number').innerText;
     const likeButton = document.getElementById('likeButton');
 
-    let isLiked = /*[[${isLiked}]]*/ false;
+    let isLiked = likeButton.innerText === '좋아요 취소';
 
-    function likeCocktail() {
+    function baseLike() {
         fetch('/baseLike', {
             method: 'POST',
             headers: {
@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (likeButton) {
-        likeButton.addEventListener('click', likeCocktail);
+        likeButton.addEventListener('click', baseLike);
     }
 });
+
+// 전역 스코프에 like 함수 노출
+window.baseLike = baseLike;
