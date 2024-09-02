@@ -96,13 +96,17 @@ nav {
 }
 
 .footer {
-    background-color: #f8f8f8;
     font-family: Arial, sans-serif;
 }
 
 .footer-container {
     margin: 0 auto;
-    padding: 0 1.7rem;
+    padding: 0 15rem;
+}
+
+.footer-main{
+    margin-left: 2rem;
+    margin-right: 2rem;
 }
 
 .footer-top {
