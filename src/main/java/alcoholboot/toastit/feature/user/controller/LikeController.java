@@ -55,7 +55,7 @@ public class LikeController {
         log.debug("좋아요 할 칵테일 레시피의 name :" + cocktail.getName());
 
         // 로그인한 사용자와 칵테일 ID로 기존 좋아요가 있는지 확인
-        LikeEntity existingLike = likeService.getByUserIdAndCraftCocktailId(loginUser.get().getId(), cocktail.getId());
+        LikeEntity existingLike = likeService.findByUserIdAndCraftCocktailId(loginUser.get().getId(), cocktail.getId());
 
         if (existingLike != null) {
             // 기존 좋아요가 존재하면 삭제

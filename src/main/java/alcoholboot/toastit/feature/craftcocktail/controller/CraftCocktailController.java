@@ -178,7 +178,7 @@ public class CraftCocktailController {
             String loginUserEmail = authentication.getName();
             Optional<User> loginUser = userManagementService.findByEmail(loginUserEmail);
 
-            Optional<LikeEntity> deleteLikeOpt = Optional.ofNullable(likeService.getByUserIdAndCraftCocktailId(loginUser.get().getId(), id));
+            Optional<LikeEntity> deleteLikeOpt = Optional.ofNullable(likeService.findByUserIdAndCraftCocktailId(loginUser.get().getId(), id));
             deleteLikeOpt.ifPresent(likeService::deleteLike); // 좋아요가 있는 경우에만 삭제
 
             //칵테일도 지운다

@@ -32,14 +32,4 @@ public class LikeEntity extends JpaAuditingFields {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
-
-    public Like convertToDomain() {
-        return Like.builder()
-                .id(this.id)
-                .cocktailId(cocktailId)
-                .basecocktailId(this.basecocktailsId)
-                .craftCocktail(this.craftCocktail)
-                .userEntity(this.user)
-                .build();
-    }
 }

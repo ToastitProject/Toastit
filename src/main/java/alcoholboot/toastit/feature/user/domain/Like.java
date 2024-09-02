@@ -19,14 +19,4 @@ public class Like {
     private ObjectId basecocktailId;
     private CraftCocktailEntity craftCocktail;
     private UserEntity userEntity;
-
-    public LikeEntity convertToEntity() {
-        return LikeEntity.builder()
-                .id(this.id)
-                .cocktailId(this.cocktailId)
-                .basecocktailsId(this.basecocktailId)
-                .craftCocktail(this.getCraftCocktail())
-                .user(userEntity)
-                .build();
-    }
 }
