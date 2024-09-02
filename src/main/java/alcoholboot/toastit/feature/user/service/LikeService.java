@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface LikeService {
-    LikeEntity findByUserIdAndCustomCocktailId (Long userId, Long CustomCocktailId);
+LikeEntity findByUserIdAndCraftCocktailId (Long userId, Long craftCocktailId);
 void saveLike (LikeEntity likeEntity);
 void deleteLike (LikeEntity likeEntity);
 LikeEntity findByUserIdAndBasecocktailsId(Long userId, ObjectId objectId);

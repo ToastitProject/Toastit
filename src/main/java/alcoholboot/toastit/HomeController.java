@@ -26,38 +26,42 @@ public class HomeController {
     private final TrendCocktailService trendCocktailService; // 기본 레시피의 검색량
     private final CraftCocktailServiceImpl craftCocktailService; //커스텀 레시피
 
+    /**
+     * 메인 화면을 보여주는 컨트롤러 입니다
+     * @param sort : 사용자가 커스텀 칵테일 레시피를 최신등록 순 혹은 좋아요 순으로 정렬하고 싶을 때 서버로 보내는 요청 값 입니다.
+     * @param model : 기본 칵테일 5개 (검색량 증가 TOP 5) 를 view 로 보내는 모델 객체 입니다.
+     * @return : 연결된 메인화면 view page 로 이동합니다
+     */
+
     @GetMapping
     public String showHomePage(@RequestParam(value = "sort",defaultValue = "latest") String sort, Model model) {
         log.info("술프링 부트에 오신걸 환영합니다.");
 
+        //검색량이 가장 많이 증가한 기본 칵테일 5개를 가져온다
         List<TrendCocktail> getTrendCocktails = trendCocktailService.findTop5BySearchVolume();
-        log.info("트렌드 칵테일 리스트의 크기 : "+getTrendCocktails.size());
         List<Cocktail> trendCocktails = new ArrayList<>();
 
+        //Cocktail 타입의 자료구조에 담는다
         for (int i = 0; i < getTrendCocktails.size(); i++) {
             Cocktail cocktail = cocktailService.getSingleCocktailByName(getTrendCocktails.get(i).getName());
             trendCocktails.add(cocktail);
-            log.info("검색량 " + i + " 번 째 칵테일 : " + cocktail);
         }
         model.addAttribute("trendCocktails", trendCocktails);
 
+
         List<CraftCocktailEntity> cocktails;
-        log.info("화면에서 보내준 sort 값 : "+sort);
         switch (sort) {
             case "popular":
                 cocktails = craftCocktailService.getTopNCocktails(5); //좋아요순
-                log.info("좋아요 순 정렬 요청 보냄");
+                log.debug("좋아요순 으로 5개의 칵테일을 저장");
                 break;
             case "latest":
             default:
                 cocktails = craftCocktailService.getLatestCocktails(5); // 최신순
-                log.info("최신순 정렬 요청 보냄");
+                log.debug("최신등록순 으로 5개의 칵테일을 저장");
                 break;
         }
         model.addAttribute("cocktails", cocktails);
-
-
-
         return "index";
     }
 }

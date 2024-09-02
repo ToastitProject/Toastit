@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public interface FollowRepository extends JpaRepository<FollowEntity, Long> {
-    boolean findByFollowerAndFollowee(UserEntity loginUserEntity, UserEntity followeeUserEntity);
     FollowEntity findByFollowerIdAndFolloweeId(long followerId, long followeeId);
 
 

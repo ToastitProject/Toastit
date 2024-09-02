@@ -194,10 +194,14 @@ public class UserController {
         return "redirect:/user/login";
     }
 
-    //홈 화면에서 마이페이지 접속하는 컨트롤러
+    /**
+     * 메인 화면에서 마이페이지를 누르면 동작하는 메서드 입니다.
+     * @param model : 로그인 한 사용자의 정보를 담고 있습니다.
+     * @return : 내 정보를 볼 수 있는 페이지로 이동합니다.
+     */
     @GetMapping("/mypages")
     public String showMyPages(Model model) {
-        log.info("myPages 로 GetMapping 들어옴!");
+        log.debug("myPages 로 GetMapping 들어옴!");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             String email = authentication.getName();
@@ -206,10 +210,7 @@ public class UserController {
             if (userOptional.isPresent()) {
                 model.addAttribute("user", userOptional.get());
                 model.addAttribute("notLoginUser", false);
-                log.info("찾은 user email 을 모델에 담은 값 : " + userOptional.get().getEmail());
-                log.info("찾은 user Nickname 을 모델에 담은 값 : " + userOptional.get().getNickname());
-                log.info("찾은 user create_date 를 모델에 담은 값 : " + userOptional.get().getCreateDate());
-                log.info("이미지 url : " +userOptional.get().getProfileImageUrl());
+
             } else {
                 model.addAttribute("error", "사용자를 찾을 수 없습니다.");
             }
@@ -220,10 +221,15 @@ public class UserController {
         return "feature/user/mypageForm";
     }
 
-    //닉네임을 클릭해서 마이페이지로 접속하는 컨트롤러
+    /**
+     * 닉네임을 클릭하여 자신의 정보 또는 다른 사용자의 정보를 볼 수 있는 페이지로 연결해주는 메서드 입니다.
+     * @param nickname : 정보를 조회 하고 싶은 사용자의 닉네임 입니다
+     * @param model : 정보를 조회하고 싶은 사용자의 정보입니다.
+     * @return : 사용자의 정보를 볼 수 있는 페이지로 이동합니다.
+     */
     @GetMapping("/mypage")
     public String showMyPage(@RequestParam("nickname") String nickname, Model model) {
-        log.info("myPage로 GetMapping 들어옴!");
+        log.debug("myPage로 GetMapping 들어옴!");
 
         // 현재 인증된 사용자 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -237,15 +243,12 @@ public class UserController {
                 User loggedInUser = loggedInUserOptional.get();
                 model.addAttribute("loggedInUser", loggedInUser);
 
-                log.info("로그인한 사용자 email: " + loggedInUser.getEmail());
-                log.info("로그인한 사용자 Nickname: " + loggedInUser.getNickname());
-
                 // 요청된 닉네임과 로그인한 사용자의 닉네임 비교
                 if (loggedInUser.getNickname().equals(nickname)) {
                     // 자신의 정보인 경우
                     model.addAttribute("user", loggedInUser);
                     model.addAttribute("notLoginUser", false);
-                    log.info("자신의 정보를 보여줍니다.");
+
                 } else {
                     // 다른 사용자의 정보인 경우
                     Optional<User> otherUserOptional = userService.findByNickname(nickname);
@@ -256,9 +259,9 @@ public class UserController {
                             otherUserOptional.get().getId()
                     );
                     if (otherUserOptional.isPresent()) {
+
                         model.addAttribute("user", otherUserOptional.get());
                         model.addAttribute("notLoginUser", true);
-                        log.info("다른 사용자의 정보를 보여줍니다: " + nickname);
                         if (alreadyFollow != null) {
                             //팔로우를 하고 있다면 모델에 alreadyFollow 를 담아 간다
                             model.addAttribute("alreadyFollow", alreadyFollow);
@@ -277,28 +280,35 @@ public class UserController {
         return "feature/user/mypageForm";
     }
 
+    /**
+     * 사용자가 자신의 정보를 수정하기 위한 페이지로 이동하는 메서드 입니다
+     * @param model : 현재 접속한 사용자의 정보를 담고 있습니다.
+     * @return 회원 정보 수정이 가능한 페이지로 이동합니다.
+     */
     @GetMapping("/edit")
     public String showEditPage(Model model) {
-        log.info("edit 로 GetMapping 들어옴!");
+        log.debug("edit 로 GetMapping 들어옴!");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+
             String email = authentication.getName();
             Optional<User> user = userService.findByEmail(email);
-            log.info(email + "로 user 를 찾는다.");
+
             if (user.isPresent()) {
                 model.addAttribute("user", user.get());
-                log.info(email+"로 찾은 user 의 정보를 화면에 보여준다");
-                log.info(user.get().getEmail());
-                log.info(user.get().getNickname());
-                log.info(user.get().getProfileImageUrl());
             }
         }
         return "feature/user/editForm";
     }
 
+    /**
+     * 사용자가 정보를 변경 후 수정을 완료하기 위해 보내는 요청에 응답하는 메서드 입니다.
+     * @param nickname : 사용자가 변경을 원하는 닉네임 입니다
+     * @return : 변경을 완료하면 mypage 화면으로 디라이렉션 합니다
+     */
     @PostMapping("/edit")
     public String editNickname(@RequestParam("nickname") String nickname) {
-        log.info("닉네임 수정 요청이 들어옴");
+        log.debug("닉네임 수정 요청이 들어옴");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
@@ -307,15 +317,13 @@ public class UserController {
 
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                log.info("기존 닉네임: " + user.getNickname());
-                log.info("새로운 닉네임: " + nickname);
 
                 // 닉네임 변경
                 user.setNickname(nickname);
-                userService.save(user.convertToEntity()); // 변경된 사용자 정보 저장
-                log.info("닉네임이 변경됨: " + user.getNickname());
+                // 변경된 사용자 정보 저장
+                userService.save(user.convertToEntity());
+
             } else {
-                log.warn("사용자를 찾을 수 없습니다: " + email);
                 return "redirect:/error"; // 사용자 없음 처리
             }
         }
@@ -323,23 +331,26 @@ public class UserController {
         return "redirect:/user/mypages"; // 변경 후 마이 페이지로 리다이렉트
     }
 
+    /**
+     * 프로필 사진의 이미지를 변경하고자 하는 요청이 들어왔을 때 실행되는 메서드 입니다.
+     * @param filePath : 사용자가 올린 이미지의 정보를 받아옵니다.
+     * @return : 이미지 변경이 성공되면, 정보수정 페이지로 리다이렉션 합니다
+     */
     @PostMapping("/imageChange")
     public String imageChange(@RequestParam("filePath") MultipartFile filePath) {
-        log.info("이미지 변경 PostMapping 이 들어옴");
+        log.debug("이미지 변경 PostMapping 이 들어옴");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             String email = authentication.getName();
             Optional<User> userOptional = userService.findByEmail(email);
             User user = userOptional.get();
-            log.info("접속한 user 의 DB 에 저장된 프로필사진 경로"+user.getProfileImageUrl());
 
             try{
-                log.info("upload try start!!!");
                 String imageUrl = cloudStorageService.uploadProfileImage(filePath);
-                log.info("AWS bucket /profile 에 이미지 업로드 성공");
+                log.debug("AWS bucket /profile 에 이미지 업로드 성공");
 
                 if(imageService.findByUserId(user.getId()) != null) { //DB에 user ID 가 존재하는 경우 새로 생성하지 않는다.
-                    log.info("DB에 이미지 테이블을 가지고 있는 User 가 접근");
+                    log.debug("DB에 이미지 테이블을 가지고 있는 User 가 접근");
                     ImageEntity imageEntity = imageService.findByUserId(user.getId());
                     imageEntity.setImageName(filePath.getOriginalFilename());
                     imageEntity.setImagePath(imageUrl);
@@ -348,7 +359,7 @@ public class UserController {
                     imageEntity.setImageUse("profile");
                     imageService.save(imageEntity);
                 } else {
-                    log.info("DB에 이미지 테이블을 가지고 있지 않은 user 가 접근");
+                    log.debug("DB에 이미지 테이블을 가지고 있지 않은 user 가 접근");
                     ImageEntity imageEntity = new ImageEntity(); //DB에 User Id가 존재하지 않는 경우 새로운 테이블을 만들어서 저장한다
                     imageEntity.setId(user.getId());
                     imageEntity.setImageName(filePath.getOriginalFilename());
@@ -359,45 +370,56 @@ public class UserController {
                     imageService.save(imageEntity);
                 }
 
+                //S3에 있는 이미지를 바로 사용 가능하도록 parsing
                 String newUrl = imageUrl.replace("https://s3.amazonaws.com/toastitbucket",
                         "https://toastitbucket.s3.ap-northeast-2.amazonaws.com");
 
                 userOptional.get().setProfileImageUrl(newUrl);
                 userService.save(user.convertToEntity());
-                log.info("MySQL image 에 저장성공");
+                log.debug("MySQL image 에 저장성공");
 
                 return "redirect:/user/edit" ;
             }catch(Exception e){
-                System.out.println("파일 업로드 실패"+e.getMessage());
+                log.debug("파일 업로드를 실패 하였습니다. "+e.getMessage());
                 return "redirect:/user/edit" ;
             }
         }
         return "redirect:/user/eidt";
     }
 
+    /**
+     * 회원탈퇴를 위한 페이지로 매핑되는 메서드 입니다.
+     * @param model : Spring MVC 모델로, 탈퇴할 회원의 정보입니다.
+     * @return 회원 탈퇴가 가능한 페이지로 이동합니다
+     */
     @GetMapping("/resign")
     public String resign(Model model) {
-        log.info("회원 탈퇴 폼 접속");
+        log.debug("회원 탈퇴 폼 접속");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
+
         Optional<User> userOptional = userService.findByEmail(email);
-        log.info("접속한 사용자의 이메일 : "+userOptional.get().getEmail());
+
         model.addAttribute("user", userOptional.get().convertToEntity());
-        log.info("Model에 담긴 닉네임 값 : "+ userOptional.get().convertToEntity().getNickname());
         return "feature/user/resignForm";
     }
 
+    /**
+     * 회원탈퇴 요청이 들어오면 처리하는 기능입니다.
+     * @param request 회원 탈퇴 요청이 오면 새로운 요청을 발생시켜 새로운 쿠키를 발행합니다.
+     * @param response 요청에 대한 응답에 새로운 쿠키를 저장합니다.
+     * @return : 회원 탈퇴가 완료되면 메인 페이지로 리다이렉션 됩니다.
+     */
     @PostMapping("/resign")
     public String resign(HttpServletRequest request, HttpServletResponse response) {
-        log.info("회원탈퇴 postMapping 요청이 옴");
+        log.debug("회원탈퇴 postMapping 요청이 옴");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        log.info("접속한 사용자의 이메일 : " + email);
+
         Optional<User> userOptional = userService.findByEmail(email);
         String accessToken = tokenRepository.findByUserEntityId(userOptional.get().getId())
                 .map(TokenEntity::getAccessToken)
                 .orElse(null);
-        log.info("찾은 Access Token ID: " + accessToken);
 
         // 쿠키 제거
         Cookie[] cookies = request.getCookies();
@@ -411,11 +433,9 @@ public class UserController {
                 }
             }
         }
-
         if (accessToken != null) {
             tokenService.deleteByAccessToken(accessToken);
         }
-
         userService.deleteByEmail(email);
         log.info("회원 탈퇴 완료");
         return "redirect:/";
