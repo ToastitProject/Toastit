@@ -2,8 +2,6 @@ package alcoholboot.toastit.feature.user.controller;
 
 import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
 import alcoholboot.toastit.feature.craftcocktail.service.impl.CraftCocktailServiceImpl;
-import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
-import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.service.LikeService;
