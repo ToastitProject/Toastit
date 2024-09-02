@@ -24,12 +24,14 @@
         padding: 0;
         box-sizing: border-box;
     }
+
     body {
         font-family: 'Gmarket Sans', sans-serif;
         color: #FFA832;
         margin: 0;
         padding: 20px;
     }
+
     .menu a, .profile a {
         text-decoration: none;
         color: black;
@@ -85,6 +87,7 @@
         text-align: center;
         margin-top: 10px;
     }
+
     .button-container {
         margin-top: 30px;
     }
@@ -94,6 +97,7 @@
         font-weight: bold;
         font-size: 1.4em;
     }
+
     .button {
         background-color: #FFA832;
         color: #ffffff;
@@ -125,8 +129,10 @@
         <img th:src="${user.profileImageUrl}"
              alt="프로필 사진" class="profile-pic">
         <form action="/user/imageChange" method="post" enctype="multipart/form-data">
-            <input type="file" id="fileInput" name="filePath" style="display: none;" onchange="updateButton()" />
-            <button type="button" id="fileButton" class="button" onclick="document.getElementById('fileInput').click();">파일 선택</button>
+            <input type="file" id="fileInput" name="filePath" style="display: none;" onchange="updateButton()"/>
+            <button type="button" id="fileButton" class="button"
+                    onclick="document.getElementById('fileInput').click();">파일 선택
+            </button>
             <button type="submit" id="uploadButton" class="button" style="display: none;">업로드</button>
         </form>
     </div>
@@ -134,7 +140,7 @@
         <form action="/user/edit" method="post">
             <p>이메일: <span th:text="${user.email}"></span></p>
             <p>닉네임:
-                <input type="text" name="nickname" th:value="${user.nickname}" /></p>
+                <input type="text" name="nickname" th:value="${user.nickname}"/></p>
             <p>가입일: <span th:text="${user.getCreateDate()}"></span></p>
             <div class="button-container">
                 <button class="button" type="submit">Submit</button>
@@ -146,5 +152,4 @@
 </div>
 
 </body>
-
 </html>
