@@ -20,6 +20,7 @@ public class TrendCocktailDTO {
     public void setResults(List<Result> results) {
         this.results = results;
     }
+
     @JsonCreator
     public TrendCocktailDTO(@JsonProperty("startDate") String startDate,
                             @JsonProperty("endDate") String endDate,
@@ -30,6 +31,7 @@ public class TrendCocktailDTO {
         this.timeUnit = timeUnit;
         this.results = results;
     }
+
     @Getter
     @Setter
     @NoArgsConstructor
@@ -48,6 +50,7 @@ public class TrendCocktailDTO {
         }
 
     }
+
     @Getter
     @Setter
     @NoArgsConstructor
