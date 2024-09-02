@@ -7,7 +7,7 @@
     <link th:href="@{/css/basecocktail/basecocktaildetail.css}" rel="stylesheet">
 
     <script th:src="@{/js/basecocktail/detail.js}" defer></script>
-    <script th:sec="@{/js/basecocktail/baseLike.js}" defer></script>
+    <script th:src="@{/js/basecocktail/baseLike.js}" defer></script>
 
     <title th:text="${cocktail.isPresent() ? cocktail.get().strDrink : '칵테일 상세 정보'}">칵테일 상세 정보</title>
 </head>
@@ -22,8 +22,7 @@
     <div class="round-rectangle">
         <div class="cocktail-info-container">
             <div class="cocktail-image-container">
-                <img th:src="@{${cocktail.get().imagePath}}" th:alt="${cocktail.get().strDrink}"
-                     class="cocktail-detail-image">
+                <img th:src="@{${cocktail.get().imagePath}}" th:alt="${cocktail.get().strDrink}" class="cocktail-detail-image">
             </div>
             <div class="cocktail-text-container">
                 <h1 th:text="${cocktail.get().strDrink}">칵테일 이름</h1>
@@ -84,5 +83,9 @@
     <a href="/cocktails/all" class="back-button" id="backToList">목록으로 돌아가기</a>
     <a id="backToSearchResult" style="display: none;" class="back-button">검색 결과로 돌아가기</a>
 </div>
+
 </body>
+
+<div th:replace="fragment/footer :: footer"></div>
+
 </html>

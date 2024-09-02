@@ -6,16 +6,16 @@
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <link th:href="@{/css/basecocktail/basecocktail.css}" rel="stylesheet">
 
+    <script th:src="@{/js/basecocktail/list.js}" defer></script>
     <script th:src="@{/js/basecocktail/search.js}" defer></script>
     <script th:src="@{/js/basecocktail/formVail.js}" defer></script>
 
-    <title>칵테일 복합 검색</title>
+    <title>칵테일 목록</title>
 </head>
 <body>
 <!--헤더, fragment 적용중-->
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 
-<hr class="divider">
 
 <!--기본 칵테일 베너-->
 <div class="base-banner">
@@ -46,17 +46,6 @@
     </div>
 </div>
 
-<div th:if="${ingredient != null or glass != null or type != null}" class="search-result">
-    <h2>검색 조건:</h2>
-    <p th:if="${ingredient}">재료: <span th:text="${ingredient}"></span></p>
-    <p th:if="${glass}">잔 종류: <span th:text="${glass}"></span></p>
-    <p th:if="${type}">카테고리: <span th:text="${type}"></span></p>
-</div>
-
-<div th:if="${cocktails != null and cocktails.isEmpty()}" class="error-message">
-    검색 결과가 없습니다. 다른 조건으로 검색해보세요.
-</div>
-
 <!--칵테일 표시-->
 <div class="cocktail-grid">
     <div th:each="cocktail : ${cocktails}" class="cocktail-item">
@@ -72,26 +61,14 @@
 
 <!--페이지 구역-->
 <div class="pagination">
-    <a th:if="${currentPage > 0}"
-       th:href="@{/cocktails/complex(
-           page=${currentPage - 1},
-           ingredientEntity=${ingredient != null ? ingredient : null},
-           glass=${glass != null ? glass : null},
-           type=${type != null ? type : null}
-       )}">이전</a>
+    <a th:if="${currentPage > 0}" th:href="@{/cocktails/all(page=${currentPage - 1})}" class="page-link">이전</a>
     <span th:text="${currentPage != null ? currentPage + 1 : 1}"></span> / <span th:text="${totalPages}"></span>
-    <a th:if="${currentPage < totalPages - 1}"
-       th:href="@{/cocktails/complex(
-           page=${currentPage + 1},
-           ingredient=${ingredient != null ? ingredient : null},
-           glass=${glass != null ? glass : null},
-           type=${type != null ? type : null}
-       )}">다음</a>
-</div>
-
-<div class="back-button-container">
-    <a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
+    <a th:if="${currentPage < totalPages - 1}" th:href="@{/cocktails/all(page=${currentPage + 1})}"
+       class="page-link">다음</a>
 </div>
 
 </body>
+
+<div th:replace="fragment/footer :: footer"></div>
+
 </html>

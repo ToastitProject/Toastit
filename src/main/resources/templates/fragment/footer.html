@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Footer Fragment</title>
+</head>
+<body>
+<footer th:fragment="footer" class="footer">
+    <div class="footer-container">
+
+        <hr class="divider">
+
+        <div class="footer-main">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <img src="/image/logo-version-3.png" alt="로고" class="logo-image">
+                    <span class="logo-text">ToastIT</span>
+                </div>
+
+                <div class="footer-contact">
+                    <p class="contact-phone">010-0000-0000</p>
+                    <p class="contact-email">example123456@gamil.com</p>
+                </div>
+            </div>
+
+            <div class="footer-info">
+                <p>(주)**** | 대표이사 : ** | 서울특별시 강남구 *** 빌딩 3층 (주)*****</p>
+                <p>사업자 등록번호 : ***-**-***** | 통신판매업신고 : 제****-서울강남-*****호</p>
+                <p>제호 : Enterprise | 대표 발행인 : *** | 편집인 : *** | 청소년보호책임자 : *** | 인터넷신문등록번호: 서울, 아*****</p>
+                <p>등록일 : ****년 **월 **일 | 발행일 : ****년 **월 **일</p>
+            </div>
+
+            <div class="links">
+                <div class="footer-links">
+                    <a href="#" class="footer-link">개인정보 처리 방침</a>
+                    <a href="#" class="footer-link">운영정책</a>
+                    <a href="#" class="footer-link">이용약관</a>
+                    <a href="#" class="footer-link">청소년보호정책</a>
+                </div>
+
+                <div class="out-link">
+                    <a th:href="@{https://github.com/ToastitProject}" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/github-mark.svg" alt="깃허브로고" class="git-logo-image">
+                    </a>
+                    <a th:href="@{https://likelion.net/}" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/LIKELION_brandsymbol_black.png" alt="멋사로고" class="techit-logo-image">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="footer-main">
+            <div class="footer-copyright">
+                <p>Copyright © 2024 non-names</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
