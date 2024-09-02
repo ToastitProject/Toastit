@@ -49,9 +49,10 @@ public class SecurityConfig {
             "/css/**", // CSS 리소스
             "/image/**", // 이미지 리소스 및 API
             "/favicon.ico", // 
-
-            "/custom/**", // 커스텀 칵테일 레시피 API
+      
+            "/craft/**", // 커스텀 칵테일 레시피 API
             "/cocktails/**", // 기본 칵테일 레시피 API
+            "/season", // 계절별 칵테일 추천 API
 
             "/map/**", //지도 API
             "/email/**", // 이메일 API
@@ -64,9 +65,6 @@ public class SecurityConfig {
 
             "/like/**", // 좋아요 API
             "/follow/**", //팔로우 API
-
-            "/dataSearch", //네이버 통합검색 API
-            "/getData"    //톰합 검색 결과를 얻는 API
     };
 
     // 비로그인 유저 허용 페이지

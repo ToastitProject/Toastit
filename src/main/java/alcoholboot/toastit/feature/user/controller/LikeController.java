@@ -1,10 +1,10 @@
 
 package alcoholboot.toastit.feature.user.controller;
 
-import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
-import alcoholboot.toastit.feature.customcocktail.service.CustomCocktailService;
-import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
-import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
+import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
+import alcoholboot.toastit.feature.craftcocktail.service.impl.CraftCocktailServiceImpl;
+import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
+import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 
@@ -17,13 +17,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 import java.util.Optional;
+
+import alcoholboot.toastit.global.entity.JpaAuditingFields;
 
 @Controller
 @Slf4j
@@ -31,7 +31,7 @@ import java.util.Optional;
 public class LikeController {
     private final UserService userService;
     private final LikeService likeService;
-    private final CustomCocktailService customCocktailService;
+    private final CraftCocktailServiceImpl customCocktailService;
     private final CocktailService cocktailService;
 
     //커스텀 칵테일에 좋아요를 표시하는 기능
@@ -44,7 +44,7 @@ public class LikeController {
 
         String cocktailName = requestBody.get("drink-name");
 
-        CustomCocktail cocktail = customCocktailService.findIdByName(cocktailName);
+        CraftCocktailEntity cocktail = customCocktailService.findIdByName(cocktailName);
 
         log.info("현재 로그인 한 user email : " + loginUserEmail);
         log.info("좋아요 할 칵테일 레시피의 ID :" + cocktail.getId());
@@ -70,8 +70,8 @@ public class LikeController {
 
     }
 
-    @PostMapping("/defaultLike")
-    public ResponseEntity<?> likeDefaultCocktail(@RequestBody Map<String, String> requestBody) {
+    @PostMapping("/baseLike")
+    public ResponseEntity<?> likebasecocktail(@RequestBody Map<String, String> requestBody) {
         log.info("Default cocktail 좋아요 postMapping 전송됨");
 
         // 로그인 한 user
@@ -80,17 +80,17 @@ public class LikeController {
         Optional<User> loginUser = userService.findByEmail(loginUserEmail);
 
         // 좋아요 할 칵테일
-        String defaultCocktailIdstr = requestBody.get("default-cocktail-number");
-        log.info("좋아요 할 기본 칵테일 ID : "+defaultCocktailIdstr);
-        ObjectId defaultCocktailId = new ObjectId(defaultCocktailIdstr);
+        String basecocktailIdstr = requestBody.get("base-cocktail-number");
+        log.info("좋아요 할 기본 칵테일 ID : "+basecocktailIdstr);
+        ObjectId basecocktailId = new ObjectId(basecocktailIdstr);
 
-        Optional<Cocktail> cocktail = cocktailService.getCocktailById(defaultCocktailId);
+        Optional<Cocktail> cocktail = cocktailService.getCocktailById(basecocktailId);
 
         log.info("로그인 한 User 닉네임 : " + loginUser.get().getNickname());
         log.info("좋아요 할 Default cocktail ID : " + cocktail.get().getId());
 
         // 이미 좋아요가 있는지 확인하는 객체 생성
-        LikeEntity existingLike = likeService.findByUserIdAndDefaultCocktailsId(loginUser.get().getId(),defaultCocktailId);
+        LikeEntity existingLike = likeService.findByUserIdAndBasecocktailsId(loginUser.get().getId(),basecocktailId);
 
         if (existingLike != null) {
             // 기존 좋아요가 존재하면 삭제
@@ -102,7 +102,7 @@ public class LikeController {
             log.info("기존에 존재하는 좋아요 없음이 확인 됨");
             LikeEntity like = new LikeEntity();
             like.setUser(loginUser.get().convertToEntity());
-            like.setDefaultCocktailsId(defaultCocktailId);
+            like.setBasecocktailsId(basecocktailId);
             likeService.saveLike(like);
             log.info("좋아요가 추가되었습니다. cocktail id: " + cocktail.get().getId());
             log.info("like 객체에 저장된 login user id : " + like.getUser().getId());
