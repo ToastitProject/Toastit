@@ -1,9 +1,8 @@
 package alcoholboot.toastit.feature.trendcocktail.controller;
 
 import alcoholboot.toastit.feature.trendcocktail.dto.TrendCocktailDTO;
-import alcoholboot.toastit.feature.trendcocktail.entity.TrendCocktailEntity;
-import alcoholboot.toastit.feature.trendcocktail.service.DataSaveService;
-import alcoholboot.toastit.feature.trendcocktail.service.DataSearchVolumeService;
+import alcoholboot.toastit.feature.trendcocktail.entity.TrendCocktail;
+import alcoholboot.toastit.feature.trendcocktail.service.impl.TrendCocktailServiceImpl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +22,9 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class DataSearchVolumeController {
+public class TrendCocktailController {
 
-    private final DataSearchVolumeService dataSearchVolumeService;
-    private final DataSaveService dataSaveService;
+    private final TrendCocktailServiceImpl trendCocktailService;
 
     @GetMapping("/dataSearch")
     public String nSearchView() {
@@ -44,7 +42,7 @@ public class DataSearchVolumeController {
                 "초콜릿 몽키","콜라와 드롭스","크랜베리 펀치", "드링킹 초콜릿","에그 크림","에그 노그 #4",
                 "건강한 에그 노그","에그 노그 클래식","프라페","후르츠 쿨러"
         );
-        return dataSearchVolumeService.getSearchVolume(cocktails);
+        return trendCocktailService.getSearchVolume(cocktails);
     }
     @PostMapping("/getData")
     public ResponseEntity<String> receiveData(@RequestBody String jsonString) {
@@ -65,7 +63,7 @@ public class DataSearchVolumeController {
 
                 // 각 요청의 결과를 DB에 저장
                 for (TrendCocktailDTO.Result result : trendCocktailDTO.getResults()) {
-                    TrendCocktailEntity cocktail = new TrendCocktailEntity();
+                    TrendCocktail cocktail = new TrendCocktail();
 
                     System.out.println("Title: " + result.getTitle());
                     cocktail.setStartDate(trendCocktailDTO.getStartDate());
@@ -88,7 +86,7 @@ public class DataSearchVolumeController {
                     }
 
                     // DB에 저장
-                    dataSaveService.save(cocktail);
+                    trendCocktailService.save(cocktail);
                 }
             }
 
@@ -99,14 +97,4 @@ public class DataSearchVolumeController {
 
         return ResponseEntity.ok("데이터가 성공적으로 수신되었습니다.");
     }
-
-
-
-
-
-
-
-
-
-
 }

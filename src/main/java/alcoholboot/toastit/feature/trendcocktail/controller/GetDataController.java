@@ -1,5 +1,5 @@
-package alcoholboot.toastit.feature.dataSearchVolume.controller;
-import alcoholboot.toastit.feature.dataSearchVolume.service.DataSaveService;
+package alcoholboot.toastit.feature.trendcocktail.controller;
+import alcoholboot.toastit.feature.trendcocktail.service.impl.TrendCocktailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class GetDataController {
 
-    private DataSaveService dataSaveService;
+    private TrendCocktailServiceImpl trendCocktailService;
 
     @GetMapping("/getData")
     public String getData() {

@@ -1,4 +1,4 @@
-package alcoholboot.toastit.global.config.dataSearchVolume;
+package alcoholboot.toastit.global.config.naverdatasearch;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
