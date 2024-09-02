@@ -35,7 +35,7 @@
             sendCoordinatesToServer(latitude, longitude);
 
             function sendCoordinatesToServer(lat, lon) {
-                fetch('/save-coordinates', {
+                fetch('/weather', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -144,7 +144,7 @@
     </style>
 </head>
 <body>
-<header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
+<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 <hr class="divider">
 <p></p>
 <div id="map"></div>

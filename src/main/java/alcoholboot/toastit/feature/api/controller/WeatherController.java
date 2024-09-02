@@ -2,7 +2,7 @@ package alcoholboot.toastit.feature.api.controller;
 
 import alcoholboot.toastit.feature.api.dto.AreaRequestDTO;
 import alcoholboot.toastit.feature.api.dto.LatXLngY;
-import alcoholboot.toastit.feature.api.dto.WeatherDTO;
+import alcoholboot.toastit.feature.api.entity.WeatherEntity;
 import alcoholboot.toastit.feature.api.service.RecommendByWeatherService;
 import alcoholboot.toastit.feature.api.service.WeatherService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,7 +41,6 @@ public class WeatherController {
     @Value("${google.geocoding.api.key}")
     private String geocodingApiKey;
 
-
     @GetMapping("/weather")
     public String map(Model model) {
         log.info("map 으로 GetMapping 이 들어옴");
@@ -49,10 +48,10 @@ public class WeatherController {
         model.addAttribute("geocodingApiKey", geocodingApiKey);
 //        log.info("모델에 담아 보내는 MAP API KEY : "+ mapsApiKey);
 //        log.info("모델에 담아 보내는 Geocoding API KEY : "+geocodingApiKey);
-        return "/feature/api/weather";
+        return "feature/api/weather";
     }
 
-    @PostMapping("/save-coordinates")
+    @PostMapping("/weather")
     @ResponseBody
     public Map<String, Object> saveCoordinates(@RequestBody Map<String, Double> coordinates) throws UnsupportedEncodingException, URISyntaxException, JsonProcessingException {
         Double latitude = coordinates.get("latitude");
@@ -104,12 +103,14 @@ public class WeatherController {
         // 시간 추가
         areaRequestDTO.setBaseTime(basetime);
 
-        List<WeatherDTO> weatherDTOList = weatherService.getWeather(areaRequestDTO);
+        List<WeatherEntity> weatherEntityList = weatherService.getWeather(areaRequestDTO);
 
         // 받은 날씨 정보에서 기온(T1H)과 기상형태(PTY)를 받기
-        Double t1h = weatherService.getWeatherByCategory(weatherDTOList, "T1H").getObsrValue();
-        Double doublePty = weatherService.getWeatherByCategory(weatherDTOList, "PTY").getObsrValue();
-        Integer pty = doublePty.intValue();
+        String strT1h = weatherService.getWeatherByCategory(weatherEntityList, "T1H").getObsrValue();
+        String strPty = weatherService.getWeatherByCategory(weatherEntityList, "PTY").getObsrValue();
+        double t1h = Double.parseDouble(strT1h);
+        double doublePty = Double.parseDouble(strPty);
+        int pty = (int) doublePty;
 
         // 랜덤으로 쓸 재료를 검색
         Random random = new Random();

@@ -1,5 +1,7 @@
 package alcoholboot.toastit.feature.api.dto;
 
+import alcoholboot.toastit.feature.api.entity.WeatherEntity;
+import lombok.Builder;
 import lombok.Data;
 
 @Data

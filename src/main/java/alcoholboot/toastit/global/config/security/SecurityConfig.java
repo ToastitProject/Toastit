@@ -54,6 +54,7 @@ public class SecurityConfig {
             "/cocktails/**", // 기본 칵테일 레시피 API
 
             "/map/**", //지도 API
+            "/weather/**", // 날씨 API
             "/email/**", // 이메일 API
 
             "/user/mypage", // 회원 정보 API
