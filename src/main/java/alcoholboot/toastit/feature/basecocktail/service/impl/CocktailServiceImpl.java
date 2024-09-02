@@ -36,86 +36,6 @@ public class    CocktailServiceImpl implements CocktailService {
                 .map(CocktailDocument::convertToDomain);
     }
 
-//    /**
-//     * 특정 재료를 포함하는 칵테일을 페이징 처리하여 조회합니다.
-//     *
-//     * @param ingredient 검색할 재료 목록
-//     * @param pageable 페이징 정보
-//     * @return 페이징 처리된 칵테일 목록
-//     */
-//    @Override
-//    public Page<Cocktail> getCocktailsByIngredientPaged(List<String> ingredient, Pageable pageable) {
-//        return cocktailRepository.findCocktailsByIngredientPage(ingredient, pageable)
-//                .map(CocktailDocument::convertToDomain);
-//    }
-
-//    /**
-//     * 특정 잔 종류를 사용하는 칵테일을 페이징 처리하여 조회합니다.
-//     *
-//     * @param glass 검색할 잔 종류
-//     * @param pageable 페이징 정보
-//     * @return 페이징 처리된 칵테일 목록
-//     */
-//    @Override
-//    public Page<Cocktail> getCocktailsByGlassPaged(String glass, Pageable pageable) {
-//        return cocktailRepository.findCocktailsByGlassPage(glass, pageable)
-//                .map(CocktailDocument::convertToDomain);
-//    }
-
-//    /**
-//     * 특정 타입의 칵테일을 페이징 처리하여 조회합니다.
-//     *
-//     * @param type 검색할 칵테일 타입
-//     * @param pageable 페이징 정보
-//     * @return 페이징 처리된 칵테일 목록
-//     */
-//    @Override
-//    public Page<Cocktail> getCocktailsByTypePaged(String type, Pageable pageable) {
-//        return cocktailRepository.findCocktailsByCategoryPage(type, pageable)
-//                .map(CocktailDocument::convertToDomain);
-//    }
-
-//    /**
-//     * 특정 재료와 잔 종류를 사용하는 칵테일을 페이징 처리하여 조회합니다.
-//     *
-//     * @param ingredient 검색할 재료 목록
-//     * @param glass 검색할 잔 종류
-//     * @param pageable 페이징 정보
-//     * @return 페이징 처리된 칵테일 목록
-//     */
-//    @Override
-//    public Page<Cocktail> getCocktailsByIngredientAndGlassPaged(List<String> ingredient, String glass, Pageable pageable) {
-//        return cocktailRepository.findByIngredientAndGlass(ingredient, glass, pageable)
-//                .map(CocktailDocument::convertToDomain);
-//    }
-
-//    /**
-//     * 특정 재료와 타입의 칵테일을 페이징 처리하여 조회합니다.
-//     *
-//     * @param ingredient 검색할 재료 목록
-//     * @param type 검색할 칵테일 타입
-//     * @param pageable 페이징 정보
-//     * @return 페이징 처리된 칵테일 목록
-//     */
-//    @Override
-//    public Page<Cocktail> getCocktailsByIngredientAndTypePaged(List<String> ingredient, String type, Pageable pageable) {
-//        return cocktailRepository.findByIngredientAndCategoryPage(ingredient, type, pageable)
-//                .map(CocktailDocument::convertToDomain);
-//    }
-
-//    /**
-//     * 특정 잔 종류와 타입의 칵테일을 페이징 처리하여 조회합니다.
-//     *
-//     * @param glass 검색할 잔 종류
-//     * @param type 검색할 칵테일 타입
-//     * @param pageable 페이징 정보
-//     * @return 페이징 처리된 칵테일 목록
-//     */
-//    @Override
-//    public Page<Cocktail> getCocktailsByGlassAndTypePaged(String glass, String type, Pageable pageable) {
-//        return cocktailRepository.findByGlassAndCategoryPage(glass, type, pageable)
-//                .map(CocktailDocument::convertToDomain);
-//    }
 
     /**
      * 재료, 잔 종류, 타입을 모두 고려하여 칵테일을 페이징 처리하여 조회합니다.
@@ -132,6 +52,7 @@ public class    CocktailServiceImpl implements CocktailService {
                 .map(CocktailDocument::convertToDomain);
     }
 
+
     /**
      * 주어진 ID에 해당하는 칵테일을 조회합니다.
      *
@@ -143,6 +64,7 @@ public class    CocktailServiceImpl implements CocktailService {
         return cocktailRepository.findById(id)
                 .map(CocktailDocument::convertToDomain);
     }
+
 
     /**
      * 무작위로 선택된 칵테일을 반환합니다.
@@ -158,6 +80,7 @@ public class    CocktailServiceImpl implements CocktailService {
                 .collect(Collectors.toList());
     }
 
+
     /**
      * 특정 재료를 포함하는 모든 칵테일을 조회합니다.
      *
@@ -166,9 +89,11 @@ public class    CocktailServiceImpl implements CocktailService {
      */
     @Override
     public List<Cocktail> getCocktailsByIngredient(String ingredient) {
-        return cocktailRepository.findByAnyIngredient(ingredient);
+        return cocktailRepository.findByIngredient(ingredient)
+                .stream()
+                .map(CocktailDocument::convertToDomain)
+                .collect(Collectors.toList());
     }
-
 
 
     @Override

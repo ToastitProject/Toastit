@@ -43,56 +43,9 @@ public class CocktailController {
         model.addAttribute("cocktails", cocktails);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", cocktails.getTotalPages());
-        return "feature/basecocktail/cocktailList";
+        return "feature/basecocktail/cocktailList-form";
     }
 
-//    @GetMapping("/all/ingredient")
-//    public String getCocktailsByIngredient(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam @NotEmpty List<String> ingredient,
-//            Model model) {
-//
-//        Page<Cocktail> cocktailPage = cocktailService.getCocktailsByIngredientPaged(ingredient, PageRequest.of(page, 20));
-//
-//        model.addAttribute("cocktails", cocktailPage.getContent());
-//
-//        model.addAttribute("currentPage", page);
-//
-//        model.addAttribute("totalPages", cocktailPage.getTotalPages());
-//
-//        model.addAttribute("ingredient", String.join(",", ingredient));
-//
-//        return "feature/basecocktail/cocktailIngredient";
-//    }
-
-//    @GetMapping("/all/glass")
-//    public String getCocktailsByGlass(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam @NotEmpty String glass,
-//            Model model) {
-//        Page<Cocktail> cocktails = cocktailService.getCocktailsByGlassPaged(glass, PageRequest.of(page, 20));
-//        model.addAttribute("cocktails", cocktails);
-//
-//        model.addAttribute("currentPage", page);
-//
-//        model.addAttribute("totalPages", cocktails.getTotalPages());
-//
-//        model.addAttribute("glass", String.join(",", glass));
-//        return "feature/basecocktail/cocktailGlass";
-//    }
-
-//    @GetMapping("/all/type")
-//    public String getCocktailsByType(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam @NotEmpty String type,
-//            Model model) {
-//        Page<Cocktail> cocktails = cocktailService.getCocktailsByTypePaged(type, PageRequest.of(page, 20));
-//        model.addAttribute("cocktails", cocktails);
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("totalPages", cocktails.getTotalPages());
-//        model.addAttribute("type", String.join(", ", type));
-//        return "feature/basecocktail/cocktailType";
-//    }
 
     /**
      * 복합 조건(재료, 잔, 타입)으로 칵테일을 필터링하여 조회합니다.
@@ -130,7 +83,7 @@ public class CocktailController {
             model.addAttribute("type", String.join(", ", type));
         }
 
-        return "feature/basecocktail/cocktailComplex";
+        return "feature/basecocktail/cocktailComplex-form";
     }
 
     /**
@@ -169,7 +122,7 @@ public class CocktailController {
             model.addAttribute("isLiked", false); // 로그인하지 않은 경우
         }
 
-        return "feature/basecocktail/cocktailDetails";
+        return "feature/basecocktail/cocktailDetails-view";
     }
 
     /**
@@ -185,15 +138,16 @@ public class CocktailController {
         List<Cocktail> cocktails= cocktailService.getRandomCocktails(count);
         model.addAttribute("cocktails", cocktails);
 
-        return "feature/basecocktail/random";
+        return "feature/basecocktail/random-view";
     }
 
-    @GetMapping("/name")
-    public String getName(@RequestParam("name") String name,
-                          Model model) {
-        Cocktail cocktail = cocktailService.getSingleCocktailByName(name);
-        model.addAttribute("cocktail", cocktail);
-
-        return "feature/basecocktail/name";
-    }
+    // do not Delete
+//    @GetMapping("/name")
+//    public String getName(@RequestParam("name") String name,
+//                          Model model) {
+//        Cocktail cocktail = cocktailService.getSingleCocktailByName(name);
+//        model.addAttribute("cocktail", cocktail);
+//
+//        return "feature/basecocktail/name";
+//    }
 }
