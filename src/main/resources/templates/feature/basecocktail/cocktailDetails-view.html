@@ -22,7 +22,8 @@
     <div class="round-rectangle">
         <div class="cocktail-info-container">
             <div class="cocktail-image-container">
-                <img th:src="@{${cocktail.get().imagePath}}" th:alt="${cocktail.get().strDrink}" class="cocktail-detail-image">
+                <img th:src="@{${cocktail.get().imagePath}}" th:alt="${cocktail.get().strDrink}"
+                     class="cocktail-detail-image">
             </div>
             <div class="cocktail-text-container">
                 <h1 th:text="${cocktail.get().strDrink}">칵테일 이름</h1>

@@ -108,7 +108,6 @@ public class CocktailDocument {
     @Field("likeCount")
     private Integer likeCount;
 
-    // 아직 도메인과 엔티티의 변환을 사용하지 않음. 사용법 고안해야 함
     public Cocktail convertToDomain() {
         return Cocktail.builder()
                 .id(this.id.toString())
