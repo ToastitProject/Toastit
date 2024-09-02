@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
-    LikeEntity findByUserIdAndCraftCocktailId (Long userId, Long customCocktailId);
-    LikeEntity findByUserIdAndDefaultCocktailsId(Long userId, ObjectId objectId);
+    LikeEntity findByUserIdAndCraftCocktailId (Long userId, Long craftCocktailId);
+    LikeEntity findByUserIdAndBasecocktailsId(Long userId, ObjectId objectId);
 
-    @Query("SELECT COUNT(l) FROM LikeEntity l WHERE l.defaultCocktailsId = :defaultCocktailId")
-    int countByDefaultCocktailsId(@Param("defaultCocktailId") ObjectId defaultCocktailId);
+    @Query("SELECT COUNT(l) FROM LikeEntity l WHERE l.basecocktailsId = :basecocktailId")
+    int countByBasecocktailsId(@Param("basecocktailId") ObjectId basecocktailId);
 }

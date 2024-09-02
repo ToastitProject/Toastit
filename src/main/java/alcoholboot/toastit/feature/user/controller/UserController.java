@@ -32,7 +32,7 @@ public class UserController {
     //홈 화면에서 마이페이지 접속하는 컨트롤러
     @GetMapping("/mypages")
     public String showMyPages(Model model) {
-        log.debug("myPages로 GetMapping 요청이 들어왔습니다.");
+        log.info("myPages 로 GetMapping 들어옴!");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             String email = authentication.getName();

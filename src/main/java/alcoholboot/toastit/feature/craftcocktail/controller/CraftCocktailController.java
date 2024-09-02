@@ -207,7 +207,7 @@ public class CraftCocktailController {
                 boolean isOwner = cocktail.getUser().getId().equals(user.getId());
                 model.addAttribute("isOwner", isOwner);
 
-                LikeEntity existingLike = likeService.getByUserIdAndCraftCocktailId(user.getId(), id);
+                LikeEntity existingLike = likeService.findByUserIdAndCraftCocktailId(user.getId(), id);
                 model.addAttribute("isLiked", existingLike != null);
             } else {
                 model.addAttribute("isOwner", false);

@@ -11,11 +11,11 @@ import org.bson.types.ObjectId;
 
 @Getter
 @Setter
+@Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "likes")
-@Entity
 public class LikeEntity extends JpaAuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class LikeEntity extends JpaAuditingFields {
 
     private Long cocktailId;
 
-    private ObjectId defaultCocktailsId;
+    private ObjectId basecocktailsId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "craft_cocktails_id", nullable = true)
@@ -32,4 +32,14 @@ public class LikeEntity extends JpaAuditingFields {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
+
+    public Like convertToDomain() {
+        return Like.builder()
+                .id(this.id)
+                .cocktailId(cocktailId)
+                .basecocktailId(this.basecocktailsId)
+                .craftCocktail(this.craftCocktail)
+                .userEntity(this.user)
+                .build();
+    }
 }

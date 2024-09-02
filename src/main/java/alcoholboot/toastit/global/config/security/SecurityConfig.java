@@ -65,6 +65,9 @@ public class SecurityConfig {
 
             "/like/**", // 좋아요 API
             "/follow/**", //팔로우 API
+
+            "/dataSearch",
+            "/getData"
     };
 
     // 비로그인 유저 허용 페이지

@@ -57,7 +57,7 @@
         justify-content: center; /* 카드 왼쪽 정렬 */
         overflow: hidden;
         flex-wrap: nowrap; /* 카드가 줄바꿈 불가능하도록 설정 */
-        margin-top: 20px;
+        margin-top: 10px;
         width: 1125px;
         min-width: 1125px;
         height: 280px;
@@ -255,6 +255,19 @@
         width: 1155px;
         min-width: 1155px;
     }
+    img.trend_img {
+        width: 178px;
+        height: 220px;
+    }
+    h4 {
+        margin-top: 5px;
+        color: black;
+    }
+    .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+    }
 
 </style>
 
@@ -308,13 +321,15 @@
     <!-- 기본 레시피 섹션 -->
     <section class="basic-recipes">
         <h3>기본 레시피 TOP 5</h3>
-        <p class="note">우리 모두가 좋아하는 칵테일 레시피</p>
+        <p class="note">지난 달 검색량이 급등한 레시피 TOP 5</p>
         <div class="card-container">
-            <div class="card">레시피 1</div>
-            <div class="card">레시피 2</div>
-            <div class="card">레시피 3</div>
-            <div class="card">레시피 4</div>
-            <div class="card">레시피 5</div>
+            <div th:each="trendCocktail : ${trendCocktails}" class="card">
+                <a th:href="@{/cocktails/id(id=${trendCocktail.getId()})}">
+                    <input type="hidden" th:if="${trendCocktail.getId() == null}" th:value="${trendCocktail.getId()}" id="hiddenTrendCocktailId"/>
+                    <img th:src="${trendCocktail.imagePath}" alt="trendCocktail 이미지" class="trend_img">
+                    <h4 th:text="${trendCocktail.getStrDrink()}"></h4>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -325,7 +340,6 @@
         <div class="sort-options">
             <span class="sort-item" data-sort="latest" onclick="changeSort('latest')">최신순</span>
             <span class="sort-item" data-sort="popular" onclick="changeSort('popular')">인기순</span>
-<!--            <span class="sort-item" data-sort="followers" onclick="changeSort('followers')">팔로워순</span>-->
         </div>
         <div class="card-container">
             <div th:each="cocktail : ${cocktails}" class="card">
