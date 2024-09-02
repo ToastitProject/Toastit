@@ -15,7 +15,7 @@ public class Like {
     private Long id;
     private Long cocktailId;
     private ObjectId basecocktailId;
-    private CraftCocktailEntity customCocktail;
+    private CraftCocktailEntity craftCocktail;
     private UserEntity userEntity;
 
     public LikeEntity convertToEntity() {
@@ -23,7 +23,7 @@ public class Like {
                 .id(this.id)
                 .cocktailId(this.cocktailId)
                 .basecocktailsId(this.basecocktailId)
-                .customCocktail(this.getCustomCocktail())
+                .craftCocktail(this.getCraftCocktail())
                 .user(userEntity)
                 .build();
     }

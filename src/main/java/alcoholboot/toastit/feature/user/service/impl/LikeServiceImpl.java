@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class LikeServiceImpl implements LikeService {
     private final LikeRepository likerepository;
 
-    @Override
-    public LikeEntity findByUserIdAndCustomCocktailId(Long userId, Long customCocktailId) {
-        return likerepository.findByUserIdAndCustomCocktailId(userId,customCocktailId);
-    }
-
     public void saveLike (LikeEntity likeEntity) {
         likerepository.save(likeEntity);
+    }
+
+    @Override
+    public LikeEntity findByUserIdAndCraftCocktailId(Long userId, Long craftCocktailId) {
+        return likerepository.findByUserIdAndCraftCocktailId(userId,craftCocktailId);
     }
 
     @Transactional

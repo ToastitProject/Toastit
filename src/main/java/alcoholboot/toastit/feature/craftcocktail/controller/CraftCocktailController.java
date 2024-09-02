@@ -178,7 +178,7 @@ public class CraftCocktailController {
             String loginUserEmail = authentication.getName();
             Optional<User> loginUser = userService.findByEmail(loginUserEmail);
 
-            Optional<LikeEntity> deleteLikeOpt = Optional.ofNullable(likeService.findByUserIdAndCustomCocktailId(loginUser.get().getId(), id));
+            Optional<LikeEntity> deleteLikeOpt = Optional.ofNullable(likeService.findByUserIdAndCraftCocktailId(loginUser.get().getId(), id));
             deleteLikeOpt.ifPresent(likeService::deleteLike); // 좋아요가 있는 경우에만 삭제
 
             //칵테일도 지운다
@@ -207,7 +207,7 @@ public class CraftCocktailController {
                 boolean isOwner = cocktail.getUser().getId().equals(user.getId());
                 model.addAttribute("isOwner", isOwner);
 
-                LikeEntity existingLike = likeService.findByUserIdAndCustomCocktailId(user.getId(), id);
+                LikeEntity existingLike = likeService.findByUserIdAndCraftCocktailId(user.getId(), id);
                 model.addAttribute("isLiked", existingLike != null);
             } else {
                 model.addAttribute("isOwner", false);

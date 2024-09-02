@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
-    LikeEntity findByUserIdAndCustomCocktailId (Long userId, Long customCocktailId);
+    LikeEntity findByUserIdAndCraftCocktailId (Long userId, Long craftCocktailId);
     LikeEntity findByUserIdAndBasecocktailsId(Long userId, ObjectId objectId);
 
     @Query("SELECT COUNT(l) FROM LikeEntity l WHERE l.basecocktailsId = :basecocktailId")
