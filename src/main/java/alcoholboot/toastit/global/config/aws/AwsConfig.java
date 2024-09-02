@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 public class AwsConfig {
+
     @Value("${cloud.aws.credentials.accessKey}")
     private String accessKey;
 
@@ -19,6 +21,10 @@ public class AwsConfig {
     @Value("${cloud.aws.region.static}")
     private String region;
 
+    /**
+     * 아마존 S3 bucket 객체를 사용할 수 있도록 key 들을 넣어준다.
+     * @return : AmazonS3Client 타입의 객체를 반환한다
+     */
     @Bean
     public AmazonS3Client amazonS3Client() {
         BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(accessKey, secretKey);

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
-    <link th:href="@{/css/user/joinForm.css}" rel="stylesheet">
+    <link th:href="@{/css/auth/join-form.css}" rel="stylesheet">
     <title>술프링부트 - 회원가입</title>
     <script>
         // 전역 스크립트로 함수 선언
@@ -12,7 +12,7 @@
             sessionStorage.clear();
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             // 외부로부터 삽입된 fragment에 스크립트를 연결합니다.
             document.getElementById("logoLink").onclick = clearSessionStorageForFragment;
             document.getElementById("loginLink").onclick = clearSessionStorageForFragment;
@@ -25,10 +25,9 @@
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 
 
-
 <div class="card">
     <h2 style=>회원가입</h2>
-    <form id="joinForm" th:action="@{/user/join}" th:object="${userJoinRequest}" method="post" class="info">
+    <form id="joinForm" th:action="@{/auth/join}" th:object="${userJoinRequest}" method="post" class="info">
         <!-- 이메일 입력란 -->
         <div class="input-container">
             <input type="email" class="input" th:field="*{email}" id="email" required placeholder=" 이메일을 입력하세요">
@@ -39,32 +38,38 @@
 
         <!-- "다시 인증하기" 링크. 초기 상태는 숨김 -->
         <div id="resetAuthButtonContainer" class="hidden">
-            <a id="resetAuthButton" style="margin-top: 50px; cursor: pointer; text-decoration: none !important;" class="code-button"
-               th:href="@{/user/join}" onclick="clearSessionStorage()">다시 인증하기</a>
+            <a id="resetAuthButton" style="margin-top: 50px; cursor: pointer; text-decoration: none !important;"
+               class="code-button"
+               th:href="@{/auth/join}" onclick="clearSessionStorage()">다시 인증하기</a>
         </div>
 
         <div id="authSection" class="hidden">
             <!-- 인증 코드 입력란과 타이머 -->
             <div class="input-container">
-                <input type="text" class="input" th:field="*{authCode}" id="authCode" required placeholder=" 인증코드를 입력하세요">
+                <input type="text" class="input" th:field="*{authCode}" id="authCode" required
+                       placeholder=" 인증코드를 입력하세요">
                 <span id="timer"></span>
                 <div id="endtimer"></div>
                 <button class="code-button" type="button" onclick="verifyAuthCode()">인증 확인</button>
-                <button id="resendCodeButton" class="code-button hidden" type="button" onclick="resendAuthCode()">재발송</button>
+                <button id="resendCodeButton" class="code-button hidden" type="button" onclick="resendAuthCode()">재발송
+                </button>
             </div>
 
 
         </div>
 
         <div id="userDetailsSection" class="hidden">
-            <div class="inputHidden" >
-            <!-- 비밀번호 입력란 -->
+            <div class="inputHidden">
+                <!-- 비밀번호 입력란 -->
                 <input type="password" class="input" th:field="*{password}" id="password" required placeholder=" 비밀번호">
-                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;" class="passwordError"></div>
-            <!-- 비밀번호 확인 입력란 -->
-                <input type="password" class="input" th:field="*{passwordCheck}" id="passwordCheck" required placeholder=" 비밀번호 확인">
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"
+                     class="passwordError"></div>
+                <!-- 비밀번호 확인 입력란 -->
+                <input type="password" class="input" th:field="*{passwordCheck}" id="passwordCheck" required
+                       placeholder=" 비밀번호 확인">
                 <!-- passwordMatchingError가 있을 경우, 그리고 password 필드에 에러가 없을 경우에만 오류 메시지 표시 -->
-                <div th:if="${passwordMatchingError != null} and ${!#fields.hasErrors('password')}" style="color: red;" class="passwordError">
+                <div th:if="${passwordMatchingError != null} and ${!#fields.hasErrors('password')}" style="color: red;"
+                     class="passwordError">
                     <p th:text="${passwordMatchingError}"></p>
                 </div>
             </div>
@@ -77,6 +82,6 @@
     </form>
 </div>
 
-<script th:src="@{/js/user/joinForm.js}"></script>
+<script th:src="@{/js/auth/join-form.js}"></script>
 </body>
 </html>

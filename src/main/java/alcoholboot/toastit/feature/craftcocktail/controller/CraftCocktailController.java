@@ -9,7 +9,7 @@ import alcoholboot.toastit.feature.craftcocktail.controller.request.CraftCocktai
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.service.LikeService;
-import alcoholboot.toastit.feature.user.service.UserService;
+import alcoholboot.toastit.feature.user.service.UserManagementService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class CraftCocktailController {
 
     private final CraftCocktailService customCocktailService;
     private final CloudStorageService cloudStorageService;
-    private final UserService userService;
+    private final UserManagementService userManagementService;
     private final LikeService likeService;
 
     @GetMapping("/craft")
@@ -66,7 +66,7 @@ public class CraftCocktailController {
 
         try {
             String email = authentication.getName();
-            Optional<User> userOptional = userService.findByEmail(email);
+            Optional<User> userOptional = userManagementService.findByEmail(email);
 
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
@@ -176,9 +176,9 @@ public class CraftCocktailController {
             //유저 아이디와 커스텀 칵테일 아이디로 좋아요 객체를 찾아서 지운다
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String loginUserEmail = authentication.getName();
-            Optional<User> loginUser = userService.findByEmail(loginUserEmail);
+            Optional<User> loginUser = userManagementService.findByEmail(loginUserEmail);
 
-            Optional<LikeEntity> deleteLikeOpt = Optional.ofNullable(likeService.findByUserIdAndCustomCocktailId(loginUser.get().getId(), id));
+            Optional<LikeEntity> deleteLikeOpt = Optional.ofNullable(likeService.findByUserIdAndCraftCocktailId(loginUser.get().getId(), id));
             deleteLikeOpt.ifPresent(likeService::deleteLike); // 좋아요가 있는 경우에만 삭제
 
             //칵테일도 지운다
@@ -200,14 +200,14 @@ public class CraftCocktailController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             String loginUserEmail = authentication.getName();
-            Optional<User> loginUser = userService.findByEmail(loginUserEmail);
+            Optional<User> loginUser = userManagementService.findByEmail(loginUserEmail);
 
             if (loginUser.isPresent()) {
                 User user = loginUser.get();
                 boolean isOwner = cocktail.getUser().getId().equals(user.getId());
                 model.addAttribute("isOwner", isOwner);
 
-                LikeEntity existingLike = likeService.findByUserIdAndCustomCocktailId(user.getId(), id);
+                LikeEntity existingLike = likeService.findByUserIdAndCraftCocktailId(user.getId(), id);
                 model.addAttribute("isLiked", existingLike != null);
             } else {
                 model.addAttribute("isOwner", false);

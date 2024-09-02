@@ -7,7 +7,7 @@
     <title>술프링부트 - 유저 탈퇴</title>
     <script>
         function submitResign() {
-            fetch('/user/resign', {
+            fetch('/auth/resign', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -36,12 +36,14 @@
         padding: 0;
         box-sizing: border-box;
     }
+
     body {
         font-family: 'Gmarket Sans', sans-serif;
         color: #FFA832;
         margin: 0;
         padding: 20px;
     }
+
     .menu a, .profile a {
         text-decoration: none;
         color: black;
@@ -97,6 +99,7 @@
         text-align: center;
         margin-top: 10px;
     }
+
     .button-container {
         margin-top: 30px;
     }
@@ -106,6 +109,7 @@
         font-weight: bold;
         font-size: 1.4em;
     }
+
     .button {
         background-color: #FFA832;
         color: #ffffff;
@@ -139,7 +143,7 @@
     </div>
     <div class="info">
         <p></p>
-        <p>칵테일은 1 도 모르는  <span th:text="${user.nickname}"></span> 회원 님 !!</p>
+        <p>칵테일은 1 도 모르는 <span th:text="${user.nickname}"></span> 회원 님 !!</p>
         <p>정말로 탈퇴를 진행 하시겠어요??</p>
         <div class="button-container">
             <button class="button" onclick="submitResign()">RESIGN</button>

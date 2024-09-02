@@ -1,5 +1,6 @@
 package alcoholboot.toastit.feature.user.service;
 
+import alcoholboot.toastit.feature.user.domain.Follow;
 import alcoholboot.toastit.feature.user.entity.FollowEntity;
 import org.springframework.stereotype.Service;
 

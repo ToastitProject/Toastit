@@ -2,6 +2,7 @@ package alcoholboot.toastit.feature.user.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
 import org.springframework.security.core.GrantedAuthority;
 
 @Getter

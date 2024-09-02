@@ -1,6 +1,7 @@
 package alcoholboot.toastit.feature.user.util;
 
 import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;

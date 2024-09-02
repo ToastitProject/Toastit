@@ -4,7 +4,7 @@ import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.repository.UserRepository;
-import alcoholboot.toastit.feature.user.service.UserService;
+import alcoholboot.toastit.feature.user.service.UserManagementService;
 import alcoholboot.toastit.auth.email.service.VerificationService;
 import alcoholboot.toastit.feature.user.util.RandomNickname;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserManagementServiceImpl implements UserManagementService {
     private final UserRepository userRepository;
     private final RandomNickname randomNickname;
     private final VerificationService verificationService;
@@ -65,6 +65,17 @@ public class UserServiceImpl implements UserService {
         return nickname;
     }
 
+    /**
+     * 비밀번호 암호화
+     *
+     * @param password 비밀번호
+     * @return 암호화된 비밀번호
+     */
+    public String encryptPassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(password);
+    }
+
     @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email).map(UserEntity::convertToDomain);
@@ -93,16 +104,5 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteByEmail(String email) {
         userRepository.deleteByEmail(email);
-    }
-
-    /**
-     * 비밀번호 암호화
-     *
-     * @param password 비밀번호
-     * @return 암호화된 비밀번호
-     */
-    public String encryptPassword(String password) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.encode(password);
     }
 }

@@ -6,7 +6,7 @@ import alcoholboot.toastit.feature.user.entity.UserEntity;
 
 import java.util.Optional;
 
-public interface UserService {
+public interface UserManagementService {
     void save(UserJoinRequest userJoinDto);
     Optional<User> findByEmailAndProviderType(String email, String providerType);
     String getUniqueNickname();
