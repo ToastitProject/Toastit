@@ -2,6 +2,7 @@ package alcoholboot.toastit.feature.user.domain;
 
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.type.Authority;
+
 import lombok.*;
 
 import java.time.LocalDate;

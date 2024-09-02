@@ -46,7 +46,7 @@ public class CraftCocktailEntity extends JpaAuditingFields {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    @OneToMany(mappedBy = "customCocktail", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "craftCocktail", cascade = CascadeType.ALL)
     private List<LikeEntity> likes = new ArrayList<>();
 
 

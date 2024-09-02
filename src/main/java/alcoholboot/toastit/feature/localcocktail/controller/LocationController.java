@@ -1,6 +1,6 @@
 package alcoholboot.toastit.feature.localcocktail.controller;
 
-import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
+import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
 import alcoholboot.toastit.feature.localcocktail.controller.request.LocationDataRequest;
 import alcoholboot.toastit.feature.localcocktail.service.LocationCocktailService;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
@@ -16,9 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * 위치 기반 요청을 처리하는 컨트롤러
