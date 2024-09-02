@@ -43,7 +43,7 @@ public class CocktailController {
         model.addAttribute("cocktails", cocktails);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", cocktails.getTotalPages());
-        return "feature/basecocktail/cocktailList-form";
+        return "feature/basecocktail/allList-form";
     }
 
 
@@ -83,7 +83,7 @@ public class CocktailController {
             model.addAttribute("type", String.join(", ", type));
         }
 
-        return "feature/basecocktail/cocktailComplex-form";
+        return "feature/basecocktail/search-form";
     }
 
     /**
@@ -122,7 +122,7 @@ public class CocktailController {
             model.addAttribute("isLiked", false); // 로그인하지 않은 경우
         }
 
-        return "feature/basecocktail/cocktailDetails-view";
+        return "feature/basecocktail/detail-view";
     }
 
     /**
