@@ -14,7 +14,7 @@ import org.bson.types.ObjectId;
 public class Like {
     private Long id;
     private Long cocktailId;
-    private ObjectId defaultCocktailId;
+    private ObjectId basecocktailId;
     private CraftCocktailEntity customCocktail;
     private UserEntity userEntity;
 
@@ -22,7 +22,7 @@ public class Like {
         return LikeEntity.builder()
                 .id(this.id)
                 .cocktailId(this.cocktailId)
-                .defaultCocktailsId(this.defaultCocktailId)
+                .basecocktailsId(this.basecocktailId)
                 .customCocktail(this.getCustomCocktail())
                 .user(userEntity)
                 .build();

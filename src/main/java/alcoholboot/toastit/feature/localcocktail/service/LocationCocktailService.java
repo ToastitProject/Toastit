@@ -1,6 +1,6 @@
 package alcoholboot.toastit.feature.localcocktail.service;
 
-import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;
+import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
 
 import java.util.List;
 

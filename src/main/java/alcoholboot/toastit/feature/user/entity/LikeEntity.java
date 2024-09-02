@@ -21,7 +21,7 @@ public class LikeEntity extends JpaAuditingFields {
 
     private Long cocktailId;
 
-    private ObjectId defaultCocktailsId;
+    private ObjectId basecocktailsId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "custom_cocktail_id", nullable = true)
@@ -35,7 +35,7 @@ public class LikeEntity extends JpaAuditingFields {
         return Like.builder()
                 .id(this.id)
                 .cocktailId(cocktailId)
-                .defaultCocktailId(this.defaultCocktailsId)
+                .basecocktailId(this.basecocktailsId)
                 .customCocktail(this.customCocktail)
                 .userEntity(this.user)
                 .build();

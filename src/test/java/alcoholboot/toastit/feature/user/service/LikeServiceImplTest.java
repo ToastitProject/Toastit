@@ -3,7 +3,7 @@
 //import static org.junit.jupiter.api.Assertions.*;
 //import static org.mockito.Mockito.*;
 //
-//import alcoholboot.toastit.feature.defaultcocktail.entity.CocktailEntity;
+//import alcoholboot.toastit.feature.basecocktail.entity.CocktailEntity;
 //import alcoholboot.toastit.feature.user.domain.Like;
 //import alcoholboot.toastit.feature.user.domain.User;
 //import alcoholboot.toastit.feature.user.entity.LikeEntity;

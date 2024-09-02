@@ -10,6 +10,6 @@ public interface LikeService {
     LikeEntity findByUserIdAndCustomCocktailId (Long userId, Long CustomCocktailId);
 void saveLike (LikeEntity likeEntity);
 void deleteLike (LikeEntity likeEntity);
-LikeEntity findByUserIdAndDefaultCocktailsId(Long userId, ObjectId objectId);
-int countByDefaultCocktailsId(ObjectId objectId);
+LikeEntity findByUserIdAndBasecocktailsId(Long userId, ObjectId objectId);
+int countByBasecocktailsId(ObjectId objectId);
 }
