@@ -49,7 +49,7 @@ public class CraftCocktailController {
 
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다");
-            return "redirect:/login";
+            return "redirect:/user/login";
         }
 
         return "feature/craftcocktail/write";
@@ -61,7 +61,7 @@ public class CraftCocktailController {
 
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다.");
-            return "redirect:/login";
+            return "redirect:/user/login";
         }
 
         try {
@@ -104,7 +104,7 @@ public class CraftCocktailController {
             } else {
                 log.warn("유저를 찾을 수 없습니다: " + email);
                 redirectAttributes.addFlashAttribute("message", "유저 정보를 찾을 수 없습니다.");
-                return "redirect:/login";
+                return "redirect:/user/login";
             }
         } catch (Exception e) {
             log.error("칵테일 저장 실패: ", e);

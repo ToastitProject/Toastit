@@ -1,6 +1,7 @@
 package alcoholboot.toastit.feature.craftcocktail.service.impl;
 
 import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
+import alcoholboot.toastit.feature.craftcocktail.entity.IngredientEntity;
 import alcoholboot.toastit.feature.craftcocktail.repository.CraftCocktailRepository;
 import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,12 +22,12 @@ public class CraftCocktailServiceImpl implements CraftCocktailService {
     private final CraftCocktailRepository craftCocktailRepository;
 
     @Override
-    public List<CraftCocktailEntity> getAllCocktails() {
-        return craftCocktailRepository.findAll();
-    }
-
-    @Override
+    @Transactional
     public void saveCocktail(CraftCocktailEntity customCocktail) {
+        for (IngredientEntity ingredient : customCocktail.getIngredients()) {
+            ingredient.setCocktail(customCocktail);
+        }
+
         craftCocktailRepository.save(customCocktail);
     }
 
@@ -33,6 +35,11 @@ public class CraftCocktailServiceImpl implements CraftCocktailService {
     public CraftCocktailEntity getCocktailById(Long id) {
         Optional<CraftCocktailEntity> cocktail = craftCocktailRepository.findById(id);
         return cocktail.orElseThrow(() -> new RuntimeException("Cocktail not found"));
+    }
+
+    @Override
+    public List<CraftCocktailEntity> getAllCocktails() {
+        return craftCocktailRepository.findAll();
     }
 
     @Override
@@ -69,7 +76,7 @@ public class CraftCocktailServiceImpl implements CraftCocktailService {
 
     @Override
     public List<CraftCocktailEntity> getTopNCocktailsByFollowerCount(int limit) {
-        Pageable pageable = PageRequest.of(0, limit); // 페이지 번호 0, 가져올 수 limit
+        Pageable pageable = PageRequest.of(0, limit);
         return craftCocktailRepository.findTopByOrderByFollowerCountDesc(pageable);
     }
 }

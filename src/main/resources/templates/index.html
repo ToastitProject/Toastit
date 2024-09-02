@@ -9,255 +9,255 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <title>술프링부트 - 메인 페이지</title>
+    <style>
+        /* 기존 스타일 코드 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Gmarket Sans', sans-serif;
+            color: #FFA832;
+            margin: 0;
+            padding: 20px;
+            min-width: 610px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            gap: 50px;
+        }
+
+        .a-card-container {
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        section {
+            padding: 15px;
+            background-color: #ffffff;
+        }
+        .note {
+            font-size: 1em;
+            color: #000;
+            margin-top: 10px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+            width: 1125px;
+            min-width: 1125px;
+            height: 280px;
+            cursor: pointer;
+        }
+
+        .swiper mySwiper {
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+            width: 1125px;
+            min-width: 1125px;
+            height: 220px;
+            cursor: pointer;
+        }
+
+        section.cocktail-recommendations {
+            width: 100%;
+            overflow: hidden;
+            margin-top: 70px;
+            max-width: 1150px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            align-items: center;
+            width: 200px;
+            height: 270px;
+            min-width: 200px;
+            min-height: 180px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-right: 10px;
+            margin-left: 10px;
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .swiper-slide {
+            background-color: #ffffff;
+            border: none;
+            text-align: center;
+            align-items: center;
+            width: 300px;
+            height: 200px;
+            min-width: 300px;
+            min-height: 200px;
+            margin-right: 10px;
+            overflow: hidden;
+            box-shadow: none;
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+            position: relative;
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            object-fit: cover;
+            transition: opacity 0.4s;
+        }
+        .swiper-slide .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            color: #000000;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        .swiper-slide:hover img {
+            opacity: 0.4;
+        }
+
+        .swiper-slide:hover .text {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .s-card {
+            background-color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            align-items: center;
+            width: 450px;
+            height: 165px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-right: 25px;
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+            position: relative;
+        }
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: calc(100% * 1/6);
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 1.5em;
+            text-align: left;
+        }
+        .divider {
+            border: none;
+            height: 2px;
+            background-color: #FFA832;
+            margin-top: -10px;
+        }
+        .sort-options {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -35px;
+            margin-bottom: 20px;
+            max-width: 1230px;
+            width: 100%;
+            flex-wrap: nowrap;
+            overflow: hidden;
+        }
+
+        .sort-item {
+            margin-right: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-weight: bold;
+        }
+
+        .sort-item:hover {
+            color: #FFA832;
+        }
+        .cocktail-image {
+            width: 100%;
+            height: 220px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .cocktail-name {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            font-size: 1.3em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 90%;
+        }
+
+        .nickName {
+            font-family: 'Gmarket Sans', sans-serif;
+            font-weight: bold;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .card:hover .cocktail-image {
+            filter: blur(7px);
+        }
+
+        .card:hover .cocktail-name {
+            opacity: 1;
+        }
+
+        .shopping-section {
+            overflow: hidden;
+        }
+
+        .text-center {
+            text-align: center;
+            margin: 10px;
+        }
+
+        .s-card img {
+            width: 430px;
+            max-width: 430px;
+            min-height: 130px;
+        }
+        section.basic-recipes {
+            width: 1155px;
+            min-width: 1155px;
+        }
+
+    </style>
 </head>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    body {
-        font-family: 'Gmarket Sans', sans-serif;
-        color: #FFA832;
-        margin: 0;
-        padding: 20px;
-        min-width: 610px;
-    }
-
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 20px;
-        gap: 50px; /* 섹션 간의 간격 */
-    }
-
-    .a-card-container {
-        display: flex;
-        justify-content: flex-start; /* 카드 왼쪽 정렬 */
-        flex-wrap: nowrap; /* 카드가 줄바꿈 불가능하도록 설정 */
-        overflow-x: hidden; /* 스크롤 바를 숨김 */
-        margin-top: 20px;
-    }
-
-    section {
-        padding: 15px;
-        background-color: #ffffff;
-    }
-    .note {
-        font-size: 1em; /* 글씨 크기를 0.75배로 설정 */
-        color: #000 ; ;  /* 검은색 글씨 */
-        margin-top: 10px; /* 상단 여백 */
-        text-align: left; /* 좌측 정렬 */
-        font-weight: bold;
-    }
-
-    .card-container {
-        display: flex;
-        justify-content: center; /* 카드 왼쪽 정렬 */
-        overflow: hidden;
-        flex-wrap: nowrap; /* 카드가 줄바꿈 불가능하도록 설정 */
-        margin-top: 20px;
-        width: 1125px;
-        min-width: 1125px;
-        height: 280px;
-        cursor: pointer;
-    }
-    .swiper mySwiper {
-        display: flex;
-        justify-content: center;
-        overflow: hidden;
-        flex-wrap: nowrap;
-        margin-top: 20px;
-        width: 1125px;
-        min-width: 1125px;
-        height: 220px;
-        cursor: pointer;
-    }
-    section.cocktail-recommendations {
-        width: 100%;
-        overflow: hidden;
-        margin-top: 70px;
-        max-width: 1150px;
-    }
-
-    .card {
-        background-color: #ffffff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 10px;
-        text-align: center;
-        align-items: center;
-        width: 200px;
-        height: 270px;
-        min-width: 200px;
-        min-height: 180px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        margin-right: 10px;
-        margin-left: 10px;
-        margin-bottom: 10px;
-        transition: transform 0.2s;
-        position: relative;
-    }
-
-    .swiper-slide{
-        background-color: #ffffff;
-        border: none;
-        text-align: center; /* 문구를 가운데 정렬 */
-        align-items: center;
-        width: 300px;
-        height: 200px;
-        min-width: 300px;
-        min-height: 200px;
-        margin-right: 10px;
-        overflow: hidden;
-        box-shadow: none;
-        margin-bottom: 10px; /* 카드 간의 세로 간격 */
-        transition: transform 0.2s;
-        position: relative; /* 자식 요소의 절대 위치 설정을 위한 relative */
-
-    }
-    .swiper-slide img {
-        width: 100%; /* 이미지 가로 크기 조정 */
-        height: 100%; /* 이미지 세로 크기 조정 */
-        border-radius: 5px;
-        object-fit: cover;
-        transition: opacity 0.4s; /* 이미지 흐림 효과 */
-    }
-    .swiper-slide .text {
-        position: absolute; /* 절대 위치 설정 */
-        top: 50%; /* 세로 중앙 정렬 */
-        left: 50%; /* 가로 중앙 정렬 */
-        transform: translate(-50%, -50%); /* 중앙 정렬을 위한 변환 */
-        opacity: 0; /* 기본적으로 숨김 */
-        transition: opacity 0.5s; /* 텍스트 나타나는 효과 */
-        color: #000000; /* 텍스트 색상 */
-        font-weight: bold; /* 글씨를 두껍게 */
-        font-size: 1.5em;
-    }
-    .swiper-slide:hover img {
-        opacity: 0.4; /* 호버 시 이미지 흐림 */
-    }
-
-    .swiper-slide:hover .text {
-        opacity: 1; /* 호버 시 텍스트 나타남 */
-    }
-
-    .card:hover {
-        transform: scale(1.05); /* 카드 호버 시 확대 효과 */
-    }
-
-    .s-card{
-        background-color: #ffffff;
-        padding: 10px;
-        text-align: center; /* 문구를 가운데 정렬 */
-        align-items: center;
-        width: 450px;
-        height: 165px;
-
-        box-sizing: border-box;
-
-
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        margin-right: 25px; /* 카드 간의 간격 */
-        margin-bottom: 10px; /* 카드 간의 세로 간격 */
-        transition: transform 0.2s;
-        position: relative; /* 자식 요소의 절대 위치 설정을 위한 relative */
-    }
-    .slider {
-        display: flex;
-        transition: transform 0.5s ease;
-        width: calc(100% * 1/6); /* 카드 수에 맞게 조정 */
-    }
-
-    h3 {
-        margin: 0;
-        font-size: 1.5em;
-        text-align: left;
-    }
-    .divider {
-        border: none;
-        height: 2px;
-        background-color: #FFA832;
-        margin-top: -10px;
-    }
-    .sort-options {
-        display: flex; /* 가로로 정렬 */
-        justify-content: flex-end; /* 왼쪽 정렬 */
-        margin-top: -35px;
-        margin-bottom: 20px; /* 카드와의 간격 */
-        max-width: 1230px;
-        width: 100%;
-        flex-wrap: nowrap;
-        overflow: hidden;
-    }
-
-    .sort-item {
-        margin-right: 20px; /* 항목 간격 */
-        cursor: pointer; /* 포인터 커서 */
-        transition: color 0.3s; /* 색상 전환 효과 */
-        font-weight: bold;
-    }
-
-    .sort-item:hover {
-        color: #FFA832; /* 호버 시 색상 변화 */
-    }
-    .cocktail-image {
-        width: 100%; /* 카드 너비에 맞추기 */
-        height: 220px; /* 비율에 맞춰 높이 조절 */
-        border-radius: 4px; /* 이미지 모서리 둥글게 */
-        margin-bottom: 8px; /* 이미지와 텍스트 간의 간격 */
-    }
-
-    .cocktail-name {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #ffffff; /* 칵테일 이름 색상 */
-        font-size: 1.3em; /* 기본 텍스트 크기 */
-        opacity: 0; /* 초기 상태에서 숨김 */
-        transition: opacity 0.3s ease;
-        white-space: nowrap; /* 텍스트를 한 줄로 유지 */
-        overflow: hidden; /* 넘치는 부분 숨김 */
-        text-overflow: ellipsis; /* 넘치는 부분을 '...'으로 표시 */
-        max-width: 90%; /* 최대 너비를 설정하여 글씨 크기 조정 */
-    }
-
-    .nickName{
-        font-family: 'Gmarket Sans', sans-serif;
-        font-weight: bold;
-        color : #000000;
-        text-decoration: none;
-    }
-
-    .card:hover .cocktail-image {
-        filter: blur(7px); /* 이미지 흐리기 */
-    }
-
-    .card:hover .cocktail-name {
-        opacity: 1; /* 호버 시 텍스트 표시 */
-    }
-
-    .shopping-section{
-        overflow: hidden;
-    }
-    .text-center {
-        text-align: center; /* 텍스트 가운데 정렬 */
-        margin: 10px; /* 여백 자동 설정 */
-    }
-    .s-card img {
-        width: 430px;
-        max-width: 430px;
-        min-height: 130px;
-    }
-    section.basic-recipes {
-        width: 1155px;
-        min-width: 1155px;
-    }
-
-</style>
-
 <body>
 
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
@@ -325,7 +325,6 @@
         <div class="sort-options">
             <span class="sort-item" data-sort="latest" onclick="changeSort('latest')">최신순</span>
             <span class="sort-item" data-sort="popular" onclick="changeSort('popular')">인기순</span>
-<!--            <span class="sort-item" data-sort="followers" onclick="changeSort('followers')">팔로워순</span>-->
         </div>
         <div class="card-container">
             <div th:each="cocktail : ${cocktails}" class="card">
@@ -339,7 +338,6 @@
                 </a>
             </div>
         </div>
-
     </section>
 
     <!-- 쇼핑 공간 섹션 -->
@@ -393,13 +391,16 @@
                         <img src="/image/ads/ad3.png" alt="ads">
                     </a>
                 </div>
+                <div class="s-card">
+                    <a href="https://link.coupang.com/a/bflAdO" target="_blank" rel="noopener noreferrer">
+                        <img src="/image/ads/ad1.png" alt="ads">
+                    </a>
+                </div>
             </div>
         </div>
     </section>
-
-
 </div>
-</body>
+
 <script>
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 3,
@@ -409,7 +410,6 @@
             clickable: true,
         },
     });
-
 
     function changeSort(sortType) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -428,11 +428,8 @@
         slider.style.transform = `translateX(${offset}%)`;
     }
 
-    // 5초마다 카드 변경
+    // 3초마다 카드 변경
     setInterval(showNextCards, 3000);
-
 </script>
-
-
-
+</body>
 </html>
