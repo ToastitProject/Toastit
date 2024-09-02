@@ -1,6 +1,7 @@
 package alcoholboot.toastit.feature.user.domain;
 
 import alcoholboot.toastit.feature.user.entity.FollowEntity;
+
 import lombok.*;
 
 @Getter
@@ -20,10 +21,5 @@ public class Follow {
                 .follower(this.convertToEntity().getFollower())
                 .followee(this.convertToEntity().getFollowee())
                 .build();
-    }
-
-    public Follow(Long followerId, Long followeeId) {
-        this.followerId = followerId;
-        this.followeeId = followeeId;
     }
 }

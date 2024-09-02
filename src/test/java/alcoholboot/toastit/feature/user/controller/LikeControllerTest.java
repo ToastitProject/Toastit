@@ -8,7 +8,7 @@ import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.AWSService.LikeService;
-import alcoholboot.toastit.feature.user.AWSService.UserService;
+import alcoholboot.toastit.feature.user.AWSService.UserManagementService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ public class LikeControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private UserService userService;
+    private UserManagementService userService;
 
     @Mock
     private CocktailService cocktailService;
