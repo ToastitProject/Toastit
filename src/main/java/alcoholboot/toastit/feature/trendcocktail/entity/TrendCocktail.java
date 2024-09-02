@@ -1,16 +1,14 @@
-package alcoholboot.toastit.feature.dataSearchVolume.entity;
+package alcoholboot.toastit.feature.trendcocktail.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Entity
 @Getter
 @Setter
-@Table(name = "Cocktail_search_data")
-public class CocktailDataEntity {
+@Table(name = "trend_cocktail")
+public class TrendCocktailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

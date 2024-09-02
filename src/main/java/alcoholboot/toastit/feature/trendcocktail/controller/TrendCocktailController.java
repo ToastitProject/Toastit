@@ -1,9 +1,9 @@
-package alcoholboot.toastit.feature.dataSearchVolume.controller;
+package alcoholboot.toastit.feature.trendcocktail.controller;
 
-import alcoholboot.toastit.feature.dataSearchVolume.dto.CocktailData;
-import alcoholboot.toastit.feature.dataSearchVolume.entity.CocktailDataEntity;
-import alcoholboot.toastit.feature.dataSearchVolume.service.DataSaveService;
-import alcoholboot.toastit.feature.dataSearchVolume.service.DataSearchVolumeService;
+import alcoholboot.toastit.feature.trendcocktail.dto.TrendCocktailDTO;
+import alcoholboot.toastit.feature.trendcocktail.entity.TrendCocktailEntity;
+import alcoholboot.toastit.feature.trendcocktail.service.DataSaveService;
+import alcoholboot.toastit.feature.trendcocktail.service.DataSearchVolumeService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -55,27 +55,27 @@ public class DataSearchVolumeController {
         try {
             // '||' 특수문자를 기준으로 응답을 분리
             String[] requests = jsonString.split("\\|\\|");
-            List<CocktailData> cocktailDataList = new ArrayList<>();
+            List<TrendCocktailDTO> trendCocktailDTOList = new ArrayList<>();
 
             for (String request : requests) {
                 // 각 요청을 매핑하여 객체 생성
-                CocktailData cocktailData = objectMapper.readValue(request, CocktailData.class);
-                cocktailDataList.add(cocktailData);
-                log.info("cocktailData 의 results 리스트 크기 " + cocktailData.getResults().size());
+                TrendCocktailDTO trendCocktailDTO = objectMapper.readValue(request, TrendCocktailDTO.class);
+                trendCocktailDTOList.add(trendCocktailDTO);
+                log.info("cocktailData 의 results 리스트 크기 " + trendCocktailDTO.getResults().size());
 
                 // 각 요청의 결과를 DB에 저장
-                for (CocktailData.Result result : cocktailData.getResults()) {
-                    CocktailDataEntity cocktail = new CocktailDataEntity();
+                for (TrendCocktailDTO.Result result : trendCocktailDTO.getResults()) {
+                    TrendCocktailEntity cocktail = new TrendCocktailEntity();
 
                     System.out.println("Title: " + result.getTitle());
-                    cocktail.setStartDate(cocktailData.getStartDate());
-                    cocktail.setEndDate(cocktailData.getEndDate());
+                    cocktail.setStartDate(trendCocktailDTO.getStartDate());
+                    cocktail.setEndDate(trendCocktailDTO.getEndDate());
 
                     System.out.println("Keywords: " + result.getKeywords());
                     cocktail.setKeyword(result.getKeywords().get(0));
                     cocktail.setName(result.getKeywords().get(0));
 
-                    List<CocktailData.Data> dataList = result.getData();
+                    List<TrendCocktailDTO.Data> dataList = result.getData();
                     if (dataList.size() > 1) {
                         cocktail.setSearchVolumeTwoMonthAgo(dataList.get(0).getRatio());
                         cocktail.setSearchVolumeOneMonthAgo(dataList.get(1).getRatio());

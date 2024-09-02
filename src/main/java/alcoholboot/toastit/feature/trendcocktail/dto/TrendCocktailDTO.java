@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.dataSearchVolume.dto;
+package alcoholboot.toastit.feature.trendcocktail.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.List;
