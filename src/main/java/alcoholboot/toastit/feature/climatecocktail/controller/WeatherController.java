@@ -1,10 +1,10 @@
-package alcoholboot.toastit.feature.api.controller;
+package alcoholboot.toastit.feature.climatecocktail.controller;
 
-import alcoholboot.toastit.feature.api.dto.AreaRequestDTO;
-import alcoholboot.toastit.feature.api.dto.LatXLngY;
-import alcoholboot.toastit.feature.api.entity.WeatherEntity;
-import alcoholboot.toastit.feature.api.service.RecommendByWeatherService;
-import alcoholboot.toastit.feature.api.service.WeatherService;
+import alcoholboot.toastit.feature.climatecocktail.dto.AreaRequestDTO;
+import alcoholboot.toastit.feature.climatecocktail.dto.LatXLngY;
+import alcoholboot.toastit.feature.climatecocktail.entity.WeatherEntity;
+import alcoholboot.toastit.feature.climatecocktail.service.RecommendByWeatherService;
+import alcoholboot.toastit.feature.climatecocktail.service.WeatherService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import alcoholboot.toastit.feature.defaultcocktail.service.CocktailService;
 import alcoholboot.toastit.feature.defaultcocktail.domain.Cocktail;

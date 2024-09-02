@@ -1,6 +1,6 @@
-package alcoholboot.toastit.feature.api.repository;
+package alcoholboot.toastit.feature.climatecocktail.repository;
 
-import alcoholboot.toastit.feature.api.entity.RecommendByWeatherEntity;
+import alcoholboot.toastit.feature.climatecocktail.entity.RecommendByWeatherEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,13 +1,11 @@
-package alcoholboot.toastit.feature.api.repository;
+package alcoholboot.toastit.feature.climatecocktail.repository;
 
-import alcoholboot.toastit.feature.api.dto.AreaRequestDTO;
-import alcoholboot.toastit.feature.api.entity.WeatherEntity;
+import alcoholboot.toastit.feature.climatecocktail.dto.AreaRequestDTO;
+import alcoholboot.toastit.feature.climatecocktail.entity.WeatherEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

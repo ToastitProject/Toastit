@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.api.entity;
+package alcoholboot.toastit.feature.climatecocktail.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

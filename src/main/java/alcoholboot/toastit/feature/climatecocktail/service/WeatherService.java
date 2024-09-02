@@ -1,8 +1,8 @@
-package alcoholboot.toastit.feature.api.service;
+package alcoholboot.toastit.feature.climatecocktail.service;
 
-import alcoholboot.toastit.feature.api.dto.*;
-import alcoholboot.toastit.feature.api.entity.WeatherEntity;
-import alcoholboot.toastit.feature.api.repository.WeatherRepository;
+import alcoholboot.toastit.feature.climatecocktail.dto.*;
+import alcoholboot.toastit.feature.climatecocktail.entity.WeatherEntity;
+import alcoholboot.toastit.feature.climatecocktail.repository.WeatherRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
