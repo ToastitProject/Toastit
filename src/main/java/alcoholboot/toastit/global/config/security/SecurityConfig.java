@@ -63,7 +63,10 @@ public class SecurityConfig {
             "/user/logout", // 로그아웃 API
 
             "/like/**", // 좋아요 API
-            "/follow/**" //팔로우 API
+            "/follow/**", //팔로우 API
+
+            "/dataSearch", //네이버 통합검색 API
+            "/getData"    //톰합 검색 결과를 얻는 API
     };
 
     // 비로그인 유저 허용 페이지
