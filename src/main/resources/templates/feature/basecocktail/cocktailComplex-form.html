@@ -6,7 +6,6 @@
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <link th:href="@{/css/basecocktail/basecocktail.css}" rel="stylesheet">
 
-<!--    <script th:src="@{/js/basecocktail/toggle.js}" defer></script>-->
     <script th:src="@{/js/basecocktail/search.js}" defer></script>
     <script th:src="@{/js/basecocktail/formVail.js}" defer></script>
 
@@ -31,12 +30,16 @@
 <div class="cocktail-buttons">
     <div id="searchOptions">
         <form th:action="@{/cocktails/complex}" method="get">
-            <input type="text" id="ingredientInput" name="ingredient" th:value="${ingredient}" th:autocomplete="off" placeholder="재료 (예: 보드카, 럼)">
-            <input type="text" id="glassInput" name="glass" th:value="${glass}" th:autocomplete="off" placeholder="잔 종류 (예: 칵테일 잔)">
-            <input type="text" id="categoryInput" name="type" th:value="${type}" th:autocomplete="off" placeholder="타입 (예: 칵테일, 일반 음료)">
+            <input type="text" id="ingredientInput" name="ingredient" th:value="${ingredient}" th:autocomplete="off"
+                   placeholder="재료 (예: 보드카, 럼)">
+            <input type="text" id="glassInput" name="glass" th:value="${glass}" th:autocomplete="off"
+                   placeholder="잔 종류 (예: 칵테일 잔)">
+            <input type="text" id="categoryInput" name="type" th:value="${type}" th:autocomplete="off"
+                   placeholder="타입 (예: 칵테일, 일반 음료)">
             <button id="searchButton" class="cocktail-button" type="submit" aria-label="검색">
                 <svg width="19" height="19" viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5.50619839,11.616766 C4.56198538,10.3979239 4,8.86806528 4,7.20694795 C4,3.22666051 7.22666051,0 11.206948,0 C15.1872354,0 18.4138959,3.22666051 18.4138959,7.20694795 C18.4138959,11.1872354 15.1872354,14.4138959 11.206948,14.4138959 C9.60074404,14.4138959 8.11726395,13.8884527 6.91902093,13.0000796 C6.88751372,13.0436324 6.85208138,13.0853262 6.81271478,13.1246928 L1.71079688,18.2266107 C1.31841004,18.6189975 0.686457829,18.6232301 0.293210874,18.2299831 C-0.0973134179,17.8394588 -0.0992840225,17.2082645 0.296583322,16.8123971 L5.39850122,11.7104792 C5.43268729,11.6762932 5.46869177,11.6450534 5.50619839,11.616766 Z M11.206948,12.4138959 C14.0826659,12.4138959 16.4138959,10.0826659 16.4138959,7.20694795 C16.4138959,4.33123001 14.0826659,2 11.206948,2 C8.33123001,2 6,4.33123001 6,7.20694795 C6,10.0826659 8.33123001,12.4138959 11.206948,12.4138959 Z" fill="currentColor"/>
+                    <path d="M5.50619839,11.616766 C4.56198538,10.3979239 4,8.86806528 4,7.20694795 C4,3.22666051 7.22666051,0 11.206948,0 C15.1872354,0 18.4138959,3.22666051 18.4138959,7.20694795 C18.4138959,11.1872354 15.1872354,14.4138959 11.206948,14.4138959 C9.60074404,14.4138959 8.11726395,13.8884527 6.91902093,13.0000796 C6.88751372,13.0436324 6.85208138,13.0853262 6.81271478,13.1246928 L1.71079688,18.2266107 C1.31841004,18.6189975 0.686457829,18.6232301 0.293210874,18.2299831 C-0.0973134179,17.8394588 -0.0992840225,17.2082645 0.296583322,16.8123971 L5.39850122,11.7104792 C5.43268729,11.6762932 5.46869177,11.6450534 5.50619839,11.616766 Z M11.206948,12.4138959 C14.0826659,12.4138959 16.4138959,10.0826659 16.4138959,7.20694795 C16.4138959,4.33123001 14.0826659,2 11.206948,2 C8.33123001,2 6,4.33123001 6,7.20694795 C6,10.0826659 8.33123001,12.4138959 11.206948,12.4138959 Z"
+                          fill="currentColor"/>
                 </svg>
             </button>
         </form>
