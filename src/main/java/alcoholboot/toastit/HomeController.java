@@ -28,13 +28,14 @@ public class HomeController {
 
     /**
      * 메인 화면을 보여주는 컨트롤러 입니다
-     * @param sort : 사용자가 커스텀 칵테일 레시피를 최신등록 순 혹은 좋아요 순으로 정렬하고 싶을 때 서버로 보내는 요청 값 입니다.
+     *
+     * @param sort  : 사용자가 커스텀 칵테일 레시피를 최신등록 순 혹은 좋아요 순으로 정렬하고 싶을 때 서버로 보내는 요청 값 입니다.
      * @param model : 기본 칵테일 5개 (검색량 증가 TOP 5) 를 view 로 보내는 모델 객체 입니다.
      * @return : 연결된 메인화면 view page 로 이동합니다
      */
 
     @GetMapping
-    public String showHomePage(@RequestParam(value = "sort",defaultValue = "latest") String sort, Model model) {
+    public String showHomePage(@RequestParam(value = "sort", defaultValue = "latest") String sort, Model model) {
         log.info("술프링 부트에 오신걸 환영합니다.");
 
         //검색량이 가장 많이 증가한 기본 칵테일 5개를 가져온다

@@ -3,7 +3,9 @@ package alcoholboot.toastit.feature.trendcocktail.service.impl;
 import alcoholboot.toastit.feature.trendcocktail.entity.TrendCocktail;
 import alcoholboot.toastit.feature.trendcocktail.repository.TrendCocktailRepository;
 import alcoholboot.toastit.feature.trendcocktail.service.TrendCocktailService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,19 +17,21 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TrendCocktailServiceImpl implements TrendCocktailService {
+
     private final RestTemplate restTemplate;
     private final TrendCocktailRepository trendCocktailRepository;
 
-    @Value("${naver.client.id}")
+    @Value("${api.naver.client-id}")
     private String clientId;
 
-    @Value("${naver.client.secret}")
+    @Value("${api.naver.client-secret}")
     private String clientSecret;
 
     @Transactional
@@ -35,7 +39,7 @@ public class TrendCocktailServiceImpl implements TrendCocktailService {
         trendCocktailRepository.save(trendCocktail);
     }
 
-
+    @Override
     public String getSearchVolume(List<String> keywords) {
         // 현재 날짜
         LocalDate now = LocalDate.now();
@@ -103,8 +107,7 @@ public class TrendCocktailServiceImpl implements TrendCocktailService {
     @Override
     public List<TrendCocktail> findTop5BySearchVolume() {
         return trendCocktailRepository.findTop5BySearchVolume().stream()
-                                        .limit(5)
-                                        .collect(Collectors.toList());
+                .limit(5)
+                .collect(Collectors.toList());
     }
-
 }
