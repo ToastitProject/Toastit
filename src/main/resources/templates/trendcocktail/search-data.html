@@ -12,24 +12,24 @@
 
 </body>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         // /dataSearch에서 응답 데이터 가져오기
-        $.get("/dataSearch", function(data) {
+        $.get("/baseCocktailSearch", function (data) {
             // 응답 데이터를 페이지에 표시
             $("#responseData").text(data); // JSON으로 변환하여 표시
 
             // 데이터 전송 버튼 클릭 시
-            $("#sendData").click(function() {
+            $("#sendData").click(function () {
                 console.log("전송할 데이터:", data); // 전송할 데이터 로그
                 $.ajax({
-                    url: "/getData",
+                    url: "/receive/trendCocktailData",
                     type: "POST",
                     contentType: "application/json",
                     data: data,
-                    success: function(response) {
+                    success: function (response) {
                         alert("서버 응답: " + response);
                     },
-                    error: function(error) {
+                    error: function (error) {
                         alert("전송 오류가 발생했습니다.");
                         console.error("전송 오류:", error);
                     }
