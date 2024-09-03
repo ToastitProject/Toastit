@@ -139,7 +139,7 @@
         <p>가입일: <span th:text="${user.getCreateDate()}"></span></p>
         <div th:if="${!notLoginUser}" class="button-container">
             <button class="button" th:onclick="|location.href='@{/user/edit}'|">수정하기</button>
-            <button class="button" th:onclick="|location.href='@{/user/resign}'|">탈퇴하기</button>
+            <button class="button" th:onclick="|location.href='@{/auth/resign}'|">탈퇴하기</button>
         </div>
 
         <div th:if="${notLoginUser}" class="button-container">
