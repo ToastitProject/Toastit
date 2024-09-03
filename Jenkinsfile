@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     parameters {
-       gitParameter branchFilter: 'origin/(.*)', defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH'
-     }
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Git branch to build')
+    }
 
     environment {
         // Docker Hub 자격 증명
