@@ -92,7 +92,7 @@ public class FollowController {
                 model.addAttribute("cocktails", new ArrayList<>());
             }
 
-        return "feature/user/followingForm";
+        return "user/following-recipes";
         }
     }
 
