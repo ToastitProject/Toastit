@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx
+    restart: unless-stopped                     # 컨테이너가 중지된 경우 자동 재시작 (수동으로 중지하지 않는 한)
+
+    ports:
+      - "80:80"                                 # HTTP 포트 (외부 80 포트를 컨테이너의 80 포트에 매핑)
+      - "81:81"                                 # 관리 UI 포트 (외부 81 포트를 컨테이너의 81 포트에 매핑)
+      - "443:443"                               # HTTPS 포트 (외부 443 포트를 컨테이너의 443 포트에 매핑)
+
+    networks:
+      - server
+
+    environment:
+      - TZ=Asia/Seoul
+
+    volumes:
+      - ./nginx/data:/data                      # 호스트 ./data 디렉토리를 컨테이너의 /data 디렉토리에 매핑 (데이터 저장소)
+      - ./nginx/letsencrypt:/etc/letsencrypt    # 호스트 ./letsencrypt 디렉토리를 컨테이너의 /etc/letsencrypt 디렉토리에 매핑 (SSL 인증서 저장소)
+
+networks:                                       # 네트워크 정의
+  database:                                     # 네트워크 이름 설정
+  server:
+    external: true
