@@ -360,7 +360,7 @@
         <p class="note">지난 달 검색량이 급등한 레시피 TOP 5</p>
         <div class="card-container">
             <div th:each="trendCocktail : ${trendCocktails}" class="card">
-                <a th:href="@{/cocktails/id(id=${trendCocktail.getId()})}">
+                <a th:href="@{/cocktails/id(id=${trendCocktail.getId()})}" style="text-decoration: none">
                     <input type="hidden" th:if="${trendCocktail.getId() == null}" th:value="${trendCocktail.getId()}"
                            id="hiddenTrendCocktailId"/>
                     <img th:src="${trendCocktail.imagePath}" alt="trendCocktail 이미지" class="trend_img">
@@ -380,13 +380,13 @@
         </div>
         <div class="card-container">
             <div th:each="cocktail : ${cocktails}" class="card">
-                <a th:href="@{/custom/{id}(id=${cocktail.id})}" th:if="${cocktail.images.size() > 0}">
+                <a th:href="@{/craft/{id}(id=${cocktail.id})}" th:if="${cocktail.images.size() > 0}">
                     <img th:src="${cocktail.images[0].imagePath}" alt="사진없음" class="cocktail-image"/>
                     <span class="cocktail-name" th:text="${cocktail.name}">칵테일 이름</span>
                 </a>
                 <input type="hidden" th:if="${cocktail.id == null}" th:value="${cocktail.id}" id="hiddenCocktailId"/>
-                <a th:href="@{/user/mypage(nickname=${cocktail.getUser().getNickname()})}">
-                    <span class="nickName" th:text="${cocktail.getUser().getNickname()}">닉네임 이름</span>
+                <a th:href="@{/user/mypage(nickname=${cocktail.getUser().getNickname()})}" style="text-decoration: none">
+                    <span class="nickName" th:text="${cocktail.getUser().getNickname()}" >닉네임 이름</span>
                 </a>
             </div>
         </div>
