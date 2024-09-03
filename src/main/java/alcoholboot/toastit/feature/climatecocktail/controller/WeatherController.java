@@ -51,7 +51,7 @@ public class WeatherController {
 //        List<WeatherEntity> weatherEntityList = weatherService.getWeatherByBaseDate("20240902");
 //        weatherService.deleteWeatherList(weatherEntityList);
 
-        return "feature/climatecocktail/weather";
+        return "climatecocktail/climatecocktail-view";
     }
 
     @PostMapping("/weather")
