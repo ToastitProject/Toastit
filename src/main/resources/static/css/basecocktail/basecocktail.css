@@ -76,6 +76,7 @@ body {
     height: 20px;
     vertical-align: middle;
     font-size: 19px;
+    font-weight: 600;
 }
 
 #searchOptions input:focus {
