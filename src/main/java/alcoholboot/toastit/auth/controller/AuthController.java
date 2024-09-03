@@ -1,8 +1,8 @@
 package alcoholboot.toastit.auth.controller;
 
+import alcoholboot.toastit.auth.controller.request.AuthJoinRequest;
+import alcoholboot.toastit.auth.controller.request.AuthLoginRequest;
 import alcoholboot.toastit.auth.service.AuthService;
-import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
-import alcoholboot.toastit.feature.user.controller.request.UserLoginRequest;
 import alcoholboot.toastit.feature.user.domain.User;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String showLoginPage(Model model) {
-        model.addAttribute("userLoginRequest", new UserLoginRequest());
+        model.addAttribute("authLoginRequest", new AuthLoginRequest());
 
         log.debug("로그인 페이지가 요청되었습니다.");
 
@@ -37,19 +37,19 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute @Valid UserLoginRequest userLoginDto,
+    public String login(@ModelAttribute @Valid AuthLoginRequest authLoginRequest,
                         BindingResult bindingResult,
                         HttpServletResponse response,
                         Model model) {
 
-        log.debug("로그인 시도: 이메일 {}", userLoginDto.getEmail());
+        log.debug("로그인 시도: 이메일 {}", authLoginRequest.getEmail());
 
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
             return "auth/login-form";
         }
 
-        User user = authService.login(userLoginDto, response);
+        User user = authService.login(authLoginRequest, response);
         model.addAttribute("user", user);
 
         log.debug("로그인 성공: 이메일 {}", user.getEmail());
@@ -70,7 +70,7 @@ public class AuthController {
 
     @GetMapping("/join")
     public String showJoinPage(Model model) {
-        model.addAttribute("userJoinRequest", new UserJoinRequest());
+        model.addAttribute("authJoinRequest", new AuthJoinRequest());
 
         log.debug("회원가입 페이지가 요청되었습니다.");
 
@@ -78,7 +78,7 @@ public class AuthController {
     }
 
     @PostMapping("/join")
-    public String join(@ModelAttribute @Valid UserJoinRequest userJoinDto, BindingResult bindingResult, Model model) {
+    public String join(@ModelAttribute @Valid AuthJoinRequest userJoinDto, BindingResult bindingResult, Model model) {
         log.debug("회원가입 시도: 이메일 {}", userJoinDto.getEmail());
 
         try {

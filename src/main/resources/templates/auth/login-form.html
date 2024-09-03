@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
-    <title>술프링부트 - 로그인</title>
+    <title>로그인 | ToastIT</title>
     <style>
         * {
             margin: 0;
@@ -88,14 +88,14 @@
         }
 
         .password-reset {
-            color: white;
+            color: #FFA832;
             text-decoration: none;
             padding-top: 5px;
             margin-top: -5px;
             text-align: right;
         }
 
-        .oathlogin img {
+        .oauthlogin img {
             width: 300px; /* 이미지 너비 조정 */
             height: 45px; /* 비율 유지 */
             margin: 5px 0; /* 버튼 간격 조정 */
@@ -136,13 +136,6 @@
             font-weight: bold;
         }
 
-        .divider {
-            border: none;
-            height: 2px;
-            background-color: #FFA832;
-            margin-top: -10px;
-        }
-
         .inputLogo {
             margin-top: -20px;
             width: 80px;
@@ -167,19 +160,17 @@
 </head>
 <body>
 
-<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
-
-<hr class="divider">
+<header th:replace="~{fragment/navbar-fragment :: navbarFragment}"></header>
 
 <div class="card">
     <img class="inputLogo" src="/image/logo-version-3.png">
     <div class="top">
         <h2 class="login-title">간편 로그인 하기</h2>
         <div class="button-container">
-            <a href="/oauth2/authorization/kakao" class="oathlogin">
+            <a href="/oauth2/authorization/kakao" class="oauthlogin">
                 <img src="/image/login/kakaoLogin.png" alt="카카오 로그인">
             </a>
-            <a href="/oauth2/authorization/naver" class="oathlogin">
+            <a href="/oauth2/authorization/naver" class="oauthlogin">
                 <img src="/image/login/naverLogin.png" alt="네이버 로그인">
             </a>
         </div>
@@ -191,7 +182,7 @@
     </div>
     <div class="bottom">
         <h2 class="login-title">이메일로 로그인 하기</h2>
-        <form id="loginForm" th:action="@{/auth/login}" th:object="${userLoginRequest}" method="post">
+        <form id="loginForm" th:action="@{/auth/login}" th:object="${authLoginRequest}" method="post">
             <div class="info">
                 <div class="input-container">
                     <input type="email" class="input" th:field="*{email}" id="email" required placeholder="  이메일">
@@ -206,11 +197,12 @@
 
                 <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 
-                <a href="#" class="password-reset">비밀번호 찾기</a>
-                <button id="submitButton" class="button" type="submit">로그인</button>
+                <a th:href="@{/recovery/reset}" class="password-reset"> 비밀번호 찾기</a>
+                <button id="submitButton" class="button" type="submit"> 로그인</button>
             </div>
         </form>
     </div>
 </div>
+
 </body>
 </html>
