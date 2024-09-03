@@ -21,15 +21,14 @@ public class LikeEntity extends JpaAuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long cocktailId;
-
+    @Column(name = "base_cocktails_id")
     private ObjectId basecocktailsId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "craft_cocktails_id", nullable = true)
+    @JoinColumn(name = "craft_cocktails_id")
     private CraftCocktailEntity craftCocktail;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "users_id", nullable = false)
     private UserEntity user;
 }

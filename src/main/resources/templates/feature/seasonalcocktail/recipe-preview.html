@@ -3,6 +3,7 @@
 <head>
     <title>Seasonal Cocktail | ToastIt</title>
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <link th:href="@{/css/fragment/footer-fragment.css}" rel="stylesheet">
     <style>
         .container {
             margin-top: 50px;
@@ -149,4 +150,7 @@
 </div>
 
 </body>
+
+<div th:replace="fragment/footer :: footer"></div>
+
 </html>
