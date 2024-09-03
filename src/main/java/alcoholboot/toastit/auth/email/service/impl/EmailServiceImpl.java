@@ -77,7 +77,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public String setAuthForm(String authcode) {
         // 인증메일 폼 경로 설정
-        String templatePath = "/templates/email/mail-form.html";
+        String templatePath = "/templates/auth/mail-form.html";
 
         // 인증메일 폼 읽어오기
         String htmlContent = null;

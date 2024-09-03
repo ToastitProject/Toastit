@@ -37,11 +37,17 @@ public class RecoveryController {
     @PostMapping("/send")
     public String sendResetPasswordEmail(@RequestParam("email") String email, Model model) {
 
-        log.info(email + " 해당 이메일로 비밀번호 찾기 요청이 접수되었습니다.");
+        log.debug(email + " 해당 이메일로 비밀번호 찾기 요청이 접수되었습니다.");
 
         // 사용자가 존재하는지 확인
         if (!userManagementService.existsByEmail(email)) {
             model.addAttribute("error", "해당 이메일로 등록된 계정을 찾을 수 없습니다.");
+            return "auth/password-reset-form";
+        }
+
+        // 소셜 로그인 계정인지 확인
+        if (userManagementService.isSocialLoginEmail(email)) {
+            model.addAttribute("socialError", "해당 이메일은 소셜 로그인 계정입니다.");
             return "auth/password-reset-form";
         }
 
@@ -51,7 +57,7 @@ public class RecoveryController {
         // redis에 인증 코드 저장
         verificationService.saveCode(email, authCode);
 
-        log.info("발급된 인증번호는 " + authCode + "입니다.");
+        log.debug("발급된 인증번호는 " + authCode + "입니다.");
 
         // 메일 제목
         String subject = "[ToastIT] 이메일 인증번호 : " + authCode;
@@ -73,7 +79,7 @@ public class RecoveryController {
     @PostMapping("/verify")
     public String verifyResetCode(@RequestParam("email") String email, @RequestParam("authCode") String authCode, Model model) {
 
-        log.info("이메일: " + email + ", 인증번호: " + authCode + " 확인 요청이 접수되었습니다.");
+        log.debug("이메일: " + email + ", 인증번호: " + authCode + " 확인 요청이 접수되었습니다.");
 
         // 인증번호 확인
         if (!verificationService.verifyCode(email, authCode)) {
@@ -96,7 +102,7 @@ public class RecoveryController {
     @PostMapping("/reset/password")
     public String resetPassword(@RequestParam("email") String email, @RequestParam("newPassword") String newPassword, Model model) {
 
-        log.info(email + " 사용자의 비밀번호 재설정 요청이 접수되었습니다.");
+        log.debug(email + " 사용자의 비밀번호 재설정 요청이 접수되었습니다.");
 
         // 사용자 비밀번호 변경
         userManagementService.updatePassword(email, newPassword);
