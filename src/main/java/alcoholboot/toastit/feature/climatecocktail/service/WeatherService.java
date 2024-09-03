@@ -175,7 +175,15 @@ public class WeatherService {
     }
 
     @Transactional
-    void insertWeatherList(List<WeatherEntity> weatherEntityList) {
+    public void insertWeatherList(List<WeatherEntity> weatherEntityList) {
         weatherRepository.saveAll(weatherEntityList);
+    }
+
+    public List<WeatherEntity> getWeatherByBaseDate(String baseDate) {
+        return weatherRepository.selectWeatherListByBaseDate(baseDate);
+    }
+
+    public void deleteWeatherList(List<WeatherEntity> weatherEntityList) {
+        weatherRepository.deleteAll(weatherEntityList);
     }
 }

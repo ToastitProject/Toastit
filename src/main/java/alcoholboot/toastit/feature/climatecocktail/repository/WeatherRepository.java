@@ -22,4 +22,6 @@ public interface WeatherRepository extends JpaRepository<WeatherEntity, Long> {
             "where w.baseDate=:#{#areaRequestDTO.baseDate} and w.baseTime=:#{#areaRequestDTO.baseTime} and w.nx=:#{#areaRequestDTO.nx} and w.ny=:#{#areaRequestDTO.ny}")
     List<WeatherEntity> selectSameCoordinateWeatherList(@Param(value = "areaRequestDTO") AreaRequestDTO areaRequestDTO);
 
+    @Query("select w from WeatherEntity w where w.baseDate=:baseDate")
+    List<WeatherEntity> selectWeatherListByBaseDate(@Param(value = "baseDate") String baseDate);
 }
