@@ -40,7 +40,7 @@ public class CraftCocktailController {
         List<CraftCocktailEntity> cocktails = customCocktailService.getAllCocktails();
         model.addAttribute("cocktails", cocktails);
         log.debug("Accessed custom cocktails page");
-        return "feature/craftcocktail/craftmain";
+        return "craftcocktail/craftmain";
     }
 
     @GetMapping("/craft/write")
@@ -49,10 +49,10 @@ public class CraftCocktailController {
 
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다");
-            return "redirect:/user/login";
+            return "redirect:/auth/login";
         }
 
-        return "feature/craftcocktail/write";
+        return "craftcocktail/write";
     }
 
     @PostMapping("/craft")
@@ -61,7 +61,7 @@ public class CraftCocktailController {
 
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다.");
-            return "redirect:/user/login";
+            return "redirect:/auth/login";
         }
 
         try {
@@ -104,7 +104,7 @@ public class CraftCocktailController {
             } else {
                 log.warn("유저를 찾을 수 없습니다: " + email);
                 redirectAttributes.addFlashAttribute("message", "유저 정보를 찾을 수 없습니다.");
-                return "redirect:/user/login";
+                return "redirect:/auth/login";
             }
         } catch (Exception e) {
             log.error("칵테일 저장 실패: ", e);
@@ -121,7 +121,7 @@ public class CraftCocktailController {
         model.addAttribute("cocktail", cocktail);
         model.addAttribute("image", cocktail.getImages());
         model.addAttribute("ingredients", cocktail.getIngredients()); // Add ingredients to the model
-        return "feature/craftcocktail/edit";
+        return "craftcocktail/edit";
     }
 
     @PostMapping("/craft/edit/{id}")
@@ -218,6 +218,6 @@ public class CraftCocktailController {
             model.addAttribute("isLiked", false);
         }
 
-        return "feature/craftcocktail/craftdetail";
+        return "craftcocktail/craftdetail";
     }
 }
