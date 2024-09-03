@@ -43,13 +43,9 @@ public class WeatherController {
 
     @GetMapping("/weather")
     public String map(Model model) {
-        log.info("map 으로 GetMapping 이 들어옴");
+        log.debug("map 으로 GetMapping 이 들어옴");
         model.addAttribute("mapsApiKey", mapsApiKey);
         model.addAttribute("geocodingApiKey", geocodingApiKey);
-
-        // test
-//        List<WeatherEntity> weatherEntityList = weatherService.getWeatherByBaseDate("20240902");
-//        weatherService.deleteWeatherList(weatherEntityList);
 
         return "climatecocktail/climatecocktail-view";
     }
@@ -107,7 +103,6 @@ public class WeatherController {
         if (hour < 10) {
             basetime = "0" + basetime;
         }
-
 
         // 시간 추가
         areaRequestDTO.setBaseTime(basetime);
@@ -167,9 +162,12 @@ public class WeatherController {
 
         // response로 해보기
         Map<String, Object> response = new HashMap<>();
+        Cocktail selectedCocktail = cocktails.get(randomInt);
         response.put("temperature", t1h);
         response.put("weatherInfo", weather);
-        response.put("cocktailInfo", cocktails.get(randomInt).getStrDrink());
+        response.put("cocktailInfo", selectedCocktail.getStrDrink());
+        response.put("cocktailImage", selectedCocktail.getImagePath());
+        response.put("cocktailId", selectedCocktail.getId());
 
         return response;
     }

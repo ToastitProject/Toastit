@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
-    <title>술프링부트 - 지도 페이지</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwmPE4956q5DEBA3hAIGlcltT_9-rrex4"></script>
+    <title>술프링부트 - 날씨와 칵테일 추천</title>
     <script>
-        function initMap() {
+        function initPage() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
             } else {
@@ -18,18 +17,6 @@
         function successCallback(position) {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
-
-            const mapOptions = {
-                center: new google.maps.LatLng(latitude, longitude),
-                zoom: 15,
-            };
-            const map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-            const marker = new google.maps.Marker({
-                position: {lat: latitude, lng: longitude},
-                map: map,
-                title: "현재 위치"
-            });
 
             // 위도와 경도를 서버로 보내기
             sendCoordinatesToServer(latitude, longitude);
@@ -51,33 +38,31 @@
                     .then(data => {
                         console.log('서버에서 받은 데이터:', data);
 
+                        // 날씨 정보를 한국어로 변환
+                        const weatherDescriptions = {
+                            clear: "맑음",
+                            rain: "비",
+                            snow: "눈"
+                        };
+                        const weatherText = weatherDescriptions[data.weatherInfo] || "기타";
+
                         // 서버에서 받은 데이터로 HTML 요소 업데이트
                         document.getElementById("temperature").innerText = `현재 기온: ${data.temperature}°C`;
-                        document.getElementById("cocktail").innerText = `추천 칵테일: ${data.cocktailInfo}`;
+                        document.getElementById("weatherDescription").innerText = `날씨: ${weatherText}`;
+
+                        // 칵테일 정보 업데이트
+                        document.getElementById("cocktailName").innerText = data.cocktailInfo;
+                        document.getElementById("cocktailName").href = `/cocktails/id?id=${data.cocktailId}`;
+                        document.getElementById("cocktailImage").src = `${data.cocktailImage}`;
 
                         // 날씨 아이콘 업데이트
-                        // 아이콘 파일 이름은 예를 들어 'clear.png', 'rain.png', 'snow.png'일 수 있음
-                        const iconFileName = getIconFileName(data.weatherInfo); // 예: 'clear.png'
-                        console.log(iconFileName);
+                        const iconFileName = getIconFileName(data.weatherInfo);
                         document.getElementById("weatherIcon").src = `image/weather/icons/${iconFileName}`;
                     })
                     .catch(error => {
                         console.error('좌표를 서버로 보내는 중 오류 발생:', error);
                     });
             }
-
-            function updateWeatherIcon(weatherInfo) {
-                const iconFileName = getIconFileName(weatherInfo);
-                console.log("Icon file name:", iconFileName); // 이걸로 파일 이름을 콘솔에 출력해 보세요.
-
-                const imgElement = document.querySelector('img');
-                imgElement.src = `/static/image/weather/icons/${iconFileName}`;
-                console.log("Updated img src to:", imgElement.src); // 이미지 경로가 어떻게 설정되었는지 확인합니다.
-            }
-
-            window.onload = function (weatherInfo) {
-                updateWeatherIcon(weatherInfo); // 'clear' 대신 weatherInfo 값을 사용하세요.
-            };
 
             function getIconFileName(weatherInfo) {
                 switch (weatherInfo) {
@@ -91,67 +76,97 @@
                         return 'default.png'; // 기본 아이콘 파일
                 }
             }
-
-            // Geocoding API를 사용하여 주소 가져오기
-            const geocoder = new google.maps.Geocoder();
-            const latlng = {lat: latitude, lng: longitude};
-
-            geocoder.geocode({location: latlng}, (results, status) => {
-                if (status === 'OK') {
-                    if (results[0]) {
-                        const address = results[0].formatted_address;
-                        document.getElementById("location").innerText = `현재 위치: ${address}`;
-                    } else {
-                        document.getElementById("location").innerText = "주소를 찾을 수 없습니다.";
-                    }
-                } else {
-                    document.getElementById("location").innerText = "Geocoder 서비스에 문제가 발생했습니다.";
-                }
-            });
         }
 
         function errorCallback(error) {
             console.error("위치 정보를 가져오는 데 실패했습니다: ", error);
-            document.getElementById("location").innerText = "위치 정보를 가져오는 데 실패했습니다.";
+            document.getElementById("weatherDescription").innerText = "위치 정보를 가져오는 데 실패했습니다.";
         }
 
-        window.onload = initMap;
+        window.onload = initPage;
     </script>
     <style>
         body {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
+            font-family: Arial, sans-serif;
         }
 
-        #map {
-            width: 600px;
-            height: 400px;
-            margin: 0 auto;
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
         }
 
-        p {
+        .weather-info, .cocktail-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .weather-info {
+            border-right: 1px solid #ccc;
             text-align: center;
+        }
+
+        .weather-info p {
+            font-size: 2rem;
             margin: 10px 0;
         }
 
-        img {
+        .weather-info img {
+            width: 100px;
+            height: 100px;
             margin-top: 10px;
+        }
+
+        .cocktail-info img {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .cocktail-info p {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .cocktail-info a {
+            font-size: 1.5rem;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .cocktail-info a:hover {
+            color: #007BFF;
         }
     </style>
 </head>
 <body>
+<!-- 네비게이션 바 -->
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
-<hr class="divider">
-<p></p>
-<div id="map"></div>
-<p></p>
-<p id="location" style="text-align: center;"></p>
-<p id="temperature" style="text-align: center;"></p> <!-- 날씨 정보를 표시할 부분 추가 -->
-<img id="weatherIcon" alt="날씨 아이콘">
-<p id="cocktail" style="text-align: center;"></p> <!-- 추천 칵테일 정보를 표시할 부분 추가 -->
+
+<div class="container">
+    <!-- 날씨 정보 표시 영역 -->
+    <div class="weather-info">
+        <p id="temperature">현재 기온: --°C</p>
+        <p id="weatherDescription">날씨: --</p>
+        <img id="weatherIcon" alt="날씨 아이콘">
+    </div>
+    <!-- 칵테일 정보 표시 영역 -->
+    <div class="cocktail-info">
+        <p>추천 칵테일은...</p>
+        <img id="cocktailImage" alt="추천 칵테일 이미지">
+        <a id="cocktailName" href="#">--</a>
+    </div>
+</div>
 </body>
 </html>
