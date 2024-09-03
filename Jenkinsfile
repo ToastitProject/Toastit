@@ -21,7 +21,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-              git branch: "${params.BRANCH}", url: 'https://github.com/jenkinsci/git-parameter-plugin.git'
+              git branch: "${params.BRANCH}", url: 'https://github.com/ToastitProject/Toastit.git'
 //                 git branch: "${BRANCH}",
 //                 credentialsId: 'toastit_github_webhook_for_jenkins',
 //                 url: 'https://github.com/ToastitProject/Toastit.git'
