@@ -21,8 +21,6 @@ public class LikeEntity extends JpaAuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long cocktailId;
-
     private ObjectId basecocktailsId;
 
     @ManyToOne(fetch = FetchType.LAZY)
