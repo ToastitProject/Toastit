@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+
+    <title>회원가입 | ToastIT</title>
+<style>
+    .card {
+        background-color: #ffffff;
+        border: 1.5px solid;
+        border-color: #FFA832;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 500px;
+        height: auto;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        margin: 300px auto;
+        flex-direction: column;
+    }
+    h2{
+    font-size: 1.5em;
+    color: #FFA832;
+    }
+    h3{
+        font-size: 1em;
+        color: #000000;
+    }
+    button {
+        background-color: #FFA832;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin-top: 20px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        width: 180px;
+        height: 45px;
+        font-size: 1.1em;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #dfbc8e;
+        color: white;
+    }
+    img.joinImage {
+        width: 200px;
+        height: 200px;
+    }
+
+</style>
+</head>
+<body>
+
+<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
+
+<div class="card">
+    <img class="joinImage" src="/image/peoples/gogo.png">
+    <h2>회원가입이 완료되었습니다</h2>
+    <h3>🍸 책임감 있는 음주를 위한 안내 🍸</h3>
+    <h3>즐겁고 안전한 음주 문화를 만들어갑시다</h3>
+    <h3>과도한 음주는 건강에 해로울 수 있습니다.</h3>
+    <h3>음주 운전은 절대 금물입니다.</h3>
+    <h3>임신 중이거나 임신 계획이 있다면 금주하세요.</h3>
+    <h3>적당한 음주로 즐거운 시간 보내세요!</h3>
+    <h3>음주는 책임감 있게, 즐기되 건강을 지키세요.</h3>
+
+    <button th:onclick="|location.href='@{/auth/login}'|">로그인</button>
+</div>
+</body>
+</html>
