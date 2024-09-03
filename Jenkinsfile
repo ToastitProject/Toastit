@@ -21,12 +21,26 @@ pipeline {
             }
         }
 
+//         stage('Checkout') {
+//             steps {
+// //                 git branch: "${BRANCH}",
+// //                 credentialsId: 'toastit_github_webhook_for_jenkins',
+// //                 url: 'https://github.com/ToastitProject/Toastit.git'
+//             }
+//         }
+
         stage('Checkout') {
             steps {
-                git branch: "${params.BRANCH}", url: 'https://github.com/ToastitProject/Toastit.git'
-//                 git branch: "${BRANCH}",
-//                 credentialsId: 'toastit_github_webhook_for_jenkins',
-//                 url: 'https://github.com/ToastitProject/Toastit.git'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: "${params.BRANCH}"]],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/ToastitProject/Toastit.git',
+                        refspec: '+refs/heads/${params.BRANCH}:refs/remotes/origin/${params.BRANCH}'
+                    ]]
+                ])
             }
         }
 
