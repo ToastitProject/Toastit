@@ -160,6 +160,11 @@
     .action-buttons button {
       background-color: white; /* Ensure button background is white */
     }
+
+    .nickname-container {
+      margin-top: 10px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -191,9 +196,10 @@
         </div>
         <div class="nickname-container">
           <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none; color: inherit;">
-            <span th:text="${cocktail.user.nickname}">닉네임</span>
+            <span th:text="'@' + ${cocktail.user.nickname}">닉네임</span>
           </a>
         </div>
+
       </div>
     </div>
   </div>
