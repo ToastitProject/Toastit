@@ -17,12 +17,12 @@ pipeline {
             }
         }
 
-        stage('Checkout') {
-            steps {
-                // Git 저장소에서 main 브랜치 체크아웃
-                git branch: 'feature/infra', url: 'https://github.com/ToastitProject/Toastit.git'
-            }
-        }
+//         stage('Checkout') {
+//             steps {
+//                 // Git 저장소에서 main 브랜치 체크아웃
+//                 git branch: 'feature/infra', url: 'https://github.com/ToastitProject/Toastit.git'
+//             }
+//         }
 
         stage('Secret Env File Download') {
             steps {
@@ -76,7 +76,7 @@ pipeline {
                     sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
 
                     // Docker 이미지 빌드 및 푸시
-                    sh "docker build -t ${env.IMAGE_NAME}:${env.BUILD_NUMBER} ."
+                    sh "docker build -f Dockerfile -t ${env.IMAGE_NAME}:${env.BUILD_NUMBER} ../../../../../../../../"
                     sh "docker push ${env.IMAGE_NAME}:${env.BUILD_NUMBER}"
 
                     // Jenkins 컨테이너에서 빌드된 Docker 이미지 삭제
