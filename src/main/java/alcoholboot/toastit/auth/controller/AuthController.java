@@ -94,12 +94,14 @@ public class AuthController {
     }
 
     @GetMapping("/resign")
-    public String resign() {
+    public String resign(Model model) {
         log.debug("회원 탈퇴 폼 페이지가 요청되었습니다.");
 
         User user = authService.getResignUser();
 
         log.debug("회원 탈퇴 폼 페이지가 반환되었습니다: 이메일 {}", user.getEmail());
+
+        model.addAttribute("user", user);
 
         return "auth/resign-form";
     }
