@@ -119,10 +119,10 @@ body {
 .cocktail-grid {
     display: grid;
     color: black;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 140px;
-    row-gap: 65px;
-    margin: auto 15rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 120px;
+    row-gap: 70px;
+    margin: auto 8rem;
 }
 
 .cocktail-item {
