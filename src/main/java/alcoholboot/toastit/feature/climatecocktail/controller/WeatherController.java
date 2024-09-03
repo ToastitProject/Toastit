@@ -46,9 +46,12 @@ public class WeatherController {
         log.info("map 으로 GetMapping 이 들어옴");
         model.addAttribute("mapsApiKey", mapsApiKey);
         model.addAttribute("geocodingApiKey", geocodingApiKey);
-//        log.info("모델에 담아 보내는 MAP API KEY : "+ mapsApiKey);
-//        log.info("모델에 담아 보내는 Geocoding API KEY : "+geocodingApiKey);
-        return "feature/api/weather";
+
+        // test
+        List<WeatherEntity> weatherEntityList = weatherService.getWeatherByBaseDate("20240902");
+        System.out.println(weatherEntityList);
+
+        return "feature/climatecocktail/weather";
     }
 
     @PostMapping("/weather")
@@ -90,13 +93,19 @@ public class WeatherController {
         // 시간 받아와보기
         LocalTime nowTime = LocalTime.now();
         String basetime = "";
+
         int hour = nowTime.getHour();
         int minute = nowTime.getMinute();
+        
         if (minute < 11) {
             hour--;
             basetime = hour + "0000";
         } else {
             basetime = hour + "0000";
+        }
+
+        if (hour < 10) {
+            basetime = "0" + basetime;
         }
 
 
