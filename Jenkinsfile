@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-        gitParameter branchFilter: '.*', defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH'
-    }
-
     environment {
         // Docker Hub 자격 증명
         DOCKERHUB_CREDENTIALS = credentials('docker_hub_token_for_jenkins')
@@ -23,22 +19,11 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                script {
-                    // 브랜치 이름을 확인하고, 필요 시 'origin/'을 제거합니다.
-                    def branchName = params.BRANCH.replaceFirst(/^origin\//, '')
-                    git branch: branchName,
-                        credentialsId: 'toastit_github_webhook_for_jenkins',
-                        url: 'https://github.com/ToastitProject/Toastit.git'
-                }
+                git branch: "${BRANCH}",
+                credentialsId: 'toastit_github_webhook_for_jenkins',
+                url: 'https://github.com/ToastitProject/Toastit.git'
             }
         }
-
-//         stage('Checkout') {
-//             steps {
-//                 // Git 저장소에서 main 브랜치 체크아웃
-//                 git branch: 'main', url: 'https://github.com/ToastitProject/Toastit.git'
-//             }
-//         }
 
         stage('Secret Env File Download') {
             steps {
