@@ -193,10 +193,10 @@
     }
 
     .sort-options {
-        display: flex; /* 가로로 정렬 */
-        justify-content: flex-end; /* 왼쪽 정렬 */
-        margin-top: -35px;
-        margin-bottom: 20px; /* 카드와의 간격 */
+        display: flex;
+        justify-content: flex-end;
+        margin-top: -18px;
+        margin-bottom: 13px;
         max-width: 1230px;
         width: 100%;
         flex-wrap: nowrap;
@@ -282,13 +282,22 @@
     }
 
     .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
-        bottom: -5px;
+        bottom: -4px;
         left: 0;
         width: 100%;
     }
-
+    .swiper.mySwiper.swiper-initialized.swiper-horizontal.swiper-pointer-events.swiper-backface-hidden {
+        height: 225px;
+        margin-bottom: -15px;
+    }
     section.shopping-section {
         width: 1155px;
+    }
+    span.swiper-pagination-bullet.swiper-pagination-bullet-active {
+        background: #FFA832;
+    }
+    .text {
+        width: 300px;
     }
 
 </style>
@@ -304,41 +313,47 @@
     <section class="cocktail-recommendations">
         <h3 class="text-center">칵테일 추천</h3>
         <p class="note text-center">지금 당신에게 딱 맞는 칵테일 추천</p>
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <a th:href="@{/map}">
-                        <img src="/image/mapcocktail.png" alt="Image">
+        <div class="swiper mySwiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden">
+            <div class="swiper-wrapper" id="swiper-wrapper-bab71dc33fdc6678" aria-live="polite" style="transform: translate3d(-1055px, 0px, 0px); transition-duration: 0ms;">
+                <div class="swiper-slide" role="group" aria-label="1 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/map">
+                        <img src="/image/recommend/mapcocktail.png" alt="Image">
                         <div class="text">접속 위치</div>
                     </a>
                 </div>
-                <div class="swiper-slide">
-                    <a th:href="@{/weather}">
-                        <img src="/image/wheather.png" alt="Image">
+                <div class="swiper-slide" role="group" aria-label="2 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/weather">
+                        <img src="/image/recommend/wheather.png" alt="Image">
                         <div class="text">날씨</div>
                     </a>
                 </div>
-                <div class="swiper-slide">
-                    <a th:href="@{/season}">
-                        <img src="/image/dateCocktail.png" alt="Image">
+                <div class="swiper-slide swiper-slide-prev" role="group" aria-label="3 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/season">
+                        <img src="/image/recommend/dateCocktail.png" alt="Image">
                         <div class="text">날짜</div>
                     </a>
                 </div>
-                <div class="swiper-slide">
-                    <a th:href="@{/cocktails/random}">
-                        <img src="/image/ramdomcock.png" alt="Image">
+                <div class="swiper-slide swiper-slide-active" role="group" aria-label="4 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/cocktails/random">
+                        <img src="/image/recommend/ramdomcock.png" alt="Image">
                         <div class="text">무작위</div>
                     </a>
                 </div>
-                <div class="swiper-slide">
-                    <a th:href="@{/setting}">
-                        <img src="/image/setting.png" alt="Image">
-                        <div class="text">추가 예정</div>
+                <div class="swiper-slide swiper-slide-next" role="group" aria-label="5 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/cocktails/#">
+                        <img src="/image/recommend/mbtiCocktail.png" alt="Image">
+                        <div class="text">MBTI 추천(예정)</div>
+                    </a>
+                </div>
+                <div class="swiper-slide" role="group" aria-label="6 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/setting">
+                        <img src="/image/recommend/setting.png" alt="Image">
+                        <div class="text">서비스 추가 예정</div>
                     </a>
                 </div>
             </div>
-            <div class="swiper-pagination"></div>
-        </div>
+            <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 1"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 3"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 4" aria-current="true"></span></div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
     </section>
     <!-- 기본 레시피 섹션 -->
     <section class="basic-recipes">
@@ -346,7 +361,7 @@
         <p class="note">지난 달 검색량이 급등한 레시피 TOP 5</p>
         <div class="card-container">
             <div th:each="trendCocktail : ${trendCocktails}" class="card">
-                <a th:href="@{/cocktails/id(id=${trendCocktail.getId()})}">
+                <a th:href="@{/cocktails/id(id=${trendCocktail.getId()})}" style="text-decoration: none">
                     <input type="hidden" th:if="${trendCocktail.getId() == null}" th:value="${trendCocktail.getId()}"
                            id="hiddenTrendCocktailId"/>
                     <img th:src="${trendCocktail.imagePath}" alt="trendCocktail 이미지" class="trend_img">
@@ -366,13 +381,13 @@
         </div>
         <div class="card-container">
             <div th:each="cocktail : ${cocktails}" class="card">
-                <a th:href="@{/custom/{id}(id=${cocktail.id})}" th:if="${cocktail.images.size() > 0}">
+                <a th:href="@{/craft/{id}(id=${cocktail.id})}" th:if="${cocktail.images.size() > 0}">
                     <img th:src="${cocktail.images[0].imagePath}" alt="사진없음" class="cocktail-image"/>
                     <span class="cocktail-name" th:text="${cocktail.name}">칵테일 이름</span>
                 </a>
                 <input type="hidden" th:if="${cocktail.id == null}" th:value="${cocktail.id}" id="hiddenCocktailId"/>
-                <a th:href="@{/user/mypage(nickname=${cocktail.getUser().getNickname()})}">
-                    <span class="nickName" th:text="${cocktail.getUser().getNickname()}">닉네임 이름</span>
+                <a th:href="@{/user/mypage(nickname=${cocktail.getUser().getNickname()})}" style="text-decoration: none">
+                    <span class="nickName" th:text="${cocktail.getUser().getNickname()}" >닉네임 이름</span>
                 </a>
             </div>
         </div>
@@ -466,7 +481,7 @@
 
     function showNextCards() {
         currentIndex = (currentIndex + 1) % totalCards; // 다음 인덱스 계산
-        const offset = -currentIndex * (100 / 3); // 슬라이드 이동 거리 계산
+        const offset = -currentIndex * (200); // 슬라이드 이동 거리 계산
         slider.style.transform = `translateX(${offset}%)`;
     }
 

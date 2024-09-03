@@ -13,8 +13,14 @@
 
 <hr class="divider">
 
-<h1>칵테일 목록</h1>
+<ins class="kakao_ad_area" style="display:none;"
+     data-ad-unit = "DAN-l28FhfLL6whRVh9A"
+     data-ad-width = "1155"
+     data-ad-height = "90"></ins>
 
+<h1>무작위로 추천된 칵테일 목록</h1>
+
+<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
 <div class="cocktail-grid">
     <div th:each="cocktail : ${cocktails}" class="cocktail-item">
         <a th:href="@{/cocktails/id(id=${cocktail.id})}" class="cocktail-link">

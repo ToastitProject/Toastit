@@ -54,7 +54,7 @@
         }
 
         .input {
-            padding-right: 10px;
+            padding-left: 12px;
             border: 2px solid #858484;
             border-radius: 5px;
             width: 290px;
@@ -91,8 +91,13 @@
             color: #FFA832;
             text-decoration: none;
             padding-top: 5px;
-            margin-top: -5px;
+            margin-bottom: 15px;
             text-align: right;
+        }
+
+        .password-reset:hover {
+            color: #000000;
+
         }
 
         .oauthlogin img {
@@ -185,14 +190,14 @@
         <form id="loginForm" th:action="@{/auth/login}" th:object="${authLoginRequest}" method="post">
             <div class="info">
                 <div class="input-container">
-                    <input type="email" class="input" th:field="*{email}" id="email" required placeholder="  이메일">
+                    <input type="email" class="input" th:field="*{email}" id="email" required placeholder="이메일">
                 </div>
 
                 <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 
                 <div class="input-container">
                     <input type="password" class="input" th:field="*{password}" id="password" required
-                           placeholder="  비밀번호" autocomplete="off">
+                           placeholder="비밀번호" autocomplete="off">
                 </div>
 
                 <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
