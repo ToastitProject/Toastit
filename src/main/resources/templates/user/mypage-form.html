@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+
+    <title>술프링부트 - 유저 페이지</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Gmarket Sans', sans-serif;
+        color: #FFA832;
+        margin: 0;
+        padding: 20px;
+    }
+    .menu a, .profile a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+    .menu a:hover, .profile a:hover {
+        color: #FFA832;
+    }
+
+    .divider {
+        border: none;
+        height: 2px;
+        background-color: #FFA832;
+        margin-top: -10px;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border: solid;
+        border-radius: 20px;
+        display: flex;
+        width: 600px;
+        height: 500px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        margin: 150px auto;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-pic {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            margin-top: 50px;
+        }
+
+        p {
+            padding-top: 15px;
+            font-weight: bold;
+            font-size: 1.4em;
+        }
+
+    .button {
+        background-color: #FFA832;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        width: 100px;
+    }
+
+        .button:hover {
+            background-color: #dfbc8e;
+            color: white;
+        }
+
+    button#followButton {
+        padding: 10px 10px;
+    }
+
+
+</style>
+<body>
+<div th:insert="~{fragment/navbar-fragment :: navbarFragment}"></div>
+
+<hr class="divider">
+
+<div class="card">
+    <div class="profile-container">
+        <img th:src="${user.profileImageUrl}"
+             alt="프로필 사진" class="profile-pic">
+    </div>
+    <div class="info">
+        <p>이메일: <span th:text="${user.email}"></span></p>
+        <p>닉네임: <span id="nickname" th:text="${user.nickname}"></span></p>
+        <p>가입일: <span th:text="${user.getCreateDate()}"></span></p>
+        <div th:if="${!notLoginUser}" class="button-container">
+            <button class="button" th:onclick="|location.href='@{/user/edit}'|">EDIT</button>
+            <button class="button" th:onclick="|location.href='@{/user/resign}'|">RESIGN</button>
+        </div>
+
+        <div th:if="${notLoginUser}" class="button-container">
+            <button class="button" id="followButton"
+                    th:text="${alreadyFollow != null ? 'UNFOLLOW' : 'FOLLOW'}"
+                    onclick="followUser()"></button>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const followButton = document.getElementById('followButton');
+        const nickname = document.getElementById('nickname').innerText;
+
+
+        function updateFollowButton() {
+            followButton.innerText = followStatus === 'follow' ? 'FOLLOW' : 'UNFOLLOW'; // 버튼 텍스트 업데이트
+        }
+
+        async function followUser() {
+            try {
+                const response = await fetch('/follow', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'nickname=' + encodeURIComponent(nickname)
+                });
+
+                const message = await response.text(); // 응답을 텍스트로 처리
+
+                // 서버 응답에 따라 상태 업데이트
+                if (message === 'follow') {
+                    followStatus = 'unfollow';
+                } else if (message === 'unfollow') {
+                    followStatus = 'follow';
+                }
+
+
+                updateFollowButton(); // 버튼 텍스트 업데이트
+                alert(message === 'follow' ? '팔로우 했습니다.' : '언팔로우 했습니다.');
+                setTimeout(() => { location.reload(); }, 500);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('팔로우는 로그인을 하셔야 반영할 수 있습니다.');
+            }
+        }
+
+        followButton.addEventListener('click', followUser);
+        updateFollowButton(); // 페이지 로드 시 버튼 텍스트 초기화
+    });
+</script>
+
+
+
+</html>

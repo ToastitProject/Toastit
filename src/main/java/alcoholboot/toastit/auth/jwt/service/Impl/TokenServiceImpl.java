@@ -58,7 +58,8 @@ public class TokenServiceImpl implements TokenService {
     @Transactional
     public void updateByRefreshToken(String refreshToken, String accessToken) {
         Token token = tokenRepository.findByRefreshToken(refreshToken)
-                .orElseThrow(() -> new NotFoundException(CommonExceptionCode.JWT_UNKNOWN_ERROR.getData())).convertToDomain();
+                .orElseThrow(() -> new NotFoundException(CommonExceptionCode.JWT_UNKNOWN_ERROR.getData()))
+                .convertToDomain();
 
         token.setAccessToken(accessToken);
         tokenRepository.save(token.convertToEntity());

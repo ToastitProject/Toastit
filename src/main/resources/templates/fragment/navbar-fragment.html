@@ -5,34 +5,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3501413762232955"
+            crossorigin="anonymous"></script>
 </head>
 <body>
 
 <header th:fragment="navbarFragment">
     <a id="logoLink" th:href="@{/}">
-        <img src="/image/logo-version-2.png" alt="로고" class="logo">
+        <img src="/image/logo-version-3.png" alt="로고" class="logo">
     </a>
     <nav>
         <div class="menu">
-            <a th:href="@{/cocktails/all}">추천칵테일</a>
-            <a th:href="@{/custom}">커스텀칵테일</a>
-            <a th:href="@{/weather}">날씨추천칵테일</a>
+            <div sec:authorize="isAnonymous()">
+                <a th:href="@{/cocktails/all}">기본칵테일</a>
+                <a th:href="@{/craft}">커스텀칵테일</a>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <a th:href="@{/cocktails/all}">기본칵테일</a>
+                <a th:href="@{/craft}">커스텀칵테일</a>
+                <a th:href="@{/follow}">팔로잉칵테일</a>
+            </div>
+
         </div>
     </nav>
     <div class="profile">
         <div sec:authorize="isAnonymous()">
-            <a id="loginLink" th:href="@{/user/login}">로그인</a>
-            <a id="joinLink" th:href="@{/user/join}">회원가입</a>
+            <a id="loginLink" th:href="@{/auth/login}">로그인</a>
+            <a id="joinLink" th:href="@{/auth/join}">회원가입</a>
         </div>
         <div sec:authorize="isAuthenticated()">
-            <a th:href="@{/follow}">팔로잉</a>
-            <a th:href="@{/user/mypages}">마이페이지</a>
-            <a th:href="@{/user/logout}">로그아웃</a>
+            <a id="myPageLink" th:href="@{/user/mypages}">마이페이지</a>
+            <a id="logoutLink" th:href="@{/auth/logout}">로그아웃</a>
         </div>
     </div>
 </header>
 
 <hr class="divider">
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const links = document.querySelectorAll('.menu a, .profile a');
+
+        links.forEach(link => {
+            link.addEventListener('click', function () {
+                links.forEach(l => l.classList.remove('active-link'));
+                this.classList.add('active-link');
+            });
+        });
+    });
+</script>
 </body>
 </html>

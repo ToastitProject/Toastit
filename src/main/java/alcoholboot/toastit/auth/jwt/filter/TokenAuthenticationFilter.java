@@ -1,6 +1,6 @@
 package alcoholboot.toastit.auth.jwt.filter;
 
-import alcoholboot.toastit.auth.common.PrincipalDetails;
+import alcoholboot.toastit.auth.core.PrincipalDetails;
 import alcoholboot.toastit.auth.jwt.service.TokenRenewalService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
 import alcoholboot.toastit.auth.jwt.token.JwtAuthenticationToken;
@@ -26,7 +26,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,15 +55,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         if (StringUtils.hasText(accessToken)) {
             try {
-                log.info("[AUTH START] : " + accessToken);
+                log.debug("[AUTH START] : " + accessToken);
                 getAuthentication(accessToken); // 토큰을 사용하여 인증 요청
             } catch (ExpiredJwtException ea) {
-                log.warn("[TOKEN EXPIRED] - 액세스 토큰이 만료되었습니다.");
+                log.debug("[TOKEN EXPIRED] - 액세스 토큰이 만료되었습니다.");
 
                 // 요청에서 리프레쉬 토큰 추출
                 String refreshToken = getToken(request, "refreshToken");
 
-                log.info("토큰 재발행을 시도합니다." + refreshToken);
+                log.debug("토큰 재발행을 시도합니다." + refreshToken);
 
                 if (refreshToken == null) {
                     log.error("[TOKEN MISSING] - " + CommonExceptionCode.JWT_UNKNOWN_ERROR.getData());

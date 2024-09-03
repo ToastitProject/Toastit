@@ -49,9 +49,10 @@ public class SecurityConfig {
             "/css/**", // CSS 리소스
             "/image/**", // 이미지 리소스 및 API
             "/favicon.ico", // 
-
-            "/custom/**", // 커스텀 칵테일 레시피 API
+      
+            "/craft/**", // 커스텀 칵테일 레시피 API
             "/cocktails/**", // 기본 칵테일 레시피 API
+            "/season", // 계절별 칵테일 추천 API
 
             "/map/**", //지도 API
             "/email/**", // 이메일 API
@@ -59,17 +60,21 @@ public class SecurityConfig {
             "/user/mypage", // 회원 정보 API
             "/user/eidt", // 회원 정보 수정 API
 
-            "/user/resign",  // 회원 탈퇴 API
-            "/user/logout", // 로그아웃 API
+            "/auth/resign",  // 회원 탈퇴 API
+            "/auth/logout", // 로그아웃 API
 
             "/like/**", // 좋아요 API
-            "/follow/**" //팔로우 API
+            "/follow/**", //팔로우 API
+
+            "/dataSearch",
+            "/getData"
     };
 
     // 비로그인 유저 허용 페이지
     String[] notLoggedAllowPage = new String[]{
-            "/user/login", // 로그인 API
-            "/user/join", // 회원가입 API
+            "/auth/login", // 로그인 API
+            "/auth/join", // 회원가입 API
+            "/recovery/**" // 복구 API
     };
 
     /**

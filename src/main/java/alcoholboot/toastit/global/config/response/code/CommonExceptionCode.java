@@ -47,6 +47,11 @@ public enum CommonExceptionCode implements ResponseCode {
     JWT_DECRYPTION_ERROR(401, HttpStatus.UNAUTHORIZED, "토큰을 해독할 수 없습니다."),
 
     /**
+     * LocationCocktail Error
+     */
+    LOCATION_COCKTAIL_NOT_FOUND(404, HttpStatus.NOT_FOUND, "현재 위치에 대해 칵테일을 추천할 수 없습니다"),
+
+    /**
      * User Error
      */
     // 사용 중인 이메일

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <title>로그인 | ToastIT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Gmarket Sans', sans-serif;
+            color: #FFA832;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: solid;
+            border-color: #FFA832;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 550px;
+            height: 700px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin: 100px auto 10px auto;
+        }
+
+        .info {
+            color: #FFA832;
+            display: flex;
+            text-align: right;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-container {
+            text-align: center;
+            margin-bottom: 10px;
+            width: 500px;
+            display: flex;
+            padding-right: 0px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .input {
+            padding-right: 10px;
+            border: 2px solid #858484;
+            border-radius: 5px;
+            width: 290px;
+            height: 40px;
+        }
+
+        .button-container {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column; /* 세로 정렬 */
+            align-items: center; /* 중앙 정렬 */
+        }
+
+        .button {
+            background-color: #FFA832;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 0px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            width: 300px;
+            height: 45px;
+            font-size: 1.1em;
+        }
+
+        .button:hover {
+            background-color: #dfbc8e;
+            color: white;
+        }
+
+        .password-reset {
+            color: #FFA832;
+            text-decoration: none;
+            padding-top: 5px;
+            margin-top: -5px;
+            text-align: right;
+        }
+
+        .oauthlogin img {
+            width: 300px; /* 이미지 너비 조정 */
+            height: 45px; /* 비율 유지 */
+            margin: 5px 0; /* 버튼 간격 조정 */
+            border-radius: 5px;
+        }
+
+        .login-title {
+            color: #FFA832;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .top {
+            margin-top: 15px;
+            margin-bottom: 30px;
+        }
+
+        .separator-container {
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .separator {
+            flex-grow: 1;
+            height: 2px;
+            width: 220px;
+            background-color: #FFA832;
+            border: none;
+        }
+
+        .separator-text {
+            padding: 0 10px;
+            color: #464040;
+            font-weight: bold;
+        }
+
+        .inputLogo {
+            margin-top: -20px;
+            width: 80px;
+            height: 80px;
+        }
+
+        .bottom {
+            margin-top: 15px;
+        }
+
+        input#email {
+            width: 290px;
+            height: 40px;
+        }
+
+        input#password {
+            width: 290px;
+            height: 40px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header th:replace="~{fragment/navbar-fragment :: navbarFragment}"></header>
+
+<div class="card">
+    <img class="inputLogo" src="/image/logo-version-3.png">
+    <div class="top">
+        <h2 class="login-title">간편 로그인 하기</h2>
+        <div class="button-container">
+            <a href="/oauth2/authorization/kakao" class="oauthlogin">
+                <img src="/image/login/kakaoLogin.png" alt="카카오 로그인">
+            </a>
+            <a href="/oauth2/authorization/naver" class="oauthlogin">
+                <img src="/image/login/naverLogin.png" alt="네이버 로그인">
+            </a>
+        </div>
+    </div>
+    <div class="separator-container">
+        <div class="separator"></div>
+        <span class="separator-text">또는</span>
+        <div class="separator"></div>
+    </div>
+    <div class="bottom">
+        <h2 class="login-title">이메일로 로그인 하기</h2>
+        <form id="loginForm" th:action="@{/auth/login}" th:object="${authLoginRequest}" method="post">
+            <div class="info">
+                <div class="input-container">
+                    <input type="email" class="input" th:field="*{email}" id="email" required placeholder="  이메일">
+                </div>
+
+                <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+                <div class="input-container">
+                    <input type="password" class="input" th:field="*{password}" id="password" required
+                           placeholder="  비밀번호" autocomplete="off">
+                </div>
+
+                <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+                <a th:href="@{/recovery/reset}" class="password-reset"> 비밀번호 찾기</a>
+                <button id="submitButton" class="button" type="submit"> 로그인</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

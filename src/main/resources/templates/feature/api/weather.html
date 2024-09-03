@@ -1,232 +1,157 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="board/layout/defaultLayout">
-
-<th:block layout:fragment="title">
-    <title>Weather</title>
-</th:block>
-
-<th:block layout:fragment="content">
-
-    <label>날씨</label>
-
-    <form class="form-horizontal">
-        <div class="form-group">
-            <select id="step1" class="emptyCheck" title="시/도">
-                <option id="city" value="">시/도</option>
-            </select>
-
-            <select id="step2">
-                <option id="county" value="">시/군/구</option>
-            </select>
-
-            <select id="step3">
-                <option id="town" value="">읍/면/동</option>
-            </select>
-
-            <span>날짜 선택: <input type="text" id="datepicker" disabled="disabled" class="emptyCheck" title="날짜"></span>
-
-            <select id="time" class="emptyCheck" title="시간">
-                <option value="" selected>시간</option>
-                <option th:each="i : ${#numbers.sequence(0,23)}" th:value="${i}" th:text="${i} + 시"></option>
-            </select>
-
-            <button type="button" class="btn btn-primary waves-effect waves-light" th:onclick="getWeather()">
-                <span>실행</span>
-            </button>
-
-            <div>
-                <table id="resultWeather" class="table"></table>
-            </div>
-
-            <!-- Weather icon container -->
-            <div id="weatherIconContainer"></div>
-
-        </div>
-    </form>
-
-</th:block>
-
-<!-- Include jQuery and jQuery UI -->
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-
-<th:block layout:fragment="script">
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        window.onload = function () {
-            $('#datepicker').datepicker({
-                showOn: 'button',
-                buttonImage: 'http://jqueryui.com/resources/demos/datepicker/images/calendar.gif',
-                buttonImageOnly: true,
-                showButtonPanel: true,
-                dateFormat: 'yymmdd',
-                minDate: "-1D",
-                maxDate: 0,
-                closeText: "닫기",
-                currentText: "오늘",
-                prevText: '이전 달',
-                nextText: '다음 달',
-                monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-                monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-                dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-                dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-                weekHeader: "주",
-                yearSuffix: '년',
-                showMonthAfterYear: true
-            });
-            loadArea('city');
-        };
-
-        $('#step1').on("change", function () {
-            loadArea('county', $(this));
-        });
-
-        $('#step2').on("change", function () {
-            loadArea('town', $(this));
-        });
-
-        function loadArea(type, element) {
-
-            var value = $(element).find('option:selected').text();
-            var data = {type: type, keyword: value};
-
-            console.log("sending data to server : ", data);
-            $.ajax({
-                url: "/weatherArea",
-                data: data,
-                dataType: "JSON",
-                method: "POST",
-                success: function (res) {
-                    if (type == 'city') {
-                        res.forEach(function (city) {
-                            $('#step1').append('<option value="' + city.areacode + '">' + city.step1 + '</option>')
-                        });
-                    } else if (type == 'county') {
-                        $('#county').siblings().remove();
-                        $('#town').siblings().remove();
-                        res.forEach(function (county) {
-                            $('#step2').append('<option value="' + county.areacode + '">' + county.step2 + '</option>')
-                        });
-                    } else {
-                        $('#town').siblings().remove();
-                        res.forEach(function (town) {
-                            $('#step3').append('<option value="' + town.areacode + '">' + town.step3 + '</option>')
-                        });
-                    }
-                },
-                error: function (xhr) {
-                    alert(xhr.responseText);
-                }
-            });
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <title>술프링부트 - 지도 페이지</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwmPE4956q5DEBA3hAIGlcltT_9-rrex4"></script>
+    <script>
+        function initMap() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+            } else {
+                alert("이 브라우저는 위치 정보를 지원하지 않습니다.");
+            }
         }
 
-        $('#datepicker').on("change", function () {
-            $('#time option:eq(0)').prop("selected", true);
-            var now = new Date();
-            var currentHour = now.getHours();
-            var month = (now.getMonth() + 1) < 10 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1);
-            var nowDate = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
-            var today = now.getFullYear() + "" + month + "" + nowDate;
-            var datepickerValue = $(this).val();
+        function successCallback(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
 
-            /* 오늘 날짜라면 */
-            $('#time').children('option:not(:first)').remove();
-            var html = '';
-            if (datepickerValue == today) {
-                for (var i = 0; i <= currentHour; i++) {
-                    html += '<option value="' + i + '">' + i + '시</option>';
+            const mapOptions = {
+                center: new google.maps.LatLng(latitude, longitude),
+                zoom: 15,
+            };
+            const map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+            const marker = new google.maps.Marker({
+                position: {lat: latitude, lng: longitude},
+                map: map,
+                title: "현재 위치"
+            });
+
+            // 위도와 경도를 서버로 보내기
+            sendCoordinatesToServer(latitude, longitude);
+
+            function sendCoordinatesToServer(lat, lon) {
+                fetch('/save-coordinates', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({latitude: lat, longitude: lon})
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`서버 응답 상태: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('서버에서 받은 데이터:', data);
+
+                        // 서버에서 받은 데이터로 HTML 요소 업데이트
+                        document.getElementById("temperature").innerText = `현재 기온: ${data.temperature}°C`;
+                        document.getElementById("cocktail").innerText = `추천 칵테일: ${data.cocktailInfo}`;
+
+                        // 날씨 아이콘 업데이트
+                        // 아이콘 파일 이름은 예를 들어 'clear.png', 'rain.png', 'snow.png'일 수 있음
+                        const iconFileName = getIconFileName(data.weatherInfo); // 예: 'clear.png'
+                        console.log(iconFileName);
+                        document.getElementById("weatherIcon").src = `image/weather/icons/${iconFileName}`;
+                    })
+                    .catch(error => {
+                        console.error('좌표를 서버로 보내는 중 오류 발생:', error);
+                    });
+            }
+
+            function updateWeatherIcon(weatherInfo) {
+                const iconFileName = getIconFileName(weatherInfo);
+                console.log("Icon file name:", iconFileName); // 이걸로 파일 이름을 콘솔에 출력해 보세요.
+
+                const imgElement = document.querySelector('img');
+                imgElement.src = `/static/image/weather/icons/${iconFileName}`;
+                console.log("Updated img src to:", imgElement.src); // 이미지 경로가 어떻게 설정되었는지 확인합니다.
+            }
+
+            window.onload = function (weatherInfo) {
+                updateWeatherIcon(weatherInfo); // 'clear' 대신 weatherInfo 값을 사용하세요.
+            };
+
+            function getIconFileName(weatherInfo) {
+                switch (weatherInfo) {
+                    case 'clear':
+                        return 'clear.png';
+                    case 'rain':
+                        return 'rain.png';
+                    case 'snow':
+                        return 'snow.png';
+                    default:
+                        return 'default.png'; // 기본 아이콘 파일
                 }
             }
-            /* 어제였다면 */
-            else {
-                if (currentHour != 23) {
-                    for (var i = currentHour + 1; i < 24; i++) {
-                        html += '<option value="' + i + '">' + i + '시</option>';
+
+            // Geocoding API를 사용하여 주소 가져오기
+            const geocoder = new google.maps.Geocoder();
+            const latlng = {lat: latitude, lng: longitude};
+
+            geocoder.geocode({location: latlng}, (results, status) => {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        const address = results[0].formatted_address;
+                        document.getElementById("location").innerText = `현재 위치: ${address}`;
+                    } else {
+                        document.getElementById("location").innerText = "주소를 찾을 수 없습니다.";
                     }
                 } else {
-                    alert(datepickerValue + " 날짜의 제공 가능한 날씨 데이터가 없습니다.")
-                    $(this).val('');
-                }
-            }
-            $('#time').append(html);
-        });
-
-        function getWeather() {
-            var nullCheck = true;
-            $('.emptyCheck').each(function () {
-                if ('' == $(this).val()) {
-                    alert($(this).attr('title') + "을(를) 확인바람");
-                    nullCheck = false;
-                    return false;    // 빈 값에서 멈춤
+                    document.getElementById("location").innerText = "Geocoder 서비스에 문제가 발생했습니다.";
                 }
             });
-
-            if (nullCheck) {
-                var time = $('#time').val() + '00';
-                if ($('#time').val() < 10) {
-                    time = "0" + time;
-                }
-                var areacode = "";
-                var cityCode = $('#step1 option:selected').val();
-                var countyCode = $('#step2 option:selected').val();
-                var townCode = $('#step3 option:selected').val();
-
-                if (townCode == '' && countyCode == '') {
-                    areacode = cityCode;
-                } else if (townCode == '' && countyCode != '') {
-                    areacode = countyCode;
-                } else if (townCode != '') {
-                    areacode = townCode;
-                }
-
-                var date = $('#datepicker').val();
-                var data = {"areacode": areacode, "baseDate": date, "baseTime": time};
-
-                $.ajax({
-                    url: "getWeather",
-                    data: data,
-                    dataType: "JSON",
-                    method: "POST",
-                    success: function (res) {
-                        console.log(res);
-                        if (res[0].resultCode != null) {
-                            alert(res[0].resultMsg);
-                        } else {
-                            var html = "";
-                            html += "<tbody><tr><th>nx=" + res[0].nx + "</th><th>ny=" + res[0].ny + "</th></tr>";
-
-                            $("#resultWeather").empty();
-                            $.each(res, function (index, item) {
-                                html += "<tr><td>" + item.category + "</td><td>" + item.obsrValue + "</td></tr>";
-
-                                // Check for PTY value
-                                if (item.category === 'PTY') {
-                                    if (item.obsrValue == '1') {
-                                        $("#weatherIconContainer").html('<img src="image/weather/icons/rain_icon.png" alt="비" />');
-                                    } else if (item.obsrValue == '0') {
-                                        $("#weatherIconContainer").html('<img src="image/weather/icons/sunny_icon.png" alt="맑은 날씨" />');
-                                    } else if (item.obsrValue == '3') {
-                                        $("#weatherIconContainer").html('<img src="image/weather/icons/snow_icon.png" alt="눈" />');
-                                    }
-                                }
-                            });
-
-                            html += "</tbody>";
-                            $("#resultWeather").append(html);
-                        }
-                    },
-                    error: function (xhr) {
-                        alert(xhr.responseText);
-                    }
-                });
-            }
         }
 
-    </script>
-</th:block>
+        function errorCallback(error) {
+            console.error("위치 정보를 가져오는 데 실패했습니다: ", error);
+            document.getElementById("location").innerText = "위치 정보를 가져오는 데 실패했습니다.";
+        }
 
+        window.onload = initMap;
+    </script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #map {
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+        p {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        img {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
+<hr class="divider">
+<p></p>
+<div id="map"></div>
+<p></p>
+<p id="location" style="text-align: center;"></p>
+<p id="temperature" style="text-align: center;"></p> <!-- 날씨 정보를 표시할 부분 추가 -->
+<img id="weatherIcon" alt="날씨 아이콘">
+<p id="cocktail" style="text-align: center;"></p> <!-- 추천 칵테일 정보를 표시할 부분 추가 -->
+</body>
 </html>

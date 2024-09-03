@@ -1,22 +1,24 @@
 package alcoholboot.toastit.feature.user.entity;
 
-import alcoholboot.toastit.feature.amazonimage.domain.Image;
-import alcoholboot.toastit.feature.customcocktail.domain.CustomCocktail;
+import alcoholboot.toastit.feature.image.entity.ImageEntity;
+import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.type.Authority;
-import alcoholboot.toastit.global.Entity.JpaAuditingFields;
+import alcoholboot.toastit.global.entity.JpaAuditingFields;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "users")
 public class UserEntity extends JpaAuditingFields {
     @Id
     @Setter
@@ -45,12 +47,12 @@ public class UserEntity extends JpaAuditingFields {
     private String providerType;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<CustomCocktail> cocktails = new ArrayList<>();
+    private List<CraftCocktailEntity> cocktails = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Image> images = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ImageEntity> imageEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<LikeEntity> likes = new ArrayList<>();
 
     @Setter
@@ -69,7 +71,7 @@ public class UserEntity extends JpaAuditingFields {
         this.authority = authority;
     }
 
-    public User convertToDomain(){
+    public User convertToDomain() {
         return User.builder()
                 .id(this.id)
                 .email(this.email)
