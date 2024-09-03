@@ -1,0 +1,115 @@
+.footer {
+    font-family: Arial, sans-serif;
+}
+
+.footer-container {
+    padding: 0 15rem;
+    margin: 3rem auto 0;
+}
+
+.footer-main {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.logo-image {
+    width: 40px;
+    height: 40px;
+    margin-right: 0.1rem;
+}
+
+.logo-text {
+    margin-top: 5px;
+    font-size: 3rem;
+    font-weight: bold;
+    font-style: italic;
+    color: #ff6600;
+}
+
+.contact-phone {
+    font-size: 2.3rem;
+    font-weight: bold;
+    color: #666;
+    margin: 0.25rem 2rem 0.25rem 0;
+}
+
+.contact-email {
+    font-size: 1.1rem;
+    color: #666;
+    margin: -10px 2rem 0.25rem 0;
+    text-align: center;
+}
+
+.footer-info {
+    font-size: 0.8rem;
+    color: #999;
+    line-height: 1.4;
+    margin-bottom: 1.4rem;
+    margin-left: 1.5rem;
+}
+
+.footer-info p {
+    margin: 5px
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+
+.footer-links {
+    display: flex;
+    width: 35rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    justify-content: space-between;
+}
+
+.footer-link {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.out-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.git-logo-image {
+    height: auto;
+    width: 2rem;
+}
+
+.techit-logo-image {
+    height: auto;
+    width: 2.3rem;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+.footer-copyright {
+    font-size: 0.8rem;
+    color: #999;
+    margin-left: 1rem;
+    text-align: left;
+}
