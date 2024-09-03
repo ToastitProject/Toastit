@@ -36,3 +36,7 @@ mybatis:
   mapper-locations: templates/feature/api/mappers/*.xml
   type-aliases-package: alcoholboot.toastit.feature.api.dto
 
+api:
+  naver:
+      client-id: ${NAVER_CLIENT_ID}
+      client-secret: ${NAVER_CLIENT_SECRET}
