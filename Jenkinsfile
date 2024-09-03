@@ -38,7 +38,7 @@ pipeline {
                     extensions: [],
                     userRemoteConfigs: [[
                         url: 'https://github.com/ToastitProject/Toastit.git',
-                        refspec: '+refs/heads/${params.BRANCH}:refs/remotes/origin/${params.BRANCH}'
+                        refspec: '+refs/heads/${params.BRANCH}:refs/remotes/${params.BRANCH}'
                     ]]
                 ])
             }
