@@ -1,11 +1,9 @@
-package alcoholboot.toastit.feature.api.dto;
+package alcoholboot.toastit.feature.climatecocktail.dto;
 
 import lombok.Data;
-import org.apache.ibatis.type.Alias;
 
 @Data
-@Alias("WeatherDTO")
-public class WeatherDTO {
+public class WeatherItemDTO {
     private String baseDate;
     private String baseTime;
     private String category;

@@ -1,10 +1,10 @@
-package alcoholboot.toastit.feature.api.controller;
+package alcoholboot.toastit.feature.climatecocktail.controller;
 
-import alcoholboot.toastit.feature.api.dto.AreaRequestDTO;
-import alcoholboot.toastit.feature.api.dto.LatXLngY;
-import alcoholboot.toastit.feature.api.dto.WeatherDTO;
-import alcoholboot.toastit.feature.api.service.RecommendByWeatherService;
-import alcoholboot.toastit.feature.api.service.WeatherService;
+import alcoholboot.toastit.feature.climatecocktail.dto.AreaRequestDTO;
+import alcoholboot.toastit.feature.climatecocktail.dto.LatXLngY;
+import alcoholboot.toastit.feature.climatecocktail.entity.WeatherEntity;
+import alcoholboot.toastit.feature.climatecocktail.service.RecommendByWeatherService;
+import alcoholboot.toastit.feature.climatecocktail.service.WeatherService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
 import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
@@ -41,18 +41,16 @@ public class WeatherController {
     @Value("${google.geocoding.api.key}")
     private String geocodingApiKey;
 
-
     @GetMapping("/weather")
     public String map(Model model) {
-        log.info("map 으로 GetMapping 이 들어옴");
+        log.debug("map 으로 GetMapping 이 들어옴");
         model.addAttribute("mapsApiKey", mapsApiKey);
         model.addAttribute("geocodingApiKey", geocodingApiKey);
-//        log.info("모델에 담아 보내는 MAP API KEY : "+ mapsApiKey);
-//        log.info("모델에 담아 보내는 Geocoding API KEY : "+geocodingApiKey);
-        return "/feature/api/weather";
+
+        return "climatecocktail/climatecocktail-view";
     }
 
-    @PostMapping("/save-coordinates")
+    @PostMapping("/weather")
     @ResponseBody
     public Map<String, Object> saveCoordinates(@RequestBody Map<String, Double> coordinates) throws UnsupportedEncodingException, URISyntaxException, JsonProcessingException {
         Double latitude = coordinates.get("latitude");
@@ -91,8 +89,10 @@ public class WeatherController {
         // 시간 받아와보기
         LocalTime nowTime = LocalTime.now();
         String basetime = "";
+
         int hour = nowTime.getHour();
         int minute = nowTime.getMinute();
+
         if (minute < 11) {
             hour--;
             basetime = hour + "0000";
@@ -100,16 +100,21 @@ public class WeatherController {
             basetime = hour + "0000";
         }
 
+        if (hour < 10) {
+            basetime = "0" + basetime;
+        }
 
         // 시간 추가
         areaRequestDTO.setBaseTime(basetime);
 
-        List<WeatherDTO> weatherDTOList = weatherService.getWeather(areaRequestDTO);
+        List<WeatherEntity> weatherEntityList = weatherService.getWeather(areaRequestDTO);
 
         // 받은 날씨 정보에서 기온(T1H)과 기상형태(PTY)를 받기
-        Double t1h = weatherService.getWeatherByCategory(weatherDTOList, "T1H").getObsrValue();
-        Double doublePty = weatherService.getWeatherByCategory(weatherDTOList, "PTY").getObsrValue();
-        Integer pty = doublePty.intValue();
+        String strT1h = weatherService.getWeatherByCategory(weatherEntityList, "T1H").getObsrValue();
+        String strPty = weatherService.getWeatherByCategory(weatherEntityList, "PTY").getObsrValue();
+        double t1h = Double.parseDouble(strT1h);
+        double doublePty = Double.parseDouble(strPty);
+        int pty = (int) doublePty;
 
         // 랜덤으로 쓸 재료를 검색
         Random random = new Random();
@@ -157,9 +162,12 @@ public class WeatherController {
 
         // response로 해보기
         Map<String, Object> response = new HashMap<>();
+        Cocktail selectedCocktail = cocktails.get(randomInt);
         response.put("temperature", t1h);
         response.put("weatherInfo", weather);
-        response.put("cocktailInfo", cocktails.get(randomInt).getStrDrink());
+        response.put("cocktailInfo", selectedCocktail.getStrDrink());
+        response.put("cocktailImage", selectedCocktail.getImagePath());
+        response.put("cocktailId", selectedCocktail.getId());
 
         return response;
     }
