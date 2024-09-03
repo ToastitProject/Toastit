@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'branch', defaultValue: 'main', description: '브랜치를 입력하세요')
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH'
     }
 
     environment {
@@ -23,9 +23,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: "${params.branch}",
-                    credentialsId: 'toastit_github_webhook_for_jenkins',
-                    url: 'https://github.com/ToastitProject/Toastit.git'
+                git branch: "${params.branch}", url: 'https://github.com/ToastitProject/Toastit.git'
             }
         }
 
