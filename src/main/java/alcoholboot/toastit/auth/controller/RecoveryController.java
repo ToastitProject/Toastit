@@ -47,7 +47,7 @@ public class RecoveryController {
 
         // 소셜 로그인 계정인지 확인
         if (userManagementService.isSocialLoginEmail(email)) {
-            model.addAttribute("socialError", "해당 이메일은 소셜 로그인 계정입니다.");
+            model.addAttribute("socialError", "해당 이메일은 소셜 로그인 계정으로 등록되어 있습니다. 로그인 페이지로 이동합니다.");
             return "auth/password-reset-form";
         }
 
@@ -107,7 +107,7 @@ public class RecoveryController {
         // 사용자 비밀번호 변경
         userManagementService.updatePassword(email, newPassword);
 
-        model.addAttribute("message", "비밀번호가 성공적으로 재설정되었습니다.");
+        model.addAttribute("message", "비밀번호가 성공적으로 재설정되었습니다. 로그인 페이지로 이동합니다.");
 
         return "auth/password-reset-success"; // 비밀번호 재설정 성공 페이지 (password/reset-success.html)
     }
