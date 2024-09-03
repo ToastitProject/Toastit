@@ -50,8 +50,9 @@ pipeline {
 
         stage('Build') {
             steps {
-                // 프로젝트 빌드 (테스트 제외)
-                sh './gradlew clean build -x test'
+                dir('Toastit') {  // 'project-root'는 실제 프로젝트 루트 디렉토리로 변경해야 합니다
+                    sh './gradlew clean build -x test'
+                }
             }
         }
 
