@@ -4,7 +4,7 @@ import alcoholboot.toastit.auth.jwt.domain.Token;
 import alcoholboot.toastit.auth.jwt.service.TokenService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
 import alcoholboot.toastit.feature.user.domain.User;
-import alcoholboot.toastit.feature.user.service.UserService;
+import alcoholboot.toastit.feature.user.service.UserManagementService;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import alcoholboot.toastit.global.config.response.exception.CustomException;
 import jakarta.servlet.ServletException;
@@ -25,7 +25,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtTokenizer jwtTokenizer;
-    private final UserService userService;  // 사용자 정보를 불러오기 위해 필요
+    private final UserManagementService userManagementService;  // 사용자 정보를 불러오기 위해 필요
     private final TokenService tokenService; // 토큰 정보를 저장하기 위해 필요
 
     @Override
@@ -35,7 +35,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String email = oAuth2User.getName();
 
         // 이메일을 기준으로 사용자 조회
-        User user = userService.findByEmail(email)
+        User user = userManagementService.findByEmail(email)
                 .orElseThrow(() -> new CustomException(CommonExceptionCode.NOT_MATCH_EMAILL_OR_PASSWORD));
 
         log.info(user.getNickname() + "님이 OAuth2 로그인 하였습니다.");

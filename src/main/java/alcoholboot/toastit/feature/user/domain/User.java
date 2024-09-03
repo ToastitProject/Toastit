@@ -1,14 +1,12 @@
 package alcoholboot.toastit.feature.user.domain;
 
-import alcoholboot.toastit.feature.amazonimage.domain.Image;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.type.Authority;
-import alcoholboot.toastit.global.Entity.JpaAuditingFields;
+
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder

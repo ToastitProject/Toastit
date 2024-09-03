@@ -1,10 +1,10 @@
 package alcoholboot.toastit.auth.oauth2.service;
 
-import alcoholboot.toastit.auth.common.PrincipalDetails;
+import alcoholboot.toastit.auth.core.PrincipalDetails;
 import alcoholboot.toastit.auth.oauth2.domain.OAuthAttributes;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.repository.UserRepository;
-import alcoholboot.toastit.feature.user.service.UserService;
+import alcoholboot.toastit.feature.user.service.UserManagementService;
 import alcoholboot.toastit.feature.user.type.Authority;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import alcoholboot.toastit.global.config.response.exception.CustomException;
@@ -24,7 +24,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final UserService userService;
+    private final UserManagementService userManagementService;
     private final UserRepository userRepository;
 
     @Override
@@ -55,7 +55,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      **/
     private User saveOrUpdate(OAuthAttributes authAttributes, String providerType) {
         // 이메일과 providerType으로 사용자 조회
-        Optional<User> optionalUser = userService.findByEmailAndProviderType(authAttributes.getEmail(), providerType);
+        Optional<User> optionalUser = userManagementService.findByEmailAndProviderType(authAttributes.getEmail(), providerType);
 
         User user;
 
@@ -64,7 +64,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             user = optionalUser.get();
         } else {
             // 동일한 이메일로 다른 providerType의 유저가 존재하는지 확인
-            Optional<User> existingUserWithSameEmail = userService.findByEmail(authAttributes.getEmail());
+            Optional<User> existingUserWithSameEmail = userManagementService.findByEmail(authAttributes.getEmail());
 
             if (existingUserWithSameEmail.isPresent()) {
                 // 동일한 이메일로 다른 providerType의 유저가 이미 존재하면 예외 처리
@@ -74,8 +74,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             // 새로운 사용자인 경우
             user = User.builder()
                     .email(authAttributes.getEmail())
-                    .nickname(userService.getUniqueNickname())
-                    .password(userService.encryptPassword(authAttributes.getAttributeId()))  // 비밀번호 저장
+                    .nickname(userManagementService.getUniqueNickname())
+                    .password(userManagementService.encryptPassword(authAttributes.getAttributeId()))  // 비밀번호 저장
                     .profileImageUrl(authAttributes.getProfileImageUrl())
                     .authority(Authority.USER)
                     .providerType(providerType)  // providerType 저장

@@ -1,21 +1,44 @@
-body {
+@font-face {
+    font-family: 'Gmarket Sans';
+    font-weight: 300;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.eot?#iefix') format('embedded-opentype'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.woff2') format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.woff') format('woff'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.ttf') format("truetype");
+    font-display: swap;
+}
+
+* {
     font-family: 'Gmarket Sans', sans-serif;
+}
+
+body {
     margin: 0;
-    padding: 0;
 }
 
 header {
     display: flex;
-    justify-content: space-between; /* 항목 간의 공간을 균등하게 배분 */
-    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
     background-color: white;
+    max-height: 94px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* 헤더가 다른 요소들 위에 위치하도록 설정 */
+    border-bottom: 2px solid #FFA832; /* 주황색 선 추가 */
+    min-width: 600px;
 }
 
 .logo {
     width: 50px;
-    height: auto;
-    margin-right: 20px;
+    height: 50px;
+    margin: 0 20px 0 0;
     border-radius: 10%; /* 모서리 둥글게 */
 }
 
@@ -28,8 +51,8 @@ nav {
 
 .menu a {
     text-decoration: none;
-    color: #2C3E50;
-    font-weight: 500; /* 더 얇은 폰트 */
+    color: #000000;
+    font-weight: bold;
     transition: color 0.3s;
     margin-right: 20px; /* 링크 간의 간격 추가 */
 }
@@ -39,21 +62,171 @@ nav {
 }
 
 #loginLink, #joinLink {
-    background-color: #FFA832;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
     text-decoration: none;
-    margin-left: auto; /* 오른쪽으로 정렬 */
-    margin-right: 40px;
+    color: #FFA832;
+    font-weight: bold;
+    transition: color 0.3s;
+    margin-right: 20px; /* 링크 간의 간격 추가 */
+}
+
+#logoutLink, #myPageLink {
+    text-decoration: none;
+    color: #FFA832;
+    font-weight: bold;
+    transition: color 0.3s;
+    margin-right: 20px; /* 링크 간의 간격 추가 */
+}
+
+#logoLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 50px;
 }
 
 #loginLink:hover, #joinLink:hover {
-    background-color: #FF8A00; /* hover 색상 */
+    color: #000000; /* hover 색상 */
+}
+
+#logoutLink:hover, #myPageLink:hover {
+    color: #000000; /* hover 색상 */
 }
 
 .divider {
-    width: 100%;
-    border: 1px solid #FFA832; /* 회색 선 */
-    margin: 0px 0; /* 상하 여백 */
+    border: none;
+    height: 2px;
+    background-color: #FFA832;
+    margin-top: -10px;
+}
+
+.menu {
+    display: flex; /* 메뉴 항목들을 가로로 나열 */
+    flex-grow: 1;
+    max-width: 1350px;
+}
+
+.profile {
+    display: flex; /* 프로필 항목들을 가로로 나열 */
+    align-items: center; /* 수직 가운데 정렬 */
+}
+
+.active-link {
+    color: #FFA832 !important; /* 중요도 높임 */
+}
+
+.footer {
+    font-family: Arial, sans-serif;
+}
+
+.footer-container {
+    margin: 0 auto;
+    padding: 0 15rem;
+}
+
+.footer-main {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.logo-image {
+    width: 40px;
+    height: 40px;
+    margin-right: 0.1rem;
+}
+
+.logo-text {
+    margin-top: 5px;
+    font-size: 3rem;
+    font-weight: bold;
+    font-style: italic;
+    color: #ff6600;
+}
+
+.contact-phone {
+    font-size: 2.3rem;
+    font-weight: bold;
+    color: #666;
+    margin: 0.25rem 2rem 0.25rem 0;
+}
+
+.contact-email {
+    font-size: 1.1rem;
+    color: #666;
+    margin: -10px 2rem 0.25rem 0;
+    text-align: center;
+}
+
+.footer-info {
+    font-size: 0.8rem;
+    color: #999;
+    line-height: 1.4;
+    margin-bottom: 1.4rem;
+    margin-left: 1.5rem;
+}
+
+.footer-info p {
+    margin: 5px
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+
+.footer-links {
+    display: flex;
+    width: 35rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    justify-content: space-between;
+}
+
+.footer-link {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.out-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.git-logo-image {
+    height: auto;
+    width: 2rem;
+}
+
+.techit-logo-image {
+    height: auto;
+    width: 2.3rem;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+.footer-copyright {
+    font-size: 0.8rem;
+    color: #999;
+    margin-left: 1rem;
+    text-align: left;
 }
