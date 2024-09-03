@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'branch', defaultValue: 'main', description: '브랜치를 입력하세요')
+    }
+
     environment {
         // Docker Hub 자격 증명
         DOCKERHUB_CREDENTIALS = credentials('docker_hub_token_for_jenkins')
@@ -19,8 +23,8 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: "${branch}",
-                url: 'https://github.com/ToastitProject/Toastit.git'
+                git branch: "${params.branch}",
+                    url: 'https://github.com/ToastitProject/Toastit.git'
             }
         }
 
