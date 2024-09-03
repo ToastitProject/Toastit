@@ -28,9 +28,9 @@
             <div class="cocktail-text-container">
                 <h1 th:text="${cocktail.get().strDrink}">칵테일 이름</h1>
                 <h1 class="base-cocktail-number" th:text="${cocktail.get().getId()}" style="display: none">칵테일 번호</h1>
-                <p><strong>종류:</strong> <span th:text="${cocktail.get().strAlcoholic}"></span></p>
-                <p><strong>카테고리:</strong> <span th:text="${cocktail.get().strCategory}"></span></p>
-                <p><strong>잔 종류:</strong> <span th:text="${cocktail.get().strGlass}"></span></p>
+                <p class="detail-info"><strong>종류:</strong> <span th:text="${cocktail.get().strAlcoholic}"></span></p>
+                <p class="detail-info"><strong>카테고리:</strong> <span th:text="${cocktail.get().strCategory}"></span></p>
+                <p class="detail-info"><strong>잔 종류:</strong> <span th:text="${cocktail.get().strGlass}"></span></p>
             </div>
         </div>
     </div>

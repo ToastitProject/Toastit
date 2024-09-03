@@ -1,5 +1,20 @@
+* {
+    font-family: 'Gmarket Sans', sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
 .footer {
-    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+.footer-divider {
+    border: none;
+    height: 2px;
+    background-color: #FFA832;
+    margin-top: -10px;
 }
 
 .footer-container {
