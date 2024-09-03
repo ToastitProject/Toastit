@@ -17,6 +17,14 @@ pipeline {
             }
         }
 
+        stage('Checkout') {
+            steps {
+                git branch: "${BRANCH}",
+                credentialsId: 'toastit_github_webhook_for_jenkins',
+                url: 'https://github.com/ToastitProject/Toastit.git'
+            }
+        }
+
 //         stage('Checkout') {
 //             steps {
 //                 // Git 저장소에서 main 브랜치 체크아웃
