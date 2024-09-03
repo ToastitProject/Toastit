@@ -48,8 +48,8 @@ public class WeatherController {
         model.addAttribute("geocodingApiKey", geocodingApiKey);
 
         // test
-        List<WeatherEntity> weatherEntityList = weatherService.getWeatherByBaseDate("20240902");
-        System.out.println(weatherEntityList);
+//        List<WeatherEntity> weatherEntityList = weatherService.getWeatherByBaseDate("20240902");
+//        weatherService.deleteWeatherList(weatherEntityList);
 
         return "feature/climatecocktail/weather";
     }
@@ -96,7 +96,7 @@ public class WeatherController {
 
         int hour = nowTime.getHour();
         int minute = nowTime.getMinute();
-        
+
         if (minute < 11) {
             hour--;
             basetime = hour + "0000";
