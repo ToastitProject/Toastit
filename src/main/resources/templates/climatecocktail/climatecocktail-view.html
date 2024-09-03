@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <title>술프링부트 - 날씨와 칵테일 추천</title>
+    <script>
+        function initPage() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+            } else {
+                alert("이 브라우저는 위치 정보를 지원하지 않습니다.");
+            }
+        }
+
+        function successCallback(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // 위도와 경도를 서버로 보내기
+            sendCoordinatesToServer(latitude, longitude);
+
+            function sendCoordinatesToServer(lat, lon) {
+                fetch('/weather', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({latitude: lat, longitude: lon})
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`서버 응답 상태: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('서버에서 받은 데이터:', data);
+
+                        // 날씨 정보를 한국어로 변환
+                        const weatherDescriptions = {
+                            clear: "맑음",
+                            rain: "비",
+                            snow: "눈"
+                        };
+                        const weatherText = weatherDescriptions[data.weatherInfo] || "기타";
+
+                        // 서버에서 받은 데이터로 HTML 요소 업데이트
+                        document.getElementById("temperature").innerText = `현재 기온: ${data.temperature}°C`;
+                        document.getElementById("weatherDescription").innerText = `날씨: ${weatherText}`;
+
+                        // 칵테일 정보 업데이트
+                        document.getElementById("cocktailName").innerText = data.cocktailInfo;
+                        document.getElementById("cocktailName").href = `/cocktails/id?id=${data.cocktailId}`;
+                        document.getElementById("cocktailImage").src = `${data.cocktailImage}`;
+
+                        // 날씨 아이콘 업데이트
+                        const iconFileName = getIconFileName(data.weatherInfo);
+                        document.getElementById("weatherIcon").src = `image/weather/icons/${iconFileName}`;
+                    })
+                    .catch(error => {
+                        console.error('좌표를 서버로 보내는 중 오류 발생:', error);
+                    });
+            }
+
+            function getIconFileName(weatherInfo) {
+                switch (weatherInfo) {
+                    case 'clear':
+                        return 'clear.png';
+                    case 'rain':
+                        return 'rain.png';
+                    case 'snow':
+                        return 'snow.png';
+                    default:
+                        return 'default.png'; // 기본 아이콘 파일
+                }
+            }
+        }
+
+        function errorCallback(error) {
+            console.error("위치 정보를 가져오는 데 실패했습니다: ", error);
+            document.getElementById("weatherDescription").innerText = "위치 정보를 가져오는 데 실패했습니다.";
+        }
+
+        window.onload = initPage;
+    </script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+        }
+
+        .weather-info, .cocktail-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .weather-info {
+            border-right: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .weather-info p {
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+
+        .weather-info img {
+            width: 100px;
+            height: 100px;
+            margin-top: 10px;
+        }
+
+        .cocktail-info img {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .cocktail-info p {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .cocktail-info a {
+            font-size: 1.5rem;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .cocktail-info a:hover {
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+<!-- 네비게이션 바 -->
+<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
+
+<div class="container">
+    <!-- 날씨 정보 표시 영역 -->
+    <div class="weather-info">
+        <p id="temperature">현재 기온: --°C</p>
+        <p id="weatherDescription">날씨: --</p>
+        <img id="weatherIcon" alt="날씨 아이콘">
+    </div>
+    <!-- 칵테일 정보 표시 영역 -->
+    <div class="cocktail-info">
+        <p>추천 칵테일은...</p>
+        <img id="cocktailImage" alt="추천 칵테일 이미지">
+        <a id="cocktailName" href="#">--</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,10 +1,9 @@
-package alcoholboot.toastit.feature.api.service;
+package alcoholboot.toastit.feature.climatecocktail.service;
 
-import alcoholboot.toastit.feature.api.entity.RecommendByWeatherEntity;
-import alcoholboot.toastit.feature.api.repository.RecommendByWeatherRepository;
+import alcoholboot.toastit.feature.climatecocktail.entity.RecommendByWeatherEntity;
+import alcoholboot.toastit.feature.climatecocktail.repository.RecommendByWeatherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

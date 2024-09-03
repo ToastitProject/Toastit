@@ -1,6 +1,7 @@
-package alcoholboot.toastit.feature.api.dto;
+package alcoholboot.toastit.feature.climatecocktail.dto;
 
 import lombok.Data;
+
 
 @Data
 public class LatXLngY {

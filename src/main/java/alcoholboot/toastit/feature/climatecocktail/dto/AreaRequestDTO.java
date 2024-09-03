@@ -1,10 +1,8 @@
-package alcoholboot.toastit.feature.api.dto;
+package alcoholboot.toastit.feature.climatecocktail.dto;
 
 import lombok.Data;
-import org.apache.ibatis.type.Alias;
 
 @Data
-@Alias("AreaRequestDTO")
 public class AreaRequestDTO {
     private String areacode;
     private String step1;
