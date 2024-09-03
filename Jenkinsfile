@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        gitParameter defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH'
+        gitParameter branchFilter: '.*', defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH'
     }
 
     environment {
@@ -23,7 +23,13 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: "${params.branch}", url: 'https://github.com/ToastitProject/Toastit.git'
+                script {
+                    // 브랜치 이름을 확인하고, 필요 시 'origin/'을 제거합니다.
+                    def branchName = params.BRANCH.replaceFirst(/^origin\//, '')
+                    git branch: branchName,
+                        credentialsId: 'toastit_github_webhook_for_jenkins',
+                        url: 'https://github.com/ToastitProject/Toastit.git'
+                }
             }
         }
 
