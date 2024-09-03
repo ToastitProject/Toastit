@@ -1,4 +1,4 @@
-package alcoholboot.toastit.infra.email.util;
+package alcoholboot.toastit.auth.email.util;
 
 import java.security.SecureRandom;
 

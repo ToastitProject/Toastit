@@ -1,18 +1,18 @@
 package alcoholboot.toastit.feature.user.service.impl;
 
-import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
+import alcoholboot.toastit.auth.controller.request.AuthJoinRequest;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.repository.UserRepository;
-import alcoholboot.toastit.feature.user.service.UserService;
-import alcoholboot.toastit.infra.email.service.VerificationService;
-import alcoholboot.toastit.feature.user.service.UserManagementService;
 import alcoholboot.toastit.auth.email.service.VerificationService;
+import alcoholboot.toastit.feature.user.service.UserManagementService;
 import alcoholboot.toastit.feature.user.util.RandomNickname;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import alcoholboot.toastit.global.config.response.exception.CustomException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class UserManagementServiceImpl implements UserManagementService {
     private String defaultProfileImg;
 
     @Transactional
-    public void save(UserJoinRequest userJoinDto) {
+    public void save(AuthJoinRequest userJoinDto) {
         // 이메일 중복 체크
         if (findByEmail(userJoinDto.getEmail()).isPresent()) {
             throw new CustomException(CommonExceptionCode.EXIST_EMAIL_ERROR);
@@ -73,36 +73,68 @@ public class UserManagementServiceImpl implements UserManagementService {
      * @param password 비밀번호
      * @return 암호화된 비밀번호
      */
+    @Override
     public String encryptPassword(String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(password);
     }
 
+    /**
+     * 이메일을 기반으로 사용자의 비밀번호를 업데이트하는 메서드
+     */
+    @Override
+    public void updatePassword(String email, String newPassword) {
+        // 이메일을 통해 사용자를 조회
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(CommonExceptionCode.NOT_FOUND_USER))
+                .convertToDomain();
+
+        // 새 비밀번호 암호화
+        String encodedPassword = encryptPassword(newPassword);
+
+        // 사용자 객체의 비밀번호 업데이트
+        user.setPassword(encodedPassword);
+
+        // 변경된 사용자 정보를 저장
+        userRepository.save(user.convertToEntity());
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email).map(UserEntity::convertToDomain);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> findByEmailAndProviderType(String email, String providerType) {
         return userRepository.findByEmailAndProviderType(email, providerType).map(UserEntity::convertToDomain);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> findById(Long id) {
         return userRepository.findById(id).map(UserEntity::convertToDomain);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> findByNickname(String nickname) {
         return userRepository.findByNickname(nickname).map(UserEntity::convertToDomain);
     }
 
+    @Override
     @Transactional
     public void save(UserEntity user) {
         userRepository.save(user);
     }
 
+    @Override
     @Transactional
     public void deleteByEmail(String email) {
         userRepository.deleteByEmail(email);

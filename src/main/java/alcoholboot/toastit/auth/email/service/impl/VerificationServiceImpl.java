@@ -1,6 +1,6 @@
-package alcoholboot.toastit.infra.email.service.impl;
+package alcoholboot.toastit.auth.email.service.impl;
 
-import alcoholboot.toastit.infra.email.service.VerificationService;
+import alcoholboot.toastit.auth.email.service.VerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.user.controller.request;
+package alcoholboot.toastit.auth.controller.request;
 
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.type.Authority;
@@ -15,7 +15,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserJoinRequest {
+public class AuthJoinRequest {
     @NotBlank(message = "이메일을 입력해주세요.")
     @Pattern(regexp = "^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$",
             message = "이메일 형식으로 입력해주세요.")
