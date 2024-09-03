@@ -45,7 +45,7 @@ body {
 }
 
 .input {
-    padding-right: 10px;
+    padding-left: 10px;
     margin-left: 10px;
     border-radius: 5px;
     width: 300px;
@@ -177,4 +177,15 @@ span#timer {
 img {
     width: 200px;
     height: 200px;
+    margin-bottom: -15px;
+}
+input#authCode {
+    padding-left: 10px;
+    width: 292px;
+}
+input#password {
+    padding-left: 10px;
+}
+input#passwordCheck {
+    padding-left: 10px;
 }
