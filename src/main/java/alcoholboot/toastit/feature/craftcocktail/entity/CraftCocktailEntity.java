@@ -41,7 +41,7 @@ public class CraftCocktailEntity extends JpaAuditingFields {
 
     @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
     private List<IngredientEntity> ingredients = new ArrayList<>();
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
@@ -49,19 +49,19 @@ public class CraftCocktailEntity extends JpaAuditingFields {
     @OneToMany(mappedBy = "craftCocktail", cascade = CascadeType.ALL)
     private List<LikeEntity> likes = new ArrayList<>();
 
-
-    public static CraftCocktailEntity createCocktail(UserEntity user, String name, String description, String recipe) {
-        CraftCocktailEntity cocktail = new CraftCocktailEntity();
-        cocktail.setUser(user);
-        cocktail.setName(name);
-        cocktail.setDescription(description);
-        cocktail.setRecipe(recipe);
-        return cocktail;
+    // 새 생성자 추가
+    public CraftCocktailEntity(Long id, String name, String description, String recipe, UserEntity user, List<IngredientEntity> ingredients) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.recipe = recipe;
+        this.user = user;
+        this.ingredients = ingredients != null ? ingredients : new ArrayList<>();
     }
 
     public void addIngredient(IngredientEntity ingredientEntity) {
         ingredients.add(ingredientEntity);
-        ingredientEntity.setCocktail(this);
+        ingredientEntity.setCocktail(new CraftCocktailEntity(this.id, this.name, this.description, this.recipe, this.user, this.ingredients));
     }
 
     public void removeIngredient(IngredientEntity ingredientEntity) {
