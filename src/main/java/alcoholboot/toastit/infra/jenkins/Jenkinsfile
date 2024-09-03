@@ -20,7 +20,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Git 저장소에서 main 브랜치 체크아웃
-                git branch: 'main', url: 'https://github.com/ToastitProject/Toastit.git'
+                git branch: 'feature/infra', url: 'https://github.com/ToastitProject/Toastit.git'
             }
         }
 
@@ -71,11 +71,9 @@ pipeline {
 
         stage('Docker Build and Push') {
             steps {
-                script {
+                dir('src/main/java/alcoholboot/toastit/infra/docker/springboot') {
                     // 액세스 토큰을 사용해 도커 허브 로그인 진행
                     sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
-
-                    sh "cd /home/y0671955/toastit/docker/dev/jenkins/jenkins_home/workspace/Toastit/src/main/java/alcoholboot/toastit/infra/docker/springboot"
 
                     // Docker 이미지 빌드 및 푸시
                     sh "docker build -t ${env.IMAGE_NAME}:${env.BUILD_NUMBER} ."
