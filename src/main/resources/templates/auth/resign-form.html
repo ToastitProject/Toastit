@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
-    <title>술프링부트 - 유저 탈퇴</title>
+    <title>회원 탈퇴 | ToastIT</title>
     <script>
         function submitResign() {
             fetch('/auth/resign', {
@@ -127,14 +127,10 @@
         background-color: #dfbc8e;
         color: white;
     }
-
-
 </style>
 <body>
 
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
-
-<hr class="divider">
 
 <div class="card">
     <div class="profile-container">
@@ -153,6 +149,6 @@
     </div>
 
 </div>
-</body>
 
+</body>
 </html>

@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.user.controller.request;
+package alcoholboot.toastit.auth.email.controller.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
