@@ -32,7 +32,7 @@ public class EmailController {
     @PostMapping("/send")
     public ResponseEntity<String> sendAuthEmail(@RequestBody @Valid EmailSendRequest emailSendRequest, BindingResult bindingResult) {
 
-        log.info(emailSendRequest.getEmail() + " 해당 이메일이 요청되었습니다.");
+        log.debug(emailSendRequest.getEmail() + " 해당 이메일이 요청되었습니다.");
 
         // 필드 에러 확인
         if (bindingResult.hasErrors()) {
@@ -51,7 +51,7 @@ public class EmailController {
         // redis에 인증 코드 저장
         verificationService.saveCode(emailSendRequest.getEmail(), authCode);
 
-        log.info("발급된 인증번호는 " + authCode + "입니다.");
+        log.debug("발급된 인증번호는 " + authCode + "입니다.");
 
         // 메일 제목
         String subject = "[ToastIT] 이메일 인증번호 : " + authCode;
@@ -62,7 +62,7 @@ public class EmailController {
         // 메일 발송
         emailService.sendFormMail(emailSendRequest.getEmail(), subject, body);
 
-        log.info(emailSendRequest.getEmail() + " 해당 이메일로 인증코드가 발송되었습니다.");
+        log.debug(emailSendRequest.getEmail() + " 해당 이메일로 인증코드가 발송되었습니다.");
         return ResponseEntity.ok("인증 메일이 발송되었습니다.");
     }
 

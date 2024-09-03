@@ -32,18 +32,18 @@ public class UserManagementServiceImpl implements UserManagementService {
     private String defaultProfileImg;
 
     @Transactional
-    public void save(AuthJoinRequest userJoinDto) {
+    public void save(AuthJoinRequest authJoinRequest) {
         // 이메일 중복 체크
-        if (findByEmail(userJoinDto.getEmail()).isPresent()) {
+        if (findByEmail(authJoinRequest.getEmail()).isPresent()) {
             throw new CustomException(CommonExceptionCode.EXIST_EMAIL_ERROR);
         }
 
         // 이메일 인증번호 체크
-        if (!verificationService.verifyCode(userJoinDto.getEmail(), userJoinDto.getAuthCode())) {
+        if (!verificationService.verifyCode(authJoinRequest.getEmail(), authJoinRequest.getAuthCode())) {
             throw new CustomException(CommonExceptionCode.TIMEOUT_LOGOUT);
         }
 
-        User user = userJoinDto.toDomain();
+        User user = authJoinRequest.toDomain();
 
         // 비밀번호 암호화
         String encryptedPassword = encryptPassword(user.getPassword());
@@ -99,7 +99,24 @@ public class UserManagementServiceImpl implements UserManagementService {
         userRepository.save(user.convertToEntity());
     }
 
+    // 이메일이 소셜 로그인 계정인지 확인하는 메서드
     @Override
+    @Transactional(readOnly = true)
+    public boolean isSocialLoginEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(CommonExceptionCode.NOT_FOUND_USER))
+                .convertToDomain();
+
+        if (user != null) {
+            // providerType이 "internal"이 아니면 소셜 로그인 계정으로 간주
+            return !user.getProviderType().equalsIgnoreCase("internal");
+        }
+
+        return false; // 사용자 없음
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
