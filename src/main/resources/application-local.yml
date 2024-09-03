@@ -67,3 +67,8 @@ google:
   geocoding:
     api:
       key: ${LOC_GOOGLE_GEOCODING_API_KEY}
+
+api:
+  naver:
+    client-id: ${LOC_NAVER_CLIENT_ID}
+    client-secret: ${LOC_NAVER_CLIENT_SECRET}
