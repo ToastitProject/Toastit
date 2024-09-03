@@ -1,11 +1,11 @@
 package alcoholboot.toastit.auth.service.impl;
 
+import alcoholboot.toastit.auth.controller.request.AuthJoinRequest;
+import alcoholboot.toastit.auth.controller.request.AuthLoginRequest;
 import alcoholboot.toastit.auth.jwt.domain.Token;
 import alcoholboot.toastit.auth.jwt.service.TokenService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
 import alcoholboot.toastit.auth.service.AuthService;
-import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
-import alcoholboot.toastit.feature.user.controller.request.UserLoginRequest;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.service.UserManagementService;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
@@ -32,18 +32,18 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserManagementService userManagementService;
     private final TokenService tokenService;
-    private final JwtTokenizer jwtTokenizer;
 
+    private final JwtTokenizer jwtTokenizer;
     private final PasswordEncoder passwordEncoder;
 
-    public User login(UserLoginRequest userLoginRequest, HttpServletResponse response) {
+    public User login(AuthLoginRequest authLoginRequest, HttpServletResponse response) {
 
         // 이메일로 사용자 조회
-        User user = userManagementService.findByEmail(userLoginRequest.getEmail())
+        User user = userManagementService.findByEmail(authLoginRequest.getEmail())
                 .orElseThrow(() -> new CustomException(CommonExceptionCode.NOT_MATCH_EMAILL_OR_PASSWORD));
 
         // 비밀번호 일치 여부 체크
-        if (!passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(authLoginRequest.getPassword(), user.getPassword())) {
             throw new CustomException(CommonExceptionCode.NOT_MATCH_EMAILL_OR_PASSWORD);
         }
 
@@ -104,16 +104,16 @@ public class AuthServiceImpl implements AuthService {
         tokenService.deleteByAccessToken(accessToken);
     }
 
-    public void registerUser(UserJoinRequest userJoinRequest, BindingResult bindingResult) {
+    public void registerUser(AuthJoinRequest authJoinRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getGlobalErrors().forEach(error -> log.error("GLOBAL ERROR : {}", error.getDefaultMessage()));
             bindingResult.getFieldErrors().forEach(error -> log.error("{} : {}", error.getField(), error.getDefaultMessage()));
             throw new IllegalArgumentException("Validation errors occurred during user registration");
         }
 
-        log.info("유저 저장 시작! 이메일: {}, 인증코드: {}", userJoinRequest.getEmail(), userJoinRequest.getAuthCode());
+        log.info("유저 저장 시작! 이메일: {}, 인증코드: {}", authJoinRequest.getEmail(), authJoinRequest.getAuthCode());
 
-        userManagementService.save(userJoinRequest);
+        userManagementService.save(authJoinRequest);
 
         log.info("유저 저장 성공!");
     }
