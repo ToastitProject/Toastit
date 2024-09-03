@@ -90,7 +90,7 @@ public class AuthController {
 
         log.debug("회원가입이 성공적으로 처리되었습니다: 이메일 {}", userJoinDto.getEmail());
 
-        return "redirect:/auth/login";
+        return "auth/join-success-form";
     }
 
     @GetMapping("/resign")
