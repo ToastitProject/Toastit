@@ -25,7 +25,8 @@
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 
 <div class="card">
-    <h2 style=>회원가입</h2>
+    <img class="joinImage" src="/image/peoples/gogo.png">
+    <h2>회원가입</h2>
     <form id="joinForm" th:action="@{/auth/join}" th:object="${authJoinRequest}" method="post" class="info">
         <!-- 이메일 입력란 -->
         <div class="input-container">
