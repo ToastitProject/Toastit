@@ -42,6 +42,3 @@ out/
 /src/main/resources/properties/env.properties
 /src/test/resources/properties/test-env.properties
 /node_modules/**
-
-src/main/resources/application-local.yml
-src/main/resources/application.yml
