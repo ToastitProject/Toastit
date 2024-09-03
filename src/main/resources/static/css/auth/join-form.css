@@ -4,6 +4,7 @@ body {
     background-color: white;
     margin: 0;
 }
+
 .card {
     background-color: #ffffff;
     border: 5px solid;
@@ -51,13 +52,16 @@ body {
     height: 30px;
     border: 2px solid;
 }
+
 input#passwordCheck {
     margin-top: 30px;
 }
+
 button#submitButton {
     color: white;
     background: #FFA832;
 }
+
 div#endtimer {
     color: black;
     width: 100%;
@@ -131,6 +135,7 @@ div#userDetailsSection {
     width: 600px;
     margin-right: 10px;
 }
+
 h2 {
     display: block;
     font-size: 1.5em;
@@ -141,6 +146,7 @@ h2 {
     font-weight: bold;
     unicode-bidi: isolate;
 }
+
 input#authCode {
     padding-right: 10px;
     margin-left: 10px;
@@ -149,18 +155,21 @@ input#authCode {
     height: 30px;
     border: 2px solid;
 }
+
 span#timer {
     color: black;
     margin-top: 20px;
     margin-bottom: -30px;
     font-weight: bold;
 }
+
 .inputHidden {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: -20px;
 }
+
 .passwordError {
     margin-top: 20px;
     margin-bottom: -10px;

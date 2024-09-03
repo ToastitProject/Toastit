@@ -4,7 +4,7 @@ import alcoholboot.toastit.auth.jwt.service.TokenRenewalService;
 import alcoholboot.toastit.auth.jwt.service.TokenService;
 import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
 import alcoholboot.toastit.feature.user.domain.User;
-import alcoholboot.toastit.feature.user.service.UserService;
+import alcoholboot.toastit.feature.user.service.UserManagementService;
 import alcoholboot.toastit.feature.user.type.Authority;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import com.amazonaws.services.kms.model.NotFoundException;
@@ -26,7 +26,7 @@ public class TokenRenewalServiceImpl implements TokenRenewalService {
     private final JwtTokenizer jwtTokenizer;
 
     // 사용자 관련 서비스
-    private final UserService userService;
+    private final UserManagementService userManagementService;
 
     // 토큰 관련 서비스
     private final TokenService tokenService;
@@ -46,7 +46,7 @@ public class TokenRenewalServiceImpl implements TokenRenewalService {
 
         // 클레임에서 사용자 ID를 추출하고, 해당 사용자 정보를 조회
         Long userId = Long.valueOf((Integer) claims.get("userId"));
-        User user = userService.findById(userId).orElseThrow(() -> new NotFoundException(CommonExceptionCode.NOT_FOUND_USER.getData()));
+        User user = userManagementService.findById(userId).orElseThrow(() -> new NotFoundException(CommonExceptionCode.NOT_FOUND_USER.getData()));
         Authority authority = Authority.valueOf(claims.get("authority", String.class));
 
         // 사용자 정보를 바탕으로 새로운 액세스 토큰을 생성

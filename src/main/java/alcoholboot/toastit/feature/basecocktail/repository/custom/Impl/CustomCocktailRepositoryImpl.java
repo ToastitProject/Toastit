@@ -45,6 +45,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         return new Criteria().andOperator(allIngredientsCriteria.toArray(new Criteria[0]));
     }
 
+
     /**
      * 재료 검색을 위한 Criteria를 생성합니다.
      * 이 메서드는 strIngredient1부터 strIngredient11까지의 필드에 대해 검색 조건을 생성합니다.
@@ -71,6 +72,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         );
     }
 
+
     /**
      * 잔 종류 검색을 위한 Criteria를 생성합니다.
      *
@@ -87,6 +89,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         );
     }
 
+
     /**
      * 카테고리 검색을 위한 Criteria를 생성합니다.
      *
@@ -101,6 +104,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
                 Criteria.where("strCategory").regex(category, "i")
         );
     }
+
 
     /**
      * 주어진 Criteria와 Pageable 객체를 사용하여 칵테일을 검색하고 Page 객체로 반환합니다.
@@ -123,77 +127,6 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         return new PageImpl<>(cocktails, pageable, total);
     }
 
-//    /**
-//     * 주어진 재료로 칵테일을 검색합니다.
-//     */
-//    @Override
-//    public Page<CocktailDocument> findCocktailsByIngredientPage(List<String> ingredient, Pageable pageable) {
-//
-//        return findCocktails(createIngredientCriteria(ingredient), pageable);
-//    }
-
-//    /**
-//     * 주어진 잔 종류로 칵테일을 검색합니다.
-//     */
-//    @Override
-//    public Page<CocktailDocument> findCocktailsByGlassPage(String glass, Pageable pageable) {
-//
-//        return findCocktails(createGlassCriteria(glass), pageable);
-//    }
-
-//    /**
-//     * 주어진 카테고리로 칵테일을 검색합니다.
-//     */
-//    @Override
-//    public Page<CocktailDocument> findCocktailsByCategoryPage(String category, Pageable pageable) {
-//
-//        return findCocktails(createCategoryCriteria(category), pageable);
-//    }
-
-//    /**
-//     * 주어진 재료와 잔 종류로 칵테일을 검색합니다.
-//     */
-//    @Override
-//    public Page<CocktailDocument> findByIngredientAndGlass(List<String> ingredient, String glass, Pageable pageable) {
-//
-//        // Criteria 생성
-//        Criteria combinedCriteria = new Criteria().andOperator(
-//                createIngredientCriteria(ingredient),
-//                createGlassCriteria(glass)
-//        );
-//
-//        return findCocktails(combinedCriteria, pageable);
-//    }
-
-//    /**
-//     * 주어진 재료와 카테고리로 칵테일을 검색합니다.
-//     */
-//    @Override
-//    public Page<CocktailDocument> findByIngredientAndCategoryPage(List<String> ingredient, String category, Pageable pageable) {
-//
-//        // Criteria 생성
-//        Criteria combinedCriteria = new Criteria().andOperator(
-//                createIngredientCriteria(ingredient),
-//                createCategoryCriteria(category)
-//        );
-//
-//        return findCocktails(combinedCriteria, pageable);
-//    }
-
-//    /**
-//     * 주어진 잔 종류와 카테고리로 칵테일을 검색합니다.
-//     */
-//    @Override
-//    public Page<CocktailDocument> findByGlassAndCategoryPage(String glass, String category, Pageable pageable) {
-//
-//        // Criteria 생성
-//        Criteria combinedCriteria = new Criteria().andOperator(
-//                createGlassCriteria(glass),
-//                createCategoryCriteria(category)
-//        );
-//
-//        return findCocktails(combinedCriteria, pageable);
-//    }
 
     /**
      * 주어진 재료, 잔 종류, 카테고리로 칵테일을 검색합니다.
@@ -211,6 +144,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         return findCocktails(combinedCriteria, pageable);
     }
 
+
     /**
      *  랜덤한 칵테일을 반환한다.
      * @param count 반환할 칵테일 수
@@ -226,6 +160,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         );
         return results.getMappedResults();
     }
+
 
     /**
      * 주어진 이름 리스트에 해당하는 칵테일들을 반환한다.
@@ -244,6 +179,7 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         return results.getMappedResults();
     }
 
+
     /**
      * 주어진 이름에 해당하는 단일 칵테일을 반환한다.
      * @param name 검색할 칵테일 이름
@@ -258,10 +194,31 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
                 Aggregation.match(Criteria.where("strDrink").is(name)),
                 Aggregation.limit(1)
         );
+
         AggregationResults<CocktailDocument> results = mongoTemplate.aggregate(
                 aggregation, "cocktails", CocktailDocument.class
         );
+
         List<CocktailDocument> cocktails = results.getMappedResults();
+
         return cocktails.isEmpty() ? null : cocktails.get(0);
+    }
+
+
+    /**
+     * 주어진 재료로 칵테일을 검색합니다.
+     *
+     * @param ingredient 검색할 재료 이름
+     * @return 결과 칵테일
+     */
+    @Override
+    public List<CocktailDocument> findByIngredient(String ingredient) {
+        Criteria criteria = createSingleIngredientCriteria(ingredient);
+
+        // 쿼리 생성
+        Query query = new Query(criteria);
+
+        // 쿼리 실행
+        return mongoTemplate.find(query, CocktailDocument.class);
     }
 }

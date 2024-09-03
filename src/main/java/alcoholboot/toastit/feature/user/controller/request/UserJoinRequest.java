@@ -2,19 +2,19 @@ package alcoholboot.toastit.feature.user.controller.request;
 
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.type.Authority;
+
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+
 import lombok.*;
-import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Slf4j
 public class UserJoinRequest {
     @NotBlank(message = "이메일을 입력해주세요.")
     @Pattern(regexp = "^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$",

@@ -11,12 +11,14 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Gmarket Sans', sans-serif;
             color: #FFA832;
             margin: 0;
             padding: 20px;
         }
+
         .card {
             background-color: #ffffff;
             border: solid;
@@ -113,11 +115,13 @@
             margin-top: 15px;
             margin-bottom: 30px;
         }
+
         .separator-container {
             display: flex;
             align-items: center;
             text-align: center;
         }
+
         .separator {
             flex-grow: 1;
             height: 2px;
@@ -125,29 +129,35 @@
             background-color: #FFA832;
             border: none;
         }
+
         .separator-text {
             padding: 0 10px;
             color: #464040;
             font-weight: bold;
         }
+
         .divider {
             border: none;
             height: 2px;
             background-color: #FFA832;
             margin-top: -10px;
         }
-        .inputLogo{
-            margin-top : -20px;
+
+        .inputLogo {
+            margin-top: -20px;
             width: 80px;
             height: 80px;
         }
+
         .bottom {
             margin-top: 15px;
         }
+
         input#email {
             width: 290px;
             height: 40px;
         }
+
         input#password {
             width: 290px;
             height: 40px;
@@ -164,42 +174,43 @@
 <div class="card">
     <img class="inputLogo" src="/image/logo-version-3.png">
     <div class="top">
-    <h2 class="login-title">간편 로그인 하기</h2>
-    <div class="button-container">
-        <a href="/oauth2/authorization/kakao" class="oathlogin">
-            <img src="/image/login/kakaoLogin.png" alt="카카오 로그인">
-        </a>
-        <a href="/oauth2/authorization/naver" class="oathlogin">
-            <img src="/image/login/naverLogin.png" alt="네이버 로그인">
-        </a>
+        <h2 class="login-title">간편 로그인 하기</h2>
+        <div class="button-container">
+            <a href="/oauth2/authorization/kakao" class="oathlogin">
+                <img src="/image/login/kakaoLogin.png" alt="카카오 로그인">
+            </a>
+            <a href="/oauth2/authorization/naver" class="oathlogin">
+                <img src="/image/login/naverLogin.png" alt="네이버 로그인">
+            </a>
+        </div>
     </div>
-</div>
     <div class="separator-container">
         <div class="separator"></div>
         <span class="separator-text">또는</span>
         <div class="separator"></div>
-</div>
-<div class="bottom">
-    <h2 class="login-title">이메일로 로그인 하기</h2>
-    <form id="loginForm" th:action="@{/user/login}" th:object="${userLoginRequest}" method="post" class="info">
-        <div class="info">
-            <div class="input-container">
-                <input type="email" class="input" th:field="*{email}" id="email" required placeholder="  이메일">
+    </div>
+    <div class="bottom">
+        <h2 class="login-title">이메일로 로그인 하기</h2>
+        <form id="loginForm" th:action="@{/auth/login}" th:object="${userLoginRequest}" method="post">
+            <div class="info">
+                <div class="input-container">
+                    <input type="email" class="input" th:field="*{email}" id="email" required placeholder="  이메일">
+                </div>
+
+                <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+                <div class="input-container">
+                    <input type="password" class="input" th:field="*{password}" id="password" required
+                           placeholder="  비밀번호" autocomplete="off">
+                </div>
+
+                <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+                <a href="#" class="password-reset">비밀번호 찾기</a>
+                <button id="submitButton" class="button" type="submit">로그인</button>
             </div>
-
-            <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-
-            <div class="input-container">
-                <input type="password" class="input" th:field="*{password}" id="password" required placeholder="  비밀번호" autocomplete="off">
-            </div>
-
-            <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-
-            <a href="#" class="password-reset">비밀번호 찾기</a>
-            <button id="submitButton" class="button" type="submit">로그인</button>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 </div>
 </body>
 </html>

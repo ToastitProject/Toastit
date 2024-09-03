@@ -119,9 +119,9 @@ body {
 .cocktail-grid {
     display: grid;
     color: black;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 135px;
-    row-gap: 55px;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 140px;
+    row-gap: 65px;
     margin: auto 15rem;
 }
 
@@ -144,7 +144,8 @@ body {
 }
 
 .pagination {
-    margin-top: 20px;
+    margin-top: 40px;
+    margin-bottom: 1rem;
     text-align: center;
     text-decoration: none;
 }
