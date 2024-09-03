@@ -20,7 +20,7 @@ pipeline {
 //         stage('Checkout') {
 //             steps {
 //                 // Git 저장소에서 main 브랜치 체크아웃
-//                 git branch: 'feature/infra', url: 'https://github.com/ToastitProject/Toastit.git'
+//                 git branch: 'main', url: 'https://github.com/ToastitProject/Toastit.git'
 //             }
 //         }
 
@@ -50,9 +50,8 @@ pipeline {
 
         stage('Build') {
             steps {
-                dir('Toastit') {  // 'project-root'는 실제 프로젝트 루트 디렉토리로 변경해야 합니다
-                    sh './gradlew clean build -x test'
-                }
+                // 프로젝트 빌드 (테스트 제외)
+                sh './gradlew clean build -x test'
             }
         }
 
@@ -72,12 +71,12 @@ pipeline {
 
         stage('Docker Build and Push') {
             steps {
-                dir('src/main/java/alcoholboot/toastit/infra/docker/springboot') {
+                script {
                     // 액세스 토큰을 사용해 도커 허브 로그인 진행
                     sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
 
                     // Docker 이미지 빌드 및 푸시
-                    sh "docker build -f Dockerfile -t ${env.IMAGE_NAME}:${env.BUILD_NUMBER} ../../../../../../../../"
+                    sh "docker build -t ${env.IMAGE_NAME}:${env.BUILD_NUMBER} ."
                     sh "docker push ${env.IMAGE_NAME}:${env.BUILD_NUMBER}"
 
                     // Jenkins 컨테이너에서 빌드된 Docker 이미지 삭제
