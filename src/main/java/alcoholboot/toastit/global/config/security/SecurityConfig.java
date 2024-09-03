@@ -55,6 +55,7 @@ public class SecurityConfig {
             "/season", // 계절별 칵테일 추천 API
 
             "/map/**", //지도 API
+            "/weather/**", // 날씨 API
             "/email/**", // 이메일 API
 
             "/user/mypage", // 회원 정보 API

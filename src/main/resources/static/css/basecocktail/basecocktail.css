@@ -1,10 +1,8 @@
 /* 전체 페이지 스타일 */
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
     color: #333;
+    padding: 20px;
 }
-
 
 /* 베너 스타일 */
 .base-banner {
@@ -122,6 +120,7 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 120px;
     row-gap: 70px;
+    line-height: 1.6;
     margin: auto 8rem;
 }
 
