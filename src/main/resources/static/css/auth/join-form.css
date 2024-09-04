@@ -15,6 +15,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 500px;
+    min-height: 510px;
     height: auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     margin: 300px auto;

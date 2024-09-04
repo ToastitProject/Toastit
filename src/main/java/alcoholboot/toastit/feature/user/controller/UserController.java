@@ -1,14 +1,23 @@
 package alcoholboot.toastit.feature.user.controller;
 
+import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
+import alcoholboot.toastit.feature.basecocktail.entity.CocktailDocument;
+import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
+import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
+import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
+import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.FollowEntity;
+import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.service.FollowService;
+import alcoholboot.toastit.feature.user.service.LikeService;
 import alcoholboot.toastit.feature.user.service.UserProfileImageService;
 import alcoholboot.toastit.feature.user.service.UserManagementService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.bson.types.ObjectId;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +27,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -26,7 +38,10 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
     private final UserManagementService userManagementService;
+    private final CocktailService cocktailService;
+    private final CraftCocktailService craftcocktailService;
     private final FollowService followService;
+    private final LikeService likeService;
     private final UserProfileImageService userProfileImageService;
 
     //홈 화면에서 마이페이지 접속하는 컨트롤러
@@ -179,4 +194,36 @@ public class UserController {
         }
         return "redirect:/user/edit";
     }
+
+    @GetMapping("/recipeManage")
+    public String recipeManage(@RequestParam(value = "sort", defaultValue = "myWrite") String sort, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            Optional<User> userOptional = userManagementService.findByEmail(email);
+
+        List<CraftCocktailEntity> craftCocktails;
+        List<Cocktail> baseCocktails;
+
+        switch (sort) {
+            case "likeCraft":
+                craftCocktails = likeService.findCraftCocktailsByUserId(userOptional.get().getId());
+                model.addAttribute("craftCocktails", craftCocktails);
+                break;
+            case "likeBase":
+                List<LikeEntity> likeCocktails = likeService.findLikeEntityByUserId(userOptional.get().getId());
+                List<ObjectId> ids = likeCocktails.stream()
+                        .map(LikeEntity::getBasecocktailsId)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
+                baseCocktails = cocktailService.getCocktailsById(ids);
+                model.addAttribute("baseCocktails", baseCocktails);
+                break;
+            default:
+                craftCocktails = craftcocktailService.getCocktailsByUserId(userOptional.get().getId());
+                model.addAttribute("craftCocktails", craftCocktails);
+                break;
+        }
+        return "user/recipeManage-view";
+    }
 }
+

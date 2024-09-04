@@ -53,4 +53,6 @@ public interface CraftCocktailRepository extends CrudRepository<CraftCocktailEnt
             ORDER BY COUNT(f.id) DESC
             """)
     List<CraftCocktailEntity> findTopByOrderByFollowerCountDesc(Pageable pageable);
+
+    List<CraftCocktailEntity> getCocktailsByUserId(long userId);
 }
