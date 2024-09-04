@@ -103,3 +103,8 @@ google:
   geocoding:
     api:
       key: ${TEST_GOOGLE_GEOCODING_API_KEY}
+
+api:
+  naver:
+    client-id: ${TEST_NAVER_CLIENT_ID}
+    client-secret: ${TEST_NAVER_CLIENT_SECRET}

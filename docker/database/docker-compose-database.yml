@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7.2
+    container_name: redis
+    ports:
+      - "0000:6379"
+    volumes:                                # 볼륨 지정
+      - ./redis/data:/data
+    environment:                            # 환경 변수 설정
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      TZ: Asia/Seoul
+    command: [
+      "redis-server",
+      "--requirepass",
+      "${REDIS_PASSWORD}"
+    ]
+    networks:                                # 네트워크 설정
+      - database
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}     # MySQL 관리자 계정 이름
+      MYSQL_DATABASE: ${MYSQL_DATABASE}               # MySQL 데이스베이스 정의
+      MYSQL_USER: ${MYSQL_USERNAME}                   # MySQL 사용자 이름
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}               # MySQL 사용자 비밀번호
+      TZ: Asia/Seoul
+    ports:
+      - "0000:3306"
+    volumes:
+      - ./mysql/data:/var/lib/mysql                   # 볼륨 지정
+    networks:                                         # 네트워크 설정
+      - database
+
+  mongo:
+    image: mongo:7.0.12
+    container_name: mongo
+    ports:
+      - "00000:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}   # MongoDB 관리자 계정 이름
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}   # MongoDB 관리자 계정 비밀번호
+      TZ: Asia/Seoul
+    volumes:
+      - ./mongo/data:/data/db                                     # 볼륨 지정
+    networks:
+      - database                                                  # 네트워크 설정
+
+  mongo-express:
+    image: mongo-express:1.0.2-20
+    container_name: mongo-express
+    ports:
+      - "0000:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}    # MongoDB 관리자 계정 이름
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}    # MongoDB 관리자 계정 비밀번호
+      ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}     # Mongo Express 기본 인증 사용자
+      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}     # Mongo Express 기본 인증 비밀번호
+      ME_CONFIG_OPTIONS_EDITORTHEME: monokai                            # Mongo Express 웹 인터페이스의 편집기 테마를 Monokai로 설정
+      TZ: Asia/Seoul
+    depends_on:
+      - mongo                                                           # mongo 서비스가 시작된 후에 mongo-express 서비스를 시작하도록 설정
+    networks:
+      - database                                                        # 네트워크 설정
+
+networks:                                                               # 네트워크 정의
+  database:
+    name: database                                                      # 네트워크 이름 설정
+    driver: bridge                                                      # 네트워크 드라이버 설정
