@@ -119,7 +119,16 @@
         font-size: 33px;
         margin-bottom: 30px;
     }
-
+    a#myWritePage {
+        padding-top: 20px;
+        color: black;
+        font-size: 21px;
+        margin-bottom: -30px;
+        font-weight: bold;
+    }
+    a#myWritePage:hover{
+        color: #FFA832;
+    }
 
 </style>
 <body>
@@ -137,6 +146,7 @@
         <p>이메일: <span th:text="${user.email}"></span></p>
         <p>닉네임: <span id="nickname" th:text="${user.nickname}"></span></p>
         <p>가입일: <span th:text="${user.getCreateDate()}"></span></p>
+        <a id="myWritePage" th:href="@{/user/myWritePage}" style="text-decoration: none">내가 작성한 글</a>
         <div th:if="${!notLoginUser}" class="button-container">
             <button class="button" th:onclick="|location.href='@{/user/edit}'|">수정하기</button>
             <button class="button" th:onclick="|location.href='@{/auth/resign}'|">탈퇴하기</button>
