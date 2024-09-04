@@ -123,6 +123,11 @@ public class    CocktailServiceImpl implements CocktailService {
                 .convertToDomain();
     }
 
+    /**
+     * 특정 id 와 일치하는 칵테일을 조회합니다.
+     * @param ids : 검색할 ID
+     * @return : 해당 ID와 일치하는 칵테일
+     */
     @Override
     public List<Cocktail> getCocktailsById(List<ObjectId> ids) {
         List<CocktailDocument> cocktailDocuments = cocktailRepository.findByIdIn(ids);

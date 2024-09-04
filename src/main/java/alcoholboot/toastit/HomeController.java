@@ -33,7 +33,6 @@ public class HomeController {
      * @param model : 기본 칵테일 5개 (검색량 증가 TOP 5) 를 view 로 보내는 모델 객체 입니다.
      * @return : 연결된 메인화면 view page 로 이동합니다
      */
-
     @GetMapping
     public String showHomePage(@RequestParam(value = "sort", defaultValue = "latest") String sort, Model model) {
         log.info("술프링 부트에 오신걸 환영합니다.");

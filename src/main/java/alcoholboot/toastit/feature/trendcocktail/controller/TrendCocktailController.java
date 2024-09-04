@@ -29,13 +29,21 @@ public class TrendCocktailController {
     private final TrendCocktailService trendCocktailService;
     private final CocktailService cocktailService;
 
-
+    /**
+     * 네이버 데이터랩 통합검색 API 요청문을 전송하고 응답을 받는 엔드포인트 입니다.
+     * @return : 요청에 대한 응답결과가 나와있는 페이지로 이동합니다.
+     */
     @GetMapping("/baseCocktailSearch")
     public String nSearchView() {
         List<String> cocktails = cocktailService.getAllNames();
         return trendCocktailService.getSearchVolume(cocktails);
     }
 
+    /**
+     * 네이버 데이터랩 통합검색 API 응답문을 받아와, 객체로 변환하여 DB에 저장하는 기능입니다.
+     * @param jsonString : API 응답 본문 입니다.
+     * @return : 응답의 수신 결과를 전송합니다.
+     */
     @PostMapping("/receive/trendCocktailData")
     public ResponseEntity<String> receiveData(@RequestBody String jsonString) {
         System.out.println(jsonString);
