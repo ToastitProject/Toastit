@@ -22,7 +22,7 @@ body {
 
 .base-banner h1 {
     position: absolute;
-    top: 60%;
+    top: 58%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
@@ -33,7 +33,7 @@ body {
 
 .base-banner p {
     position: absolute;
-    top: 48%;
+    top: 46%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
@@ -144,7 +144,7 @@ body {
 }
 
 .pagination {
-    margin-top: 40px;
+    margin: 53px;
     /* margin-bottom: 1rem; */
     text-align: center;
     text-decoration: none;
