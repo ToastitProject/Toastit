@@ -55,7 +55,6 @@ public class FollowController {
         if (alreadyFollow != null) {
             //이미 팔로우 중이라면, 팔로우 객체를 삭제한다
             followService.unfollow(alreadyFollow);
-
             return ResponseEntity.ok("unfollow");
         }
         else {
@@ -63,9 +62,7 @@ public class FollowController {
             FollowEntity follow = new FollowEntity();
             follow.setFollower(loginUser.get().convertToEntity());
             follow.setFollowee(followUser.get().convertToEntity());
-
             followService.follow(follow);
-
             return ResponseEntity.ok("follow");
         }
     }
@@ -77,7 +74,7 @@ public class FollowController {
      */
     @GetMapping("/follow")
         public String following (Model model) {
-        log.debug("팔로우 페이지로 getMapping 요청이 들어옴.");
+        log.debug("사용자가 팔로잉 페이지로 접근합니다.");
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String loginUserEmail = authentication.getName();
         Optional<User> loginUser = userManagementService.findByEmail(loginUserEmail);
@@ -91,7 +88,6 @@ public class FollowController {
             } else {
                 model.addAttribute("cocktails", new ArrayList<>());
             }
-
         return "user/following-recipes";
         }
     }
