@@ -96,6 +96,12 @@ public class    CocktailServiceImpl implements CocktailService {
     }
 
 
+    /**
+     * 특정 이름들과 일치하는 칵테일을 조회합니다. 복수의 이름을 넣을 수 있습니다.
+     *
+     * @param names 검색할 이름들
+     * @return 해당 이름들에 해당하는 칵테일 목록
+     */
     @Override
     public List<Cocktail> getCocktailsByName(List<String> names) {
         return cocktailRepository.findCocktailsByName(names)
@@ -104,9 +110,25 @@ public class    CocktailServiceImpl implements CocktailService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 특정 이름과 일치하는 칵테일을 조회합니다. 단일 이름만 조회 가능합니다.
+     *
+     * @param name 검색할 이름
+     * @return 해당 이름에 해당하는 칵테일
+     */
     @Override
     public Cocktail getSingleCocktailByName(String name) {
         return cocktailRepository.findSingleCocktailByName(name)
                 .convertToDomain();
+    }
+
+
+    /**
+     * 기본 칵테일 전체의 이름만을 List<String> 으로 가져옵니다.
+     * @return 칵테일 전체의 이름
+     */
+    @Override
+    public List<String> getAllNames() {
+        return cocktailRepository.getAllNames();
     }
 }

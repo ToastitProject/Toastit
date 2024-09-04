@@ -221,4 +221,14 @@ public class CustomCocktailRepositoryImpl implements CustomCocktailRepository {
         // 쿼리 실행
         return mongoTemplate.find(query, CocktailDocument.class);
     }
+
+
+    /**
+     * 기본 칵테일 전체의 이름만을 반환 합니다.
+     * @return 기본 칵테일 전체의 이름
+     */
+    @Override
+    public List<String> getAllNames() {
+        return mongoTemplate.findDistinct("strDrink", CocktailDocument.class, String.class);
+    }
 }
