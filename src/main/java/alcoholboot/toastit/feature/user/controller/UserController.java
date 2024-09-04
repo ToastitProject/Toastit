@@ -186,7 +186,7 @@ public class UserController {
         return "redirect:/user/edit";
     }
 
-    @GetMapping("/myWritePage")
+    @GetMapping("/recipeManage")
     public String myWritePage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
@@ -201,7 +201,7 @@ public class UserController {
         } else {
             model.addAttribute("error", "사용자가 인증되지 않았습니다.");
         }
-        return "user/myWritePage-view";
+        return "user/recipeManage-view";
     }
 }
 
