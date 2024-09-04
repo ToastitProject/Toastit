@@ -5,12 +5,16 @@ import alcoholboot.toastit.feature.seasonalcocktail.service.SeasonalCocktailServ
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Random;
 
 /**
  * {@link SeasonalCocktailService} SeasonalCocktailService 인터페이스의 구현체
  */
 @Service
 public class SeasonalCocktailServiceImpl implements SeasonalCocktailService {
+
+    private final Random random = new Random();
 
     /**
      * 현재 날짜를 반환
@@ -42,13 +46,25 @@ public class SeasonalCocktailServiceImpl implements SeasonalCocktailService {
     }
 
 
-    @Override
+
     public String getCocktailForSeason(String season) {
         return switch (season) {
-            case "봄" -> "네그로니";
-            case "여름" -> "모히토";
-            case "가을" -> "올드 패션드";
-            case "겨울" -> "아이리쉬 커피";
+            case "봄" -> {
+                List<String> springCocktails = List.of("애플 사이다 펀치", "애플 카라테", "아펠로", "블랙 러시안", "미모사", "사이드카", "프랜치 75");
+                yield springCocktails.get(random.nextInt(springCocktails.size()));
+            }
+            case "여름" -> {
+                List<String> summerCocktails = List.of("후르츠 쿨러", "바나나 스트로베리", "바나나 스트로베리 쉐이크 다이키리 타입", "바나나 밀크 쉐이크", "알로하 과일 펀치", "블루 라군", "라스트 워드", "카이피리냐");
+                yield summerCocktails.get(random.nextInt(summerCocktails.size()));
+            }
+            case "가을" -> {
+                List<String> fallCocktails = List.of("올드 패션드", "네그로니", "코스모폴리탄", "블러디 메리", "새저랙", "아페롤 스프리츠", "좀비", "애프터글로우", "보라 보라", "크랜베리 펀치", "샴페인 칵테일", "김렛");
+                yield fallCocktails.get(random.nextInt(fallCocktails.size()));
+            }
+            case "겨울" -> {
+                List<String> winterCocktails = List.of("프라페", "에그 노그", "건강한 에그 노그", "에그 노그 클래식", "초콜릿 드링크", "초콜릿 몽키", "초콜릿 음료", "카스티야 핫 초콜릿", "에비에이션", "에스프레소 마티니", "아이리쉬 커피");
+                yield winterCocktails.get(random.nextInt(winterCocktails.size()));
+            }
             default -> "마가리타";
         };
     }
