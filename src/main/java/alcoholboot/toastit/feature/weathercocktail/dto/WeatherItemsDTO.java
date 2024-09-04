@@ -1,4 +1,4 @@
-package alcoholboot.toastit.feature.climatecocktail.dto;
+package alcoholboot.toastit.feature.weathercocktail.dto;
 
 import lombok.Data;
 

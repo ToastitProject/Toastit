@@ -1,10 +1,10 @@
-package alcoholboot.toastit.feature.climatecocktail.controller;
+package alcoholboot.toastit.feature.weathercocktail.controller;
 
-import alcoholboot.toastit.feature.climatecocktail.dto.AreaRequestDTO;
-import alcoholboot.toastit.feature.climatecocktail.dto.LatXLngY;
-import alcoholboot.toastit.feature.climatecocktail.entity.WeatherEntity;
-import alcoholboot.toastit.feature.climatecocktail.service.RecommendByWeatherService;
-import alcoholboot.toastit.feature.climatecocktail.service.WeatherService;
+import alcoholboot.toastit.feature.weathercocktail.dto.AreaRequestDTO;
+import alcoholboot.toastit.feature.weathercocktail.dto.LatXLngY;
+import alcoholboot.toastit.feature.weathercocktail.entity.WeatherEntity;
+import alcoholboot.toastit.feature.weathercocktail.service.WeatherCocktailService;
+import alcoholboot.toastit.feature.weathercocktail.service.WeatherService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
 import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
@@ -32,7 +32,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class WeatherController {
     private final WeatherService weatherService;
-    private final RecommendByWeatherService recommendByWeatherService;
+    private final WeatherCocktailService weatherCocktailService;
     private final CocktailService cocktailService;
 
     @Value("${google.maps.api.key}")
@@ -144,7 +144,7 @@ public class WeatherController {
                 break;
         }
 
-        List<String> ingredients = recommendByWeatherService.getIngredientsByWeather(weather);
+        List<String> ingredients = weatherCocktailService.getIngredientsByWeather(weather);
         randomInt = random.nextInt(9);
         String ingredient = ingredients.get(randomInt);
 

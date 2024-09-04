@@ -1,6 +1,6 @@
-package alcoholboot.toastit.feature.climatecocktail.scheduler;
+package alcoholboot.toastit.feature.weathercocktail.scheduler;
 
-import alcoholboot.toastit.feature.climatecocktail.service.WeatherService;
+import alcoholboot.toastit.feature.weathercocktail.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
