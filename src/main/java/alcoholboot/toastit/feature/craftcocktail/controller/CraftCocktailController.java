@@ -25,6 +25,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * 입력 레시피 요청을 처리하는 컨트롤러
+ * 칵테일, 재료 테이블 포함
+ */
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -35,33 +39,45 @@ public class CraftCocktailController {
     private final UserManagementService userManagementService;
     private final LikeService likeService;
 
+
+    /**
+     * "/craft" 엔드포인트에 대한 GET 요청 처리
+     * @return 입력 레시피의 메인 뷰
+     */
     @GetMapping("/craft")
     public String customPage(Model model) {
         List<CraftCocktailEntity> cocktails = customCocktailService.getAllCocktails();
         model.addAttribute("cocktails", cocktails);
         log.debug("Accessed custom cocktails page");
-        return "feature/craftcocktail/craftmain";
+        return "craftcocktail/craftmain";
     }
 
+    /**
+     * "/craft/write" 엔드포인트에 대한 GET 요청 처리
+     * @return 입력 레시피의 글쓰기 뷰
+     */
     @GetMapping("/craft/write")
     public String customWritePage(RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다");
-            return "redirect:/login";
+            return "redirect:/auth/login";
         }
 
-        return "feature/craftcocktail/write";
+        return "craftcocktail/write";
     }
 
+    /**
+     * "/craft" 엔드포인트에 대한 POST 요청 처리
+     */
     @PostMapping("/craft")
     public String saveCocktail(@ModelAttribute CraftCocktailCreateRequest craftCocktailCreateRequest, RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다.");
-            return "redirect:/login";
+            return "redirect:/auth/login";
         }
 
         try {
@@ -104,7 +120,7 @@ public class CraftCocktailController {
             } else {
                 log.warn("유저를 찾을 수 없습니다: " + email);
                 redirectAttributes.addFlashAttribute("message", "유저 정보를 찾을 수 없습니다.");
-                return "redirect:/login";
+                return "redirect:/auth/login";
             }
         } catch (Exception e) {
             log.error("칵테일 저장 실패: ", e);
@@ -115,15 +131,23 @@ public class CraftCocktailController {
         return "redirect:/craft";
     }
 
+
+    /**
+     * "/craft/edit" 엔드포인트에 대한 GET 요청 처리
+     * @return 입력 레시피의 글쓰기 수정 뷰
+     */
     @GetMapping("/craft/edit/{id}")
     public String editCocktailForm(@PathVariable("id") Long id, Model model) {
         CraftCocktailEntity cocktail = customCocktailService.getCocktailById(id);
         model.addAttribute("cocktail", cocktail);
         model.addAttribute("image", cocktail.getImages());
         model.addAttribute("ingredients", cocktail.getIngredients()); // Add ingredients to the model
-        return "feature/craftcocktail/edit";
+        return "craftcocktail/edit";
     }
 
+    /**
+     * "/craft/edit" 엔드포인트에 대한 POST 요청 처리
+     */
     @PostMapping("/craft/edit/{id}")
     public String updateCocktail(@PathVariable("id") Long id, @ModelAttribute CraftCocktailCreateRequest craftCocktailCreateRequest, RedirectAttributes redirectAttributes) {
         try {
@@ -170,6 +194,9 @@ public class CraftCocktailController {
         }
     }
 
+    /**
+     * "/craft/delete" 엔드포인트에 대한 POST 요청 처리
+     */
     @PostMapping("/craft/delete/{id}")
     public String deleteCocktail(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
@@ -192,6 +219,10 @@ public class CraftCocktailController {
         }
     }
 
+    /**
+     * "/craft/{id}" 엔드포인트에 대한 GET 요청 처리
+     * @return 입력 레시피의 세부 뷰
+     */
     @GetMapping("/craft/{id}")
     public String showCustomDetail(@PathVariable("id") Long id, Model model) {
         CraftCocktailEntity cocktail = customCocktailService.getCocktailById(id);
@@ -218,6 +249,6 @@ public class CraftCocktailController {
             model.addAttribute("isLiked", false);
         }
 
-        return "feature/craftcocktail/craftdetail";
+        return "craftcocktail/craftdetail";
     }
 }

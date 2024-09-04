@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <link th:href="@{/css/fragment/footer-fragment.css}" rel="stylesheet">
+    <link th:href="@{/css/basecocktail/basecocktailrandom.css}" rel="stylesheet">
+    <title>랜덤 칵테일</title>
+</head>
+<body>
+<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
+
+<hr class="divider">
+
+<ins class="kakao_ad_area" style="display:none;"
+     data-ad-unit = "DAN-l28FhfLL6whRVh9A"
+     data-ad-width = "1155"
+     data-ad-height = "90"></ins>
+
+<h1>무작위로 추천된 칵테일 목록</h1>
+
+<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+<div class="cocktail-grid">
+    <div th:each="cocktail : ${cocktails}" class="cocktail-item">
+        <a th:href="@{/cocktails/id(id=${cocktail.id})}" class="cocktail-link">
+            <img th:src="@{${cocktail.imagePath}}" th:alt="${cocktail.strDrink}" class="cocktail-image">
+            <h2 th:text="${cocktail.strDrink}"></h2>
+            <p>종류: <span th:text="${cocktail.strAlcoholic}"></span></p>
+            <p>카테고리: <span th:text="${cocktail.strCategory}"></span></p>
+            <p>잔 종류: <span th:text="${cocktail.strGlass}"></span></p>
+        </a>
+    </div>
+</div>
+
+<div class="back-button-container">
+    <a href="/cocktails/all" class="back-button">목록으로 돌아가기</a>
+</div>
+
+</body>
+
+<div th:replace="fragment/footer :: footer"></div>
+
+</html>

@@ -1,7 +1,21 @@
-body {
-    font-family: 'Gmarket Sans', sans-serif;
-    margin: 0;
+@font-face {
+    font-family: 'Gmarket Sans';
+    font-weight: 300;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.eot?#iefix') format('embedded-opentype'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.woff2') format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.woff') format('woff'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.ttf') format("truetype");
+    font-display: swap;
+}
 
+* {
+    font-family: 'Gmarket Sans', sans-serif;
+}
+
+body {
+    margin: 0;
 }
 
 header {
@@ -54,6 +68,7 @@ nav {
     transition: color 0.3s;
     margin-right: 20px; /* 링크 간의 간격 추가 */
 }
+
 #logoutLink, #myPageLink {
     text-decoration: none;
     color: #FFA832;
@@ -61,6 +76,7 @@ nav {
     transition: color 0.3s;
     margin-right: 20px; /* 링크 간의 간격 추가 */
 }
+
 #logoLink {
     display: flex;
     justify-content: center;
@@ -72,14 +88,16 @@ nav {
 #loginLink:hover, #joinLink:hover {
     color: #000000; /* hover 색상 */
 }
+
 #logoutLink:hover, #myPageLink:hover {
     color: #000000; /* hover 색상 */
 }
 
 .divider {
-    width: 100%;
-    border: 1px solid #FFA832; /* 회색 선 */
-    margin: 0 0; /* 상하 여백 */
+    border: none;
+    height: 2px;
+    background-color: #FFA832;
+    margin-top: -10px;
 }
 
 .menu {
@@ -87,6 +105,7 @@ nav {
     flex-grow: 1;
     max-width: 1350px;
 }
+
 .profile {
     display: flex; /* 프로필 항목들을 가로로 나열 */
     align-items: center; /* 수직 가운데 정렬 */

@@ -1,19 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html><!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
-
     <title>술프링부트 - 유저 페이지</title>
 </head>
 <style>
@@ -54,12 +44,13 @@
         border-radius: 20px;
         display: flex;
         width: 600px;
-        height: 500px;
+        height: 600px;
         text-align: center;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         margin: 150px auto;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
 
     .profile-container {
@@ -73,7 +64,7 @@
         width: 150px;
         height: 150px;
         object-fit: cover;
-        margin-bottom: 20px;
+        margin-bottom: 40px;
     }
 
     .info {
@@ -83,15 +74,15 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
     .button-container {
-        margin-top: 50px;
+        margin-top: 30px;
     }
 
     p {
-        padding-top: 15px;
+        padding-top: 25px;
         font-weight: bold;
         font-size: 1.4em;
     }
@@ -118,34 +109,54 @@
         padding: 10px 10px;
     }
 
+    h2 {
+        font-size: 33px;
+        margin-bottom: 15px;
+    }
 
+    a#recipeManage {
+        color: black;
+        font-size: 21px;
+        margin-top: -10px;
+        margin-bottom: -10px;
+        font-weight: bold;
+        width: 140px;
+    }
+
+    a#recipeManage:hover {
+        color: #FFA832;
+    }
 </style>
+
 <body>
 <div th:insert="~{fragment/navbar-fragment :: navbarFragment}"></div>
 
 <hr class="divider">
 
 <div class="card">
+    <h2>마이 페이지</h2>
     <div class="profile-container">
         <img th:src="${user.profileImageUrl}"
              alt="프로필 사진" class="profile-pic">
     </div>
+    <a id="recipeManage" th:href="@{/user/recipeManage}" style="text-decoration: none">️🍹 레시피 관리</a>
     <div class="info">
         <p>이메일: <span th:text="${user.email}"></span></p>
         <p>닉네임: <span id="nickname" th:text="${user.nickname}"></span></p>
         <p>가입일: <span th:text="${user.getCreateDate()}"></span></p>
         <div th:if="${!notLoginUser}" class="button-container">
-            <button class="button" th:onclick="|location.href='@{/user/edit}'|">EDIT</button>
-            <button class="button" th:onclick="|location.href='@{/user/resign}'|">RESIGN</button>
+            <button class="button" th:onclick="|location.href='@{/user/edit}'|">수정하기</button>
+            <button class="button" th:onclick="|location.href='@{/auth/resign}'|">탈퇴하기</button>
         </div>
 
         <div th:if="${notLoginUser}" class="button-container">
             <button class="button" id="followButton"
-                    th:text="${alreadyFollow != null ? 'UNFOLLOW' : 'FOLLOW'}"
+                    th:text="${alreadyFollow != null ? '언팔로우' : '팔로우'}"
                     onclick="followUser()"></button>
         </div>
     </div>
 </div>
+</body>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -154,7 +165,7 @@
 
 
         function updateFollowButton() {
-            followButton.innerText = followStatus === 'follow' ? 'FOLLOW' : 'UNFOLLOW'; // 버튼 텍스트 업데이트
+            followButton.innerText = followStatus === 'follow' ? '팔로우' : '언팔로우'; // 버튼 텍스트 업데이트
         }
 
         async function followUser() {
@@ -193,5 +204,4 @@
     });
 </script>
 
-</body>
 </html>

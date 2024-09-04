@@ -6,22 +6,24 @@
             crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
+    <link th:href="@{/css/fragment/footer-fragment.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <title>술프링부트 - 메인 페이지</title>
 </head>
 <style>
     * {
-        margin: 0;
+        /*margin: 0;*/
         padding: 0;
         box-sizing: border-box;
     }
+
     body {
-        font-family: 'Gmarket Sans', sans-serif;
         color: #FFA832;
         margin: 0;
         padding: 20px;
         min-width: 610px;
+        overflow-x: hidden;
     }
 
     .container {
@@ -44,9 +46,10 @@
         padding: 15px;
         background-color: #ffffff;
     }
+
     .note {
         font-size: 1em; /* 글씨 크기를 0.75배로 설정 */
-        color: #000 ; ;  /* 검은색 글씨 */
+        color: #000;; /* 검은색 글씨 */
         margin-top: 10px; /* 상단 여백 */
         text-align: left; /* 좌측 정렬 */
         font-weight: bold;
@@ -63,6 +66,7 @@
         height: 280px;
         cursor: pointer;
     }
+
     .swiper mySwiper {
         display: flex;
         justify-content: center;
@@ -74,6 +78,7 @@
         height: 220px;
         cursor: pointer;
     }
+
     section.cocktail-recommendations {
         width: 100%;
         overflow: hidden;
@@ -100,7 +105,7 @@
         position: relative;
     }
 
-    .swiper-slide{
+    .swiper-slide {
         background-color: #ffffff;
         border: none;
         text-align: center; /* 문구를 가운데 정렬 */
@@ -117,6 +122,7 @@
         position: relative; /* 자식 요소의 절대 위치 설정을 위한 relative */
 
     }
+
     .swiper-slide img {
         width: 100%; /* 이미지 가로 크기 조정 */
         height: 100%; /* 이미지 세로 크기 조정 */
@@ -124,6 +130,7 @@
         object-fit: cover;
         transition: opacity 0.4s; /* 이미지 흐림 효과 */
     }
+
     .swiper-slide .text {
         position: absolute; /* 절대 위치 설정 */
         top: 50%; /* 세로 중앙 정렬 */
@@ -135,6 +142,7 @@
         font-weight: bold; /* 글씨를 두껍게 */
         font-size: 1.5em;
     }
+
     .swiper-slide:hover img {
         opacity: 0.4; /* 호버 시 이미지 흐림 */
     }
@@ -144,10 +152,10 @@
     }
 
     .card:hover {
-        transform: scale(1.05); /* 카드 호버 시 확대 효과 */
+        transform: scale(1.02); /* 카드 호버 시 확대 효과 */
     }
 
-    .s-card{
+    .s-card {
         background-color: #ffffff;
         padding: 10px;
         text-align: center; /* 문구를 가운데 정렬 */
@@ -164,10 +172,11 @@
         transition: transform 0.2s;
         position: relative; /* 자식 요소의 절대 위치 설정을 위한 relative */
     }
+
     .slider {
         display: flex;
         transition: transform 0.5s ease;
-        width: calc(100% * 1/6); /* 카드 수에 맞게 조정 */
+        width: calc(100% * 1 / 6); /* 카드 수에 맞게 조정 */
     }
 
     h3 {
@@ -175,17 +184,19 @@
         font-size: 1.5em;
         text-align: left;
     }
+
     .divider {
         border: none;
         height: 2px;
         background-color: #FFA832;
         margin-top: -10px;
     }
+
     .sort-options {
-        display: flex; /* 가로로 정렬 */
-        justify-content: flex-end; /* 왼쪽 정렬 */
-        margin-top: -35px;
-        margin-bottom: 20px; /* 카드와의 간격 */
+        display: flex;
+        justify-content: flex-end;
+        margin-top: -18px;
+        margin-bottom: 13px;
         max-width: 1230px;
         width: 100%;
         flex-wrap: nowrap;
@@ -202,6 +213,7 @@
     .sort-item:hover {
         color: #FFA832; /* 호버 시 색상 변화 */
     }
+
     .cocktail-image {
         width: 100%; /* 카드 너비에 맞추기 */
         height: 220px; /* 비율에 맞춰 높이 조절 */
@@ -224,10 +236,10 @@
         max-width: 90%; /* 최대 너비를 설정하여 글씨 크기 조정 */
     }
 
-    .nickName{
+    .nickName {
         font-family: 'Gmarket Sans', sans-serif;
         font-weight: bold;
-        color : #000000;
+        color: #000000;
         text-decoration: none;
     }
 
@@ -239,34 +251,53 @@
         opacity: 1; /* 호버 시 텍스트 표시 */
     }
 
-    .shopping-section{
+    .shopping-section {
         overflow: hidden;
     }
+
     .text-center {
         text-align: center; /* 텍스트 가운데 정렬 */
         margin: 10px; /* 여백 자동 설정 */
     }
+
     .s-card img {
         width: 430px;
         max-width: 430px;
         min-height: 130px;
     }
+
     section.basic-recipes {
         width: 1155px;
         min-width: 1155px;
     }
+
     img.trend_img {
         width: 178px;
         height: 220px;
     }
+
     h4 {
         margin-top: 5px;
         color: black;
     }
-    .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
-        bottom: -5px;
+
+    .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+        bottom: -4px;
         left: 0;
         width: 100%;
+    }
+    .swiper.mySwiper.swiper-initialized.swiper-horizontal.swiper-pointer-events.swiper-backface-hidden {
+        height: 225px;
+        margin-bottom: -15px;
+    }
+    section.shopping-section {
+        width: 1155px;
+    }
+    span.swiper-pagination-bullet.swiper-pagination-bullet-active {
+        background: #FFA832;
+    }
+    .text {
+        width: 300px;
     }
 
 </style>
@@ -282,41 +313,47 @@
     <section class="cocktail-recommendations">
         <h3 class="text-center">칵테일 추천</h3>
         <p class="note text-center">지금 당신에게 딱 맞는 칵테일 추천</p>
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <a th:href="@{/map}">
-                        <img src="/image/mapcocktail.png" alt="Image">
+        <div class="swiper mySwiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden">
+            <div class="swiper-wrapper" id="swiper-wrapper-bab71dc33fdc6678" aria-live="polite" style="transform: translate3d(-1055px, 0px, 0px); transition-duration: 0ms;">
+                <div class="swiper-slide" role="group" aria-label="1 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/map">
+                        <img src="/image/recommend-cocktail/locationcocktail.png" alt="Image">
                         <div class="text">접속 위치</div>
                     </a>
                 </div>
-                <div class="swiper-slide">
-                    <a th:href="@{/weather}">
-                        <img src="/image/wheather.png" alt="Image">
+                <div class="swiper-slide" role="group" aria-label="2 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/weather">
+                        <img src="/image/recommend-cocktail/wheathercocktail.png" alt="Image">
                         <div class="text">날씨</div>
                     </a>
                 </div>
-                <div class="swiper-slide">
-                    <a th:href="@{/season}">
-                        <img src="/image/dateCocktail.png" alt="Image">
+                <div class="swiper-slide swiper-slide-prev" role="group" aria-label="3 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/season">
+                        <img src="/image/recommend-cocktail/datecocktail.png" alt="Image">
                         <div class="text">날짜</div>
                     </a>
                 </div>
-                <div class="swiper-slide">
-                    <a th:href="@{/cocktails/random}">
-                        <img src="/image/ramdomcock.png" alt="Image">
+                <div class="swiper-slide swiper-slide-active" role="group" aria-label="4 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/cocktails/random">
+                        <img src="/image/recommend-cocktail/ramdomcock.png" alt="Image">
                         <div class="text">무작위</div>
                     </a>
                 </div>
-                <div class="swiper-slide">
-                    <a th:href="@{/setting}">
-                        <img src="/image/setting.png" alt="Image">
-                        <div class="text">추가 예정</div>
+                <div class="swiper-slide swiper-slide-next" role="group" aria-label="5 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/cocktails/#">
+                        <img src="/image/recommend-cocktail/mbticocktail.png" alt="Image">
+                        <div class="text">MBTI 추천(예정)</div>
+                    </a>
+                </div>
+                <div class="swiper-slide" role="group" aria-label="6 / 6" style="width: 321.667px; margin-right: 30px;">
+                    <a href="/setting">
+                        <img src="/image/recommend-cocktail/addcocktail.png" alt="Image">
+                        <div class="text">서비스 추가 예정</div>
                     </a>
                 </div>
             </div>
-            <div class="swiper-pagination"></div>
-        </div>
+            <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 1"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 3"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 4" aria-current="true"></span></div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
     </section>
     <!-- 기본 레시피 섹션 -->
     <section class="basic-recipes">
@@ -324,8 +361,9 @@
         <p class="note">지난 달 검색량이 급등한 레시피 TOP 5</p>
         <div class="card-container">
             <div th:each="trendCocktail : ${trendCocktails}" class="card">
-                <a th:href="@{/cocktails/id(id=${trendCocktail.getId()})}">
-                    <input type="hidden" th:if="${trendCocktail.getId() == null}" th:value="${trendCocktail.getId()}" id="hiddenTrendCocktailId"/>
+                <a th:href="@{/cocktails/id(id=${trendCocktail.getId()})}" style="text-decoration: none">
+                    <input type="hidden" th:if="${trendCocktail.getId() == null}" th:value="${trendCocktail.getId()}"
+                           id="hiddenTrendCocktailId"/>
                     <img th:src="${trendCocktail.imagePath}" alt="trendCocktail 이미지" class="trend_img">
                     <h4 th:text="${trendCocktail.getStrDrink()}"></h4>
                 </a>
@@ -343,18 +381,24 @@
         </div>
         <div class="card-container">
             <div th:each="cocktail : ${cocktails}" class="card">
-                <a th:href="@{/custom/{id}(id=${cocktail.id})}" th:if="${cocktail.images.size() > 0}">
+                <a th:href="@{/craft/{id}(id=${cocktail.id})}" th:if="${cocktail.images.size() > 0}">
                     <img th:src="${cocktail.images[0].imagePath}" alt="사진없음" class="cocktail-image"/>
                     <span class="cocktail-name" th:text="${cocktail.name}">칵테일 이름</span>
                 </a>
                 <input type="hidden" th:if="${cocktail.id == null}" th:value="${cocktail.id}" id="hiddenCocktailId"/>
-                <a th:href="@{/user/mypage(nickname=${cocktail.getUser().getNickname()})}">
-                    <span class="nickName" th:text="${cocktail.getUser().getNickname()}">닉네임 이름</span>
+                <a th:href="@{/user/mypage(nickname=${cocktail.getUser().getNickname()})}" style="text-decoration: none">
+                    <span class="nickName" th:text="${cocktail.getUser().getNickname()}" >닉네임 이름</span>
                 </a>
             </div>
         </div>
 
     </section>
+
+    <ins class="kakao_ad_area" style="display:none;"
+         data-ad-unit = "DAN-l28FhfLL6whRVh9A"
+         data-ad-width = "1155"
+         data-ad-height = "90"></ins>
+    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
 
     <!-- 쇼핑 공간 섹션 -->
     <section class="shopping-section">
@@ -364,47 +408,47 @@
             <div class="slider">
                 <div class="s-card">
                     <a href="https://link.coupang.com/a/bflAdO" target="_blank" rel="noopener noreferrer">
-                        <img src="/image/ads/ad1.png" alt="ads">
+                        <img src="/image/ads/ad-1.png" alt="ads">
                     </a>
                 </div>
                 <div class="s-card">
                     <a href="https://link.coupang.com/a/bflAyQ" target="_blank" rel="noopener noreferrer">
-                        <img src="/image/ads/ad2.png" alt="ads">
+                        <img src="/image/ads/ad-2.png" alt="ads">
                     </a>
                 </div>
                 <div class="s-card">
                     <a href="https://link.coupang.com/a/bOTCVa" target="_blank" rel="noopener noreferrer">
-                        <img src="/image/ads/ad3.png" alt="ads">
+                        <img src="/image/ads/ad-3.png" alt="ads">
                     </a>
                 </div>
                 <div class="s-card">
                     <a href="https://link.coupang.com/a/bOTDB9" target="_blank" rel="noopener noreferrer">
-                        <img src="/image/ads/ad4.png" alt="ads">
+                        <img src="/image/ads/ad-4.png" alt="ads">
                     </a>
                 </div>
                 <div class="s-card">
                     <a href="https://link.coupang.com/a/0pWXk" target="_blank" rel="noopener noreferrer">
-                        <img src="/image/ads/ad5.png" alt="ads">
+                        <img src="/image/ads/ad-5.png" alt="ads">
                     </a>
                 </div>
                 <div class="s-card">
                     <a href="https://link.coupang.com/a/0pW46" target="_blank" rel="noopener noreferrer">
-                        <img src="/image/ads/ad6.png" alt="ads">
+                        <img src="/image/ads/ad-6.png" alt="ads">
                     </a>
                 </div>
                 <div class="s-card">
                     <a href="https://link.coupang.com/a/bflAdO" target="_blank" rel="noopener noreferrer">
-                        <img src="/image/ads/ad1.png" alt="ads">
+                        <img src="/image/ads/ad-1.png" alt="ads">
                     </a>
                 </div>
                 <div class="s-card">
                     <a href="https://link.coupang.com/a/bflAyQ" target="_blank" rel="noopener noreferrer">
-                        <img src="/image/ads/ad2.png" alt="ads">
+                        <img src="/image/ads/ad-2.png" alt="ads">
                     </a>
                 </div>
                 <div class="s-card">
                     <a href="https://link.coupang.com/a/bOTCVa" target="_blank" rel="noopener noreferrer">
-                        <img src="/image/ads/ad3.png" alt="ads">
+                        <img src="/image/ads/ad-3.png" alt="ads">
                     </a>
                 </div>
             </div>
@@ -413,7 +457,7 @@
 
 
 </div>
-</body>
+
 <script>
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 3,
@@ -423,7 +467,6 @@
             clickable: true,
         },
     });
-
 
     function changeSort(sortType) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -438,7 +481,7 @@
 
     function showNextCards() {
         currentIndex = (currentIndex + 1) % totalCards; // 다음 인덱스 계산
-        const offset = -currentIndex * (100 / 3); // 슬라이드 이동 거리 계산
+        const offset = -currentIndex * (200); // 슬라이드 이동 거리 계산
         slider.style.transform = `translateX(${offset}%)`;
     }
 
@@ -447,6 +490,8 @@
 
 </script>
 
+</body>
 
+<div th:replace="fragment/footer :: footer"></div>
 
 </html>

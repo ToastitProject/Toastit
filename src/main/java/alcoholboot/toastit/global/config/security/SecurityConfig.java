@@ -1,11 +1,11 @@
 package alcoholboot.toastit.global.config.security;
 
-import alcoholboot.toastit.auth.jwt.filter.TokenAuthenticationFilter;
-import alcoholboot.toastit.auth.jwt.service.TokenRenewalService;
-import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
-import alcoholboot.toastit.auth.oauth2.handler.OAuth2AuthenticationFailureHandler;
-import alcoholboot.toastit.auth.oauth2.handler.OAuth2AuthenticationSuccessHandler;
-import alcoholboot.toastit.auth.oauth2.service.CustomOAuth2UserService;
+import alcoholboot.toastit.infra.jwt.filter.TokenAuthenticationFilter;
+import alcoholboot.toastit.infra.jwt.service.TokenRenewalService;
+import alcoholboot.toastit.infra.jwt.util.JwtTokenizer;
+import alcoholboot.toastit.infra.oauth2.handler.OAuth2AuthenticationFailureHandler;
+import alcoholboot.toastit.infra.oauth2.handler.OAuth2AuthenticationSuccessHandler;
+import alcoholboot.toastit.infra.oauth2.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,6 +55,7 @@ public class SecurityConfig {
             "/season", // 계절별 칵테일 추천 API
 
             "/map/**", //지도 API
+            "/weather/**", // 날씨 API
             "/email/**", // 이메일 API
 
             "/user/mypage", // 회원 정보 API
@@ -74,6 +75,7 @@ public class SecurityConfig {
     String[] notLoggedAllowPage = new String[]{
             "/auth/login", // 로그인 API
             "/auth/join", // 회원가입 API
+            "/recovery/**" // 복구 API
     };
 
     /**

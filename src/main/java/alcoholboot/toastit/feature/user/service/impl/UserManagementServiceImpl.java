@@ -1,16 +1,18 @@
 package alcoholboot.toastit.feature.user.service.impl;
 
-import alcoholboot.toastit.feature.user.controller.request.UserJoinRequest;
+import alcoholboot.toastit.infra.auth.controller.request.AuthJoinRequest;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.repository.UserRepository;
+import alcoholboot.toastit.infra.email.service.VerificationService;
 import alcoholboot.toastit.feature.user.service.UserManagementService;
-import alcoholboot.toastit.auth.email.service.VerificationService;
 import alcoholboot.toastit.feature.user.util.RandomNickname;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;
 import alcoholboot.toastit.global.config.response.exception.CustomException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,18 +32,18 @@ public class UserManagementServiceImpl implements UserManagementService {
     private String defaultProfileImg;
 
     @Transactional
-    public void save(UserJoinRequest userJoinDto) {
+    public void save(AuthJoinRequest authJoinRequest) {
         // 이메일 중복 체크
-        if (findByEmail(userJoinDto.getEmail()).isPresent()) {
+        if (findByEmail(authJoinRequest.getEmail()).isPresent()) {
             throw new CustomException(CommonExceptionCode.EXIST_EMAIL_ERROR);
         }
 
         // 이메일 인증번호 체크
-        if (!verificationService.verifyCode(userJoinDto.getEmail(), userJoinDto.getAuthCode())) {
+        if (!verificationService.verifyCode(authJoinRequest.getEmail(), authJoinRequest.getAuthCode())) {
             throw new CustomException(CommonExceptionCode.TIMEOUT_LOGOUT);
         }
 
-        User user = userJoinDto.toDomain();
+        User user = authJoinRequest.toDomain();
 
         // 비밀번호 암호화
         String encryptedPassword = encryptPassword(user.getPassword());
@@ -71,36 +73,123 @@ public class UserManagementServiceImpl implements UserManagementService {
      * @param password 비밀번호
      * @return 암호화된 비밀번호
      */
+    @Override
     public String encryptPassword(String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(password);
     }
 
+    /**
+     * 이메일을 기반으로 사용자의 비밀번호를 업데이트하는 메서드
+     */
+    @Override
+    public void updatePassword(String email, String newPassword) {
+        // 이메일을 통해 사용자를 조회
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(CommonExceptionCode.NOT_FOUND_USER))
+                .convertToDomain();
+
+        // 새 비밀번호 암호화
+        String encodedPassword = encryptPassword(newPassword);
+
+        // 사용자 객체의 비밀번호 업데이트
+        user.setPassword(encodedPassword);
+
+        // 변경된 사용자 정보를 저장
+        userRepository.save(user.convertToEntity());
+    }
+
+    /**
+     * 해당 이메일이 소셜 로그인에 이용되는 이메일인지 확인하는 메서드 입니다
+     * @param email : 소셜 로그인에 이용되는지 확인하려는 이메일 입니다.
+     * @return : true, false 로 소셜 로그인에 사용되는 이메일인지 알려줍니다.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isSocialLoginEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(CommonExceptionCode.NOT_FOUND_USER))
+                .convertToDomain();
+
+        if (user != null) {
+            // providerType이 "internal"이 아니면 소셜 로그인 계정으로 간주
+            return !user.getProviderType().equalsIgnoreCase("internal");
+        }
+
+        return false; // 사용자 없음
+    }
+
+    /**
+     * 특정 이메일이 DB에 존재하는지 확인합니다.
+     * @param email : DB에 존재하는지 확인하고 싶은 이메일 입니다.
+     * @return : DB에 해당 이메일이 존재하는지 true or false 로 반환합니다.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    /**
+     * 이메일틀 통해 특정 사용자를 찾아 객체로 반환하는 메서드 입니다.
+     * @param email : 사용자가 사용하는 이메일 입니다.
+     * @return : 해당 이메일을 사용하는 사용자를 객체로 반환합니다.
+     */
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email).map(UserEntity::convertToDomain);
     }
 
+    /**
+     * 특정 이메일과 providerType 으로 사용자 객체를 찾습니다.
+     * @param email : 사용자가 사용하는 이메일 입니다.
+     * @param providerType : 사용자의 providerType 입니다.
+     * @return : 이메일과 providerType 이 일치하는 사용자 객체를 반환합니다.
+     */
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> findByEmailAndProviderType(String email, String providerType) {
         return userRepository.findByEmailAndProviderType(email, providerType).map(UserEntity::convertToDomain);
     }
 
+    /**
+     * 특정 아이디로 사용자 객체를 찾습니다.
+     * @param id : 사용자를 찾을 아이디 입니다.
+     * @return : 해당 아이디를 사용하는 사용자 객체를 반환합니다.
+     */
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> findById(Long id) {
         return userRepository.findById(id).map(UserEntity::convertToDomain);
     }
 
+    /**
+     * 닉네임을 통해 특정 사용자를 객체를 찾습니다
+     * @param nickname : 사용자가 사용하는 닉네임 입니다
+     * @return : 닉네임과 일치하는 사용자 객체를 반환합니다.
+     */
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> findByNickname(String nickname) {
         return userRepository.findByNickname(nickname).map(UserEntity::convertToDomain);
     }
 
+    /**
+     * User 를 DB 에 저장합니다
+     * @param user : 저장할 User 입니다.
+     */
+    @Override
     @Transactional
     public void save(UserEntity user) {
         userRepository.save(user);
     }
 
+    /**
+     * 특정 email 을 사용하는 User 를 DB 에서 삭제합니다
+     * @param email 삭제할 User 가 등록한 이메일 입니다.
+     */
+    @Override
     @Transactional
     public void deleteByEmail(String email) {
         userRepository.deleteByEmail(email);

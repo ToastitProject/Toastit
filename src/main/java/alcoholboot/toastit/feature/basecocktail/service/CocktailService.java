@@ -25,4 +25,9 @@ public interface CocktailService {
 
     // 이름으로 칵테일 반환
     Cocktail getSingleCocktailByName(String name);
+
+    List<Cocktail> getCocktailsById(List<ObjectId> ids);
+
+    // 칵테일 전체의 이름만을 반환
+    List<String> getAllNames();
 }

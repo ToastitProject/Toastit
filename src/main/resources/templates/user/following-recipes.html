@@ -37,6 +37,11 @@
             box-sizing: border-box;
             text-decoration: none; /* 링크의 기본 텍스트 꾸미기 제거 */
             color: inherit; /* 텍스트 색상 상속 */
+            max-width: 220px;
+        }
+
+        .post:hover {
+            transform: scale(1.02);
         }
 
         .post img {
@@ -54,15 +59,20 @@
 
         .nickname-and-date {
             display: flex;
-            justify-content: space-between; /* 좌우 정렬 */
-            align-items: center; /* 세로 가운데 정렬 */
+            justify-content: space-between;
+            align-items: flex-start;
             font-size: 14px;
             color: gray;
             margin-top: 5px;
+            flex-direction: column;
         }
 
         .date-time {
             text-align: right; /* 오른쪽 정렬 */
+        }
+
+        span.date-time {
+            margin-top: 5px;
         }
 
         @media (max-width: 768px) {
@@ -86,6 +96,7 @@
     </style>
 </head>
 <body>
+
 <header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
 
 <hr class="divider">
@@ -96,9 +107,8 @@
             <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
             <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
             <div class="nickname-and-date">
-                <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}"
-                   style="text-decoration: none; color: inherit;">
-                    <span th:text="${cocktail.user.nickname}">닉네임</span>
+                <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none">
+                    <span th:text="${cocktail.user.nickname}" id="nickName">닉네임</span>
                 </a>
                 <span class="date-time">
                     <span th:text="${#temporals.format(cocktail.createDate, 'yyyy-MM-dd')}">작성일자</span>

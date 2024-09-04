@@ -17,9 +17,6 @@ public class ImageService {
         return imageRepository.save(imageEntity);
     }
 
-    public List<ImageEntity> findAll() {
-        return (List<ImageEntity>) imageRepository.findAll();
-    }
 
     public ImageEntity findByUserId(Long id) {return imageRepository.findByUserId(id);};
 }

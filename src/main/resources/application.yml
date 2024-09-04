@@ -3,27 +3,18 @@ spring:
     name: toastit
 
   profiles:
-    active: local, oauth
+    active: dev, oauth
 
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
 
-#  web:
-#    resources:
-#      add-mappings: false  # 정적 리소스 매핑을 비활성화하는 설정
-
-  mongodb:
-    embedded:
-      version: 4.0.21
-
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
     mode: HTML
     encoding: UTF-8
-    cache: false  # 개발 중 캐시 비활성화
 
   servlet:
     multipart:
@@ -32,6 +23,7 @@ spring:
       max-request-size: 10MB
       file-size-threshold: 10MB
 
-mybatis:
-  mapper-locations: templates/feature/api/mappers/*.xml
-  type-aliases-package: alcoholboot.toastit.feature.api.dto
+api:
+  naver:
+    client-id: ${NAVER_CLIENT_ID}
+    client-secret: ${NAVER_CLIENT_SECRET}

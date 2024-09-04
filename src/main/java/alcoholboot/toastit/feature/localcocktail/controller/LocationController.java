@@ -53,7 +53,7 @@ public class LocationController {
         model.addAttribute("mapsApiKey", mapsApiKey);
         model.addAttribute("geocodingApiKey", geocodingApiKey);
 
-        return "feature/maps/main";
+        return "localcocktail/cocktail-view";
     }
 
     /**
