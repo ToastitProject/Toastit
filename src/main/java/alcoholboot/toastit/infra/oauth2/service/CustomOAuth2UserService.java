@@ -20,39 +20,54 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+/**
+ * OAuth2 로그인 처리를 위한 서비스 구현체.
+ * 사용자 정보를 불러오고, 회원가입 또는 사용자 업데이트를 처리합니다.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+
     private final UserManagementService userManagementService;
     private final UserRepository userRepository;
 
+    /**
+     * OAuth2 로그인 요청이 들어올 때, OAuth2 사용자 정보를 불러옵니다.
+     *
+     * @param userRequest OAuth2UserRequest 객체
+     * @return OAuth2User 객체
+     * @throws OAuth2AuthenticationException 인증 실패 시 예외 발생
+     */
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-
         OAuth2UserService<OAuth2UserRequest, OAuth2User> service = new DefaultOAuth2UserService();
-        OAuth2User oAuth2User = service.loadUser(userRequest);  // OAuth2
+        OAuth2User oAuth2User = service.loadUser(userRequest);  // OAuth2 사용자 정보 로드
 
-        Map<String, Object> originAttributes = oAuth2User.getAttributes();  // OAuth2User -> attributes
+        Map<String, Object> originAttributes = oAuth2User.getAttributes();  // 사용자 속성 정보
 
         // OAuth2 서비스 id (google, kakao, naver)
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();    // 소셜 정보를 가져옵니다.
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();  // 소셜 제공자 정보
 
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-        // OAuthAttributes: OAuth2User의 attribute를 서비스 유형에 맞게 담아줄 클래스
+        // 사용자 속성 정보 매핑
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, originAttributes);
-        User user = saveOrUpdate(attributes, registrationId);
+        User user = saveOrUpdate(attributes, registrationId);  // 사용자 정보 저장 또는 업데이트
 
         List<GrantedAuthority> authorities = Collections.singletonList(Authority.USER);
 
-        return new PrincipalDetails(user.getEmail(), user.getNickname(),authorities, originAttributes);
+        // PrincipalDetails 객체를 반환하여 Spring Security에 전달
+        return new PrincipalDetails(user.getEmail(), user.getNickname(), authorities, originAttributes);
     }
 
     /**
-     * 이미 존재하는 회원이라면 이름과 프로필이미지를 업데이트해줍니다.
-     * 처음 가입하는 회원이라면 User 테이블을 생성합니다.
-     **/
+     * 이미 존재하는 사용자는 정보를 업데이트하고, 새로운 사용자는 회원가입 처리합니다.
+     *
+     * @param authAttributes OAuth 사용자 속성 정보
+     * @param providerType OAuth2 제공자 타입 (google, kakao, naver 등)
+     * @return 저장된 사용자 객체
+     */
     private User saveOrUpdate(OAuthAttributes authAttributes, String providerType) {
         // 이메일과 providerType으로 사용자 조회
         Optional<User> optionalUser = userManagementService.findByEmailAndProviderType(authAttributes.getEmail(), providerType);
@@ -71,19 +86,20 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 throw new CustomException(CommonExceptionCode.EXIST_EMAIL_ERROR);
             }
 
-            // 새로운 사용자인 경우
+            // 새로운 사용자 생성
             user = User.builder()
                     .email(authAttributes.getEmail())
                     .nickname(userManagementService.getUniqueNickname())
                     .password(userManagementService.encryptPassword(authAttributes.getAttributeId()))  // 비밀번호 저장
                     .profileImageUrl(authAttributes.getProfileImageUrl())
                     .authority(Authority.USER)
-                    .providerType(providerType)  // providerType 저장
+                    .providerType(providerType)  // 소셜 제공자 타입
                     .build();
 
+            // 새로운 사용자 저장
             userRepository.save(user.convertToEntity());
         }
 
-        return user;  // 저장된 사용자 객체를 반환합니다
+        return user;  // 저장된 사용자 반환
     }
 }

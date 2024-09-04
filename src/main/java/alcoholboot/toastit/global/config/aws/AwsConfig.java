@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
+/**
+ * AWS S3 관련 설정을 담당하는 구성 클래스.
+ * AWS S3 클라이언트를 빈으로 등록합니다.
+ */
 @Configuration
 public class AwsConfig {
 
@@ -22,8 +25,10 @@ public class AwsConfig {
     private String region;
 
     /**
-     * 아마존 S3 bucket 객체를 사용할 수 있도록 key 들을 넣어준다.
-     * @return : AmazonS3Client 타입의 객체를 반환한다
+     * AWS S3 클라이언트 빈을 생성합니다.
+     * 액세스 키와 시크릿 키를 사용해 인증을 설정하고, 지정된 리전에서 S3 서비스를 사용할 수 있도록 구성합니다.
+     *
+     * @return AmazonS3Client 객체
      */
     @Bean
     public AmazonS3Client amazonS3Client() {

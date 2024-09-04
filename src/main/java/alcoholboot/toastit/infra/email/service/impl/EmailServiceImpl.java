@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * 이메일 발송 서비스 구현체.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -24,11 +27,11 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
-    // JavaMailSender를 주입받아 이메일을 보낼 수 있도록 설정
+    // JavaMailSender를 주입받아 이메일을 발송합니다.
     private final JavaMailSender mailSender;
 
     /**
-     * 간단한 이메일 메시지를 보내는 메소드
+     * 간단한 이메일 메시지를 전송합니다.
      *
      * @param to 수신자 이메일 주소
      * @param subject 이메일 제목
@@ -36,21 +39,19 @@ public class EmailServiceImpl implements EmailService {
      */
     @Override
     public void sendSimpleMessage(String to, String subject, String text) {
-        // SimpleMailMessage 객체 생성 및 설정
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to); // 수신자 설정
-        message.setSubject(subject); // 제목 설정
-        message.setText(text); // 본문 설정
-        // 이메일 전송
-        mailSender.send(message);
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        mailSender.send(message); // 이메일 전송
     }
 
     /**
-     * html 폼 메일을 발송하는 메소드
+     * HTML 형식의 이메일을 전송합니다.
      *
-     * @param to      수신자 이메일 주소
+     * @param to 수신자 이메일 주소
      * @param subject 이메일 제목
-     * @param body    이메일 본문(html)
+     * @param body 이메일 본문 (HTML 형식)
      */
     @Override
     public void sendFormMail(String to, String subject, String body) {
@@ -69,18 +70,16 @@ public class EmailServiceImpl implements EmailService {
     }
 
     /**
-     * 인증메일 폼에 인증코드를 추가하여 반환하는 메소드
+     * 인증 코드가 포함된 HTML 이메일 폼을 반환합니다.
      *
-     * @param authcode 인증코드
-     * @return 인증코드를 추가한 인증메일 폼
+     * @param authcode 인증 코드
+     * @return 인증 코드가 포함된 이메일 본문
      */
     @Override
     public String setAuthForm(String authcode) {
-        // 인증메일 폼 경로 설정
-        String templatePath = "/templates/auth/mail-form.html";
-
-        // 인증메일 폼 읽어오기
+        String templatePath = "/templates/auth/mail-form.html"; // 이메일 템플릿 경로
         String htmlContent = null;
+
         try (InputStream inputStream = getClass().getResourceAsStream(templatePath)) {
             if (inputStream == null) {
                 throw new CustomException(CommonExceptionCode.INTERNAL_SERVER_ERROR);
