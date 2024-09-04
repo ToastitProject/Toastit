@@ -1,14 +1,18 @@
-package alcoholboot.toastit.feature.climatecocktail.entity;
+package alcoholboot.toastit.feature.weathercocktail.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 날씨에 맞는 재료들을 분류해서 넣어둔 db
+ */
+
 @Entity
-@Table(name = "recommend_by_weather")
+@Table(name = "weather_cocktails")
 @Getter
 @Setter
-public class RecommendByWeatherEntity {
+public class WeatherCocktailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

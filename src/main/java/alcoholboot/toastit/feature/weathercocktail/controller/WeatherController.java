@@ -1,10 +1,10 @@
-package alcoholboot.toastit.feature.climatecocktail.controller;
+package alcoholboot.toastit.feature.weathercocktail.controller;
 
-import alcoholboot.toastit.feature.climatecocktail.dto.AreaRequestDTO;
-import alcoholboot.toastit.feature.climatecocktail.dto.LatXLngY;
-import alcoholboot.toastit.feature.climatecocktail.entity.WeatherEntity;
-import alcoholboot.toastit.feature.climatecocktail.service.RecommendByWeatherService;
-import alcoholboot.toastit.feature.climatecocktail.service.WeatherService;
+import alcoholboot.toastit.feature.weathercocktail.dto.AreaRequestDTO;
+import alcoholboot.toastit.feature.weathercocktail.dto.LatXLngY;
+import alcoholboot.toastit.feature.weathercocktail.entity.WeatherEntity;
+import alcoholboot.toastit.feature.weathercocktail.service.WeatherCocktailService;
+import alcoholboot.toastit.feature.weathercocktail.service.WeatherService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
 import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
@@ -32,7 +32,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class WeatherController {
     private final WeatherService weatherService;
-    private final RecommendByWeatherService recommendByWeatherService;
+    private final WeatherCocktailService weatherCocktailService;
     private final CocktailService cocktailService;
 
     @Value("${google.maps.api.key}")
@@ -47,9 +47,18 @@ public class WeatherController {
         model.addAttribute("mapsApiKey", mapsApiKey);
         model.addAttribute("geocodingApiKey", geocodingApiKey);
 
-        return "climatecocktail/climatecocktail-view";
+        return "weathercocktail/weathercocktail-view";
     }
 
+    /**
+     * 위도와 경도 정보를 받아와서 그것을 기상청 api에서 사용하는 형식의 xy 좌표로 변환
+     * xy좌표로 위치 정보를 알아냄, 그리고 날짜와 시간 정보를 추가
+     * (위치, 날짜, 시간) 을 이용해서 사용자 위치의 날씨 정보를 받아온 뒤
+     * 날씨 정보를 통해 칵테일을 추천
+     *
+     * @param coordinates 위도와 경도 정보
+     * @return
+     */
     @PostMapping("/weather")
     @ResponseBody
     public Map<String, Object> saveCoordinates(@RequestBody Map<String, Double> coordinates) throws UnsupportedEncodingException, URISyntaxException, JsonProcessingException {
@@ -144,7 +153,7 @@ public class WeatherController {
                 break;
         }
 
-        List<String> ingredients = recommendByWeatherService.getIngredientsByWeather(weather);
+        List<String> ingredients = weatherCocktailService.getIngredientsByWeather(weather);
         randomInt = random.nextInt(9);
         String ingredient = ingredients.get(randomInt);
 
