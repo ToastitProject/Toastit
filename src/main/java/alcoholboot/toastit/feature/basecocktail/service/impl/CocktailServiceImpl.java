@@ -4,12 +4,15 @@ import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
 import alcoholboot.toastit.feature.basecocktail.entity.CocktailDocument;
 import alcoholboot.toastit.feature.basecocktail.repository.CocktailRepository;
 import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
+import alcoholboot.toastit.feature.user.entity.LikeEntity;
+import alcoholboot.toastit.feature.user.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 public class    CocktailServiceImpl implements CocktailService {
 
     private final CocktailRepository cocktailRepository;
+
 
     /**
      * 페이징 처리된 모든 칵테일 레시피를 조회합니다.
@@ -108,5 +112,13 @@ public class    CocktailServiceImpl implements CocktailService {
     public Cocktail getSingleCocktailByName(String name) {
         return cocktailRepository.findSingleCocktailByName(name)
                 .convertToDomain();
+    }
+
+    @Override
+    public List<Cocktail> getCocktailsById(List<ObjectId> ids) {
+        List<CocktailDocument> cocktailDocuments = cocktailRepository.findByIdIn(ids);
+        return cocktailDocuments.stream()
+                .map(CocktailDocument::convertToDomain)
+                .collect(Collectors.toList());
     }
 }

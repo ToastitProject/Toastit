@@ -1,6 +1,7 @@
 package alcoholboot.toastit.feature.basecocktail.service;
 
 import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
+import alcoholboot.toastit.feature.basecocktail.entity.CocktailDocument;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +26,6 @@ public interface CocktailService {
 
     // 이름으로 칵테일 반환
     Cocktail getSingleCocktailByName(String name);
+
+    List<Cocktail> getCocktailsById(List<ObjectId> ids);
 }
