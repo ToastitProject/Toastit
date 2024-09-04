@@ -1,10 +1,10 @@
 package alcoholboot.toastit.feature.user.service.impl;
 
-import alcoholboot.toastit.auth.controller.request.AuthJoinRequest;
+import alcoholboot.toastit.infra.auth.controller.request.AuthJoinRequest;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 import alcoholboot.toastit.feature.user.repository.UserRepository;
-import alcoholboot.toastit.auth.email.service.VerificationService;
+import alcoholboot.toastit.infra.email.service.VerificationService;
 import alcoholboot.toastit.feature.user.service.UserManagementService;
 import alcoholboot.toastit.feature.user.util.RandomNickname;
 import alcoholboot.toastit.global.config.response.code.CommonExceptionCode;

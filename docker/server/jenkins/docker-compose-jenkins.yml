@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  jenkins:
+    build:
+      context: ./jenkins
+      dockerfile: Dockerfile
+    image: jenkins:2.452.2
+    container_name: jenkins
+    environment:
+      TZ: Asia/Seoul
+    ports:
+      - 0000:8080                                   # Jenkins 웹 인터페이스 포트
+      - 00000:50000                                 # jenkins agent 통신 포트
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock   # Docker 소켓을 컨테이너에 마운트하여 Jenkins가 호스트의 Docker를 사용할 수 있도록 설정
+      - ./jenkins/jenkins_home:/var/jenkins_home    # Jenkins workspace 마운트
+    networks:                                       # 네트워크 설정
+      - server                                      # 'server'라는 사용자 정의 네트워크 연결
+      - db
+
+networks:                                           # 네트워크 정의
+  server:
+    name: server                                    # 네트워크 이름 설정
+    driver: bridge                                  # 네트워크 드라이버 설정
+
+  database:
+    external: true

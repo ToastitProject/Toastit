@@ -1,11 +1,11 @@
 package alcoholboot.toastit.global.config.security;
 
-import alcoholboot.toastit.auth.jwt.filter.TokenAuthenticationFilter;
-import alcoholboot.toastit.auth.jwt.service.TokenRenewalService;
-import alcoholboot.toastit.auth.jwt.util.JwtTokenizer;
-import alcoholboot.toastit.auth.oauth2.handler.OAuth2AuthenticationFailureHandler;
-import alcoholboot.toastit.auth.oauth2.handler.OAuth2AuthenticationSuccessHandler;
-import alcoholboot.toastit.auth.oauth2.service.CustomOAuth2UserService;
+import alcoholboot.toastit.infra.jwt.filter.TokenAuthenticationFilter;
+import alcoholboot.toastit.infra.jwt.service.TokenRenewalService;
+import alcoholboot.toastit.infra.jwt.util.JwtTokenizer;
+import alcoholboot.toastit.infra.oauth2.handler.OAuth2AuthenticationFailureHandler;
+import alcoholboot.toastit.infra.oauth2.handler.OAuth2AuthenticationSuccessHandler;
+import alcoholboot.toastit.infra.oauth2.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
