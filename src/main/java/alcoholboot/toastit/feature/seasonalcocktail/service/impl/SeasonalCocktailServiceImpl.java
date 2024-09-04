@@ -40,4 +40,16 @@ public class SeasonalCocktailServiceImpl implements SeasonalCocktailService {
             return "겨울";
         }
     }
+
+
+    @Override
+    public String getCocktailForSeason(String season) {
+        return switch (season) {
+            case "봄" -> "네그로니";
+            case "여름" -> "모히토";
+            case "가을" -> "올드 패션드";
+            case "겨울" -> "아이리쉬 커피";
+            default -> "마가리타";
+        };
+    }
 }
