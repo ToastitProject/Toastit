@@ -6,6 +6,9 @@ import alcoholboot.toastit.feature.user.entity.UserEntity;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * 입력 레시피 칵테일 서비스를 위한 인터페이스
+ */
 public interface CraftCocktailService {
 
     List<CraftCocktailEntity> getAllCocktails();
