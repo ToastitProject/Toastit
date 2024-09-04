@@ -9,6 +9,7 @@ import alcoholboot.toastit.feature.user.service.UserManagementService;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 
 import org.springframework.data.domain.Page;
@@ -26,6 +27,7 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/cocktails")
+@Slf4j
 public class CocktailController {
     private final CocktailService cocktailService;
     private final LikeService likeService;
@@ -146,11 +148,9 @@ public class CocktailController {
 
     // do not Delete
 //    @GetMapping("/name")
-//    public String getName(@RequestParam("name") String name,
-//                          Model model) {
-//        Cocktail cocktail = cocktailService.getSingleCocktailByName(name);
-//        model.addAttribute("cocktail", cocktail);
-//
-//        return "feature/basecocktail/name";
+//    public String getName(Model model) {
+//        List<String> cocktails = cocktailService.getAllNames();
+//        model.addAttribute("cocktails", cocktails);
+//        return "basecocktail/allNames-view";
 //    }
 }

@@ -41,4 +41,3 @@ out/
 ### env ###
 /src/main/resources/properties/env.properties
 /src/test/resources/properties/test-env.properties
-/node_modules/**

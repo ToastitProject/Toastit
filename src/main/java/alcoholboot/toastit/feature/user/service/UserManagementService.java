@@ -1,6 +1,6 @@
 package alcoholboot.toastit.feature.user.service;
 
-import alcoholboot.toastit.auth.controller.request.AuthJoinRequest;
+import alcoholboot.toastit.infra.auth.controller.request.AuthJoinRequest;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 

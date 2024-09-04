@@ -4,15 +4,13 @@ import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
 import alcoholboot.toastit.feature.basecocktail.entity.CocktailDocument;
 import alcoholboot.toastit.feature.basecocktail.repository.CocktailRepository;
 import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
-import alcoholboot.toastit.feature.user.entity.LikeEntity;
-import alcoholboot.toastit.feature.user.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,7 +24,6 @@ import java.util.stream.Collectors;
 public class    CocktailServiceImpl implements CocktailService {
 
     private final CocktailRepository cocktailRepository;
-
 
     /**
      * 페이징 처리된 모든 칵테일 레시피를 조회합니다.
@@ -100,6 +97,12 @@ public class    CocktailServiceImpl implements CocktailService {
     }
 
 
+    /**
+     * 특정 이름들과 일치하는 칵테일을 조회합니다. 복수의 이름을 넣을 수 있습니다.
+     *
+     * @param names 검색할 이름들
+     * @return 해당 이름들에 해당하는 칵테일 목록
+     */
     @Override
     public List<Cocktail> getCocktailsByName(List<String> names) {
         return cocktailRepository.findCocktailsByName(names)
@@ -108,6 +111,12 @@ public class    CocktailServiceImpl implements CocktailService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 특정 이름과 일치하는 칵테일을 조회합니다. 단일 이름만 조회 가능합니다.
+     *
+     * @param name 검색할 이름
+     * @return 해당 이름에 해당하는 칵테일
+     */
     @Override
     public Cocktail getSingleCocktailByName(String name) {
         return cocktailRepository.findSingleCocktailByName(name)
@@ -120,5 +129,15 @@ public class    CocktailServiceImpl implements CocktailService {
         return cocktailDocuments.stream()
                 .map(CocktailDocument::convertToDomain)
                 .collect(Collectors.toList());
+    }
+
+
+    /**
+     * 기본 칵테일 전체의 이름만을 List<String> 으로 가져옵니다.
+     * @return 칵테일 전체의 이름
+     */
+    @Override
+    public List<String> getAllNames() {
+        return cocktailRepository.getAllNames();
     }
 }

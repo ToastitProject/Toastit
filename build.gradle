@@ -1,15 +1,15 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.3.2'
-    id 'io.spring.dependency-management' version '1.1.6'
+    id 'java'                                               // Java 플러그인 적용
+    id 'org.springframework.boot' version '3.3.2'           // Spring Boot 플러그인 적용
+    id 'io.spring.dependency-management' version '1.1.6'    // Spring의 의존성 관리 플러그인 적용
 }
 
-group = 'com.alcoholboot'
-version = '0.0.1-SNAPSHOT'
+group = 'com.alcoholboot'                                   // 프로젝트 그룹 ID 설정
+version = '0.0.1-SNAPSHOT'                                  // 프로젝트 버전 설정
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(21)        // Java 21 사용 설정
     }
 }
 
@@ -32,78 +32,82 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    // Thymeleaf
+    // Thymeleaf 템플릿 엔진 및 Spring Security 통합
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE'
 
-    // JPA
+    // Spring Data JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // MySQL
+    // MySQL 데이터베이스 연결
     runtimeOnly 'com.mysql:mysql-connector-j'
 
-    // MongoDB
+    // MongoDB 데이터베이스 연결
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
-    // Redis
+    // Redis 연결
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
-    // Lombok
+    // Lombok 라이브러리
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
 
-    // AWS-Bucket
+    // AWS S3 버킷
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
     testImplementation 'io.findify:s3mock_2.12:0.2.4'
 
-    // File Upload
+    // 파일 업로드
     implementation 'commons-io:commons-io:2.14.0'
     implementation 'commons-fileupload:commons-fileupload:1.5'
 
-
-    // JUnit5
+    // JUnit5 테스트 라이브러리
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 
-    // JWT
+    // JWT(Json Web Token) 라이브러리
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
-    // JSON , Jackson
+    // JSON 처리 라이브러리
     implementation 'com.google.code.gson:gson'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
 
-    // Validation
+    // Spring Validation 라이브러리
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'
 
     // Java Mail Sender
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-    // Image Size
+    // 이미지 크기 조정 라이브러리
     implementation 'com.github.downgoon:marvin:1.5.5'
     implementation 'com.github.downgoon:MarvinPlugins:1.5.5'
 
-    // Mockito
+    // Mockito 라이브러리
     testImplementation 'org.mockito:mockito-core:5.12.0'
 
-    // Selenium
+    // Selenium 웹 드라이버 라이브러리
     testImplementation 'org.seleniumhq.selenium:selenium-java:4.0.0'
     testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.0.0'
 
-    // Thumbnailator (이미지 리사이징)
+    // Thumbnailator 이미지 리사이징 라이브러리
     implementation 'net.coobird:thumbnailator:0.4.14'
 
-    // OAuth2 Clinet
+    // OAuth2 Client
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
-    // jdbc
+    // Spring Data JDBC
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useJUnitPlatform()       // JUnit5 플랫폼 사용 설정
+}
 
+jar {
+    exclude 'Jenkinsfile'    // Jenkinsfile 제외
+    exclude 'Dockerfile'     // Dockerfile 제외
+    exclude 'docker/**'      // docker 디렉토리 제외
 }

@@ -58,4 +58,10 @@ public interface CustomCocktailRepository {
      * @return 검색 결과 칵테일 정보
      */
     List<CocktailDocument> findByIngredient(String ingredient);
+
+    /**
+     * DB에 존재하는 기본 레시피의 이름만을 반환
+     * @return 칵테일 전체의 이름만을 반환
+     */
+    List<String> getAllNames();
 }
