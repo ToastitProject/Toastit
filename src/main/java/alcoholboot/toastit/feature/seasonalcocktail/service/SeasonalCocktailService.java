@@ -18,4 +18,13 @@ public interface SeasonalCocktailService {
      * @return 해당 월의 계절 ("봄", "여름", "가을", "겨울")
      */
     String getSeasonForMonth(int month);
+
+    /**
+     * 주어진 월에 해당하는 계절을 반환
+     *
+     * @param season 계절
+     * @return 해당 계절의 칵테일 이름
+     *
+     */
+    String getCocktailForSeason(String season);
 }

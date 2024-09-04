@@ -25,11 +25,12 @@
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 
 <div class="card">
-    <h2 style=>회원가입</h2>
+    <img class="joinImage" src="/image/oath-login/joinpeople.png">
+    <h2>회원가입</h2>
     <form id="joinForm" th:action="@{/auth/join}" th:object="${authJoinRequest}" method="post" class="info">
         <!-- 이메일 입력란 -->
         <div class="input-container">
-            <input type="email" class="input" th:field="*{email}" id="email" required placeholder=" 이메일을 입력하세요">
+            <input type="email" class="input" th:field="*{email}" id="email" required placeholder="이메일을 입력하세요">
         </div>
 
         <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
@@ -49,7 +50,7 @@
             <!-- 인증 코드 입력란과 타이머 -->
             <div class="input-container">
                 <input type="text" class="input" th:field="*{authCode}" id="authCode" required
-                       placeholder=" 인증코드를 입력하세요">
+                       placeholder="인증코드를 입력하세요">
                 <span id="timer"></span>
                 <div id="endtimer"></div>
                 <button class="code-button" type="button" onclick="verifyAuthCode()">인증 확인</button>
@@ -63,11 +64,11 @@
         <div id="userDetailsSection" class="hidden">
             <div class="inputHidden">
                 <!-- 비밀번호 입력란 -->
-                <input type="password" class="input" th:field="*{password}" id="password" required placeholder=" 비밀번호">
+                <input type="password" class="input" th:field="*{password}" id="password" required placeholder="비밀번호">
                 <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                 <!-- 비밀번호 확인 입력란 -->
                 <input type="password" class="input" th:field="*{passwordCheck}" id="passwordCheck" required
-                       placeholder=" 비밀번호 확인">
+                       placeholder="비밀번호 확인">
                 <!-- passwordMatchingError가 있을 경우, 그리고 password 필드에 에러가 없을 경우에만 오류 메시지 표시 -->
                 <div th:if="${passwordMatchingError != null} and ${!#fields.hasErrors('password')}" style="color: red;"
                      class="passwordError">

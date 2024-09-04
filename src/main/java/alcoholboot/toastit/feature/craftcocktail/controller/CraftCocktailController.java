@@ -25,6 +25,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * 입력 레시피 요청을 처리하는 컨트롤러
+ * 칵테일, 재료 테이블 포함
+ */
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -35,6 +39,11 @@ public class CraftCocktailController {
     private final UserManagementService userManagementService;
     private final LikeService likeService;
 
+
+    /**
+     * "/craft" 엔드포인트에 대한 GET 요청 처리
+     * @return 입력 레시피의 메인 뷰
+     */
     @GetMapping("/craft")
     public String customPage(Model model) {
         List<CraftCocktailEntity> cocktails = customCocktailService.getAllCocktails();
@@ -43,6 +52,10 @@ public class CraftCocktailController {
         return "craftcocktail/craftmain";
     }
 
+    /**
+     * "/craft/write" 엔드포인트에 대한 GET 요청 처리
+     * @return 입력 레시피의 글쓰기 뷰
+     */
     @GetMapping("/craft/write")
     public String customWritePage(RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -55,6 +68,9 @@ public class CraftCocktailController {
         return "craftcocktail/write";
     }
 
+    /**
+     * "/craft" 엔드포인트에 대한 POST 요청 처리
+     */
     @PostMapping("/craft")
     public String saveCocktail(@ModelAttribute CraftCocktailCreateRequest craftCocktailCreateRequest, RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -115,6 +131,11 @@ public class CraftCocktailController {
         return "redirect:/craft";
     }
 
+
+    /**
+     * "/craft/edit" 엔드포인트에 대한 GET 요청 처리
+     * @return 입력 레시피의 글쓰기 수정 뷰
+     */
     @GetMapping("/craft/edit/{id}")
     public String editCocktailForm(@PathVariable("id") Long id, Model model) {
         CraftCocktailEntity cocktail = customCocktailService.getCocktailById(id);
@@ -124,6 +145,9 @@ public class CraftCocktailController {
         return "craftcocktail/edit";
     }
 
+    /**
+     * "/craft/edit" 엔드포인트에 대한 POST 요청 처리
+     */
     @PostMapping("/craft/edit/{id}")
     public String updateCocktail(@PathVariable("id") Long id, @ModelAttribute CraftCocktailCreateRequest craftCocktailCreateRequest, RedirectAttributes redirectAttributes) {
         try {
@@ -170,6 +194,9 @@ public class CraftCocktailController {
         }
     }
 
+    /**
+     * "/craft/delete" 엔드포인트에 대한 POST 요청 처리
+     */
     @PostMapping("/craft/delete/{id}")
     public String deleteCocktail(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
@@ -192,6 +219,10 @@ public class CraftCocktailController {
         }
     }
 
+    /**
+     * "/craft/{id}" 엔드포인트에 대한 GET 요청 처리
+     * @return 입력 레시피의 세부 뷰
+     */
     @GetMapping("/craft/{id}")
     public String showCustomDetail(@PathVariable("id") Long id, Model model) {
         CraftCocktailEntity cocktail = customCocktailService.getCocktailById(id);

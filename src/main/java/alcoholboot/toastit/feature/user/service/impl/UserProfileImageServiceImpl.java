@@ -20,6 +20,12 @@ public class UserProfileImageServiceImpl implements UserProfileImageService {
     private final ImageService imageService;
     private final UserManagementService userManagementService;
 
+    /**
+     * 프로필 이미지를 변경할 때 사용하는 메서드 입니다.
+     * @param email : 프로필 사진을 변경하고자 하는 유저를, 등록한 이메일로 찾아옵니다
+     * @param filePath : 변경하고자 하는 프로필 사진입니다.
+     * @throws Exception
+     */
     @Override
     @Transactional
     public void changeUserProfileImage(String email, MultipartFile filePath) throws Exception {
@@ -43,6 +49,12 @@ public class UserProfileImageServiceImpl implements UserProfileImageService {
         userManagementService.save(user.convertToEntity());
     }
 
+    /**
+     * 이미지 엔티티를 업데이트 하는 메서드 입니다.
+     * @param imageEntity : 업로드 하고자 하는 이미지 입니다.
+     * @param filePath : 이미지의 경로입니다.
+     * @param imageUrl : 이미지의 URL 입니다.
+     */
     private void updateImageEntity(ImageEntity imageEntity, MultipartFile filePath, String imageUrl) {
         imageEntity.setImageName(filePath.getOriginalFilename());
         imageEntity.setImagePath(imageUrl);
@@ -51,6 +63,13 @@ public class UserProfileImageServiceImpl implements UserProfileImageService {
         imageEntity.setImageUse("profile");
     }
 
+    /**
+     * 새로운 이미지 객체를 만드는 메서드 입니다.
+     * @param user : 새로운 이미지 객체를 갖는 사용자 객체 입니다.
+     * @param filePath : 새로 업로드 하고자 하는 이미지의 경로입니다.
+     * @param imageUrl : 새로 업로드 하고자 하는 이미지의 URL 입니다.
+     * @return
+     */
     private ImageEntity createNewImageEntity(User user, MultipartFile filePath, String imageUrl) {
         ImageEntity imageEntity = new ImageEntity();
         imageEntity.setId(user.getId());

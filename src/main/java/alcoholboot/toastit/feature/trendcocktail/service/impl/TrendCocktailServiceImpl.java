@@ -28,17 +28,32 @@ public class TrendCocktailServiceImpl implements TrendCocktailService {
     private final RestTemplate restTemplate;
     private final TrendCocktailRepository trendCocktailRepository;
 
+    /**
+     * 네이버 데이터랩 API ID KEY 입니다
+     */
     @Value("${api.naver.client-id}")
     private String clientId;
 
+    /**
+     * 네이버 데이터랩 API SECRET KEY 입니다
+     */
     @Value("${api.naver.client-secret}")
     private String clientSecret;
 
+    /**
+     * DB에 칵테일을 저장합니다
+     * @param trendCocktail : 저장 할 칵테일 입니다.
+     */
     @Transactional
     public void save(TrendCocktail trendCocktail) {
         trendCocktailRepository.save(trendCocktail);
     }
 
+    /**
+     * 반복문을 통해 키워드를 5개씩 묶어 API 요청문을 만드는 메서드 입니다.
+     * @param keywords : 검색량 데이터를 알고싶은 키워드의 리스트 입니다.
+     * @return : API 요청 본문을 반환합니다
+     */
     @Override
     public String getSearchVolume(List<String> keywords) {
         // 현재 날짜
@@ -104,6 +119,10 @@ public class TrendCocktailServiceImpl implements TrendCocktailService {
         return finalResponse.toString();
     }
 
+    /**
+     * 최근 2개월간 검색량이 가장 많이 증가한 칵테일 5개를 찾는 메서드 입니다
+     * @return : 5개의 칵테일을 List 자료구조로 반환합니다.
+     */
     @Override
     public List<TrendCocktail> findTop5BySearchVolume() {
         return trendCocktailRepository.findTop5BySearchVolume().stream()

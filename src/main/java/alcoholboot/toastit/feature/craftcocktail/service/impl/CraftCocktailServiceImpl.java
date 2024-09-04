@@ -1,9 +1,12 @@
 package alcoholboot.toastit.feature.craftcocktail.service.impl;
 
+import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
 import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
 import alcoholboot.toastit.feature.craftcocktail.entity.IngredientEntity;
 import alcoholboot.toastit.feature.craftcocktail.repository.CraftCocktailRepository;
 import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
+import alcoholboot.toastit.feature.localcocktail.repository.LocationCocktailRepository;
+import alcoholboot.toastit.feature.localcocktail.service.LocationCocktailService;
 import alcoholboot.toastit.feature.user.entity.UserEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * {@link CraftCocktailService} CraftCocktailService 인터페이스의 구현체
+ * @see CraftCocktailRepository
+ */
 @Service
 @RequiredArgsConstructor
 public class CraftCocktailServiceImpl implements CraftCocktailService {
@@ -78,5 +85,10 @@ public class CraftCocktailServiceImpl implements CraftCocktailService {
     public List<CraftCocktailEntity> getTopNCocktailsByFollowerCount(int limit) {
         Pageable pageable = PageRequest.of(0, limit);
         return craftCocktailRepository.findTopByOrderByFollowerCountDesc(pageable);
+    }
+
+    @Override
+    public List<CraftCocktailEntity> getCocktailsByUserId(Long userId) {
+        return craftCocktailRepository.getCocktailsByUserId(userId);
     }
 }

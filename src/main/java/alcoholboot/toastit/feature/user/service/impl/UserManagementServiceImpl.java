@@ -99,7 +99,11 @@ public class UserManagementServiceImpl implements UserManagementService {
         userRepository.save(user.convertToEntity());
     }
 
-    // 이메일이 소셜 로그인 계정인지 확인하는 메서드
+    /**
+     * 해당 이메일이 소셜 로그인에 이용되는 이메일인지 확인하는 메서드 입니다
+     * @param email : 소셜 로그인에 이용되는지 확인하려는 이메일 입니다.
+     * @return : true, false 로 소셜 로그인에 사용되는 이메일인지 알려줍니다.
+     */
     @Override
     @Transactional(readOnly = true)
     public boolean isSocialLoginEmail(String email) {
@@ -115,42 +119,76 @@ public class UserManagementServiceImpl implements UserManagementService {
         return false; // 사용자 없음
     }
 
+    /**
+     * 특정 이메일이 DB에 존재하는지 확인합니다.
+     * @param email : DB에 존재하는지 확인하고 싶은 이메일 입니다.
+     * @return : DB에 해당 이메일이 존재하는지 true or false 로 반환합니다.
+     */
     @Override
     @Transactional(readOnly = true)
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 
+    /**
+     * 이메일틀 통해 특정 사용자를 찾아 객체로 반환하는 메서드 입니다.
+     * @param email : 사용자가 사용하는 이메일 입니다.
+     * @return : 해당 이메일을 사용하는 사용자를 객체로 반환합니다.
+     */
     @Override
     @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email).map(UserEntity::convertToDomain);
     }
 
+    /**
+     * 특정 이메일과 providerType 으로 사용자 객체를 찾습니다.
+     * @param email : 사용자가 사용하는 이메일 입니다.
+     * @param providerType : 사용자의 providerType 입니다.
+     * @return : 이메일과 providerType 이 일치하는 사용자 객체를 반환합니다.
+     */
     @Override
     @Transactional(readOnly = true)
     public Optional<User> findByEmailAndProviderType(String email, String providerType) {
         return userRepository.findByEmailAndProviderType(email, providerType).map(UserEntity::convertToDomain);
     }
 
+    /**
+     * 특정 아이디로 사용자 객체를 찾습니다.
+     * @param id : 사용자를 찾을 아이디 입니다.
+     * @return : 해당 아이디를 사용하는 사용자 객체를 반환합니다.
+     */
     @Override
     @Transactional(readOnly = true)
     public Optional<User> findById(Long id) {
         return userRepository.findById(id).map(UserEntity::convertToDomain);
     }
 
+    /**
+     * 닉네임을 통해 특정 사용자를 객체를 찾습니다
+     * @param nickname : 사용자가 사용하는 닉네임 입니다
+     * @return : 닉네임과 일치하는 사용자 객체를 반환합니다.
+     */
     @Override
     @Transactional(readOnly = true)
     public Optional<User> findByNickname(String nickname) {
         return userRepository.findByNickname(nickname).map(UserEntity::convertToDomain);
     }
 
+    /**
+     * User 를 DB 에 저장합니다
+     * @param user : 저장할 User 입니다.
+     */
     @Override
     @Transactional
     public void save(UserEntity user) {
         userRepository.save(user);
     }
 
+    /**
+     * 특정 email 을 사용하는 User 를 DB 에서 삭제합니다
+     * @param email 삭제할 User 가 등록한 이메일 입니다.
+     */
     @Override
     @Transactional
     public void deleteByEmail(String email) {

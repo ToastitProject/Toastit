@@ -146,11 +146,9 @@ public class CocktailController {
 
     // do not Delete
 //    @GetMapping("/name")
-//    public String getName(@RequestParam("name") String name,
-//                          Model model) {
-//        Cocktail cocktail = cocktailService.getSingleCocktailByName(name);
-//        model.addAttribute("cocktail", cocktail);
-//
-//        return "feature/basecocktail/name";
+//    public String getName(Model model) {
+//        List<String> cocktails = cocktailService.getAllNames();
+//        model.addAttribute("cocktails", cocktails);
+//        return "basecocktail/allNames-view";
 //    }
 }

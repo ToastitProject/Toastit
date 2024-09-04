@@ -58,6 +58,7 @@
         margin: 150px auto;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
 
     .profile-container {
@@ -71,7 +72,7 @@
         width: 150px;
         height: 150px;
         object-fit: cover;
-        margin-bottom: 20px;
+        margin-bottom: 40px;
     }
 
     .info {
@@ -85,7 +86,7 @@
     }
 
     .button-container {
-        margin-top: 50px;
+        margin-top: 30px;
     }
 
     p {
@@ -117,7 +118,18 @@
     }
     h2 {
         font-size: 33px;
-        margin-bottom: 30px;
+        margin-bottom: 15px;
+    }
+    a#recipeManage {
+        color: black;
+        font-size: 21px;
+        margin-top: -10px;
+        margin-bottom: -10px;
+        font-weight: bold;
+        width: 140px;
+    }
+    a#recipeManage:hover{
+        color: #FFA832;
     }
 
 
@@ -133,6 +145,7 @@
         <img th:src="${user.profileImageUrl}"
              alt="프로필 사진" class="profile-pic">
     </div>
+        <a id="recipeManage" th:href="@{/user/recipeManage}" style="text-decoration: none">️🍹 레시피 관리</a>
     <div class="info">
         <p>이메일: <span th:text="${user.email}"></span></p>
         <p>닉네임: <span id="nickname" th:text="${user.nickname}"></span></p>
