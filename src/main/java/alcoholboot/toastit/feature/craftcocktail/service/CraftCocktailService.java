@@ -30,4 +30,6 @@ public interface CraftCocktailService {
     List<CraftCocktailEntity> getTopNCocktails(int limit);
 
     List<CraftCocktailEntity> getTopNCocktailsByFollowerCount(int limit);
+
+    List<CraftCocktailEntity> getCocktailsByUserId(Long userId);
 }
