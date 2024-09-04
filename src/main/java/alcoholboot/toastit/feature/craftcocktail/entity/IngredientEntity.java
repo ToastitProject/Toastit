@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 입력 레시피 칵테일 재료를 보여주는 엔티티
+ */
 @Entity
 @Table(name = "ingredients")
 @Getter
