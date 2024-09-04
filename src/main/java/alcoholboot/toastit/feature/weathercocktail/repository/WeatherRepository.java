@@ -14,8 +14,8 @@ public interface WeatherRepository extends JpaRepository<WeatherEntity, Long> {
     @Query("select a.areacode from AreaEntity a where a.gridx=:nx and a.gridy=:ny")
     List<String> selectAreaCode(@Param(value = "nx") String nx, @Param(value = "ny") String ny);
 
-    @Query("select a.areacode from AreaEntity a where a.areacode=:areacode")
-    AreaRequestDTO selectCoordinate(@Param(value = "areacode") String areacode);
+//    @Query("select a.areacode from AreaEntity a where a.areacode=:areacode")
+//    AreaRequestDTO selectCoordinate(@Param(value = "areacode") String areacode);
 
     @Query("select distinct w.baseDate, w.baseTime, w.category, w.nx, w.ny, w.obsrValue " +
             "from WeatherEntity w " +

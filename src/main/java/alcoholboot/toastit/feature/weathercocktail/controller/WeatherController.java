@@ -50,6 +50,15 @@ public class WeatherController {
         return "weathercocktail/weathercocktail-view";
     }
 
+    /**
+     * 위도와 경도 정보를 받아와서 그것을 기상청 api에서 사용하는 형식의 xy 좌표로 변환
+     * xy좌표로 위치 정보를 알아냄, 그리고 날짜와 시간 정보를 추가
+     * (위치, 날짜, 시간) 을 이용해서 사용자 위치의 날씨 정보를 받아온 뒤
+     * 날씨 정보를 통해 칵테일을 추천
+     *
+     * @param coordinates 위도와 경도 정보
+     * @return
+     */
     @PostMapping("/weather")
     @ResponseBody
     public Map<String, Object> saveCoordinates(@RequestBody Map<String, Double> coordinates) throws UnsupportedEncodingException, URISyntaxException, JsonProcessingException {

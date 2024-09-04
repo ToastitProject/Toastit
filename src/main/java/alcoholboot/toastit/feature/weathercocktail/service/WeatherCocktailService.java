@@ -13,6 +13,13 @@ import java.util.List;
 public class WeatherCocktailService {
     private final WeatherCocktailRepository weatherCocktailRepository;
 
+    /**
+     * 미리 분류해둔 테이블인 weather_cocktails에서 날씨를 통해서 재료들을 찾는다.
+     *
+     * @param weather
+     * @return
+     */
+
     public List<String> getIngredientsByWeather(String weather) {
         WeatherCocktailEntity entity = weatherCocktailRepository.findByWeather(weather);
         List<String> ingredients = new ArrayList<>();

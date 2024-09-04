@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 날씨에 맞는 재료들을 분류해서 넣어둔 db
+ */
+
 @Entity
 @Table(name = "weather_cocktails")
 @Getter
