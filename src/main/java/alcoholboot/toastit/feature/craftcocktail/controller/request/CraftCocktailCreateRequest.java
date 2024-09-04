@@ -7,6 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 입력 레시피 요청 객체
+ * 칵테일, 재료 테이블 포함
+ */
 @Getter
 @Setter
 public class CraftCocktailCreateRequest {

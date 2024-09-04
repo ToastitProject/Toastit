@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * 입력 레시피 칵테일을 보여주는 도메인
+ */
 @Getter
 @Setter
 public class CraftCocktail {

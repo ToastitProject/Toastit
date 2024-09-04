@@ -15,6 +15,9 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 입력 레시피 칵테일을 보여주는 엔티티
+ */
 @Entity
 @Table(name = "craft_cocktails")
 @Getter
