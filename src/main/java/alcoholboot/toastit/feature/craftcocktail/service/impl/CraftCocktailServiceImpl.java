@@ -79,4 +79,9 @@ public class CraftCocktailServiceImpl implements CraftCocktailService {
         Pageable pageable = PageRequest.of(0, limit);
         return craftCocktailRepository.findTopByOrderByFollowerCountDesc(pageable);
     }
+
+    @Override
+    public List<CraftCocktailEntity> getCocktailsByUserId(Long userId) {
+        return craftCocktailRepository.getCocktailsByUserId(userId);
+    }
 }
