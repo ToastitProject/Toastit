@@ -47,7 +47,7 @@ public class WeatherController {
         model.addAttribute("mapsApiKey", mapsApiKey);
         model.addAttribute("geocodingApiKey", geocodingApiKey);
 
-        return "climatecocktail/climatecocktail-view";
+        return "weathercocktail/weathercocktail-view";
     }
 
     @PostMapping("/weather")
