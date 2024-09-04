@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "recommend_by_weather")
+@Table(name = "weather_cocktails")
 @Getter
 @Setter
 public class RecommendByWeatherEntity {
