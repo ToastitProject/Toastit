@@ -9,7 +9,6 @@ import alcoholboot.toastit.feature.user.service.UserManagementService;
 
 import lombok.RequiredArgsConstructor;
 
-import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 
 import org.springframework.data.domain.Page;
@@ -27,7 +26,6 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/cocktails")
-@Slf4j
 public class CocktailController {
     private final CocktailService cocktailService;
     private final LikeService likeService;
