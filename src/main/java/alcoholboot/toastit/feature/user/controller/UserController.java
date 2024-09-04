@@ -1,8 +1,12 @@
 package alcoholboot.toastit.feature.user.controller;
 
+import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
+import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
+import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
 import alcoholboot.toastit.feature.user.entity.FollowEntity;
 import alcoholboot.toastit.feature.user.service.FollowService;
+import alcoholboot.toastit.feature.user.service.LikeService;
 import alcoholboot.toastit.feature.user.service.UserProfileImageService;
 import alcoholboot.toastit.feature.user.service.UserManagementService;
 
@@ -18,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -26,6 +31,7 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
     private final UserManagementService userManagementService;
+    private final CraftCocktailService craftcocktailService;
     private final FollowService followService;
     private final UserProfileImageService userProfileImageService;
 
@@ -179,4 +185,23 @@ public class UserController {
         }
         return "redirect:/user/edit";
     }
+
+    @GetMapping("/myWritePage")
+    public String myWritePage(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            String email = authentication.getName();
+            Optional<User> userOptional = userManagementService.findByEmail(email);
+            if (userOptional.isPresent()) {
+                List<CraftCocktailEntity> myWriteCocktails =craftcocktailService.getCocktailsByUserId(userOptional.get().getId());
+                model.addAttribute("myWriteCocktails", myWriteCocktails);
+            } else {
+                model.addAttribute("error", "사용자를 찾을 수 없습니다.");
+            }
+        } else {
+            model.addAttribute("error", "사용자가 인증되지 않았습니다.");
+        }
+        return "user/myWritePage-view";
+    }
 }
+
