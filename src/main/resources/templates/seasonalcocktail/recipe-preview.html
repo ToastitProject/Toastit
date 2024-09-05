@@ -9,7 +9,7 @@
             text-align: center;
         }
         .container {
-            margin-top: 100px;
+            margin-top: 10px;
             padding: 0;
             display: flex;
             justify-content: center;
@@ -27,7 +27,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin-right: 20px; /* 공백 조정을 위한 margin-right 설정 */
+            margin-right: 40px; /* 공백 조정을 위한 margin-right 설정 */
             margin-top: 30px;
         }
 
@@ -141,7 +141,7 @@
             <h1>현재 날짜는 <span th:text="${currentDate}">날짜</span>입니다.</h1>
         </div>
         <div th:each="cocktail : ${cocktail}" class="cocktail-item">
-            <div class="season" th:utext="${season} + '에 맞는 ' + ${cocktail.strDrink} + '를 추천드립니다'">
+            <div class="season" th:utext="${season} + '에 맞는 ' + ${cocktail.strDrink} + '를 추천드립니다!'">
                 계절에 맞는 칵테일을 추천드립니다
             </div>
         </div>
