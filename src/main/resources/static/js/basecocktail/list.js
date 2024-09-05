@@ -10,15 +10,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 현재 URL을 lastListUrl로 저장
     sessionStorage.setItem('lastListUrl', currentUrl);
-
-    // 페이지네이션 링크에 이벤트 리스너 추가
-    const paginationLinks = document.querySelectorAll('.pagination a');
-    paginationLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const newUrl = this.href;
-            sessionStorage.setItem('lastListUrl', newUrl);
-            window.location.href = newUrl;
-        });
-    });
 });
