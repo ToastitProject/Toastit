@@ -143,14 +143,14 @@ body {
     color: inherit;
 }
 
-.pagination {
+.base-pagination {
     margin: 53px;
     /* margin-bottom: 1rem; */
     text-align: center;
     text-decoration: none;
 }
 
-.pagination a {
+.base-pagination a {
     background-color: #FFA832;
     color: white;
     margin: 0 5px;
@@ -159,7 +159,28 @@ body {
     text-decoration: none;
 }
 
-.pagination a:hover {
+.base-pagination a:hover {
+    background-color: #FF8C00;
+    color: white;
+}
+
+.search-pagination {
+    margin: 53px;
+    /* margin-bottom: 1rem; */
+    text-align: center;
+    text-decoration: none;
+}
+
+.search-pagination a {
+    background-color: #FFA832;
+    color: white;
+    margin: 0 5px;
+    padding: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.search-pagination a:hover {
     background-color: #FF8C00;
     color: white;
 }
