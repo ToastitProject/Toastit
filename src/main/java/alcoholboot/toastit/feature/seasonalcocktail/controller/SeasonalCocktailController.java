@@ -61,6 +61,6 @@ public class SeasonalCocktailController {
         model.addAttribute("currentDate", currentDate);
         model.addAttribute("season", season);
 
-        return "feature/seasonalcocktail/recipe-preview";
+        return "seasonalcocktail/recipe-preview";
     }
 }

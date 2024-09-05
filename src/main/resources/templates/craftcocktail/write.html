@@ -69,7 +69,7 @@
             /* 헤더를 제외한 요소를 아래로 이동시킵니다 */
             max-width: 800px;
             /* 상단 여백과 하단 여백을 별도로 설정 */
-            margin: 100px auto 20px;
+            margin: 140px auto 20px;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
@@ -141,6 +141,22 @@
             height: 200px;
             resize: none;
         }
+
+        /* Button Group Styles */
+        .button-group {
+            display: flex;
+            align-items: center;
+            margin-top: 5px; /* 버튼 그룹 상단에 약간의 여백 */
+        }
+
+        .button-group .remove-btn {
+            margin-right: 5px; /* x 버튼과 재료 추가 버튼 사이의 간격 */
+        }
+
+        .add-btn {
+            margin-left: 0; /* 기본적인 add-btn 스타일을 유지 */
+        }
+
     </style>
     <title>술프링부트</title>
 </head>
@@ -185,10 +201,12 @@
                     <input type="text" name="ingredients[0].name" placeholder="재료 이름을 입력해주세요(소주 등)">
                     <input type="text" name="ingredients[0].amount" placeholder="용량(수치)">
                     <input type="text" name="ingredients[0].unit" placeholder="단위를 입력해주세요(ml, teaspoon 등)">
-                    <button type="button" class="remove-btn" onclick="removeIngredient(this)">x</button>
+                    <div class="button-group">
+                        <button type="button" class="remove-btn" onclick="removeIngredient(this)">x</button>
+                        <button type="button" class="add-btn" onclick="addIngredient()">재료 추가</button>
+                    </div>
                 </div>
             </div>
-            <button type="button" class="add-btn" onclick="addIngredient()">재료 추가</button>
         </div>
 
         <!-- Cocktail Recipe Section -->
@@ -250,14 +268,17 @@
             <input type="text" name="ingredients[${ingredientCount}].name" placeholder="재료 이름을 입력해주세요(소주 등)">
             <input type="text" name="ingredients[${ingredientCount}].amount" placeholder="용량(수치)">
             <input type="text" name="ingredients[${ingredientCount}].unit" placeholder="단위를 입력해주세요(ml, teaspoon 등)">
-            <button type="button" class="remove-btn" onclick="removeIngredient(this)">x</button>
+            <div class="button-group">
+                <button type="button" class="remove-btn" onclick="removeIngredient(this)">x</button>
+                <button type="button" class="add-btn" onclick="addIngredient()">재료 추가</button>
+            </div>
         `;
         ingredientSection.appendChild(newIngredient);
     }
 
     function removeIngredient(button) {
         var ingredientSection = document.getElementById('ingredients');
-        ingredientSection.removeChild(button.parentElement);
+        ingredientSection.removeChild(button.parentElement.parentElement);
     }
 </script>
 </body>
