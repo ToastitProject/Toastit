@@ -10,15 +10,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 팔로우 관련 비즈니스 로직을 처리하는 서비스 구현 클래스.
+ * 사용자가 다른 사용자를 팔로우하거나 언팔로우하는 기능을 제공합니다.
+ */
 @Service
 @RequiredArgsConstructor
 public class FollowServiceImpl implements FollowService {
-    //의존성 주입
+
+    // 팔로우 관련 데이터베이스 작업을 처리하는 리포지토리
     private final FollowRepository userFollowRepository;
 
     /**
-     * 상대방을 팔로우 할 경우, 팔로우 객체를 저장합니다.
-     * @param followEntity : 새로운 팔로우 객체입니다
+     * 새로운 팔로우 관계를 저장하는 메서드.
+     *
+     * @param followEntity 팔로우 엔티티 객체
      */
     @Override
     public void follow(FollowEntity followEntity) {
@@ -26,8 +32,9 @@ public class FollowServiceImpl implements FollowService {
     }
 
     /**
-     * 상대방을 팔로우 취소할 경우, 팔로우 객체를 삭제합니다.
-     * @param followEntity : 삭제할 팔로우 객체입니다.
+     * 기존 팔로우 관계를 삭제하는 메서드.
+     *
+     * @param followEntity 삭제할 팔로우 엔티티 객체
      */
     @Override
     public void unfollow(FollowEntity followEntity) {
@@ -35,10 +42,11 @@ public class FollowServiceImpl implements FollowService {
     }
 
     /**
-     * follower 의 ID 와 followee 의 ID 모두 갖고 있는 팔로우 객체를 찾는 메서드 입니다.
-     * @param followerId : 팔로우 하는 사람(본인)의 아이디 입니다.
-     * @param followeeId : 팔로우 하고 있는 사람(타인)의 아이디 입니다.
-     * @return : 팔로우 객체를 반환합니다.
+     * 팔로워와 팔로우 대상자의 ID로 팔로우 관계를 조회하는 메서드.
+     *
+     * @param followerId 팔로우하는 사용자의 ID
+     * @param followeeId 팔로우 대상자의 ID
+     * @return 팔로우 엔티티 객체
      */
     @Override
     public FollowEntity findByFollowerIdAndFolloweeId(Long followerId, Long followeeId) {
@@ -46,9 +54,10 @@ public class FollowServiceImpl implements FollowService {
     }
 
     /**
-     * 팔로우 하는 사람(본인)의 아이디로 팔로우 하는 타인의 아이디들을 찾는 메서드 입니다.
-     * @param followerId : 로그인 한 본인의 아이디 입니다
-     * @return : 본인이 팔로우 하고 있는 사람들의 아이디 List 를 반환합니다.
+     * 특정 사용자가 팔로우한 모든 대상자의 ID 목록을 조회하는 메서드.
+     *
+     * @param followerId 팔로우하는 사용자의 ID
+     * @return 팔로우 대상자들의 ID 목록
      */
     @Override
     public List<Long> findFolloweeIdsByFollowerId(Long followerId) {

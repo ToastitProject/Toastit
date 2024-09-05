@@ -1,6 +1,5 @@
 package alcoholboot.toastit.feature.user.service.impl;
 
-import alcoholboot.toastit.feature.basecocktail.entity.CocktailDocument;
 import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
 import alcoholboot.toastit.feature.user.entity.LikeEntity;
 import alcoholboot.toastit.feature.user.repository.LikeRepository;
@@ -15,55 +14,65 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * 좋아요 관련 비즈니스 로직을 처리하는 서비스 구현 클래스.
+ * 사용자가 좋아요한 칵테일 정보를 관리하고, 좋아요 객체를 저장 및 삭제하는 기능을 제공합니다.
+ */
 @Service
 @RequiredArgsConstructor
 public class LikeServiceImpl implements LikeService {
-    //의존성 주입
+
+    // 좋아요 관련 데이터베이스 작업을 처리하는 리포지토리
     private final LikeRepository likerepository;
 
     /**
-     * DB에 좋아요 객체를 저장합니다
-     * @param likeEntity : 저장 할 좋아요 객체 입니다.
+     * 새로운 좋아요 객체를 저장하는 메서드.
+     *
+     * @param likeEntity 저장할 좋아요 객체
      */
-    public void saveLike (LikeEntity likeEntity) {
+    public void saveLike(LikeEntity likeEntity) {
         likerepository.save(likeEntity);
     }
 
     /**
-     * 사용자의 ID 와 커스텀 칵테일 레시피 ID 로 좋아요 객체를 찾습니다.
-     * @param userId : 좋아요를 누른 사용자 ID 입니다.
-     * @param craftCocktailId : 좋아요 객체에 저장된 커스텀 칵테일 레시피 ID 입니다.
-     * @return : 사용자가 커스텀 칵테일 레시피에 좋아요를 했다면 좋아요 객체를 반환합니다.
+     * 특정 사용자가 특정 커스텀 칵테일 레시피에 좋아요한 정보를 조회하는 메서드.
+     *
+     * @param userId 좋아요를 누른 사용자 ID
+     * @param craftCocktailId 좋아요 객체에 저장된 커스텀 칵테일 레시피 ID
+     * @return 해당 사용자의 좋아요 객체
      */
     @Override
     public LikeEntity findByUserIdAndCraftCocktailId(Long userId, Long craftCocktailId) {
-        return likerepository.findByUserIdAndCraftCocktailId(userId,craftCocktailId);
+        return likerepository.findByUserIdAndCraftCocktailId(userId, craftCocktailId);
     }
 
     /**
-     * 좋아요 객체를 DB 에서 삭제합니다
-     * @param likeEntity : 삭제할 좋아요 객체 입니다.
+     * 좋아요 객체를 삭제하는 메서드.
+     *
+     * @param likeEntity 삭제할 좋아요 객체
      */
     @Transactional
-    public void deleteLike(LikeEntity likeEntity){
+    public void deleteLike(LikeEntity likeEntity) {
         likerepository.delete(likeEntity);
     }
 
     /**
-     * 사용자의 ID 와 기본 칵테일 ID 로 좋아요 객체를 찾습니다.
-     * @param userId : 좋아요를 누른 사용자 ID 입니다.
-     * @param objectId : 좋아요 객체에 저장된 기본 칵테일 ID 입니다.
-     * @return : 사용자가 기본 칵테일에 좋아요를 했다면 좋아요 객체를 반환합니다.
+     * 특정 사용자가 특정 기본 칵테일에 좋아요한 정보를 조회하는 메서드.
+     *
+     * @param userId 좋아요를 누른 사용자 ID
+     * @param objectId 기본 칵테일의 MongoDB ObjectId
+     * @return 해당 사용자의 좋아요 객체
      */
     @Override
     public LikeEntity findByUserIdAndBasecocktailsId(Long userId, ObjectId objectId) {
-        return likerepository.findByUserIdAndBasecocktailsId(userId,objectId);
+        return likerepository.findByUserIdAndBasecocktailsId(userId, objectId);
     }
 
     /**
-     * 기본 칵테일의 좋아요 갯수를 찾습니다.
-     * @param objectId : 좋아요의 갯수를 찾을 기본 칵테일 ID 입니다.
-     * @return : 총 받은 좋아요 갯수를 반환합니다.
+     * 특정 기본 칵테일이 받은 좋아요 수를 조회하는 메서드.
+     *
+     * @param objectId 좋아요 수를 조회할 기본 칵테일 ID
+     * @return 해당 기본 칵테일이 받은 좋아요 수
      */
     @Override
     public int countByBasecocktailsId(ObjectId objectId) {
@@ -71,9 +80,10 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * 커스텀 칵테일 레시피들 중 특정 사용자가 좋아요 한 레시피들을 찾습니다.
-     * @param userId : 사용자의 아이디 입니다.
-     * @return : 사용자가 좋아요를 한 커스텀 칵테일 레시피들을 List 자료구조로 반환합니다.
+     * 특정 사용자가 좋아요한 커스텀 칵테일 레시피 목록을 조회하는 메서드.
+     *
+     * @param userId 사용자 ID
+     * @return 사용자가 좋아요한 커스텀 칵테일 레시피 목록
      */
     @Override
     public List<CraftCocktailEntity> findCraftCocktailsByUserId(Long userId) {
@@ -81,14 +91,13 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * 사용자의 아이디로 좋아요 객체를 찾습니다.
-     * @param userId : 좋아요 객체를 찾을 사용자의 아이디 입니다.
-     * @return : 해당 사용자의 좋아요 객체를 List 자료구조로 반환합니다.
+     * 특정 사용자가 좋아요한 모든 좋아요 객체를 조회하는 메서드.
+     *
+     * @param userId 사용자 ID
+     * @return 해당 사용자의 좋아요 객체 목록
      */
     @Override
     public List<LikeEntity> findLikeEntityByUserId(Long userId) {
         return likerepository.findLikeEntityByUserId(userId);
     }
-
-
 }
