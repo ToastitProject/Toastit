@@ -53,7 +53,7 @@
                         // 칵테일 정보 업데이트
                         document.getElementById("cocktailName").innerText = data.cocktailInfo;
                         document.getElementById("cocktailName").href = `/cocktails/id?id=${data.cocktailId}`;
-                        document.getElementById("cocktailImage").src = `${data.cocktailImage}`;
+                        document.getElementById("cocktailImage").src = data.cocktailImage;
 
                         // 날씨 아이콘 업데이트
                         const iconFileName = getIconFileName(data.weatherInfo);
@@ -88,58 +88,75 @@
     <style>
         body {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
+            box-sizing: border-box; /* 요소의 크기를 계산할 때 패딩과 보더를 포함 */
+        }
+
+        .all-container {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .container {
             display: flex;
-            justify-content: space-between;
-            width: 80%;
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: center;     /* 세로 중앙 정렬 */
+            width: 100%;
+            max-width: 1200px;
+            flex-wrap: wrap; /* 화면이 좁아지면 칵테일과 날씨 영역이 아래로 쌓이게 함 */
+            margin-top: 10px;
         }
 
         .weather-info, .cocktail-info {
-            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-        }
-
-        .weather-info {
-            border-right: 1px solid #ccc;
-            text-align: center;
+            padding: 30px;
+            border-radius: 25px;
+            background-color: #fff;
+            border: 1px solid #000;
+            margin: 20px;
+            width: 400px; /* 고정 너비 설정 */
+            height: 500px; /* 고정 높이 설정 */
+            box-sizing: border-box;
         }
 
         .weather-info p {
-            font-size: 2rem;
-            margin: 10px 0;
+            font-size: 2.5rem;
+            margin: 15px 0;
         }
 
         .weather-info img {
-            width: 100px;
-            height: 100px;
-            margin-top: 10px;
+            width: 150px;
+            height: 150px;
+            margin-top: 15px;
+            border-radius: 15px;
         }
 
         .cocktail-info img {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 20px;
+            width: 250px;
+            height: 250px;
+            margin-bottom: 30px;
+            border-radius: 15px;
         }
 
         .cocktail-info p {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: 2rem;
+            margin-bottom: 15px;
         }
 
         .cocktail-info a {
-            font-size: 1.5rem;
+            font-size: 2rem;
             text-decoration: none;
             color: #333;
             transition: color 0.3s;
@@ -148,25 +165,55 @@
         .cocktail-info a:hover {
             color: #007BFF;
         }
+
+        /* 광고 영역을 중앙 정렬하는 스타일 */
+        .ad-container {
+            display: flex;
+            justify-content: center; /* 가로로 중앙 정렬 */
+            align-items: center;     /* 세로로 중앙 정렬 */
+        }
+
+        /* 네비게이션 바와 광고 사이의 상단 여백 추가 */
+        .navbar-ad-space {
+            margin-top: 150px; /* 헤더와 광고 사이에 상단 마진 설정 */
+        }
     </style>
+
 </head>
 <body>
 <!-- 네비게이션 바 -->
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 
-<div class="container">
-    <!-- 날씨 정보 표시 영역 -->
-    <div class="weather-info">
-        <p id="temperature">현재 기온: --°C</p>
-        <p id="weatherDescription">날씨: --</p>
-        <img id="weatherIcon" alt="날씨 아이콘">
+<!-- 네비게이션 바와 광고 사이 여백 -->
+<div class="navbar-ad-space"></div>
+
+<div class="all-container">
+
+    <!-- 광고를 감싸는 컨테이너 추가 -->
+    <div class="ad-container">
+        <!-- 광고 표시 영역 -->
+        <ins class="kakao_ad_area" style="display:none;"
+             data-ad-unit = "DAN-l28FhfLL6whRVh9A"
+             data-ad-width = "1155"
+             data-ad-height = "90"></ins>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
     </div>
-    <!-- 칵테일 정보 표시 영역 -->
-    <div class="cocktail-info">
-        <p>추천 칵테일은...</p>
-        <img id="cocktailImage" alt="추천 칵테일 이미지">
-        <a id="cocktailName" href="#">--</a>
+
+    <div class="container">
+        <!-- 날씨 정보 표시 영역 -->
+        <div class="weather-info">
+            <p id="temperature">현재 기온: --°C</p>
+            <p id="weatherDescription">날씨: --</p>
+            <img id="weatherIcon" alt="날씨 아이콘">
+        </div>
+        <!-- 칵테일 정보 표시 영역 -->
+        <div class="cocktail-info">
+            <p>추천 칵테일은...</p>
+            <img id="cocktailImage" alt="추천 칵테일 이미지">
+            <a id="cocktailName" href="#">--</a>
+        </div>
     </div>
 </div>
+
 </body>
 </html>
