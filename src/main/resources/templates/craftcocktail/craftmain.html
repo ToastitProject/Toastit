@@ -44,7 +44,6 @@
             left: 0;
         }
 
-        /* 글쓰기 버튼을 정확히 중앙 하단에 배치 */
         .banner-content {
             display: flex;
             flex-direction: column;
@@ -61,13 +60,13 @@
             background-color: white;
             border: 2px solid #FFA832;
             border-radius: 5px;
-            padding: 10px 10px;+
+            padding: 10px 10px;
             font-size: 16px;
             color: #FFA832;
             text-align: center;
             text-decoration: none;
-            margin-top: auto; /* 버튼을 하단으로 밀어줌 */
-            margin-bottom: 30px; /* 약간의 하단 여백 */
+            margin-top: auto;
+            margin-bottom: 30px;
             max-width: 100px;
         }
 
@@ -98,12 +97,14 @@
             border-radius: 5px;
             max-height: 200px;
             object-fit: cover;
+            cursor: pointer;
         }
 
         .nickname-and-date {
             font-size: 14px;
             color: gray;
             margin-top: 5px;
+            text-align: left; /* 왼쪽 정렬 */
         }
 
         .drink-name {
@@ -117,16 +118,8 @@
             margin-top: 5px;
         }
 
-        @media (max-width: 768px) {
-            .post {
-                width: calc(50% - 60px);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .post {
-                width: calc(100% - 60px);
-            }
+        .nickname-and-date a {
+            cursor: pointer;
         }
 
         .banner-text {
@@ -149,6 +142,7 @@
             padding: 0;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
         }
+
         img.profile-picture {
             width: 30px;
             height: 30px;
@@ -156,11 +150,32 @@
             margin-top: 6px;
             border: 1px solid;
             border-color: #FFA832;
+            cursor: pointer;
         }
+
+        /* flex 요소 간의 간격 조절 */
         .info-card {
             display: flex;
             justify-content: space-between;
-            flex-direction: row-reverse;
+            align-items: center;
+        }
+
+        /* nickname-and-date를 왼쪽에 배치 */
+        .nickname-and-date {
+            flex-grow: 1;
+            text-align: left; /* 왼쪽 정렬 유지 */
+        }
+
+        @media (max-width: 768px) {
+            .post {
+                width: calc(50% - 60px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .post {
+                width: calc(100% - 60px);
+            }
         }
 
     </style>
@@ -188,16 +203,20 @@
             <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
             <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
             <div class="info-card">
-            <img class="profile-picture" th:src="${cocktail.getUser().getProfileImageUrl()}">
-            <div class="nickname-and-date">
-                <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none; color: inherit;">
-                    <span th:text="${cocktail.user.nickname}">닉네임</span>
+                <!-- 닉네임과 날짜를 맨 왼쪽에 배치 -->
+                <div class="nickname-and-date">
+                    <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none; color: inherit;">
+                        <span th:text="${cocktail.user.nickname}">닉네임</span>
+                    </a>
+                    <span class="date-time">
+                        <span th:text="${#temporals.format(cocktail.createDate, 'yyyy-MM-dd')}">작성일자</span>
+                        <span th:text="${#temporals.format(cocktail.createDate, 'HH:mm')}">작성시간</span>
+                    </span>
+                </div>
+                <!-- 프로필 사진을 맨 오른쪽에 배치 -->
+                <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}">
+                    <img class="profile-picture" th:src="${cocktail.getUser().getProfileImageUrl()}">
                 </a>
-                <span class="date-time">
-                    <span th:text="${#temporals.format(cocktail.createDate, 'yyyy-MM-dd')}">작성일자</span>
-                    <span th:text="${#temporals.format(cocktail.createDate, 'HH:mm')}">작성시간</span>
-                </span>
-            </div>
             </div>
         </a>
     </div>

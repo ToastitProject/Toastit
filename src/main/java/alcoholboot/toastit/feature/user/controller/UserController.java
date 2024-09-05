@@ -116,11 +116,12 @@ public class UserController {
                 model.addAttribute("error", "사용자를 찾을 수 없습니다.");
             }
         } else {
-            model.addAttribute("error", "사용자가 인증되지 않았습니다.");
+            return "redirect:/auth/login";
         }
 
         return "user/mypage-form";
     }
+
 
     /**
      * 로그인한 사용자가 자신의 정보를 수정할 수 있는 페이지로 이동하는 메서드.
