@@ -82,7 +82,6 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        margin-top: 10px;
     }
 
     .button-container {
@@ -118,7 +117,8 @@
     }
     h2 {
         font-size: 33px;
-        margin-bottom: 15px;
+        margin-bottom: 30px;
+        margin-top: 20px;
     }
     a#recipeManage {
         color: black;
@@ -140,12 +140,14 @@
 <hr class="divider">
 
 <div class="card">
-    <h2>마이 페이지</h2>
+    <h2 th:text="${notLoginUser ? '상세페이지' : '마이페이지'}"></h2>
     <div class="profile-container">
         <img th:src="${user.profileImageUrl}"
              alt="프로필 사진" class="profile-pic">
     </div>
+    <div th:if="${!notLoginUser}">
         <a id="recipeManage" th:href="@{/user/recipeManage}" style="text-decoration: none">️🍹 레시피 관리</a>
+    </div>
     <div class="info">
         <p>이메일: <span th:text="${user.email}"></span></p>
         <p>닉네임: <span id="nickname" th:text="${user.nickname}"></span></p>
@@ -154,7 +156,6 @@
             <button class="button" th:onclick="|location.href='@{/user/edit}'|">수정하기</button>
             <button class="button" th:onclick="|location.href='@{/auth/resign}'|">탈퇴하기</button>
         </div>
-
         <div th:if="${notLoginUser}" class="button-container">
             <button class="button" id="followButton"
                     th:text="${alreadyFollow != null ? '언팔로우' : '팔로우'}"
@@ -162,6 +163,7 @@
         </div>
     </div>
 </div>
+
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
