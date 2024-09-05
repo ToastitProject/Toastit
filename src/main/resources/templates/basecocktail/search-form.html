@@ -9,6 +9,7 @@
 
     <script th:src="@{/js/basecocktail/search.js}" defer></script>
     <script th:src="@{/js/basecocktail/formVail.js}" defer></script>
+    <script th:src="@{/js/basecocktail/pageUrl.js}" defer></script>
 
     <title>칵테일 복합 검색</title>
 </head>
@@ -72,7 +73,7 @@
 </div>
 
 <!--페이지 구역-->
-<div class="pagination">
+<div class="search-pagination">
     <a th:if="${currentPage > 0}"
        th:href="@{/cocktails/complex(
            page=${currentPage - 1},
@@ -96,6 +97,6 @@
 
 </body>
 
-<div th:replace="fragment/footer :: footer"></div>
+<div th:replace="~{fragment/footer :: footer}"></div>
 
 </html>
