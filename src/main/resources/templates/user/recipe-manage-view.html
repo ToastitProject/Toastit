@@ -18,11 +18,23 @@
             margin: 0;
             padding: 20px;
         }
-        .container {
+        .container1 {
             display: flex;
             flex-wrap: wrap;
             padding: 0 20px;
             margin-top: 25px;
+        }
+        .container2 {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0 20px;
+            margin-top: 10px;
+        }
+        .container3 {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0 20px;
+            margin-top: -5px;
         }
 
         .post {
@@ -90,9 +102,11 @@
             background-color: #FFA832;
             margin-top: -10px;
         }
+
         .sort {
             margin-top: 130px;
             text-align: center;
+            min-width: 710px;
         }
         span.sort-item {
             color: #FFA832;
@@ -108,6 +122,29 @@
             color: black;
             font-weight: bold;
         }
+        img {
+            width: 250px;
+            height: 250px;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+        .none {
+            text-align: center;
+            margin-top: 210px;
+        }
+        .share {
+            text-align: center;
+            margin-top: 210px;
+        }
+        img#share {
+            width: 400px;
+            height: 250px;
+            opacity: 0.7;
+            margin-bottom: 7px;
+        }
+        span.basecocktail-info {
+            color: black;
+        }
 
     </style>
 </head>
@@ -118,11 +155,50 @@
 
 <div class="sort">
 <span class="sort-item" data-sort="myWrite" onclick="changeSort('myWrite')">✍️ 작성한 레시피</span>
-<span class="sort-item" data-sort="likeBase" onclick="changeSort('likeBase')">🍸 좋아하는 기본 칵테일</span>
+<span class="sort-item" data-sort="likeBase" onclick="changeSort('likeBase')">🍸 좋아하는 칵테일</span>
 <span class="sort-item" data-sort="likeCraft" onclick="changeSort('likeCraft')">🍹 좋아하는 커스텀 레시피</span>
 </div>
-
-<div class="container">
+<div class="share" th:if="${baseCocktails == null and craftCocktails == null and writeCraftCocktails.isEmpty()}">
+    <img id="share" src="/image/background/share-cocktail.png" alt="기본 이미지" >
+    <p style="text-align: center; color: gray;">나만의 레시피를 작성해서 공유해주세요</p>
+</div>
+<div class="none" th:if="${craftCocktails == null and writeCraftCocktails == null and baseCocktails.isEmpty()}">
+    <img src="/image/background/like-cocktail.png" alt="기본 이미지" >
+    <p style="text-align: center; color: gray;">관심있는 칵테일을 찾아보세요</p>
+</div>
+<div class="none" th:if="${baseCocktails == null  and writeCraftCocktails == null and craftCocktails.isEmpty()}">
+    <img src="/image/background/find-craftcocktail.png" alt="기본 이미지" >
+    <p style="text-align: center; color: gray;">취향이 비슷한 커스텀 레시피를 찾아보세요</p>
+</div>
+<div class="container1">
+    <div class="post" th:each="cocktail : ${writeCraftCocktails}">
+        <a th:href="@{/craft/{id}(id=${cocktail.id})}" style="text-decoration: none; color: inherit;">
+            <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
+            <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
+            <div class="nickname-and-date">
+                <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none">
+                </a>
+                <span class="date-time">
+                    <span th:text="${#temporals.format(cocktail.createDate, 'yyyy-MM-dd')}">작성일자</span>
+                    <span th:text="${#temporals.format(cocktail.createDate, 'HH:mm')}">작성시간</span>
+                </span>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="container2">
+    <div class="post" th:each="cocktail : ${baseCocktails}">
+        <a th:href="@{/cocktails/id(id=${cocktail.getId()})}" style="text-decoration: none; color: inherit;">
+            <img th:src="${cocktail.getImagePath()}" alt="칵테일 이미지">
+            <div class="drink-name" th:text="${cocktail.getStrDrink()}">칵테일 이름</div>
+        </a>
+        <span class="basecocktail-info">
+                    <span th:text="${cocktail.getStrAlcoholic}">알콜여부</span>
+                    <span th:text="${cocktail.getStrCategory}">정보</span>
+                </span>
+    </div>
+</div>
+<div class="container3">
     <div class="post" th:each="cocktail : ${craftCocktails}">
         <a th:href="@{/craft/{id}(id=${cocktail.id})}" style="text-decoration: none; color: inherit;">
             <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
@@ -139,14 +215,7 @@
         </a>
     </div>
 </div>
-<div class="container">
-    <div class="post" th:each="cocktail : ${baseCocktails}">
-        <a th:href="@{/cocktails/id(id=${cocktail.getId()})}" style="text-decoration: none; color: inherit;">
-            <img th:src="${cocktail.getImagePath()}" alt="칵테일 이미지">
-            <div class="drink-name" th:text="${cocktail.getStrDrink()}">칵테일 이름</div>
-        </a>
-    </div>
-</div>
+
 
 </body>
 <script>

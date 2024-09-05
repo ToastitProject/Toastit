@@ -45,7 +45,7 @@
                         const province = match[0]; // 예: 경기도
                         const city = match[1]; // 예: 부천시
 
-                        document.getElementById("location").innerText = `${province} ${city} 에 계시는 군요!!`;
+                        document.getElementById("location").innerText = `${province} ${city} 에 계시는`;
 
                         // 서버로 데이터 전송
                         sendDataToServer(province, city);
@@ -204,11 +204,18 @@
         cursor: pointer;
     }
     .kakao_ad_area {
-        margin-top: 110px;
+        margin-top: 130px;
     }
     h2#cocktail-name {
         margin-top: 10px;
         margin-bottom: 40px;
+    }
+    p#location {
+        margin-top: 40px;
+        margin-bottom: -9px;
+    }
+    img#cocktail-image {
+        margin-top: 18px;
     }
 
 </style>
@@ -226,8 +233,8 @@
     <div class="main">
         <div class="content">
             <div id="map"></div>
-            <p id="you">당신은 현재</p>
             <p id="location"></p>
+            <p id="you">당신에게 딱 맞는 칵테일은...!</p>
             <div id="cocktail-info">
                 <img id="cocktail-image" style="display: none;" alt="Cocktail Image" />
                 <h2 id="cocktail-name" style="display: none;"></h2>
