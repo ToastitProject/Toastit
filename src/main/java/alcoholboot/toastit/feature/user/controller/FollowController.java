@@ -23,42 +23,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * 팔로우 기능과 관련된 요청을 처리하는 컨트롤러.
+ * 사용자는 다른 사용자를 팔로우하거나 팔로잉한 사용자들의 레시피를 볼 수 있습니다.
+ */
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 public class FollowController {
 
-    // 서비스 의존성 주입
     private final FollowService followService;
     private final UserManagementService userManagementService;
     private final CraftCocktailService craftCocktailService;
 
     /**
-     * 다른 사용자를 팔로우 할 수 있는 기능입니다.
-     * @param nickname : 팔로우 하고자 하는 유저의 닉네임 정보 입니다.
-     * @return : 팔로우 요청에 대한 응답을 보내줍니다 (이미 팔로우를 하고 있으면 취소)
+     * 사용자가 다른 사용자를 팔로우하거나, 이미 팔로우한 경우 팔로우를 취소하는 메서드.
+     *
+     * @param nickname 팔로우하려는 사용자의 닉네임
+     * @return 팔로우 또는 언팔로우 결과를 반환
      */
     @PostMapping("/follow")
-    public ResponseEntity<?> Follow (@RequestParam("nickname") String nickname) { //현재 접속한 다른 User 의 프로필 페이지에서 id를 가져와야 한다.
+    public ResponseEntity<?> Follow(@RequestParam("nickname") String nickname) {
         log.debug("사용자가 FOLLOW 버튼을 눌렀습니다.");
-        //접속한 User 의 정보를 이메일로 찾는다
+
+        // 현재 로그인한 사용자의 이메일을 통해 사용자 정보를 가져옴
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loginUserEmail = authentication.getName();
         Optional<User> loginUser = userManagementService.findByEmail(loginUserEmail);
 
-        // 팔로우할 사용자의 닉네임으로 User 정보를 가져옴
+        // 팔로우할 사용자의 닉네임으로 사용자 정보를 가져옴
         Optional<User> followUser = userManagementService.findByNickname(nickname);
 
-        //접속한 user id 와 팔로우할 사람의 id 로 조회하여 FollowEntity 를 생성한다. (이미 팔로우 중인지 체크)
-        FollowEntity alreadyFollow = followService.findByFollowerIdAndFolloweeId(loginUser.get().getId(),followUser.get().getId());
+        // 팔로우 상태를 확인 (이미 팔로우 중인 경우)
+        FollowEntity alreadyFollow = followService.findByFollowerIdAndFolloweeId(loginUser.get().getId(), followUser.get().getId());
 
         if (alreadyFollow != null) {
-            //이미 팔로우 중이라면, 팔로우 객체를 삭제한다
+            // 이미 팔로우 중인 경우 언팔로우 처리
             followService.unfollow(alreadyFollow);
             return ResponseEntity.ok("unfollow");
-        }
-        else {
-            //아나라면 새로운 팔로우 객체를 하나 생성한다.
+        } else {
+            // 새로운 팔로우 객체를 생성하여 팔로우 처리
             FollowEntity follow = new FollowEntity();
             follow.setFollower(loginUser.get().convertToEntity());
             follow.setFollowee(followUser.get().convertToEntity());
@@ -68,27 +72,29 @@ public class FollowController {
     }
 
     /**
-     * 로그인 한 유저가 자신이 팔로우 한 사용자들의 커스텀 칵테일 레시피들을 볼 수 있는 페이지로 이동할 수 있는 기능입니다.
-     * @param model : 팔로우 한 유저의 커스텀 칵테일 레시피들을 화면으로 보내주는 객체입니다.
-     * @return : 커스텀 레시피륻을 볼 수 있는 페이지로 이동합니다.
+     * 로그인한 사용자가 팔로우한 사용자들의 커스텀 칵테일 레시피를 조회하는 메서드.
+     *
+     * @param model 팔로우한 사용자들의 커스텀 칵테일 레시피 목록을 뷰에 전달하기 위한 모델 객체
+     * @return 팔로우한 사용자들의 커스텀 레시피 페이지로 이동
      */
     @GetMapping("/follow")
-        public String following (Model model) {
+    public String following(Model model) {
         log.debug("사용자가 팔로잉 페이지로 접근합니다.");
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String loginUserEmail = authentication.getName();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loginUserEmail = authentication.getName();
         Optional<User> loginUser = userManagementService.findByEmail(loginUserEmail);
-            //로그인 한 user 가 팔로우 한 user id 를 조회
-            List<Long> followeeIds = followService.findFolloweeIdsByFollowerId(loginUser.get().getId());
 
-            if (!followeeIds.isEmpty()) {
-                //팔로우 하고 있는 사람이 존재한다면 그 레시피드들을 view 로 보내준다.
-                List<CraftCocktailEntity> cocktails = craftCocktailService.getCocktailsByUserIds(followeeIds);
-                model.addAttribute("cocktails", cocktails);
-            } else {
-                model.addAttribute("cocktails", new ArrayList<>());
-            }
-        return "user/following-recipes";
+        // 로그인한 사용자가 팔로우한 사용자들의 ID를 조회
+        List<Long> followeeIds = followService.findFolloweeIdsByFollowerId(loginUser.get().getId());
+
+        if (!followeeIds.isEmpty()) {
+            // 팔로우한 사용자들의 커스텀 칵테일 레시피를 조회하여 모델에 추가
+            List<CraftCocktailEntity> cocktails = craftCocktailService.getCocktailsByUserIds(followeeIds);
+            model.addAttribute("cocktails", cocktails);
+        } else {
+            model.addAttribute("cocktails", new ArrayList<>());
         }
+        return "user/following-recipes";
     }
-
+}
