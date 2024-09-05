@@ -119,4 +119,30 @@ pipeline {
             }
         }
     }
+
+    post {
+        success {
+        	// credentialsId - 아까 설정한 웹훅 ID | variable - 변수명(마음대로 설정)
+            withCredentials([string(credentialsId: 'toastit_webhook_for_discord', variable: 'DISCORD')]) {
+                discordSend description: "SUCCESS",
+                footer: "자 여러분 입장~~~~ 슈우우우웃!",
+                link: env.BUILD_URL, result: currentBuild.currentResult,
+                title: "Toastit CI/CD",
+                webhookURL: "$DISCORD"
+            }
+        }
+
+        failure {
+            withCredentials([string(credentialsId: 'toastit_webhook_for_discord', variable: 'DISCORD')]) {
+                        discordSend description: """
+                        제목 : ${currentBuild.displayName}
+                        결과 : ${currentBuild.result}
+                        실행 시간 : ${currentBuild.duration / 1000}s
+                        """,
+                        link: env.BUILD_URL, result: currentBuild.currentResult,
+                        title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패",
+                        webhookURL: "$DISCORD"
+            }
+        }
+    }
 }

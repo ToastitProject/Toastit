@@ -20,17 +20,29 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * OAuth2 로그인 성공 처리 핸들러.
+ * JWT 토큰을 생성하고, 이를 쿠키에 저장한 후 리디렉션을 처리합니다.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private final JwtTokenizer jwtTokenizer;
-    private final UserManagementService userManagementService;  // 사용자 정보를 불러오기 위해 필요
-    private final TokenService tokenService; // 토큰 정보를 저장하기 위해 필요
 
+    private final JwtTokenizer jwtTokenizer;
+    private final UserManagementService userManagementService;
+    private final TokenService tokenService;
+
+    /**
+     * OAuth2 로그인 성공 시 JWT 액세스 및 리프레시 토큰을 생성하고 쿠키에 저장합니다.
+     *
+     * @param request  HTTP 요청 객체
+     * @param response HTTP 응답 객체
+     * @param authentication 인증 객체
+     * @throws IOException, ServletException
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        // OAuth2User 객체에서 사용자 정보 추출
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String email = oAuth2User.getName();
 
@@ -44,28 +56,27 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String accessToken = jwtTokenizer.createAccessToken(user.getId(), user.getEmail(), user.getNickname(), user.getAuthority());
         log.info("액세스 토큰 발급 완료 -> " + accessToken);
 
-        // 리프레쉬 토큰 발급
+        // 리프레시 토큰 발급
         String refreshToken = jwtTokenizer.createRefreshToken(user.getId(), user.getEmail(), user.getNickname(), user.getAuthority());
         log.info("리프레쉬 토큰 발급 완료 -> " + refreshToken);
 
-        // 리프레시 토큰 디비 저장
+        // 리프레시 토큰 저장
         Token token = Token.builder()
                 .user(user)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .grantType("Bearer")
                 .build();
-
         tokenService.saveOrUpdate(token);
 
-        // 액세스 토큰 쿠키 생성 및 저장
+        // 액세스 토큰 쿠키 설정
         Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setPath("/");
         accessTokenCookie.setMaxAge(Math.toIntExact(JwtTokenizer.accessTokenExpire / 1000));
         response.addCookie(accessTokenCookie);
 
-        // 리프레쉬 토큰 쿠키 생성 및 저장
+        // 리프레쉬 토큰 쿠키 설정
         Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setPath("/");

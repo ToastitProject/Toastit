@@ -25,7 +25,7 @@
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 
 <div class="card">
-    <img class="joinImage" src="/image/login/gogo.png">
+    <img class="joinImage" src="/image/oath-login/joinpeople.png">
     <h2>회원가입</h2>
     <form id="joinForm" th:action="@{/auth/join}" th:object="${authJoinRequest}" method="post" class="info">
         <!-- 이메일 입력란 -->
@@ -85,5 +85,6 @@
 </div>
 
 <script th:src="@{/js/auth/join-form.js}"></script>
+
 </body>
 </html>

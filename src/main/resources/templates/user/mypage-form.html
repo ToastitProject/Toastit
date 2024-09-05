@@ -1,19 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html><!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
-
     <title>술프링부트 - 유저 페이지</title>
 </head>
 <style>
@@ -22,12 +12,14 @@
         padding: 0;
         box-sizing: border-box;
     }
+
     body {
         font-family: 'Gmarket Sans', sans-serif;
         color: #FFA832;
         margin: 0;
         padding: 20px;
     }
+
     .menu a, .profile a {
         text-decoration: none;
         color: black;
@@ -58,6 +50,7 @@
         margin: 150px auto;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
 
     .profile-container {
@@ -71,7 +64,7 @@
         width: 150px;
         height: 150px;
         object-fit: cover;
-        margin-bottom: 20px;
+        margin-bottom: 40px;
     }
 
     .info {
@@ -85,7 +78,7 @@
     }
 
     .button-container {
-        margin-top: 50px;
+        margin-top: 30px;
     }
 
     p {
@@ -115,13 +108,26 @@
     button#followButton {
         padding: 10px 10px;
     }
+
     h2 {
         font-size: 33px;
-        margin-bottom: 30px;
+        margin-bottom: 15px;
     }
 
+    a#recipeManage {
+        color: black;
+        font-size: 21px;
+        margin-top: -10px;
+        margin-bottom: -10px;
+        font-weight: bold;
+        width: 140px;
+    }
 
+    a#recipeManage:hover {
+        color: #FFA832;
+    }
 </style>
+
 <body>
 <div th:insert="~{fragment/navbar-fragment :: navbarFragment}"></div>
 
@@ -133,6 +139,7 @@
         <img th:src="${user.profileImageUrl}"
              alt="프로필 사진" class="profile-pic">
     </div>
+    <a id="recipeManage" th:href="@{/user/recipeManage}" style="text-decoration: none">️🍹 레시피 관리</a>
     <div class="info">
         <p>이메일: <span th:text="${user.email}"></span></p>
         <p>닉네임: <span id="nickname" th:text="${user.nickname}"></span></p>
@@ -150,8 +157,9 @@
     </div>
 </div>
 </body>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const followButton = document.getElementById('followButton');
         const nickname = document.getElementById('nickname').innerText;
 
@@ -182,7 +190,9 @@
 
                 updateFollowButton(); // 버튼 텍스트 업데이트
                 alert(message === 'follow' ? '팔로우 했습니다.' : '언팔로우 했습니다.');
-                setTimeout(() => { location.reload(); }, 500);
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
             } catch (error) {
                 console.error('Error:', error);
                 alert('팔로우는 로그인을 하셔야 반영할 수 있습니다.');
@@ -193,7 +203,5 @@
         updateFollowButton(); // 페이지 로드 시 버튼 텍스트 초기화
     });
 </script>
-
-
 
 </html>

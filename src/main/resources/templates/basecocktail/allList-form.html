@@ -10,6 +10,7 @@
     <script th:src="@{/js/basecocktail/list.js}" defer></script>
     <script th:src="@{/js/basecocktail/search.js}" defer></script>
     <script th:src="@{/js/basecocktail/formVail.js}" defer></script>
+    <script th:src="@{/js/basecocktail/pageUrl.js}" defer></script>
 
     <title>칵테일 목록</title>
 </head>
@@ -61,7 +62,7 @@
 </div>
 
 <!--페이지 구역-->
-<div class="pagination">
+<div class="base-pagination">
     <a th:if="${currentPage > 0}" th:href="@{/cocktails/all(page=${currentPage - 1})}" class="page-link">이전</a>
     <span th:text="${currentPage != null ? currentPage + 1 : 1}"></span> / <span th:text="${totalPages}"></span>
     <a th:if="${currentPage < totalPages - 1}" th:href="@{/cocktails/all(page=${currentPage + 1})}"
@@ -70,6 +71,6 @@
 
 </body>
 
-<div th:replace="fragment/footer :: footer"></div>
+<div th:replace="~{fragment/footer :: footer}"></div>
 
 </html>

@@ -139,8 +139,8 @@
     /* Style for edit and delete buttons */
     .action-buttons {
       position: absolute;
-      top: -40px; /* Position above the container */
-      right: 20px; /* Distance from the right edge */
+      top: -50px; /* 기존 -40px에서 약간 더 위로 */
+      right: 5px; /* 기존 20px에서 약간 더 오른쪽으로 */
       display: flex;
       gap: 10px; /* Space between the buttons */
       z-index: 1; /* Ensure buttons are on top */
@@ -163,7 +163,7 @@
     }
 
     .nickname-container {
-      margin-top: 10px;
+      margin-top: 20px;
       font-weight: bold;
     }
   </style>
@@ -295,6 +295,6 @@
 
 </body>
 
-<div th:replace="fragment/footer :: footer"></div>
+<div th:replace="~{fragment/footer :: footer}"></div>
 
 </html>

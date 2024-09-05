@@ -5,8 +5,11 @@
     <link th:href="@{/css/fragment/navbar-fragment.css}" rel="stylesheet">
     <link th:href="@{/css/fragment/footer-fragment.css}" rel="stylesheet">
     <style>
+        body{
+            text-align: center;
+        }
         .container {
-            margin-top: 50px;
+            margin-top: 10px;
             padding: 0;
             display: flex;
             justify-content: center;
@@ -24,7 +27,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin-right: 20px; /* 공백 조정을 위한 margin-right 설정 */
+            margin-right: 40px; /* 공백 조정을 위한 margin-right 설정 */
             margin-top: 30px;
         }
 
@@ -117,6 +120,8 @@
             margin: 5px 0;
         }
         .kakao_ad_area{
+            margin-top: -60px;
+            margin-bottom: 60px;
         }
 
     </style>
@@ -135,15 +140,15 @@
         <div class="comment-container">
             <h1>현재 날짜는 <span th:text="${currentDate}">날짜</span>입니다.</h1>
         </div>
-        <div th:each="cocktail : ${cocktails}" class="cocktail-item">
-            <div class="season" th:utext="${season} + '에 맞는 ' + ${cocktail.strDrink} + '를 추천드립니다'">
+        <div th:each="cocktail : ${cocktail}" class="cocktail-item">
+            <div class="season" th:utext="${season} + '에 맞는 ' + ${cocktail.strDrink} + '를 추천드립니다!'">
                 계절에 맞는 칵테일을 추천드립니다
             </div>
         </div>
 
     </div>
     <div class="cocktail-container">
-        <div th:each="cocktail : ${cocktails}" class="cocktail-item">
+        <div th:each="cocktail : ${cocktail}" class="cocktail-item">
             <a th:href="@{/cocktails/id(id=${cocktail.id})}" class="cocktail-link">
                 <img th:src="@{${cocktail.imagePath}}" th:alt="${cocktail.strDrink}" class="cocktail-image">
                 <h2 th:text="${cocktail.strDrink}"></h2>
@@ -153,16 +158,16 @@
             </a>
         </div>
     </div>
-    <ins class="kakao_ad_area" style="display:none;"
-         data-ad-unit = "DAN-l28FhfLL6whRVh9A"
-         data-ad-width = "1155"
-         data-ad-height = "90"></ins>
-    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-</div>
 
+</div>
+<ins class="kakao_ad_area" style="display:none;"
+     data-ad-unit = "DAN-l28FhfLL6whRVh9A"
+     data-ad-width = "1155"
+     data-ad-height = "90"></ins>
+<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
 
 </body>
 
-<div th:replace="fragment/footer :: footer"></div>
+<div th:replace="~{fragment/footer :: footer}"></div>
 
 </html>

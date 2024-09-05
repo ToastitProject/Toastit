@@ -10,20 +10,11 @@ spring:
     hibernate:
       ddl-auto: update
 
-  #  web:
-  #    resources:
-  #      add-mappings: false  # 정적 리소스 매핑을 비활성화하는 설정
-
-  mongodb:
-    embedded:
-      version: 4.0.21
-
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
     mode: HTML
     encoding: UTF-8
-    cache: false  # 개발 중 캐시 비활성화
 
   servlet:
     multipart:

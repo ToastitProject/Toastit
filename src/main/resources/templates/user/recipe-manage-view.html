@@ -12,25 +12,23 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Gmarket Sans', sans-serif;
             color: #FFA832;
             margin: 0;
             padding: 20px;
         }
-
         .container {
-            display: flex; /* 추가: 카드들을 가로로 배치 */
-            flex-wrap: wrap; /* 추가: 카드가 다음 줄로 넘어갈 수 있도록 */
+            display: flex;
+            flex-wrap: wrap;
             padding: 0 20px;
-            margin-top: 100px;
+            margin-top: 25px;
         }
 
         .post {
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin: 15px; /* 게시물 사이 공백 최소화 */
             padding: 15px;
             width: calc(20% - 30px); /* 3개 가로 배치 - 마진 고려 */
@@ -38,16 +36,17 @@
             text-decoration: none; /* 링크의 기본 텍스트 꾸미기 제거 */
             color: inherit; /* 텍스트 색상 상속 */
             max-width: 220px;
+            height: 310px;
         }
 
-        .post:hover {
-            transform: scale(1.02);
+        .post:hover{
+            transform : scale(1.02);
         }
 
         .post img {
             width: 100%;
             border-radius: 5px;
-            max-height: 200px; /* 최대 높이 설정 */
+            height: 200px;
             object-fit: cover; /* 이미지 비율 유지 */
         }
 
@@ -70,7 +69,6 @@
         .date-time {
             text-align: right; /* 오른쪽 정렬 */
         }
-
         span.date-time {
             margin-top: 5px;
         }
@@ -86,23 +84,46 @@
                 width: 100%; /* 1개 가로 배치 */
             }
         }
-
         .divider {
             border: none;
             height: 2px;
             background-color: #FFA832;
             margin-top: -10px;
         }
+        .sort {
+            margin-top: 130px;
+            text-align: center;
+        }
+        span.sort-item {
+            color: #FFA832;
+            margin-right: 35px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        span.sort-item:hover {
+            color : #000000
+        }
+        span#nickName {
+            color: black;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
-
 <header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
 
 <hr class="divider">
 
+<div class="sort">
+<span class="sort-item" data-sort="myWrite" onclick="changeSort('myWrite')">✍️ 작성한 레시피</span>
+<span class="sort-item" data-sort="likeBase" onclick="changeSort('likeBase')">🍸 좋아하는 기본 칵테일</span>
+<span class="sort-item" data-sort="likeCraft" onclick="changeSort('likeCraft')">🍹 좋아하는 커스텀 레시피</span>
+</div>
+
 <div class="container">
-    <div class="post" th:each="cocktail : ${cocktails}">
+    <div class="post" th:each="cocktail : ${craftCocktails}">
         <a th:href="@{/craft/{id}(id=${cocktail.id})}" style="text-decoration: none; color: inherit;">
             <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
             <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
@@ -118,6 +139,21 @@
         </a>
     </div>
 </div>
+<div class="container">
+    <div class="post" th:each="cocktail : ${baseCocktails}">
+        <a th:href="@{/cocktails/id(id=${cocktail.getId()})}" style="text-decoration: none; color: inherit;">
+            <img th:src="${cocktail.getImagePath()}" alt="칵테일 이미지">
+            <div class="drink-name" th:text="${cocktail.getStrDrink()}">칵테일 이름</div>
+        </a>
+    </div>
+</div>
 
 </body>
+<script>
+    function changeSort(sortType) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('sort', sortType);
+        window.location.href = '?' + urlParams.toString();
+    }
+</script>
 </html>

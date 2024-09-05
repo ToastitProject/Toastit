@@ -41,7 +41,7 @@
             display: inline-block;
             margin-top: 30px;
             padding: 10px 20px;
-            background-color: #3b82f6;
+            background-color: #FFA832;
             color: white;
             text-decoration: none;
             border-radius: 5px;
@@ -50,13 +50,14 @@
     </style>
 </head>
 <body>
-
+<div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
 <div class="container">
     <div class="error-code" th:text="${code}">Error</div>
     <div class="message" th:text="${message}">An Error Occurred</div>
     <div class="sub-message">접근 권한이 없습니다.</div>
     <a th:href="@{/}" class="home-button">메인 페이지로 이동</a>
 </div>
+
 
 </body>
 </html>
