@@ -20,10 +20,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/**
+ * 사용자 관리와 관련된 비즈니스 로직을 처리하는 서비스 구현 클래스.
+ * 사용자 회원가입, 비밀번호 암호화, 사용자 정보 조회, 삭제 등을 처리합니다.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserManagementServiceImpl implements UserManagementService {
+
     private final UserRepository userRepository;
     private final RandomNickname randomNickname;
     private final VerificationService verificationService;
@@ -31,6 +36,12 @@ public class UserManagementServiceImpl implements UserManagementService {
     @Value("${image.default-profile-path}")
     private String defaultProfileImg;
 
+    /**
+     * 새로운 사용자를 DB에 저장하는 메서드.
+     * 이메일 중복 체크와 이메일 인증을 검증 후 사용자 정보를 저장합니다.
+     *
+     * @param authJoinRequest 사용자 회원가입 요청 DTO
+     */
     @Transactional
     public void save(AuthJoinRequest authJoinRequest) {
         // 이메일 중복 체크
@@ -54,9 +65,9 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     /**
-     * 중복되지 않은 랜덤 닉네임 생성
+     * 중복되지 않은 랜덤 닉네임을 생성하는 메서드.
      *
-     * @return unique random nickname
+     * @return 중복되지 않은 랜덤 닉네임
      */
     public String getUniqueNickname() {
         String nickname;
@@ -68,9 +79,9 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     /**
-     * 비밀번호 암호화
+     * 비밀번호를 암호화하는 메서드.
      *
-     * @param password 비밀번호
+     * @param password 원본 비밀번호
      * @return 암호화된 비밀번호
      */
     @Override
@@ -80,29 +91,28 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     /**
-     * 이메일을 기반으로 사용자의 비밀번호를 업데이트하는 메서드
+     * 이메일을 기반으로 사용자의 비밀번호를 업데이트하는 메서드.
+     *
+     * @param email 사용자 이메일
+     * @param newPassword 새 비밀번호
      */
     @Override
     public void updatePassword(String email, String newPassword) {
-        // 이메일을 통해 사용자를 조회
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(CommonExceptionCode.NOT_FOUND_USER))
                 .convertToDomain();
 
-        // 새 비밀번호 암호화
         String encodedPassword = encryptPassword(newPassword);
-
-        // 사용자 객체의 비밀번호 업데이트
         user.setPassword(encodedPassword);
 
-        // 변경된 사용자 정보를 저장
         userRepository.save(user.convertToEntity());
     }
 
     /**
-     * 해당 이메일이 소셜 로그인에 이용되는 이메일인지 확인하는 메서드 입니다
-     * @param email : 소셜 로그인에 이용되는지 확인하려는 이메일 입니다.
-     * @return : true, false 로 소셜 로그인에 사용되는 이메일인지 알려줍니다.
+     * 해당 이메일이 소셜 로그인에 이용되는 이메일인지 확인하는 메서드.
+     *
+     * @param email 이메일 주소
+     * @return 소셜 로그인 이메일이면 true, 아니면 false
      */
     @Override
     @Transactional(readOnly = true)
@@ -111,18 +121,14 @@ public class UserManagementServiceImpl implements UserManagementService {
                 .orElseThrow(() -> new CustomException(CommonExceptionCode.NOT_FOUND_USER))
                 .convertToDomain();
 
-        if (user != null) {
-            // providerType이 "internal"이 아니면 소셜 로그인 계정으로 간주
-            return !user.getProviderType().equalsIgnoreCase("internal");
-        }
-
-        return false; // 사용자 없음
+        return !user.getProviderType().equalsIgnoreCase("internal");
     }
 
     /**
-     * 특정 이메일이 DB에 존재하는지 확인합니다.
-     * @param email : DB에 존재하는지 확인하고 싶은 이메일 입니다.
-     * @return : DB에 해당 이메일이 존재하는지 true or false 로 반환합니다.
+     * 특정 이메일이 DB에 존재하는지 확인하는 메서드.
+     *
+     * @param email 이메일 주소
+     * @return 존재하면 true, 없으면 false
      */
     @Override
     @Transactional(readOnly = true)
@@ -131,9 +137,10 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     /**
-     * 이메일틀 통해 특정 사용자를 찾아 객체로 반환하는 메서드 입니다.
-     * @param email : 사용자가 사용하는 이메일 입니다.
-     * @return : 해당 이메일을 사용하는 사용자를 객체로 반환합니다.
+     * 이메일을 통해 사용자를 조회하는 메서드.
+     *
+     * @param email 사용자 이메일
+     * @return 사용자 객체를 포함하는 Optional 객체
      */
     @Override
     @Transactional(readOnly = true)
@@ -142,10 +149,11 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     /**
-     * 특정 이메일과 providerType 으로 사용자 객체를 찾습니다.
-     * @param email : 사용자가 사용하는 이메일 입니다.
-     * @param providerType : 사용자의 providerType 입니다.
-     * @return : 이메일과 providerType 이 일치하는 사용자 객체를 반환합니다.
+     * 이메일과 소셜 로그인 제공자를 통해 사용자를 조회하는 메서드.
+     *
+     * @param email 사용자 이메일
+     * @param providerType 소셜 로그인 제공자 타입
+     * @return 사용자 객체를 포함하는 Optional 객체
      */
     @Override
     @Transactional(readOnly = true)
@@ -154,9 +162,10 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     /**
-     * 특정 아이디로 사용자 객체를 찾습니다.
-     * @param id : 사용자를 찾을 아이디 입니다.
-     * @return : 해당 아이디를 사용하는 사용자 객체를 반환합니다.
+     * ID를 통해 사용자를 조회하는 메서드.
+     *
+     * @param id 사용자 ID
+     * @return 사용자 객체를 포함하는 Optional 객체
      */
     @Override
     @Transactional(readOnly = true)
@@ -165,9 +174,10 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     /**
-     * 닉네임을 통해 특정 사용자를 객체를 찾습니다
-     * @param nickname : 사용자가 사용하는 닉네임 입니다
-     * @return : 닉네임과 일치하는 사용자 객체를 반환합니다.
+     * 닉네임을 통해 사용자를 조회하는 메서드.
+     *
+     * @param nickname 사용자 닉네임
+     * @return 사용자 객체를 포함하는 Optional 객체
      */
     @Override
     @Transactional(readOnly = true)
@@ -176,8 +186,9 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     /**
-     * User 를 DB 에 저장합니다
-     * @param user : 저장할 User 입니다.
+     * 사용자를 DB에 저장하는 메서드.
+     *
+     * @param user 저장할 사용자 엔티티
      */
     @Override
     @Transactional
@@ -186,8 +197,9 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     /**
-     * 특정 email 을 사용하는 User 를 DB 에서 삭제합니다
-     * @param email 삭제할 User 가 등록한 이메일 입니다.
+     * 이메일을 통해 사용자를 DB에서 삭제하는 메서드.
+     *
+     * @param email 삭제할 사용자의 이메일
      */
     @Override
     @Transactional

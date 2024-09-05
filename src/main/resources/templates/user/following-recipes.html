@@ -12,12 +12,14 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Gmarket Sans', sans-serif;
             color: #FFA832;
             margin: 0;
             padding: 20px;
         }
+
         .container {
             display: flex; /* 추가: 카드들을 가로로 배치 */
             flex-wrap: wrap; /* 추가: 카드가 다음 줄로 넘어갈 수 있도록 */
@@ -28,7 +30,7 @@
         .post {
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin: 15px; /* 게시물 사이 공백 최소화 */
             padding: 15px;
             width: calc(20% - 30px); /* 3개 가로 배치 - 마진 고려 */
@@ -38,8 +40,8 @@
             max-width: 220px;
         }
 
-        .post:hover{
-            transform : scale(1.02);
+        .post:hover {
+            transform: scale(1.02);
         }
 
         .post img {
@@ -68,6 +70,7 @@
         .date-time {
             text-align: right; /* 오른쪽 정렬 */
         }
+
         span.date-time {
             margin-top: 5px;
         }
@@ -83,6 +86,7 @@
                 width: 100%; /* 1개 가로 배치 */
             }
         }
+
         .divider {
             border: none;
             height: 2px;
@@ -92,6 +96,7 @@
     </style>
 </head>
 <body>
+
 <header th:replace="fragment/navbar-fragment :: navbarFragment"></header>
 
 <hr class="divider">
@@ -102,7 +107,7 @@
             <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
             <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
             <div class="nickname-and-date">
-                <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none" >
+                <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none">
                     <span th:text="${cocktail.user.nickname}" id="nickName">닉네임</span>
                 </a>
                 <span class="date-time">
@@ -115,5 +120,4 @@
 </div>
 
 </body>
-
 </html>
