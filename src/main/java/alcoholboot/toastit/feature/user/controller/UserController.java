@@ -1,7 +1,9 @@
 package alcoholboot.toastit.feature.user.controller;
 
 import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
+import alcoholboot.toastit.feature.basecocktail.entity.CocktailDocument;
 import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
+import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
 import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
 import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
@@ -20,6 +22,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -127,10 +130,13 @@ public class UserController {
      */
     @GetMapping("/edit")
     public String showEditPage(Model model) {
+        //인증된 사용자인지 확인
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+
             String email = authentication.getName();
             Optional<User> user = userManagementService.findByEmail(email);
+            //email 로 사용자의 정보를 찾아와 view 로 전달
             if (user.isPresent()) {
                 model.addAttribute("user", user.get());
             }
@@ -214,9 +220,10 @@ public class UserController {
                 break;
             default:
                 craftCocktails = craftcocktailService.getCocktailsByUserId(userOptional.get().getId());
-                model.addAttribute("craftCocktails", craftCocktails);
+                model.addAttribute("writeCraftCocktails", craftCocktails);
                 break;
         }
-        return "recipe-manage-view";
+        return "user/recipe-manage-view";
     }
 }
+
