@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.alcoholboot'                                   // 프로젝트 그룹 ID 설정
-version = '0.0.1-SNAPSHOT'                                  // 프로젝트 버전 설정
+version = '0.0.1'                                  // 프로젝트 버전 설정
 
 java {
     toolchain {
@@ -113,4 +113,5 @@ jar {
     exclude 'Jenkinsfile'    // Jenkinsfile 제외
     exclude 'Dockerfile'     // Dockerfile 제외
     exclude 'docker/**'      // docker 디렉토리 제외
+    exclude 'assets'         // assets 디렉토리 제외
 }
