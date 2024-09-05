@@ -34,13 +34,18 @@ public interface CraftCocktailRepository extends CrudRepository<CraftCocktailEnt
     /**
      * 커스텀 칵테일을 등록 순서대로 가져오는 쿼리문 -> 서비스 클래스에서 상위 n개 선택 할 수 있음
      */
-    @Query("SELECT c FROM CraftCocktailEntity c ORDER BY c.createDate DESC")
+    @Query("SELECT c FROM CraftCocktailEntity c LEFT JOIN FETCH c.images i LEFT JOIN FETCH i.user ORDER BY c.createDate DESC")
     List<CraftCocktailEntity> findTop5ByOrderByCreateDateDesc(Pageable pageable);
 
     /**
      * 커스텀 칵테일을 좋아요 순서대로 가져오는 쿼리문 -> 서비스 클래스에서 상위 n개 선택 할 수 있음
      */
-    @Query("SELECT c FROM CraftCocktailEntity c JOIN c.likes l GROUP BY c.id ORDER BY COUNT(l.id) DESC")
+    @Query("SELECT cce1_0 FROM CraftCocktailEntity cce1_0 " +
+            "LEFT JOIN FETCH cce1_0.images i " +
+            "LEFT JOIN FETCH cce1_0.user u " +
+            "JOIN cce1_0.likes l " +
+            "GROUP BY cce1_0.id, i.id, u.id " +
+            "ORDER BY COUNT(l.id) DESC")
     List<CraftCocktailEntity> findTopByOrderByLikesDesc(Pageable pageable);
 
     /**
