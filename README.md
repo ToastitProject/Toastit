@@ -1,8 +1,8 @@
 # Toastit
 
-## 프로젝트 소개
-
 **Toastit**은 다양한 칵테일을 검색하고 추천받을 수 있는 웹 애플리케이션입니다. 기본적인 칵테일 정보부터 계절별, 지역별, 날씨에 따른 추천 기능까지 제공합니다. 또한, 사용자는 자신만의 칵테일을 등록하고, 다른 사용자들과 공유할 수 있습니다.
+
+<br/>
 
 ## 기능 목록
 
@@ -33,6 +33,8 @@
 - **JWT 및 OAuth2 인증**
   - 보안을 강화하기 위해 JWT 및 OAuth2를 사용한 인증 기능을 제공합니다.
 
+<br/>
+
 ## 기술 스택
 
 - **Backend**: Spring Boot
@@ -56,6 +58,8 @@
   - Google Geocoding API
   - Google JavaScript Maps API
   - 기상청 API
+
+<br/>
 
 ## 프로젝트 구조
 
@@ -103,6 +107,8 @@
   - `jwt/`: JWT 인증.
   - `oauth2/`: OAuth2 인증.
 
+<br/>
+
 ## 사용 예시 
 
 1. **회원가입 및 로그인**
@@ -132,9 +138,13 @@
 9. **위치 기반 칵테일 추천**
   - 사용자의 위치를 기반으로 지역별 칵테일을 추천받을 수 있습니다.
 
+<br/>
+
 ## 데모
 
 배포된 데모 버전을 확인하려면 [여기](https://toastit.duckdns.org)를 클릭하세요.
+
+<br/>
 
 ## 참고자료 
 
@@ -145,6 +155,8 @@
 - [칸반 보드](https://github.com/your-repo/projects)
 - [커밋 컨벤션](https://github.com/ToastitProject/Toastit/wiki/Commit-Convension)
 - [브랜치 컨벤션](https://github.com/ToastitProject/Toastit/wiki/Branch-Convension)
+
+<br/>
 
 ## 예시화면
 
