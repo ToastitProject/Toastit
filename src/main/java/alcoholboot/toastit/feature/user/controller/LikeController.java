@@ -22,26 +22,30 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * 좋아요 기능을 처리하는 컨트롤러.
+ * 사용자는 커스텀 칵테일과 기본 칵테일 레시피에 좋아요를 추가하거나 취소할 수 있습니다.
+ */
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class LikeController {
 
-    // 서비스 의존성 주입
     private final UserManagementService userManagementService;
     private final LikeService likeService;
     private final CraftCocktailService craftCocktailServiceCocktail;
 
     /**
-     * 사용자가 입력한 커스텀 칵테일 레시피에 좋아요를 할 수 있는 기능입니다.
-     * @param : 클라이언트가 요청 본문에 커스텀 칵테일 레시피의 이름을 서버로 전송합니다.
-     * @return : 클라이언트에게 좋아요 요청에 대한 응답을 보내줍니다. (이미 좋아요를 한 경우 취소됨)
+     * 사용자가 커스텀 칵테일 레시피에 좋아요를 추가하거나, 이미 좋아요한 경우 좋아요를 취소하는 메서드.
+     *
+     * @param requestBody 요청 본문에서 커스텀 칵테일 이름을 전달받습니다.
+     * @return 좋아요 추가 또는 취소 결과를 반환합니다.
      */
     @PostMapping("/like")
     public ResponseEntity<?> likeCocktail(@RequestBody Map<String, String> requestBody) {
-        log.debug("사용자가  커스텀 칵테일 레시피에 좋아요 버튼을 눌렀습니다");
+        log.debug("사용자가 커스텀 칵테일 레시피에 좋아요 버튼을 눌렀습니다.");
 
-        // 현재 로그인한 사용자의 이메일을 통해 User 정보를 가져옴
+        // 현재 로그인한 사용자 정보 조회
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loginUserEmail = authentication.getName();
         Optional<User> loginUser = userManagementService.findByEmail(loginUserEmail);
@@ -51,7 +55,7 @@ public class LikeController {
         // 칵테일 이름으로 칵테일 엔티티를 조회
         CraftCocktailEntity cocktail = craftCocktailServiceCocktail.findIdByName(cocktailName);
 
-        // 로그인한 사용자와 칵테일 ID로 기존 좋아요가 있는지 확인
+        // 좋아요 여부 확인
         LikeEntity existingLike = likeService.findByUserIdAndCraftCocktailId(loginUser.get().getId(), cocktail.getId());
 
         if (existingLike != null) {
@@ -59,7 +63,7 @@ public class LikeController {
             likeService.deleteLike(existingLike);
             return ResponseEntity.ok("좋아요가 취소되었습니다");
         } else {
-            // 좋아요가 없으면 새로운 좋아요 엔티티 생성 및 저장
+            // 좋아요가 없으면 새로 추가
             LikeEntity like = new LikeEntity();
             like.setUser(loginUser.get().convertToEntity());
             like.setCraftCocktail(cocktail);
@@ -69,31 +73,33 @@ public class LikeController {
     }
 
     /**
-     * 기본 칵테일 레시피에 좋아요 를 할 수 있는 기능입니다
-     * @param requestBody : 클라이언트가 요청 본문에 기본 칵테일 레시피의 아이디를 담아 보냅니다
-     * @return : 클라이언트에게 좋아요 요청에 대한 응답을 보내줍니다. (이미 좋아요를 한 경우 취소됨)
+     * 사용자가 기본 칵테일 레시피에 좋아요를 추가하거나, 이미 좋아요한 경우 좋아요를 취소하는 메서드.
+     *
+     * @param requestBody 요청 본문에서 기본 칵테일의 ID를 전달받습니다.
+     * @return 좋아요 추가 또는 취소 결과를 반환합니다.
      */
     @PostMapping("/baseLike")
     public ResponseEntity<?> likeDefaultCocktail(@RequestBody Map<String, String> requestBody) {
-        log.debug("사용자가 기본 칵테일에 좋아요 버튼을 눌렀습니다");
+        log.debug("사용자가 기본 칵테일에 좋아요 버튼을 눌렀습니다.");
 
-        // 로그인 한 user
+        // 현재 로그인한 사용자 정보 조회
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loginUserEmail = authentication.getName();
         Optional<User> loginUser = userManagementService.findByEmail(loginUserEmail);
 
-        // 좋아요 할 칵테일
+        // 기본 칵테일 ID
         String basecocktailIdstr = requestBody.get("base-cocktail-number");
         ObjectId basecocktailId = new ObjectId(basecocktailIdstr);
 
-        // 이미 좋아요가 있는지 확인하는 객체 생성
-        LikeEntity existingLike = likeService.findByUserIdAndBasecocktailsId(loginUser.get().getId(),basecocktailId);
+        // 좋아요 여부 확인
+        LikeEntity existingLike = likeService.findByUserIdAndBasecocktailsId(loginUser.get().getId(), basecocktailId);
 
         if (existingLike != null) {
             // 기존 좋아요가 존재하면 삭제
             likeService.deleteLike(existingLike);
             return ResponseEntity.ok("좋아요가 취소되었습니다");
         } else {
+            // 좋아요가 없으면 새로 추가
             LikeEntity like = new LikeEntity();
             like.setUser(loginUser.get().convertToEntity());
             like.setBasecocktailsId(basecocktailId);
