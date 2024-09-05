@@ -1,9 +1,7 @@
 package alcoholboot.toastit.feature.user.controller;
 
 import alcoholboot.toastit.feature.basecocktail.domain.Cocktail;
-import alcoholboot.toastit.feature.basecocktail.entity.CocktailDocument;
 import alcoholboot.toastit.feature.basecocktail.service.CocktailService;
-import alcoholboot.toastit.feature.craftcocktail.domain.CraftCocktail;
 import alcoholboot.toastit.feature.craftcocktail.entity.CraftCocktailEntity;
 import alcoholboot.toastit.feature.craftcocktail.service.CraftCocktailService;
 import alcoholboot.toastit.feature.user.domain.User;
@@ -236,10 +234,10 @@ public class UserController {
             //내가 작성한 커스텀 레시피를 조회하는 요청
             default:
                 craftCocktails = craftcocktailService.getCocktailsByUserId(userOptional.get().getId());
-                model.addAttribute("craftCocktails", craftCocktails);
+                model.addAttribute("writeCraftCocktails", craftCocktails);
                 break;
         }
-        return "user/recipeManage-view";
+        return "user/recipe-manage-view";
     }
 }
 
