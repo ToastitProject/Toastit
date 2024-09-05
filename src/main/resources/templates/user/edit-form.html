@@ -10,13 +10,32 @@
             const fileInput = document.getElementById('fileInput');
             const fileButton = document.getElementById('fileButton');
             const uploadButton = document.getElementById('uploadButton');
+            const previewImage = document.getElementById('previewImage');
 
             if (fileInput.files.length > 0) {
-                fileButton.style.display = 'none';
-                uploadButton.style.display = 'inline-block';
+                const fileName = fileInput.files[0].name;
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+
+                // 허용된 파일 확장자 목록
+                const allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+                if (allowedExtensions.includes(fileExtension)) {
+                    fileButton.style.display = 'none';
+                    uploadButton.style.display = 'inline-block';
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                    }
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    alert('허용되지 않는 파일 형식입니다. jpg, jpeg, png 파일만 선택할 수 있습니다.');
+
+                }
             }
         }
     </script>
+
 </head>
 <style>
     * {
@@ -131,6 +150,7 @@
     <div class="profile-container">
         <img th:src="${user.profileImageUrl}"
              alt="프로필 사진" class="profile-pic">
+        <img id="previewImage" class="profile-pic" alt="미리보기" style="display: none; margin-bottom: 20px;"/>
         <form action="/user/imageChange" method="post" enctype="multipart/form-data">
             <input type="file" id="fileInput" name="filePath" style="display: none;" onchange="updateButton()"/>
             <button type="button" id="fileButton" class="button"
