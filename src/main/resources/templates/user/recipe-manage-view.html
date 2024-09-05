@@ -67,6 +67,11 @@
             font-weight: bold;
             margin: 10px 0;
         }
+        .drink-name-last {
+            font-size: 18px;
+            font-weight: bold;
+
+        }
 
         .nickname-and-date {
             display: flex;
@@ -125,7 +130,6 @@
         img {
             width: 250px;
             height: 250px;
-            opacity: 0.7;
             margin-bottom: 10px;
         }
         .none {
@@ -139,11 +143,34 @@
         img#share {
             width: 400px;
             height: 250px;
-            opacity: 0.7;
             margin-bottom: 7px;
         }
         span.basecocktail-info {
             color: black;
+        }
+        img.profile-picture {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border-color: #FFA832;
+            border: 1.5px solid;
+            margin-bottom: -2px;
+        }
+        .profile-info {
+            margin-top: 5px;
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .shareImage{
+            opacity: 0.7;
+        }
+        .noneCraft{
+            opacity: 0.7;
+        }
+        .noneBase{
+            opacity: 0.7;
         }
 
     </style>
@@ -159,15 +186,15 @@
 <span class="sort-item" data-sort="likeCraft" onclick="changeSort('likeCraft')">🍹 좋아하는 커스텀 레시피</span>
 </div>
 <div class="share" th:if="${baseCocktails == null and craftCocktails == null and writeCraftCocktails.isEmpty()}">
-    <img id="share" src="/image/background/share-cocktail.png" alt="기본 이미지" >
+    <img class="shareImage" id="share" src="/image/background/share-cocktail.png" alt="기본 이미지" >
     <p style="text-align: center; color: gray;">나만의 레시피를 작성해서 공유해주세요</p>
 </div>
 <div class="none" th:if="${craftCocktails == null and writeCraftCocktails == null and baseCocktails.isEmpty()}">
-    <img src="/image/background/like-cocktail.png" alt="기본 이미지" >
+    <img class="noneBase" src="/image/background/like-cocktail.png" alt="기본 이미지" >
     <p style="text-align: center; color: gray;">관심있는 칵테일을 찾아보세요</p>
 </div>
 <div class="none" th:if="${baseCocktails == null  and writeCraftCocktails == null and craftCocktails.isEmpty()}">
-    <img src="/image/background/find-craftcocktail.png" alt="기본 이미지" >
+    <img class="noneCraft" src="/image/background/find-craftcocktail.png" alt="기본 이미지" >
     <p style="text-align: center; color: gray;">취향이 비슷한 커스텀 레시피를 찾아보세요</p>
 </div>
 <div class="container1">
@@ -202,17 +229,21 @@
     <div class="post" th:each="cocktail : ${craftCocktails}">
         <a th:href="@{/craft/{id}(id=${cocktail.id})}" style="text-decoration: none; color: inherit;">
             <img th:if="${cocktail.images.size() > 0}" th:src="${cocktail.images[0].imagePath}" alt="칵테일 이미지">
-            <div class="drink-name" th:text="${cocktail.name}">칵테일 이름</div>
+        </a>
+            <div class="drink-name-last" th:text="${cocktail.name}">칵테일 이름</div>
+        <div class="profile-info">
+            <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none">
+                <img class="profile-picture" th:src="${cocktail.getUser().getProfileImageUrl()}" alt="프로필 이미지">
+            </a>
             <div class="nickname-and-date">
-                <a th:href="@{/user/mypage(nickname=${cocktail.user.nickname})}" style="text-decoration: none">
-                    <span th:text="${cocktail.user.nickname}" id="nickName">닉네임</span>
-                </a>
+                <span th:text="${cocktail.user.nickname}" id="nickName">닉네임</span>
                 <span class="date-time">
                     <span th:text="${#temporals.format(cocktail.createDate, 'yyyy-MM-dd')}">작성일자</span>
                     <span th:text="${#temporals.format(cocktail.createDate, 'HH:mm')}">작성시간</span>
                 </span>
             </div>
-        </a>
+        </div>
+
     </div>
 </div>
 
