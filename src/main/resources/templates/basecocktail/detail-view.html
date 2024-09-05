@@ -10,7 +10,7 @@
     <script th:src="@{/js/basecocktail/detail.js}" defer></script>
     <script th:src="@{/js/basecocktail/baseLike.js}" defer></script>
 
-    <title th:text="${cocktail.isPresent() ? cocktail.get().strDrink : '칵테일 상세 정보'}">칵테일 상세 정보</title>
+    <title th:text="${cocktail.isPresent() ? cocktail.get().strDrink : '칵테일 상세 정보'}">칵테일 상세 정보 | ToastIT</title>
 </head>
 <body>
 <div th:replace="~{fragment/navbar-fragment :: navbarFragment}"></div>
